@@ -278,7 +278,7 @@ void function TopServerButton_Activated(var button)
 void function FiringRange_Activated(var button)
 {
 	g_SelectedQuickPlay = "fs_aimtrainer"
-	g_SelectedQuickPlayMap = "mp_rr_desertlands_64k_x_64k"
+	g_SelectedQuickPlayMap = "mp_rr_canyonlands_64k_x_64k"
 	g_SelectedQuickPlayImage = $"rui/menu/gamemode/firing_range"
 	R5RPlay_SetSelectedPlaylist(JoinType.QuickPlay)
 	DiagCloseing()
