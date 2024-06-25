@@ -35,7 +35,7 @@ global bool AimTrainer_USER_WANNA_BE_A_DUMMY = false
 global bool ENABLE_HIT_DOT = false
 
 global const int AimTrainer_RESULTS_TIME = 10
-global const float AimTrainer_PRE_START_TIME = 3.0 //description time
+global const float AimTrainer_PRE_START_TIME = 1.5 //description time
 
 void function Sh_ChallengesByColombia_Init()
 {
