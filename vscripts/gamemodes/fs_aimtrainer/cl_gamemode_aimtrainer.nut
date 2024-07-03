@@ -231,7 +231,7 @@ void function ActuallyPutDefaultSettings()
 	player.ClientCommand("CC_AimTrainer_AI_HEALTH " + GetConVarInt("net_wifi").tostring())
 	player.ClientCommand("CC_AimTrainer_DUMMIES_COLOR " + GetConVarInt("noise_filter_scale").tostring())
 	player.ClientCommand("CC_MenuGiveAimTrainerWeapon mp_weapon_r97 p 1 3 3 3 smg 3 bullet")
-	player.ClientCommand("CC_MenuGiveAimTrainerWeapon mp_weapon_clickweapon s")
+	player.ClientCommand("CC_MenuGiveAimTrainerWeapon mp_weapon_vinson s 4 0 3 0 ar 3 highcal")
 }
 
 
@@ -801,6 +801,7 @@ void function ServerCallback_RestartChallenge(int challenge)
 void function StartChallenge1Client()
 {
 	entity player = GetLocalClientPlayer()
+	player.ClientCommand("CC_MenuGiveAimTrainerWeapon mp_weapon_r97 p 1 3 3 3 smg 3 bullet")
 	ScreenFade( player, 0, 0, 0, 255, 1, 1, FFADE_IN | FFADE_PURGE )
 	thread CreateDescriptionRUI("Hit the strafing dummy to get points.")
 	thread CreateTimerRUIandSTATS()	
@@ -837,6 +838,7 @@ void function StartChallenge4Client()
 void function StartChallenge5Client()
 {
 	entity player = GetLocalClientPlayer()
+	player.ClientCommand("CC_MenuGiveAimTrainerWeapon mp_weapon_clickweapon p")
 	ScreenFade( player, 0, 0, 0, 255, 1, 1, FFADE_IN | FFADE_PURGE )
 	thread CreateDescriptionRUI("Hitscan weapon recommended. Hit as many targets as possible.")
 	thread CreateTimerRUIandSTATS()
