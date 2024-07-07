@@ -137,7 +137,7 @@ void function _ChallengesByColombia_Init()
 	{
 		floorLocation = <-11964.7803, -8858.25098, 17252.25>
 		onGroundLocationPos = <-14599.2178, -7073.89551, 2703.93286>
-		onGroundLocationAngs = <0,0,0>
+		onGroundLocationAngs = <0,-12.5,0>
 		AimTrainer_startPos = <-16613.873, -487.12088, 3312.10791>
 		AimTrainer_startAngs = <0, 144.184357, 0>
 	}
