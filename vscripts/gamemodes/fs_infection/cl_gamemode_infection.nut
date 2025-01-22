@@ -1,10 +1,3 @@
-//APEX INFECTED
-//Made by @CafeFPS (@CafeFPS)
-
-// Julefox - Mystery box scripts
-// @KralRindo - Shadowfall gamemode initial implementation
-// everyone else - advice
-
 global function Cl_GamemodeInfection_Init
 global function ApplyInfectedHUD
 global function CleanUpInfectedClientEffects

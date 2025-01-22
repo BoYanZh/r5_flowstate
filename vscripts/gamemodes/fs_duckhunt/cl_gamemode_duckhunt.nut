@@ -1,9 +1,3 @@
-//APEX DUCKHUNT
-//Made by @CafeFPS (@CafeFPS)
-
-// Darkes#8647 - duckhunt maps
-// everyone else - advice
-
 global function Cl_GamemodeDuckhunt_Init
 global function DUCKHUNT_CustomHint
 global function DUCKHUNT_Timer

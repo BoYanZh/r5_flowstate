@@ -1,8 +1,3 @@
-//Flowstate 1v1 gamemode
-//made by __makimakima__
-//integrated and maintained by @CafeFPS
-//redesigned and maintained by mkos + challenge / features / code refactor & [r5r.dev ibmm/sbmm]
-
 //Needs a rewrite
 
 global function isPlayerInRestingList
@@ -5271,8 +5266,6 @@ void function Init_IBMM( entity player )
 		SetDefaultIBMM( player )
 }
 
-//Made by @CafeFPS - don't ask wtf is this just enjoy it
-//modified by mkos ( Todo: Move to code )
 void function Thread_CheckInput( entity player )
 {
 	int timesCheckedForNewInput = 0
@@ -5386,7 +5379,6 @@ void function HandlePlayer( entity player )
 	}
 }
 
-//Made by @CafeFPS
 int function GetInput( entity player )
 {	
     float value = player.GetInputAxisRight() == 0 ? player.GetInputAxisForward() : player.GetInputAxisRight() 

@@ -1,11 +1,3 @@
-// Credits
-// AyeZee#6969 -- ctf gamemode and ui
-// CafeFPS -- Server/client/ui Rework and multiple code fixes
-// Rexx and IcePixelx -- Help with code improvments
-// sal#3261 -- base custom_tdm mode to work off
-// mkos -- added healing
-// everyone else -- advice
-
 global function _CustomCTF_Init
 global function _CTFRegisterLocation
 global function _CTFRegisterCTFClass

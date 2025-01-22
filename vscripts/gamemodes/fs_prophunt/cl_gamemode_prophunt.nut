@@ -1,9 +1,3 @@
-//FLOWSTATE PROPHUNT
-//Made by @CafeFPS (@CafeFPS)
-
-// AyeZee#6969 -- Ctf voting phase to work off
-// _RitzKing#1715 -- Gamemode Icon
-// everyone else -- advice
 untyped
 
 global function ClGamemodeProphunt_Init
