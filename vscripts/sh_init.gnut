@@ -238,7 +238,6 @@ void function SV_CL_Init()
 	MpAbilityCryptoDrone_Init()
 	MpAbilityCryptoDroneEMP_Init()
 	//MpAbilitySilence_Init()
-	// Titanfall GUNS - by LorryLeKral
 	MpWeaponSmartPistol_Init()
 	MpWeaponProximityMine_Init()
 	MpWeaponRocketLauncher_Init()

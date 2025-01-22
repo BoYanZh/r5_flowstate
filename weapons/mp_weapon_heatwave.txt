@@ -1,5 +1,3 @@
-//By Retículo Endoplasmático#5955 (CaféDeColombiaFPS)
-//By Retículo Endoplasmático#5955 (CaféDeColombiaFPS)
 #base "_base_shotgun.txt"
 #base "_base_character_mods.txt"
 

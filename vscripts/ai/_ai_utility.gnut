@@ -396,7 +396,6 @@ void function Flowstate_DebugGameEntities()
 }
 void function AnimNameTest()
 {
-//By Colombia
     entity player = gp()[0]
 
 	entity weapon = player.GetActiveWeapon( eActiveInventorySlot.mainHand )
@@ -458,7 +457,6 @@ void function StartRunningForward(entity player)
 
 void function SpawnDoubleDoorAtCrosshair()
 {
-//By Colombia
 	entity player = GetPlayerArray()[ 0 ]
 
 	vector origin = GetPlayerCrosshairOrigin( player )

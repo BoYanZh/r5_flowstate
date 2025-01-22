@@ -2571,7 +2571,7 @@ void function AddInWorldMinimapObjectInternal( entity ent, var screen, asset def
 
 	var rui = RuiCreate( minimapAsset, screen, drawType, FULLMAP_Z_BASE + zOrder + zOrderOffset )
 
-	if ( ent.IsPlayer() ) //Colombia
+	if ( ent.IsPlayer() )
 	{
 		foreach(player, savedRui in file.playerArrows)
 		{

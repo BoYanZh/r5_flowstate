@@ -539,7 +539,6 @@ void function DamageTypes_Init()
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_flagpole_primary]	<- $"rui/gamemodes/capture_the_flag/mil_flag"
 	file.damageSourceIDToImage[eDamageSourceId.melee_flagpole]				<- $"rui/gamemodes/capture_the_flag/mil_flag"
 	
-	//Titanfall2 and Retail Apex guns, ported by @LorryLeKral, with the help from @AmosModz
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_volt_smg] 			<- $"rui/weapon_icons/r5/weapon_volt"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_car] 				<- $"rui/weapon_icons/r5/weapon_car"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_car_r2] 				<- $"rui/weapon_icons/r5/weapon_car"
