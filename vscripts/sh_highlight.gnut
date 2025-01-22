@@ -1023,9 +1023,6 @@ void function Highlight_SetNeutralHighlight( entity ent, string assetName )
 }
 
 void function Highlight_SetFlyerDeathboxHighlight( entity ent, string assetName )
-///////////////////////////////////////////////////////
-//By @CafeFPS (CafeFPS)//
-///////////////////////////////////////////////////////
 {
 	HighlightContext highlight = GetHighlight( assetName )
 	

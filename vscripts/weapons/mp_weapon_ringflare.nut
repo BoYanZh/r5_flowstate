@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 global function MpWeaponRingFlare_Init
 // global function MpWeaponGrenadeDefensiveBombardment_Init
 global function OnProjectileCollision_ringflare

@@ -1902,7 +1902,7 @@ bool function IsValidPlayerForR5RDevBadge_NoTracker( entity player )
 		case "zee_x64":
 		case "amos_x64":
 		case "rexx_x64":
-		case "Chloee1997":
+		case "LorryLeKral":
 		return true
 	}
 	

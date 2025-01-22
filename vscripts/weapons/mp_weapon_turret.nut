@@ -1,5 +1,3 @@
-//Made by @CafeFPS (X/twitter) and julefox (discord) ( 2022, dev script )
-
 global function OnWeaponTossReleaseAnimEvent_Turret
 global function OnWeaponAttemptOffhandSwitch_Turret
 global function OnWeaponTossPrep_Turret

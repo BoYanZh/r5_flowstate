@@ -1,5 +1,3 @@
-//By @CafeFPS and Respawn
-
 global function MpWeaponTitanSword_Init
 global function OnWeaponPrimaryAttack_weapon_titan_sword
 global function OnWeaponActivate_weapon_titan_sword

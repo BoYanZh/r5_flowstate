@@ -1,4 +1,3 @@
-//Made by CafeFPS
 untyped
 
 global function OnProjectileCollision_phase_chamber

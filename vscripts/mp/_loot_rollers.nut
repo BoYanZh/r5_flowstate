@@ -1,5 +1,3 @@
-// Updated by @CafeFPS
-
 global function InitLootRollers
 global function SpawnLootRoller_Parented
 global function SpawnLootRoller_NoDispatchSpawn

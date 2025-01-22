@@ -1,5 +1,3 @@
-//By @CafeFPS and Respawn
-
 global function MpWeaponTitanSword_Super_Init
 global function TitanSword_Super_OnWeaponActivate
 global function TitanSword_Super_OnWeaponDeactivate

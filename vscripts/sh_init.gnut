@@ -196,7 +196,6 @@ void function SV_CL_Init()
 	Sh_PassiveVoices_Init()
 	ShPassiveAdrenaline_Init()
 	
-	// Custom - Made by @CafeFPS
 	MpWeaponTitanSword_Init() //Flowstate Sword
 	MpWeaponFlameThrower_Init()
 	// MpUltimatePhaseChamber_Init()
@@ -212,7 +211,6 @@ void function SV_CL_Init()
 	Clickweapon_Init() //Lightning Gun
 	///////////////////// END CUSTOM
 	
-	// S0 Dev PROTOS - Ported by @CafeFPS
 	// MpWeaponConcussiveBreach_Init()
 	// MpWeaponGrenadeFlashbang_Init()
 	// ShPassiveShotgunKick_Init()
@@ -247,7 +245,7 @@ void function SV_CL_Init()
 
     // Zipline Utility
     #if SERVER
-		TurretPlasma_Init() //turret dev ability by cafefps
+		TurretPlasma_Init()
         ZiplineUtility_Init()
     #endif
 

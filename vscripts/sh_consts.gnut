@@ -147,7 +147,6 @@ global const SURVIVAL						= "survival"
 global const FREELANCE						= "freelance"
 global const CUSTOM_CTF						= "custom_ctf"
 
-//Gamemodes made by @CafeFPS <3
 global const fs_dm							= "fs_dm"
 global const fs_aimtrainer					= "fs_aimtrainer"
 global const fs_prophunt					= "fs_prophunt"
@@ -1416,7 +1415,7 @@ global enum ePlayerMovementEvents
 	END_WALLHANG
 }
 
-/* Valid inputs. Updated list for the R5Reloaded Build by @CafeFPS
+/*
 IN_JUMP
 IN_DUCK
 IN_LEFT

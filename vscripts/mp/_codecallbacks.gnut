@@ -395,7 +395,6 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 	if (  ( entIsNPC && attackerIsPlayer ) ) //|| ( entIsPlayer && attackerIsNPC ) )
 	{
 		float damage = 0
-		//AI bleedthrough fix By @CafeFPS (CafeFPS)
 		if( ent.GetShieldHealth() > 0 )
 		{
 			//DamageInfo_AddCustomDamageType( damageInfo, DF_SHIELD_DAMAGE )

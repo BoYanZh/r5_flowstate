@@ -1,5 +1,3 @@
-//Updated by @CafeFPS
-
 global function OnWeaponPrimaryAttack_holopilot
 global function OnWeaponChargeLevelIncreased_holopilot
 global function OnWeaponActivate_holopilot
@@ -280,7 +278,6 @@ void function CreateDecoysHint( entity decoy, string msg, float endTime )
 
 #if SERVER
 bool function ClientCommand_ToggleDecoys( entity player, array<string> args )
-//By @CafeFPS (CafeFPS)//
 {
 	if ( !IsAlive( player ) )
 		return true

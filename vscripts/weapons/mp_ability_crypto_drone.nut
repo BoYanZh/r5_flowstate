@@ -1,5 +1,3 @@
-// Ported by @CafeFPS
-
 global function MpAbilityCryptoDrone_Init
 
 global function OnWeaponTossReleaseAnimEvent_ability_crypto_drone

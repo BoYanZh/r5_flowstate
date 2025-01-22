@@ -1,4 +1,3 @@
-//Scripts By @CafeFPS, Models By @LorryLeKral
 "WeaponData"
 {
 	// General

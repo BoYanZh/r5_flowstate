@@ -1,5 +1,3 @@
-//Updated by @CafeFPS based on S21 scripts
-
 global function MpWeaponPhaseTunnel_Init
 global function OnWeaponActivate_weapon_phase_tunnel
 global function OnWeaponDeactivate_weapon_phase_tunnel

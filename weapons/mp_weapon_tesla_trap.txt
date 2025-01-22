@@ -1,6 +1,3 @@
-// Reimplemented by @CafeFPS (@CafeFPS)
-// everyone else -- advice
-
 #base "_base_ability_tactical.txt"
 
 WeaponData

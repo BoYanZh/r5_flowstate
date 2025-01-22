@@ -1,6 +1,3 @@
-//Made by @CafeFPS
-//Dev script, Move to a new gamemode when possible
-//To start, type "script TEST_CreateNextbotNearbyPlayer( 50 )" in console, where 50 is the amount of nextbots to spawn. If it's missing textures you have outdated common flowstate rpak.
 //fix evac ship script, modified a little bit so it works
 
 untyped

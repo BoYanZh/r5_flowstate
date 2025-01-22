@@ -1,5 +1,3 @@
-// Made by @CafeFPS ( original idea and code template )
-// mkos - multiplayer compatibility overhaul, code refactor, features
 // Todo(mk): QOL Update-- Allow each slot to have a set playback rate per player, with a ui slider/input field to modify per-slot. 0 for inf or frozen.
 
 #if SERVER
@@ -840,7 +838,7 @@ const array<string> r5rDevs =
 	"amos_x64",
 	"rexx_x64",
 	"IcePixelx", 
-	"KralRindo",
+	"LorryLeKral",
 	"sal",
 	"mkos",
 	"fireproof"

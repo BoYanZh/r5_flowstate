@@ -2863,9 +2863,6 @@ void function SetChromaCharacter( ItemFlavor character )
 }
 
 void function UpdatePlayerModel( ItemFlavor character )
-///////////////////////////////////////////////////////
-//By @CafeFPS (CafeFPS)//
-///////////////////////////////////////////////////////
 {
 	if (FS_ShouldShowCustomCharacterSelect())
 	{
@@ -2992,9 +2989,6 @@ void function UpdatePlayerModel( ItemFlavor character )
 }
 
 array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter(ItemFlavor character)
-///////////////////////////////////////////////////////
-//By @CafeFPS (CafeFPS)//
-/////////////////////////////////////////////////////// 
 //Don't try this at home
 {
 	array<ItemFlavor> actualGoodAnimsForThisCharacter
@@ -3095,9 +3089,6 @@ array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter(ItemFl
 }
 
 void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
-///////////////////////////////////////////////////////
-//By @CafeFPS (CafeFPS)//
-/////////////////////////////////////////////////////// 
 {
 	if (FS_ShouldShowCustomCharacterSelect())
 	{

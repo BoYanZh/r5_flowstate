@@ -1,6 +1,3 @@
-// Reimplemented by @CafeFPS (@CafeFPS)
-// everyone else -- advice
-
 // todo
 // fix ai (dummies) detection + damage + visuals
 

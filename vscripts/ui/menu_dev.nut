@@ -1094,15 +1094,15 @@ void function SetupChangeSurvivalCharacterClass()
 void function SetupChangeCharacterModel()
 {
 	#if UI
-		SetupDevCommand( "TF2 Ash (by @LorryLeKral)", "Flowstate_AssignCustomCharacterFromMenu 6")
-		SetupDevCommand( "TF2 Blisk (by @LorryLeKral)", "Flowstate_AssignCustomCharacterFromMenu 1")
-		SetupDevCommand( "TF2 Jack Cooper (by @LorryLeKral)", "Flowstate_AssignCustomCharacterFromMenu 8")
-		SetupDevCommand( "Ballistic (by @CafeFPS)", "Flowstate_AssignCustomCharacterFromMenu 12")
-		SetupDevCommand( "Fade (by @CafeFPS)", "Flowstate_AssignCustomCharacterFromMenu 2")
-		SetupDevCommand( "Rhapsody (by @CafeFPS)", "Flowstate_AssignCustomCharacterFromMenu 5")
-		SetupDevCommand( "Crewmate [3p only] (by bobblet)", "Flowstate_AssignCustomCharacterFromMenu 3")
-		SetupDevCommand( "MRVN [3p only] (by @CafeFPS)", "Flowstate_AssignCustomCharacterFromMenu 13")
-		SetupDevCommand( "Pete (by @CafeFPS)", "Flowstate_AssignCustomCharacterFromMenu 16" )
+		SetupDevCommand( "TF2 Ash", "Flowstate_AssignCustomCharacterFromMenu 6")
+		SetupDevCommand( "TF2 Blisk", "Flowstate_AssignCustomCharacterFromMenu 1")
+		SetupDevCommand( "TF2 Jack Cooper", "Flowstate_AssignCustomCharacterFromMenu 8")
+		SetupDevCommand( "Ballistic", "Flowstate_AssignCustomCharacterFromMenu 12")
+		SetupDevCommand( "Fade", "Flowstate_AssignCustomCharacterFromMenu 2")
+		SetupDevCommand( "Rhapsody", "Flowstate_AssignCustomCharacterFromMenu 5")
+		SetupDevCommand( "Crewmate [3p only]", "Flowstate_AssignCustomCharacterFromMenu 3")
+		SetupDevCommand( "MRVN [3p only]", "Flowstate_AssignCustomCharacterFromMenu 13")
+		SetupDevCommand( "Pete", "Flowstate_AssignCustomCharacterFromMenu 16" )
 	#endif
 }
 
@@ -1171,8 +1171,7 @@ void function SetupWeapons()
 	SetupDevCommand( "Dev: Dev Cubemap ", "give weapon_cubemap" )
 	
 	// Custom
-	SetupDevCommand( "-> Custom weapons, created by @CafeFPS", "give mp" )
-	SetupDevCommand( "Custom: Flame Thrower (Model by @LorryLeKral)", "give mp_weapon_flamethrower" )
+	SetupDevCommand( "Custom: Flame Thrower", "give mp_weapon_flamethrower" )
 	SetupDevCommand( "Custom: Raygun ", "give mp_weapon_raygun" )
 	SetupDevCommand( "Custom: Flowstate Sword", "playerRequestsSword")
 	#endif
@@ -1181,9 +1180,6 @@ void function SetupWeapons()
 void function SetupTitanfallWeapons()
 {
 	#if UI
-	// Titanfall guns, ported by @LorryLeKral with the help from @AmosModz
-	SetupDevCommand( "Titanfall weapons, ported by LorryLeKral with the help from @AmosModz", "give mp" )
-	SetupDevCommand( "Please credit us properly if you are going to create content using them!", "give mp" )
 	SetupDevCommand( "Titanfall 2: EPG", "give mp_weapon_epg" )
 	SetupDevCommand( "Titanfall 2: Sidewinder", "give mp_weapon_smr" )
 	SetupDevCommand( "Titanfall 2: Archer", "give mp_weapon_rocket_launcher" )
@@ -1287,10 +1283,10 @@ void function SetupAbilities()
 	
 	//SetupDevCommand( "Gravity Star", "give mp_weapon_grenade_gravity" )
 	
-	SetupDevCommand( "-> Custom abilities, created by @CafeFPS", "give mp" )
+	SetupDevCommand( "-> Custom abilities", "give mp" )
 	SetupDevCommand( "Custom: Gravity Lift", "give mp_ability_space_elevator_tac" )
 	SetupDevCommand( "Custom: Phase Rewind", "give mp_ability_phase_rewind" )
-	SetupDevCommand( "Custom: Suppressor Turret ( ft. @Julefox )", "give mp_weapon_turret")
+	SetupDevCommand( "Custom: Suppressor Turret", "give mp_weapon_turret")
 	SetupDevCommand( "Custom: Phase Chamber", "give mp_ability_phase_chamber")
 	SetupDevCommand( "Custom: Ring Flare", "give mp_weapon_ringflare")
 	#endif

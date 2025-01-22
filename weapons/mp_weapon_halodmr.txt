@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 #base "_base_assault_rifle_modded_weapons.txt"
 
 "WeaponData"

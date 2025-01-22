@@ -962,7 +962,6 @@ Scripts:
 	mp/sh_weapon_inspect.gnut
 	weapons/mp_weapon_throwingknife.nut
 	
-	//Custom content made by @CafeFPS
 	weapons/mp_weapon_titan_sword.nut
 	weapons/mp_weapon_titan_sword_heavy.nut
 	weapons/mp_weapon_titan_sword_block.nut

@@ -16,13 +16,6 @@ struct {
 
 void function CodeCallback_MapInit()
 {
-	printt( "----------------------------" )
-	printt( "Welcome to Olympus" )
-	printt( "-- Map Assets, models, textures and more: LorryLeKral (Lorry)" )
-	printt( "-- Model Conversion and Engine Improvements: AmosModz" )
-	printt( "-- Map Scripts: CafeFPS, LorryLeKral" )
-	printt( "----------------------------" )
-
 	SetVictorySequencePlatformModel( $"mdl/levels_terrain/mp_rr_olympus/floating_victory_platform_01.rmdl", < 0, 0, -10 >, < 0, 0, 0 > )
 
 	Olympus_MapInit_Common()
