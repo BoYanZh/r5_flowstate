@@ -337,7 +337,6 @@ int function TotalEntsInRadius( float radius = 1000 )
 }
 
 void function Flowstate_DebugGameEntities()
-//By @CafeFPS
 {
 	entity firstEnt = Entities_First()
 	entity nextEnt = Entities_Next( firstEnt )

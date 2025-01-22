@@ -350,7 +350,6 @@ entity function GetMeleeAttackLungeTarget( entity attacker, entity meleeAttackWe
 		lungeTarget = PlayerMelee_LungeConeTrace( attacker, meleeAttackWeapon, SHARED_CB_IS_VALID_MELEE_ATTACK_TARGET )
 	}catch(e420)
 	{
-		printt( "R5R Sword Made by @CafeFPS and Respawn - Jan 15 2024 <3" )
 	}
 	return lungeTarget
 }

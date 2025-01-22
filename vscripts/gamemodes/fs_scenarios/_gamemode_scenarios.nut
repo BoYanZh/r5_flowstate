@@ -1,8 +1,3 @@
-// Made and designed by @CafeFPS
-//
-// mkos - feedback, playtest, spawns framework, stats
-// DarthElmo & Balvarine - gamemode idea, spawns, feedback, playtest
-
 global function Init_FS_Scenarios
 global function FS_Scenarios_GroupToInProgressList
 global function FS_Scenarios_ReturnGroupForPlayer
@@ -1678,9 +1673,6 @@ void function FS_Scenarios_Main_Thread()
 				continue				
 			
 			entity player = eachPlayerStruct.player
-			
-			// if( player.GetPlayerName() == "r5r_CafeFPS" )
-				// continue
 			
 			if( !IsValidPlayer( player ) ) //don't pass here if player is disconnecting Cafe
 				continue

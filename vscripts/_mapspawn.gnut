@@ -269,9 +269,6 @@ void function CodeCallback_MapSpawn() // original script entry point
 	PrecacheModel( $"mdl/robots/marvin/marvin.rmdl" )
 	PrecacheModel( $"mdl/weapons/sentry_turret/sentry_turret.rmdl" )
 	
-	//////////////////////
-	//CUSTOM - By @CafeFPS
-	
 	PrecacheWeapon( $"mp_ability_emote_projector" )
 	PrecacheWeapon( $"mp_weapon_vctblue_primary" )
 	PrecacheWeapon( $"melee_vctblue" )
@@ -419,9 +416,6 @@ void function CodeCallback_MapSpawn() // original script entry point
 	// PrecacheWeapon( $"mp_ability_split_timeline" )
 	// PrecacheWeapon( $"mp_weapon_debris_trap" )
 	// PrecacheWeapon( $"mp_weapon_grenade_barrier" )
-	
-	//END CUSTOM BY @CafeFPS
-	////////////////////////
 	
 	PrecacheWeapon( $"mp_weapon_melee_survival" )
 	PrecacheWeapon( $"mp_turretweapon_blaster" )

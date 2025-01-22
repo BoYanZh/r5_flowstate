@@ -1,9 +1,3 @@
-// WINTER EXPRESS
-// ported & implemented by @CafeFPS
-// mp_rr_desertlands_holiday map by zee_x64
-
-// fix custom waypoint for train
-
 global function WinterExpress_Init
 global function WinterExpress_IsNarrowWin
 

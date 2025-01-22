@@ -121,7 +121,7 @@ void function EntitiesDidLoad()
 		}()
 	}
 	
-	FS_SetupMemorial()
+	//FS_SetupMemorial()
 }
 #endif
 

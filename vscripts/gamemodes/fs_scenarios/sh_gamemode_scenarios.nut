@@ -1,6 +1,3 @@
-// Designed by @CafeFPS
-// stats/persistence/recaps - mkos
-
 global function FS_Scenarios_Score_System_Init
 global function FS_Scenarios_GetEventScoreValue
 global function Scenarios_RegisterNetworking

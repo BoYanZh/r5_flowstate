@@ -1,5 +1,3 @@
-//Script by @CafeFPS
-
 global function ClientCodeCallback_MapInit
 
 struct

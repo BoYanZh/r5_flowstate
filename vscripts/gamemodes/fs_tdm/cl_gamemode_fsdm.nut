@@ -1369,10 +1369,6 @@ string function GetWinningTeamText(int team)
 }
 
 array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter_ChampionScreen(ItemFlavor character)
-///////////////////////////////////////////////////////
-//By @CafeFPS (CafeFPS)//
-/////////////////////////////////////////////////////// 
-//Don't try this at home
 {
 	array<ItemFlavor> actualGoodAnimsForThisCharacter
 	switch(ItemFlavor_GetHumanReadableRef( character )){

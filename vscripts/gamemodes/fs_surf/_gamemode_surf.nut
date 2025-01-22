@@ -520,8 +520,6 @@ void function SurfKitsuneFinishFinished_OnAreaEnter( entity trigger, entity play
     Message( player, "Map Finished", "Congrats you finished surf_kitsune", 5.0 )
 }
 
-//Thanks Archtux#9300
-//Modified by @CafeFPS and michae\l/#1125
 bool function ClientCommand_NextRoundSURF(entity player, array<string> args)
 {
     if ( !IsValid( player ) )

@@ -1,6 +1,3 @@
-//Made by julefox (discord)
-//Fixes by @CafeFPS (X/twitter)
-
 global function ShZombieMysteryBox_Init
 global function GetMysteryBox
 global function GetMysteryBoxFromEnt

@@ -1,16 +1,3 @@
-// Flowstate DM
-// Fork of the custom_tdm gamemode made by sal#3261
-
-// Credits:
-
-// CafeFPS 			- Main Developer
-// AyeZee#6969 		-- Ctf voting phase to work off & droppods
-// Zer0Bytes#4428 	-- Weapons randomizer rewrite
-// makimakima#5561 	-- TDM Saved Weapon List, 1v1 gamemode
-// michae\l/#1125 	-- flowstate admin
-// mkos 			-- Developer #2 ( cafe's apprentice :D )
-// everyone else 	-- advice
-
 //TODO: Abstract gamemode specific logic into each gamemodes own file 
 //		and make logic in this script modular ( template-like ) by setting up
 //		callback systems and allowing logic to be defined outside of this file
@@ -981,10 +968,6 @@ void function _OnPlayerConnected(entity player)
 
                     array<string> InValidMaps = [
 						"mp_rr_canyonlands_staging",
-						"Skill trainer By CafeFPS",
-						"Custom map by Biscutz",
-						"White Forest By Zer0Bytes",
-						"Brightwater By Zer0bytes",
 						"Overflow",
 						"Drop-Off"
 					]
@@ -3016,7 +2999,6 @@ const array<int> FALL_TRIGGERS_ENABLED_FOR_MAPS =
 	eMaps.mp_rr_canyonlands_64k_x_64k
 ]
 
-/////////////@CafeFPS CafeFPS///////////////////
 void function SimpleChampionUI()
 {
 	//printt("Flowstate DEBUG - Game is starting.")
@@ -3988,17 +3970,6 @@ void function SimpleChampionUI()
 	if( flowstateSettings.ChatLogEnable )
 		Flowstate_ServerSaveChat()
 
-	// foreach( player in GetPlayerArray() )
-	// {
-		// if( !IsValid( player ) ) continue
-		// RemoveCinematicFlag( player, CE_FLAG_HIDE_MAIN_HUD | CE_FLAG_EXECUTION )
-		// if( GetCurrentPlaylistName() == "fs_movementgym" ) {
-					// Message( player,"Movement Gym", "\n\n               Made by twitter.com/DEAFPS_ \n\n        With help from AyeZee#6969, Julefox#0050 & @CafeFPS", 7, "UI_Menu_RoundSummary_Results" )
-				// }
-		// player.SetThirdPersonShoulderModeOff()	
-		// player.FreezeControlsOnServer()
-	// }
-
 	////////////////////////////////
 	//// 		VOTING 			////
 	////////////////////////////////
@@ -4632,13 +4603,6 @@ void function HaloMod_HandlePlayerModel( entity player )
 	}
 
 	player.SetPlayerNetInt( "fs_haloMod_assignedMasterChief", assignedColor )
-	// #if DEVELOPER
-	// if( player.GetPlayerName() == "7bt2ft55kl7i" || player.GetPlayerName() == "r5r_CafeFPS" )
-	// {
-		// player.SetBodyModelOverride( $"mdl/flowstate_custom/w_haloelite.rmdl" )
-		// player.SetArmsModelOverride( $"mdl/flowstate_custom/ptpov_haloelite.rmdl" )
-	// }
-	// #endif
 }
 
 void function CharSelect( entity player)
@@ -4791,7 +4755,6 @@ int function GetDamageOfPlayerWithMostDamage()
     return bestDamage
 }
 
-//By @CafeFPS (CafeFPS)
 string function PlayerWithMostDamageName()
 {
 	entity player = PlayerWithMostDamage()
@@ -4869,7 +4832,6 @@ string function GetBestPlayerName()
 	return champion
 }
 
-//By michae\l/#1125 & @CafeFPS
 float function getkd(int kills, int deaths)
 {
 
@@ -5189,7 +5151,6 @@ bool function CC_TDM_Weapon_Selector_Open( entity player, array<string> args )
 }
 
 float function getcontrollerratio(int count, int kills)
-//By michae\l/#1125 & @CafeFPS
 {
 	float cCount
 	int floorcCount

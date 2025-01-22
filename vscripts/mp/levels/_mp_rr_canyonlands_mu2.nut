@@ -1,11 +1,3 @@
-// Made by @CafeFPS
-
-// Featuring:
-// Entities Clean Up
-// Bunker Hatches
-// Charge Pylons
-// Warp Tunnel
-
 global function CodeCallback_MapInit
 
 const asset BUNKER_MODEL_SCALE_DOWN = $"mdl/props/bunker_hatch/bunker_hatch_scale_down.rmdl"
@@ -19,13 +11,6 @@ struct {
 
 void function CodeCallback_MapInit()
 {
-	printt( "----------------------------" )
-	printt( "Welcome to Kings Canyon Map Update 2 (Season 5)" )
-	printt( "-- All Map Assets, Models, Textures, Materials and More Ported by @LorryLeKral" )
-	printt( "-- Tools, Repak and RSX: Rexx & AmosModz" )
-	printt( "-- Map Scripts: CafeFPS and LorryLeKral" )
-	printt( "----------------------------" )
-
 	SetVictorySequencePlatformModel( $"mdl/rocks/victory_platform.rmdl", < 0, 0, -10 >, < 0, 0, 0 > )
 	SURVIVAL_SetPlaneHeight( 24000 )
 	SURVIVAL_SetAirburstHeight( 8000 )

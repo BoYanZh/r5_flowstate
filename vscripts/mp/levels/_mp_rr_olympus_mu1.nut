@@ -1,13 +1,3 @@
-// Made by @CafeFPS
-
-// Featuring:
-// Entities Clean Up
-// Pathfinder Town Takeover boxing ring set up
-// Pathfinder Town Takeover screens set up
-// Warp Tunnels
-// Bridge Vault Set Up
-// Ship Weapon Racks
-
 global function CodeCallback_MapInit
 
 #if DEVELOPER
