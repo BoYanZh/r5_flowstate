@@ -1,8 +1,5 @@
 global function CodeCallback_MapInit
 
-//Party Crasher Reloaded
-//By CafeFPS & AyeZee
-
 struct {
 	entity button1
     entity button2

@@ -23,7 +23,7 @@ void function DisconnectAllBots()
         if( !IsValid( bot ) || !bot.p.IsBot )
             continue
 
-        KickPlayerByName( bot.GetPlayerName(), "cafe was here" )
+        KickPlayerByName( bot.GetPlayerName(), "disconnect_bot" )
     }
 }
 
@@ -34,7 +34,7 @@ void function SimulateRandomDisconnects()
 		if( !IsValid( bot ) || !bot.p.IsBot || CoinFlip() )
 			continue
 
-		KickPlayerByName( bot.GetPlayerName(), "cafe was here" )
+		KickPlayerByName( bot.GetPlayerName(), "disconnect_bot" )
     }
 }
 

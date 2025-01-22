@@ -4972,7 +4972,7 @@ void function UnlockWeaponsAndMelee( entity player )
 }
 
 //Home made version of player.DisableWeaponTypes( WPT_MELEE ) code function that is used in s21
-//By Cafe
+
 void function DisableMeleeWeapons( entity player )
 {
 	player.SetMeleeDisabled()

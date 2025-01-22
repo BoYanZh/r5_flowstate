@@ -74,8 +74,6 @@ void function OnClientConnected( entity player )
 
 	printt( "[+] New player connected! ", player )
 
-	//By CafeFPS
-
 	//Wraith Q fix
 	player.SetForceVisibleInPhaseShift( true )
 	
