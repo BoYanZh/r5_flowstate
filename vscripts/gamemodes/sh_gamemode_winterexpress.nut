@@ -246,7 +246,6 @@ struct {
 		var legendSelectMenuPromptRuiTopo = null
 		var customCaptureProgressRui = null
 
-		//By @CafeFPS
 		var localTeam
 		var localTeamScore
 		int localTeamScoreValue

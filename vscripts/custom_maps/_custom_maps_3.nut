@@ -897,7 +897,6 @@ void function RotateFRLoop(entity ent,float speed,bool rightside)
 
 
 void function CreateFloor(int x, int y, int z, int width, int length)
-//By michae\l/#1125.
 {
 	int i;
 	int j;

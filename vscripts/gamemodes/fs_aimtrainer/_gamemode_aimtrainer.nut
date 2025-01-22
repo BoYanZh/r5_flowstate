@@ -2782,7 +2782,6 @@ int function ReturnShieldAmountForDesiredLevel()
 }
 
 array<entity> function CreateFloorAtOrigin(vector origin, int width, int length)
-//By michae\l/#1125 incredibly optimized. i am speed
 {
 	int x = int(origin.x)
 	int y = int(origin.y)
@@ -2801,7 +2800,6 @@ array<entity> function CreateFloorAtOrigin(vector origin, int width, int length)
 }
 
 array<entity> function CreateWallAtOrigin(vector origin, int length, int height, int angle)
-//By michae\l/#1125 incredibly optimized. i am speed
 {
 	int x = int(origin.x)
 	int y = int(origin.y)

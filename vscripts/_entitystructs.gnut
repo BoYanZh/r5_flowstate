@@ -919,7 +919,6 @@ global struct ServerPlayerStruct
 	int PROPHUNT_TimesSurvivedAsProp = 0
 	int PROPHUNT_SurvivalTime = 0
 
-	//By Endergreen
 	// This is for Octane's ability chatter
 	float lastStimChatterTime = -30
 	float lastJumpPadChatterTime = -30

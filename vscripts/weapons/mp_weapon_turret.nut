@@ -601,7 +601,6 @@ void function weaponEnemyWatcher( entity dummy, entity turret )
 }
 
 void function PlayTurretSound( entity turret )
-//By julefox (discord)
 {   
 	EndSignal(turret, "OnDestroy")
 	while ( true )
@@ -612,7 +611,6 @@ void function PlayTurretSound( entity turret )
 }
 
 void function PlayRandomTurretSound( entity turret )
-//By julefox (discord)
 {   
 	EndSignal(turret, "OnDestroy")
 	while ( true )
@@ -624,7 +622,6 @@ void function PlayRandomTurretSound( entity turret )
 
 void function MakeLookAt(entity entityToRotate, vector targetPos, entity targetType, entity fx ) 
 {
-//By julefox (discord)
 	vector entityPos    = entityToRotate.GetOrigin()
 	vector distance     = targetPos - entityPos
 
