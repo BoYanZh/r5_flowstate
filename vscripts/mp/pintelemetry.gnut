@@ -2120,7 +2120,8 @@ void function Init_NewGame()
 		if ( IsValid( player ) && access_status >= RESTRICTED_ACCESS_STATUS_REQUIRED )//Todo: Revisit for more modularity from a single defined source and remove CONST adjustments
 		{	
 			mkos_Force_Rest( player )
-			Message( player, "Welcome " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
+			if( gameMode == eGamemodes.gamemode_type_1v1 )
+				Message( player, "Welcome " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
 			CommandsEnabled( player, true )
 		}
 		else 
