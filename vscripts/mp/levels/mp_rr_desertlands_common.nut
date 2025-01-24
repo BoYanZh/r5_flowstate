@@ -55,7 +55,7 @@ void function CodeCallback_PreMapInit()
 void function Desertlands_MapInit_Common()
 {
 
-	//printt( "Desertlands_MapInit_Common" )
+	printt( "Desertlands_MapInit_Common" )
 
 	if (MapName() == eMaps.mp_rr_desertlands_64k_x_64k_tt )
 		MapZones_RegisterDataTable( $"datatable/map_zones/zones_mp_rr_desertlands_64k_x_64k_tt.rpak")
@@ -68,6 +68,7 @@ void function Desertlands_MapInit_Common()
 	SetVictorySequencePlatformModel( $"mdl/rocks/desertlands_victory_platform.rmdl", < 0, 0, -10 >, < 0, 0, 0 > )
 
 	#if SERVER
+		thread KillPlayersUnderMap_Thread( -6376 ) //-28320
 		AddCallback_EntitiesDidLoad( EntitiesDidLoad )
 		SURVIVAL_SetPlaneHeight( 15250 )
 		SURVIVAL_SetAirburstHeight( 2500 )
