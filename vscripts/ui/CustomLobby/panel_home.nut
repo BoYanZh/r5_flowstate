@@ -129,18 +129,18 @@ void function InitHomePanel( var panel )
 	var miniPromo = Hud_GetChild( file.panel, "MiniPromo" )
 	Hud_AddEventHandler( miniPromo, UIE_GET_FOCUS, MiniPromoButton_OnGetFocus )
 	Hud_AddEventHandler( miniPromo, UIE_LOSE_FOCUS, MiniPromoButton_OnLoseFocus )
-	Hud_AddEventHandler( Hud_GetChild( file.panel, "R5RVersionButton"), UIE_CLICK, TestNewButton)
+	//Hud_AddEventHandler( Hud_GetChild( file.panel, "R5RVersionButton"), UIE_CLICK, TestNewButton)
 	
 	file.matchStatusRuis = GetElementsByClassnameForMenus( "MatchmakingStatusRui", uiGlobal.allMenus )
 }
 
 void function Play_SetupUI()
 {
-	HudElem_SetRuiArg( Hud_GetChild( file.panel, "R5RVersionButton" ), "buttonText", "                 SEE FULL CHANGELOG" )
+	//HudElem_SetRuiArg( Hud_GetChild( file.panel, "R5RVersionButton" ), "buttonText", "                 SEE FULL CHANGELOG" )
 	
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "playerName", GetPlayerName() )
 	RuiSetString( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "accountLevel", GetAccountDisplayLevel( 100 ) )
-	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "accountBadge", $"rui/gladiator_cards/badges/account_t21" )
+	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "accountBadge", $"rui/hud/custom_badges/r5r_badge" )
 	RuiSetFloat( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "accountXPFrac", 1.0 )
 
 	var playersButton = Hud_GetChild( file.panel, "PlayersButton" )
@@ -159,7 +159,7 @@ void function Play_SetupUI()
 	HudElem_SetRuiArg( serversButton, "buttonText", "" + MS_GetServerCount() )
 	Hud_SetWidth( serversButton, Hud_GetBaseWidth( serversButton ) * 2 )
 	
-	Hud_SetText( Hud_GetChild( file.panel, "Info" ), "#MOTD" )
+	//Hud_SetText( Hud_GetChild( file.panel, "Info" ), "#MOTD" )
 
 	//GetR5RPromos()
 	SetPromoPage()
