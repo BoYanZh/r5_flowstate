@@ -51,7 +51,7 @@ void function CodeCallback_MapInit()
 	// AddSpawnCallback( "script_ref", InitScriptRef )
 	// AddSpawnCallback( "info_target", InitInfoTarget )
 	
-	// AddSpawnCallbackEditorClass( "trigger_multiple", "trigger_warp_gate", Flowstate_InitWarpGateTrigger )
+	// AddSpawnCallbackEditorClass( "trigger_multiple", "trigger_warp_gate", InitWarpGateTrigger )
 }
 
 void function Olympus_OnEntitiesDidLoad() 
@@ -273,25 +273,25 @@ void function CleanupEnt( entity ent )
 // ██ ███ ██ ██   ██ ██   ██ ██             ██    ██    ██ ██  ██ ██ ██  ██ ██ ██      ██           ██ 
  // ███ ███  ██   ██ ██   ██ ██             ██     ██████  ██   ████ ██   ████ ███████ ███████ ███████
 
-void function Flowstate_InitWarpGateTrigger( entity ent )
+void function InitWarpGateTrigger( entity ent )
 {
 	if( Gamemode() != eGamemodes.SURVIVAL )
 		return
 
-	Flowstate_WarpTunnel_SetupEnterTrigger( ent )
+	WarpTunnel_SetupEnterTrigger( ent )
 
 	ent.e.warpEntrancePath.clear()
 
 	//should_teleport_to_first_node
 	//warp_travel_speed
 
-	ent.e.warpEntrancePath = Flowstate_GenerateWarpBasePathForTrigger( ent )
+	ent.e.warpEntrancePath = GenerateWarpBasePathForTrigger( ent )
 	array<vector> portalNodes
 	foreach( node in ent.e.warpEntrancePath )
 	{
 		portalNodes.append( node.GetOrigin() )
 	}
-	ent.e.warpEntranceSmoothedPath = Flowstate_GenerateSmoothPathForBasePath( portalNodes )
+	ent.e.warpEntranceSmoothedPath = GenerateSmoothPathForBasePath( portalNodes )
 
 	printt( "Warp Path created for Trigger:", ent, ent.e.warpEntrancePath.len(), "- Smooth path len:", ent.e.warpEntranceSmoothedPath.len() )
 }
@@ -350,7 +350,7 @@ void function DEV_StartNodesLinksShow()
 }
 #endif
 
-array<entity> function Flowstate_GenerateWarpBasePathForTrigger( entity ent )
+array<entity> function GenerateWarpBasePathForTrigger( entity ent )
 {
 	array<entity> nodes
 	array<entity> linkedEnts = ent.GetLinkEntArray()
@@ -442,7 +442,7 @@ array<entity> function Flowstate_GenerateWarpBasePathForTrigger( entity ent )
 	return nodes
 }
 
-array<vector> function Flowstate_GenerateSmoothPathForBasePath( array<vector> path ) 
+array<vector> function GenerateSmoothPathForBasePath( array<vector> path ) 
 {
 	printt( "generating smooth points for path with len", path.len() )
 	if( path.len() == 0 )
@@ -464,14 +464,14 @@ array<vector> function Flowstate_GenerateSmoothPathForBasePath( array<vector> pa
         for (int j = 0; j < numPoints; j++)
         {
             float t = float( j ) / float( numPoints )
-            smoothPath.append( Flowstate_CatmullRom( points[i], points[i+1], points[i+2], points[i+3], t) )
+            smoothPath.append( CatmullRom( points[i], points[i+1], points[i+2], points[i+3], t) )
         }
     }
     return smoothPath
 }
 
 //Catmull-Rom algo to smooth the path.
-vector function Flowstate_CatmullRom( vector p0, vector p1, vector p2, vector p3, float t)
+vector function CatmullRom( vector p0, vector p1, vector p2, vector p3, float t)
 {
     vector v0 = p1
     vector v1 = 0.5 * (p2 - p0)
@@ -481,7 +481,7 @@ vector function Flowstate_CatmullRom( vector p0, vector p1, vector p2, vector p3
     return v0 + v1 * t + v2 * t * t + v3 * t * t * t;
 }
 
-void function Flowstate_WarpTunnel_MoveEntAlongPath( entity player, array<entity> entNodes, entity trigger )
+void function WarpTunnel_MoveEntAlongPath( entity player, array<entity> entNodes, entity trigger )
 {
 	if( entNodes.len() == 0 )
 		return
@@ -580,7 +580,7 @@ void function Flowstate_WarpTunnel_MoveEntAlongPath( entity player, array<entity
 
 	ViewConeZeroInstant( player )
 
-	vector anglesToUse = Flowstate_GetNextAngleToLookAt(1, 1, portalNodes)
+	vector anglesToUse = GetNextAngleToLookAt(1, 1, portalNodes)
 
 	player.SetAbsOrigin( portalNodes[0] )
 	player.SetAbsAngles( anglesToUse + <0, -180, 0> )
@@ -649,7 +649,7 @@ void function Flowstate_WarpTunnel_MoveEntAlongPath( entity player, array<entity
 
 	foreach( int i, node in portalNodes )
 	{
-		anglesToUse = Flowstate_GetNextAngleToLookAt(i, 1, portalNodes)
+		anglesToUse = GetNextAngleToLookAt(i, 1, portalNodes)
 
 		elapsedTime = Time() - startTime
 
@@ -717,7 +717,7 @@ void function Flowstate_WarpTunnel_MoveEntAlongPath( entity player, array<entity
 	#endif
 }
 
-vector function Flowstate_GetNextAngleToLookAt( int currentIndex, int step, array< vector > pathNodeDataArray )
+vector function GetNextAngleToLookAt( int currentIndex, int step, array< vector > pathNodeDataArray )
 {
 	int lookAhead = 2
 	int total = 1
@@ -743,13 +743,13 @@ vector function Flowstate_GetNextAngleToLookAt( int currentIndex, int step, arra
 	return VectorToAngles( nextPosition - startPosition )
 }
 
-void function Flowstate_WarpTunnel_SetupEnterTrigger( entity trigger )
+void function WarpTunnel_SetupEnterTrigger( entity trigger )
 {
-	trigger.ConnectOutput( "OnStartTouch", Flowstate_WarpTunnel_OnStartTouch )
+	trigger.ConnectOutput( "OnStartTouch", WarpTunnel_OnStartTouch )
 	trigger.ConnectOutput( "OnEndTouch", FS_WarpTunnel_OnEndTouch )
 }
 
-void function Flowstate_WarpTunnel_OnStartTouch( entity trigger, entity player, entity caller, var value )
+void function WarpTunnel_OnStartTouch( entity trigger, entity player, entity caller, var value )
 {
 	if( player.IsPhaseShifted() || player.e.isInPhaseTunnel )
 		return
@@ -758,7 +758,7 @@ void function Flowstate_WarpTunnel_OnStartTouch( entity trigger, entity player, 
 		printt( "player should travel now", player )
 	#endif
 
-	thread Flowstate_WarpTunnel_MoveEntAlongPath( player, trigger.e.warpEntrancePath, trigger )
+	thread WarpTunnel_MoveEntAlongPath( player, trigger.e.warpEntrancePath, trigger )
 }
 
 void function FS_WarpTunnel_OnEndTouch( entity trigger, entity player, entity caller, var value )
