@@ -51,7 +51,7 @@ void function CodeCallback_MapInit()
 	// AddSpawnCallback( "script_ref", InitScriptRef )
 	// AddSpawnCallback( "info_target", InitInfoTarget )
 	
-	// AddSpawnCallbackEditorClass( "trigger_multiple", "trigger_warp_gate", InitWarpGateTrigger )
+	AddSpawnCallbackEditorClass( "trigger_multiple", "trigger_warp_gate", InitWarpGateTrigger )
 }
 
 void function Olympus_OnEntitiesDidLoad() 
@@ -275,10 +275,8 @@ void function CleanupEnt( entity ent )
 
 void function InitWarpGateTrigger( entity ent )
 {
-	if( Gamemode() != eGamemodes.SURVIVAL )
-		return
-
 	WarpTunnel_SetupEnterTrigger( ent )
+	CreatePhaseRunnerPings( ent )
 
 	ent.e.warpEntrancePath.clear()
 
@@ -294,6 +292,46 @@ void function InitWarpGateTrigger( entity ent )
 	ent.e.warpEntranceSmoothedPath = GenerateSmoothPathForBasePath( portalNodes )
 
 	printt( "Warp Path created for Trigger:", ent, ent.e.warpEntrancePath.len(), "- Smooth path len:", ent.e.warpEntranceSmoothedPath.len() )
+}
+
+void function CreatePhaseRunnerPings( entity trig )
+{
+	array<entity> phaseRiftTrigArr = GetEntArrayByScriptName( "amb_diag_rift" )
+	if ( phaseRiftTrigArr.len() != 1 )
+	{
+		Warning( "Warning! Found more than one trigger with name amb_diag_rift, exiting out of phase runner ping volume creation" )
+		return
+	}
+	entity phaseRiftTrig = phaseRiftTrigArr[ 0 ]
+
+	bool isPhaseRiftTrigger = phaseRiftTrig.ContainsPoint( trig.GetOrigin() )
+	if ( isPhaseRiftTrigger )
+	{
+		entity traceBlocker = CreateTraceBlockerVolume( trig.GetOrigin(), 640.0, false, CONTENTS_BLOCK_PING | CONTENTS_NOGRAPPLE, TEAM_MILITIA, "pr_pingvol" )
+	}
+	else
+	{
+		entity traceBlocker = CreateTraceBlockerVolume( trig.GetOrigin(), 640, false, CONTENTS_BLOCK_PING | CONTENTS_NOGRAPPLE, TEAM_MILITIA, "pr_pingvol" )
+
+		// On olympus, the warp exit hints indicate trigger orientation. On CLands, they don't.
+		entity warpExitHint
+		array<entity> linkedEnts = trig.GetLinkEntArray()
+		foreach( entity linkedEnt in linkedEnts )
+		{
+			if ( linkedEnt.GetLinkEntArray().len() > 0 )
+				continue
+			if ( linkedEnt.GetClassName() != "info_target" )
+				continue
+
+			warpExitHint = linkedEnt
+			break
+		}
+
+		vector forward = warpExitHint.GetForwardVector()
+		vector newOrg = trig.GetOrigin() + ( forward * -512 )
+		traceBlocker.SetOrigin( newOrg )
+	}
+
 }
 
 void function InitWarpNode( entity infotarget )
@@ -746,7 +784,7 @@ vector function GetNextAngleToLookAt( int currentIndex, int step, array< vector 
 void function WarpTunnel_SetupEnterTrigger( entity trigger )
 {
 	trigger.ConnectOutput( "OnStartTouch", WarpTunnel_OnStartTouch )
-	trigger.ConnectOutput( "OnEndTouch", FS_WarpTunnel_OnEndTouch )
+	trigger.ConnectOutput( "OnEndTouch", WarpTunnel_OnEndTouch )
 }
 
 void function WarpTunnel_OnStartTouch( entity trigger, entity player, entity caller, var value )
@@ -761,8 +799,10 @@ void function WarpTunnel_OnStartTouch( entity trigger, entity player, entity cal
 	thread WarpTunnel_MoveEntAlongPath( player, trigger.e.warpEntrancePath, trigger )
 }
 
-void function FS_WarpTunnel_OnEndTouch( entity trigger, entity player, entity caller, var value )
+void function WarpTunnel_OnEndTouch( entity trigger, entity player, entity caller, var value )
 {
-	// printt( "-out of warp trigger", player )
+	#if DEVELOPER
+		printt( "-out of warp trigger", player )
+	#endif
 }
 
