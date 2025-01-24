@@ -407,7 +407,7 @@ void function CreateMarvin( vector origin, vector angles, entity lootMarvinParen
 	}
 
 	string marvinScriptName = isStoryMarvin ? STORY_MARVIN_SCRIPTNAME : LOOT_MARVIN_SCRIPTNAME
-	entity marvin           = CreateNPCFromAISettings( "npc_marvin", TEAM_UNASSIGNED, origin, angles )
+	entity marvin           = CreateNPCFromAISettings( "npc_marvin_olympus", TEAM_UNASSIGNED, origin, angles )
 	marvin.SetScriptName( marvinScriptName )
 	DispatchSpawn( marvin )
 
