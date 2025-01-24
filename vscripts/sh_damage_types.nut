@@ -104,7 +104,6 @@ global enum eDamageSourceId
 	// End S3 Defaults
 
 	mp_weapon_melee_survival
-	mp_weapon_car
 	mp_weapon_car_r2
 	mp_weapon_3030
 	mp_weapon_mgl
@@ -540,7 +539,6 @@ void function DamageTypes_Init()
 	file.damageSourceIDToImage[eDamageSourceId.melee_flagpole]				<- $"rui/gamemodes/capture_the_flag/mil_flag"
 	
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_volt_smg] 			<- $"rui/weapon_icons/r5/weapon_volt"
-	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_car] 				<- $"rui/weapon_icons/r5/weapon_car"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_car_r2] 				<- $"rui/weapon_icons/r5/weapon_car"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_sentinel] 			<- $"rui/weapon_icons/r5/weapon_sentinel"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_softball] 			<- $"r2_ui/menus/loadout_icons/primary_weapon/primary_softball"
@@ -704,8 +702,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.mp_weapon_epg ] 							= "EPG",
 		[ eDamageSourceId.mp_weapon_smr ] 							= "Sidewinder SMR",
 		[ eDamageSourceId.mp_weapon_rocket_launcher ] 				= "Archer",
-		[ eDamageSourceId.mp_weapon_car ] 							= "Car SMG",
-		[ eDamageSourceId.mp_weapon_car_r2 ] 							= "R2 Car SMG",
+		[ eDamageSourceId.mp_weapon_car_r2 ] 						= "Car SMG",
 		[ eDamageSourceId.mp_weapon_mgl ] 							= "MGL Mag Launcher",
 		[ eDamageSourceId.mp_weapon_3030 ] 							= "30-30 Repeater",
 		//[ eDamageSourceId.mp_weapon_energysword ] 				= "Energy Sword",
