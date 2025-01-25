@@ -87,6 +87,7 @@ enum eCameraTargetNames
 	default_camera_target,
 	play_camera_target,
 	close_character_camera_target,
+	//club_landing_camera_target,//TODO: Active this when we get season 7 lobby - LorryLeKral
 	customize_character_camera_target,
 	customize_weapon_camera_target,
 	battlepass_camera_target,
@@ -222,6 +223,7 @@ struct
         customize_weapon_camera_target = <7168, 0, 56>
         customize_character_camera_target = <5120.02002, 0, 56.2999992>
 	    play_camera_target = <0,0,0>
+		//club_landing_camera_target = <0,0,0>
 	    close_character_camera_target = <0,0,0>
 	    battlepass_camera_target = <0,0,0> 
 	    battlepass_3_camera_target = <0,0,0>
@@ -231,6 +233,7 @@ struct
         default_camera_target = <1.5, 90, -9>
         customize_weapon_camera_target = <0, 90, 0>
         customize_character_camera_target = <0, 90, 0>
+		//club_landing_camera_target = <0, 90, 0>
         play_camera_target = <0,0,0>
 	    close_character_camera_target = <0,0,0>
 	    battlepass_camera_target = <0,0,0> 
@@ -378,6 +381,8 @@ bool function MenuMapEntitiesExist()
 		"close_character_camera_target",
 
 		"customize_character_camera_target",
+
+		//"club_landing_camera_target",
 		"customize_character_ref",
 		"customize_character_skin_ref",
 
