@@ -1,6 +1,8 @@
 global function InitR5RNews
+global function PromoDialog_OnOpen
+global function InitPanelonLobbyLoad
 
-const MAX_NEWS_ITEMS = 1
+const MAX_NEWS_ITEMS = 6
 
 struct NewsPage
 {
@@ -48,6 +50,11 @@ void function InitR5RNews( var newMenuArg ) //
 	AddMenuEventHandler( menu, eUIEvent.MENU_NAVIGATE_BACK, PromoDialog_OnNavigateBack )
 
 	AddMenuFooterOption( menu, LEFT, BUTTON_B, true, "#B_BUTTON_CLOSE", "#B_BUTTON_CLOSE" )
+}
+
+void function InitPanelonLobbyLoad()
+{
+	AdvanceMenu( file.menu )
 }
 
 void function NewsItem_Activated(var button)

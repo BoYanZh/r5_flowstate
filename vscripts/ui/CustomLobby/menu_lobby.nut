@@ -132,6 +132,7 @@ void function OnR5RLobby_Open()
 
 	ToolTips_MenuOpened( file.menu )
 	RegisterServerBrowserButtonPressedCallbacks()
+	InitPanelonLobbyLoad()
 }
 
 void function OnR5RLobby_Close()
