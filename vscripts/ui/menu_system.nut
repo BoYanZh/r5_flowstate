@@ -95,9 +95,11 @@ void function InitSystemPanelMain( var panel )
 		file.qaFooter = AddPanelFooterOption( panel, LEFT, BUTTON_X, true, "#X_BUTTON_QA", "QA", ToggleOptIn, ShouldDisplayOptInOptions )
 
 	#if CONSOLE_PROG
-		AddPanelFooterOption( panel, RIGHT, BUTTON_BACK, false, "#BUTTON_RETURN_TO_MAIN", "", ReturnToMain_OnActivate )
+		AddPanelFooterOption( panel, RIGHT, BUTTON_STICK_RIGHT, true, "#BUTTON_VIEW_CINEMATIC", "", ViewCinematic, IsLobby )
+		AddPanelFooterOption( panel, RIGHT, BUTTON_BACK, true, "#BUTTON_RETURN_TO_MAIN", "", ReturnToMain_OnActivate, IsLobby )
 	#endif
-	AddPanelFooterOption( panel, RIGHT, BUTTON_STICK_RIGHT, true, "#BUTTON_VIEW_CINEMATIC", "#VIEW_CINEMATIC", ViewCinematic, IsLobby )
+	AddPanelFooterOption( panel, RIGHT, KEY_V, true, "", "#VIEW_CINEMATIC", ViewCinematic, IsLobby )
+	AddPanelFooterOption( panel, RIGHT, KEY_R, true, "", "#BUTTON_RETURN_TO_MAIN", ReturnToMain_OnActivate, IsLobby )
 }
 
 void function ViewCinematic( var button )
@@ -626,7 +628,6 @@ void function AdminDestroyDummys_MovementRecorder()
 	ClientCommand( "DestroyDummys Admin" )
 }
 
-#if CONSOLE_PROG
 void function ReturnToMain_OnActivate( var button )
 {
 	ConfirmDialogData data
@@ -644,8 +645,6 @@ void function OnReturnToMainMenu( int result )
 	if ( result == eDialogResult.YES )
 		ClientCommand( "disconnect" )
 }
-#endif
-
 
 void function ToggleOptIn( var button )
 {

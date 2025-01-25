@@ -4391,6 +4391,8 @@ playlists
 				"MP_RR_CANYONLANDS_MU2_MV"			   			"Kings Canyon Season 7 - Mirage Voyage"
 				"MP_RR_CANYONLANDS_MU1_NIGHT"		 			"Kings Canyon After Dark"
 
+				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
+
 
 				"Playtest"										"Playtest"
 				"Playtest_Only"					   				"Playtest"
