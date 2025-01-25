@@ -142,14 +142,48 @@ void function GetR5RNews()
     //WILL BE REPLACED WITH A CALL TO THE NEWS ENDPOINT
     file.newspages.clear()
 
-    for(int i = 0; i < 1; i++)
-	{
-		NewsPage page
-		page.title = "Welcome to R5Reloaded!"
-		page.desc = "This news panel isnt currently used for much, but maybe one day."
-		page.image = GetAssetFromString( $"rui/promo/S3_General_" + (i + 1).tostring() )
-		file.newspages.append(page)
-	}
+    for(int i = 0; i < 6; i++)  // Loop through 5 pages
+    {
+        NewsPage page
+        if (i == 0)
+        {
+            page.title = "Patch Notes!"
+            page.desc = "Check out the new patch notes from our blogpost!"
+            page.image = GetAssetFromString( $"rui/promo/sdk_0".tostring() )
+        }
+        else if (i == 1)
+        {
+            page.title = "New Maps!"
+            page.desc = "R5Reloaded now supports various new maps from season 4."
+            page.image = GetAssetFromString( $"rui/promo/sdk_1".tostring() )
+        }
+		else if (i == 2)
+        {
+            page.title = "A fresh new look"
+            page.desc = "R5Reloaded now uses season 4 theme, enjoy the new look!"
+            page.image = GetAssetFromString( $"rui/promo/sdk_2".tostring() )
+        }
+		else if (i == 3)
+        {
+            page.title = "New Weapons"
+            page.desc = "Apex added relic EPG? We added more! A lot of new titanfall weapons now available to play."
+            page.image = GetAssetFromString( $"rui/promo/sdk_3".tostring() )
+        }
+		else if (i == 4)
+        {
+            page.title = "OTHER CHANGES AND BUG FIXES"
+            page.desc = "So many new changes! Various bug fixes and more! Check out our blogpage for the full list."
+            page.image = GetAssetFromString( $"rui/promo/sdk_4".tostring() )
+        }
+		else if (i == 5)
+        {
+            page.title = "MORE TO COME..."
+            page.desc = "We are working on a lot more projects and can't wait to share it with you all."
+            page.image = GetAssetFromString( $"rui/promo/sdk_5".tostring() )
+        }
+
+        file.newspages.append(page)
+    }
 }
 
 void function UpdatePageRui( int pageIndex )
@@ -184,41 +218,54 @@ void function UpdatePageRui( int pageIndex )
 
 void function SetSmallPreviewItems( int pageIndex )
 {
-    int offset = 0
-    //Hide all items
+    int totalPages = file.newspages.len()
+
+    // Hide all items first
     for(int j = 0; j < 5; j++)
     {
         Hud_Hide( Hud_GetChild( file.menu, "NewsItem" + (j + 1) ) )
     }
 
-    //Show only the ones we need
-    for(int j = 0; j < file.newspages.len(); j++)
+    // Calculate offset for page positioning
+    int offset = 0
+
+    // Show only the items we need (up to 6 items)
+    for(int j = 0; j < totalPages && j < 6; j++)  // Show up to 6 items, depending on the total number of pages
     {
         Hud_Show( Hud_GetChild( file.menu, "NewsItem" + (j + 1) ) )
 
         if(j != 0)
-            offset -= (Hud_GetWidth(Hud_GetChild( file.menu, "NewsItem1" ))/2) + 5
+            offset -= (Hud_GetWidth(Hud_GetChild( file.menu, "NewsItem1" )) / 2) + 6
     }
 
+    // Adjust positioning of the first item (set to 0 for centering)
     Hud_SetX( Hud_GetChild( file.menu, "NewsItem1" ), 0 )
 
-    if( file.newspages.len() > 1 )
+    // Only apply offset if there are more than 1 page
+    if( totalPages > 1 )
         Hud_SetX( Hud_GetChild( file.menu, "NewsItem1" ), offset )
-    
+
+    // Update the content for each news item up to the number of available pages (or 6)
     int i = 1
     foreach( NewsPage page in file.newspages )
     {
-        RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeNameText", page.title )
-	    RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeDescText", "" )
-	    RuiSetBool( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i )), "alwaysShowDesc", false )
-	    RuiSetImage( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeImage", page.image )
+        // Update the title, description, and image for each item
+        if(i <= 6)  // Ensure we don't try to access more than 6 items
+        {
+            RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeNameText", page.title )
+            RuiSetString( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeDescText", "" )
+            RuiSetBool( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i )), "alwaysShowDesc", false )
+            RuiSetImage( Hud_GetRui( Hud_GetChild( file.menu, "NewsItem" + i ) ), "modeImage", page.image )
+        }
 
         i++
 
-        if(i > MAX_NEWS_ITEMS)
+        // Stop if we've set content for the maximum number of news items
+        if(i > 6)
             break
     }
 }
+
 
 void function UpdatePromoButtons()
 {
