@@ -47,6 +47,7 @@ global struct MenuModelData
 	vector      baseAngles
 	float[2]    baseRotationDelta = [0, 0]
 	float[2]    rotationDelta
+	float[2]	rotationVel
 	float       maxTurnSpeed = DEFAULT_MAX_TURN_SPEED
 	string      bodyAnim
 
@@ -480,6 +481,16 @@ void function TurntableUpdateEntityAngles( MenuModelData modelData )
 	ModelData_GetMover( modelData ).SetAngles( newAng )
 }
 
+float function StepTowardsZero(float vel, float amount)
+{
+	if (vel > 0.0)
+		return vel > amount ? (vel - amount) : 0.0
+	else if (vel < 0.0)
+		return vel < amount ? (vel + amount) : 0.0
+
+	return 0.0
+}
+
 bool function TurntableUpdateAnglesFromInput( MenuModelData modelData, float maxYawDegrees, float maxPitchDegrees, bool useCurrentMoverAnglesAsDelta = false )
 {
 	float[2] currentRotationDelta = ModelData_GetRotationDelta( modelData )
@@ -505,25 +516,44 @@ bool function TurntableUpdateAnglesFromInput( MenuModelData modelData, float max
 	}
 	else
 	{
-		rotationDelta[0] = ((currentRotationDelta[0] + file.mouseRotateDelta[0] * FrameTime()) % 360.0)
-		file.mouseRotateDelta[0] = 0 // clear because otherwise it would keep spinning
+			modelData.rotationVel[0] += file.mouseRotateDelta[0]
+			file.mouseRotateDelta[0] = 0  
 
-		rotationDelta[1] = ((currentRotationDelta[1] - file.mouseRotateDelta[1] * FrameTime()) % 360.0)
-		file.mouseRotateDelta[1] = 0 // clear because otherwise it would keep spinning
+			modelData.rotationVel[1] -= file.mouseRotateDelta[1]
+			file.mouseRotateDelta[1] = 0 
 	}
+
+	rotationDelta[0] = currentRotationDelta[0] + (modelData.rotationVel[0] * FrameTime()) % 360.0
+	rotationDelta[1] = currentRotationDelta[1] + (modelData.rotationVel[1] * FrameTime()) % 360.0
+
+	float velDecay = 180 * FrameTime()
+	float dampX = max(fabs(modelData.rotationVel[0]) / 60.0, 0.1)
+	float dampY = max(fabs(modelData.rotationVel[1]) / 60.0, 0.1)
+	modelData.rotationVel[0] = clamp(StepTowardsZero(modelData.rotationVel[0], velDecay * dampX), -maxTurnSpeed, maxTurnSpeed)
+	modelData.rotationVel[1] = clamp(StepTowardsZero(modelData.rotationVel[1], velDecay * dampY), -maxTurnSpeed, maxTurnSpeed)
 
 	if ( maxYawDegrees < 360.0 )
 	{
 		float minRotationDelta = 0 - (maxYawDegrees / 2)
 		float maxRotationDelta = maxYawDegrees / 2
-		rotationDelta[0] = clamp( rotationDelta[0], minRotationDelta, maxRotationDelta )
+
+		if (rotationDelta[0] < minRotationDelta || rotationDelta[0] > maxRotationDelta)
+		{
+			rotationDelta[0] = clamp( rotationDelta[0], minRotationDelta, maxRotationDelta )
+			modelData.rotationVel[0] = 0.0
+		}
 	}
 
 	if ( maxPitchDegrees < 360.0 )
 	{
 		float minRotationDelta = 0 - (maxPitchDegrees / 2)
 		float maxRotationDelta = maxPitchDegrees / 2
-		rotationDelta[1] = clamp( rotationDelta[1], minRotationDelta, maxRotationDelta )
+
+		if (rotationDelta[1] < minRotationDelta || rotationDelta[1] > maxRotationDelta)
+		{
+			rotationDelta[1] = clamp( rotationDelta[1], minRotationDelta, maxRotationDelta )
+			modelData.rotationVel[1] = 0.0
+		}
 	}
 
 	if ( currentRotationDelta[0] == rotationDelta[0] && currentRotationDelta[1] == rotationDelta[1] )
@@ -1192,9 +1222,11 @@ void function InitMenuEntities()
 	if ( IsDemoSpectator( GetLocalClientPlayer() ) )
 		return //
 
-
-    entity localPlayer = GetLocalClientPlayer()
-    localPlayer.SetMenuCameraEntityWithAudio( clGlobal.menuCamera ) //
+	if ( IsLobby() )
+	{
+		entity localPlayer = GetLocalClientPlayer()
+		localPlayer.SetMenuCameraEntityWithAudio( clGlobal.menuCamera ) //
+	}
 
 	entity refEnt
 	entity model
@@ -1222,8 +1254,9 @@ void function InitMenuEntities()
 	CharacterSkin_Apply( model, characterSkin )
 	model.SetAlive( true )
 
-	ModelData_SetBaseOrigin( file.customizeWeapon, <7176, 45, 53> )
-	ModelData_SetBaseAngles( file.customizeWeapon, <0, 0, 90> )
+	refEnt = GetEntByScriptName( "customize_weapon_ref" )
+	ModelData_SetBaseOrigin( file.customizeWeapon, refEnt.GetOrigin() )
+	ModelData_SetBaseAngles( file.customizeWeapon, WEAPON_BASE_ANGLES )
 	ModelData_SetBaseRotationDelta( file.customizeWeapon, WEAPON_BASE_ROTATION_DELTA )
 	model = CreateMenuModel( file.customizeWeapon, $"mdl/dev/empty_model.rmdl" )
 	ModelData_CreateMover( file.customizeWeapon )
@@ -2199,6 +2232,12 @@ void function ModelData_SetRotationDelta( MenuModelData modelData, float[2] rota
 	TurntableUpdateEntityAngles( modelData )
 }
 
+void function ModelData_SetRotationVelocity( MenuModelData modelData, float[2] rotationVelocity )
+{
+	modelData.rotationVel[0] = rotationVelocity[0]
+	modelData.rotationVel[1] = rotationVelocity[1]
+}
+
 float function ModelData_GetMaxTurnSpeed( MenuModelData modelData )
 {
 	return modelData.maxTurnSpeed
@@ -2355,25 +2394,25 @@ void function SetMenuCamera( entity player, int presentationType, bool interpola
 	//EASING_BACK_INOUT
 
 	// TEMP: Disabled DOF until background is more final. It was causing visual artifacts with gladiator cards.
-	//float dofNearStart 	= file.presentationData[ presentationType ].dofNearStart
-	//float dofNearEnd 	= file.presentationData[ presentationType ].dofNearEnd
-	//float dofFarStart 	= file.presentationData[ presentationType ].dofFarStart
-	//float dofFarEnd 	= file.presentationData[ presentationType ].dofFarEnd
+	float dofNearStart 	= file.presentationData[ presentationType ].dofNearStart
+	float dofNearEnd 	= file.presentationData[ presentationType ].dofNearEnd
+	float dofFarStart 	= file.presentationData[ presentationType ].dofFarStart
+	float dofFarEnd 	= file.presentationData[ presentationType ].dofFarEnd
 
 	if ( interpolate )
 	{
-		//printt( "Interpolating menu camera to:", GetEnumString( "ePresentationType", presentationType ) )
-		//DoF_LerpNearDepth( dofNearStart, dofNearEnd, TRANSITION_DURATION )
-		//DoF_LerpFarDepth( dofFarStart, dofFarEnd, TRANSITION_DURATION )
+		/*printt( "Interpolating menu camera to:", GetEnumString( "ePresentationType", presentationType ) )
+		DoF_LerpNearDepth( dofNearStart, dofNearEnd, TRANSITION_DURATION )
+		DoF_LerpFarDepth( dofFarStart, dofFarEnd, TRANSITION_DURATION )*/
 	}
 	else
 	{
-		//printt( "Snapping menu camera to:", GetEnumString( "ePresentationType", presentationType ) )
-		//DoF_SetNearDepth( dofNearStart, dofNearEnd )
-		//DoF_SetFarDepth( dofFarStart, dofFarEnd )
+		/*printt( "Snapping menu camera to:", GetEnumString( "ePresentationType", presentationType ) )
+		DoF_SetNearDepth( dofNearStart, dofNearEnd )
+		DoF_SetFarDepth( dofFarStart, dofFarEnd )*/
 	}
 
-	//DoFSetDilateInfocus( true ) // We want to reduce DoF aliasing around bright edges in the menus.
+	DoFSetDilateInfocus( true ) // We want to reduce DoF aliasing around bright edges in the menus.
 
 	#if CONSOLE_PROG
 		const float texelNorm = 2.0
@@ -2443,6 +2482,8 @@ void function ModelData_ResetRotation( MenuModelData modelData )
 	if ( mover == null )
 		return
 
+	float[2] rotationVel = [0, 0]
+	ModelData_SetRotationVelocity( modelData, rotationVel )
 	ModelData_SetRotationDelta( modelData, ModelData_GetBaseRotationDelta( modelData ) )
 	TurntableUpdateEntityAngles( modelData )
 }
@@ -2470,7 +2511,8 @@ void function CameraZoomThread( CameraZoomData zoomData )
 {
 	EndSignal( level, "EndCameraZoom" )
 
-	AddCallbacks()
+	AddCallback_OnMouseWheelDown( UpdateMenuMouseWheelDown )
+	AddCallback_OnMouseWheelUp( UpdateMenuMouseWheelUp )
 
 	OnThreadEnd(
 		function () : ( zoomData )
