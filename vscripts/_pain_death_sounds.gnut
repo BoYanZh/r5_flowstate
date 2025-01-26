@@ -75,52 +75,40 @@ int function GetBodyTypeIndexFromVictim( entity victim )
 		else
 		{
 			ItemFlavor character = LoadoutSlot_GetItemFlavor( ToEHI( victim ), Loadout_CharacterClass() )
-			//string charRef = ItemFlavor_GetHumanReadableRef( character )
+			string charRef = ItemFlavor_GetHumanReadableRef( character )
 			
 			//Disable ragdolls. todo make a playlist var for this. Cafe
 			if( Flowstate_ModeDisablesRagdolls() )
 			{
 				return eBodyTypes.NPC_SPECTRE 
 			}
-
-			int charID = ItemFlavor_GetGUID( character )
 			
-			//switch( charRef )
-			switch( charID ) //(mk): changed to guid compare
+			switch( charRef )
 			{
-				//case "character_wraith":
-				case 827049897:
-					return eBodyTypes.CLASS_BANSHEE // is this even the right class?
-				//case "character_bangalore":
-				case 725342087:
+				case "character_wraith":
+					return eBodyTypes.CLASS_BANSHEE
+				case "character_bangalore":
 					return eBodyTypes.CLASS_BANGALORE
-				//case "character_bloodhound":
-				case 898565421:
+				case "character_bloodhound":
 					return eBodyTypes.CLASS_BLOODHOUND
-				//case "character_caustic":
-				case 1111853120:
+				case "character_caustic":
 					return eBodyTypes.CLASS_CAUSTIC
-				//case "character_crypto":
-				case 80232848:
+				case "character_crypto":
 					return eBodyTypes.CLASS_CRYPTO
-				//case "character_gibraltar":
-				case 182221730:
+				case "character_gibraltar":
 					return eBodyTypes.CLASS_GIBRALTER
-				//case "character_lifeline":
-				case 1409694078:
+				case "character_lifeline":
 					return eBodyTypes.CLASS_LIFELINE
-				//case "character_mirage":
-				case 2045656322:
+				case "character_mirage":
 					return eBodyTypes.CLASS_MIRAGE
-				//case "character_octane":
-				case 843405508:
+				case "character_octane":
 					return eBodyTypes.CLASS_OCTANE
-				//case "character_pathfinder":
-				case 1464849662:
+				case "character_pathfinder":
 					return eBodyTypes.CLASS_PATHFINDER
-				//case "character_wattson":
-				case 187386164:
+				case "character_wattson":
 					return eBodyTypes.CLASS_WATTSON
+				case "character_revenant":
+					return eBodyTypes.CLASS_REVENANT
 			}
 
 			if ( IsPlayerFemale( victim ) )
