@@ -50,6 +50,7 @@ enum eBodyTypes
 	CLASS_OCTANE
 	CLASS_WATTSON
 	CLASS_CRYPTO
+	CLASS_REVENANT
 
 	total
 }
