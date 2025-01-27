@@ -1265,7 +1265,7 @@ array<entity> function GetTrainPath()
 	Assert( nodes.len() > 1, "Train needs at least two nodes to travel between." )
 
 	#if DEVELOPER
-		// if ( file.devShowTrainPath )
+		if ( file.devShowTrainPath )
 			DrawTrainPath( nodes )
 	#endif
 
@@ -1559,7 +1559,7 @@ void function DesertlandsTrain_DisableSpotlight()
 
 void function DesertlandsTrain_ShowPath()
 {
-	file.devShowTrainPath = true
+	file.devShowTrainPath = false
 }
 #endif // SERVER && DEVELOPER
 
