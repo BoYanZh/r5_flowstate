@@ -294,11 +294,10 @@ void function SetupDefaultDevCommandsMP()
 		SetupDevMenu( "Equip Legend Abilities", SetDevMenu_Abilities )
 		SetupDevMenu( "Equip Weapons", SetDevMenu_Weapons )
 		SetupDevMenu( "Equip Titanfall Weapons", SetDevMenu_R2Weapons )
-		SetupDevMenu( "Equip Throwables", SetDevMenu_Throwables )
 
 		SetupDevMenu( "Custom: Weapons (All)", SetDevMenu_SurvivalLoot, "weapon_custom" )
 		SetupDevMenu( "Custom: Attachments", SetDevMenu_SurvivalLoot, "attachment_custom" )
-		SetupDevMenu( "Custom: Player Models", SetDevMenu_CustomPRModel )
+		//SetupDevMenu( "Custom: Player Models", SetDevMenu_CustomPRModel ) //TODO: CAFE NEEDS TO FIX MISSING OR BROKEN ASSETS - LorryLeKral
 		
 		if ( IsSurvivalMenuEnabled() )
 		{
@@ -813,6 +812,7 @@ void function SetupPrototypesDevMenu()
 {
 	SetupDevCommand( "Toggle Akimbo With Current Weapon", "script DEV_ToggleAkimboWeapon(gp()[0])" )
 	SetupDevCommand( "Toggle Akimbo With Holstered Weapon", "script DEV_ToggleAkimboWeaponAlt(gp()[0])" )
+	SetupDevCommand( "Developer: Cubemap Viewer", "give weapon_cubemap" )
 	// SetupDevCommand( "Change to Shadow Squad", "script Dev_ShadowFormEnable( GP() )" )
 }
 
@@ -1166,14 +1166,11 @@ void function SetupWeapons()
 	SetupDevCommand( "Pistol: P2020", "give mp_weapon_semipistol" )
 	SetupDevCommand( "Pistol: RE-45", "give mp_weapon_autopistol" )
 	SetupDevCommand( "Pistol: Wingman", "give mp_weapon_wingman" )
-
-	// Dev
-	SetupDevCommand( "Dev: Dev Cubemap ", "give weapon_cubemap" )
 	
 	// Custom
-	SetupDevCommand( "Custom: Flame Thrower", "give mp_weapon_flamethrower" )
-	SetupDevCommand( "Custom: Raygun ", "give mp_weapon_raygun" )
-	SetupDevCommand( "Custom: Flowstate Sword", "playerRequestsSword")
+	//SetupDevCommand( "Custom: Flame Thrower", "give mp_weapon_flamethrower" )
+	//SetupDevCommand( "Custom: Raygun ", "give mp_weapon_raygun" )
+	//SetupDevCommand( "Custom: Flowstate Sword", "playerRequestsSword")
 	#endif
 }
 
