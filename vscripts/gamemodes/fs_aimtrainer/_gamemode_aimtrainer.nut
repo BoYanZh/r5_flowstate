@@ -109,39 +109,49 @@ void function _ChallengesByColombia_Init()
 		case eMaps.mp_rr_desertlands_64k_x_64k:
 		case eMaps.mp_rr_desertlands_64k_x_64k_nx:
 		case eMaps.mp_rr_desertlands_64k_x_64k_tt:
-		floorLocation = <-10020.1543, -8643.02832, 5189.92578>
-		onGroundLocationPos = <12891.2783, -2391.77124, -3121.60132>
-		onGroundLocationAngs = <0, -157.629303, 0>
-		AimTrainer_startPos = <10623.7773, 4953.48975, -4303.92041>
-		AimTrainer_startAngs = <0, 143.031052, 0>	
+		case eMaps.mp_rr_desertlands_mu1:
+		case eMaps.mp_rr_desertlands_mu1_tt:
+		case eMaps.mp_rr_desertlands_mu2:
+		case eMaps.mp_rr_desertlands_holiday:
+			floorLocation = <-10020.1543, -8643.02832, 5189.92578>
+			onGroundLocationPos = <12891.2783, -2391.77124, -3121.60132>
+			onGroundLocationAngs = <0, -157.629303, 0>
+			AimTrainer_startPos = <10623.7773, 4953.48975, -4303.92041>
+			AimTrainer_startAngs = <0, 143.031052, 0>	
 		break
 
 		case eMaps.mp_rr_canyonlands_staging:
-		floorLocation = <35306.2344, -16956.5098, -27010.2539>
-		onGroundLocationPos = <33946,-6511,-28859>
-		onGroundLocationAngs = <0,-90,0>
-		AimTrainer_startPos = <32645.04,-9575.77,-25911.94>
-		AimTrainer_startAngs = <7.71,91.67,0.00>	
+			floorLocation = <35306.2344, -16956.5098, -27010.2539>
+			onGroundLocationPos = <33946,-6511,-28859>
+			onGroundLocationAngs = <0,-90,0>
+			AimTrainer_startPos = <32645.04,-9575.77,-25911.94>
+			AimTrainer_startAngs = <7.71,91.67,0.00>	
 		break
 
 		case eMaps.mp_rr_canyonlands_mu1:
 		case eMaps.mp_rr_canyonlands_mu1_night:
 		case eMaps.mp_rr_canyonlands_64k_x_64k:
-		floorLocation = <-11964.7803, -8858.25098, 17252.25>
-		onGroundLocationPos = <-14599.2178, -7073.89551, 2703.93286>
-		onGroundLocationAngs = <0,90,0>
-		AimTrainer_startPos = <-16613.873, -487.12088, 3312.10791>
-		AimTrainer_startAngs = <0, 144.184357, 0>
+		case eMaps.mp_rr_canyonlands_mu2:
+		case eMaps.mp_rr_canyonlands_mu2_tt:
+		case eMaps.mp_rr_canyonlands_mu2_mv:
+		case eMaps.mp_rr_canyonlands_mu2_ufo:
+			floorLocation = <-11964.7803, -8858.25098, 17252.25>
+			onGroundLocationPos = <-14599.2178, -7073.89551, 2703.93286>
+			onGroundLocationAngs = <0,90,0>
+			AimTrainer_startPos = <-16613.873, -487.12088, 3312.10791>
+			AimTrainer_startAngs = <0, 144.184357, 0>
 		break
 
 		case eMaps.mp_rr_olympus_mu1:
-		floorLocation = <9857.08496, -7948.96631, -1000>
-		onGroundLocationPos = <-13700.8594, 26238.1387, -6891.95508>
-		onGroundLocationAngs = <0, 175.306152, 0>
-		AimTrainer_startPos = <-34234.2148, 9426.86426, -5563.96875>
-		AimTrainer_startAngs = <0, 69.2027512, 0>
-
+		case eMaps.mp_rr_olympus:
+		case eMaps.mp_rr_olympus_tt:
+			floorLocation = <9857.08496, -7948.96631, -1000>
+			onGroundLocationPos = <-13700.8594, 26238.1387, -6891.95508>
+			onGroundLocationAngs = <0, 175.306152, 0>
+			AimTrainer_startPos = <-34234.2148, 9426.86426, -5563.96875>
+			AimTrainer_startAngs = <0, 69.2027512, 0>
 		break
+		
 		default:
 		// cutsceneSpawns.append(NewCameraPair(<-3096.13501, 632.377991, 1913.47217>, <0, -134.430405, 0> ))
 		
@@ -2195,7 +2205,8 @@ void function StartArmorSwapChallenge(entity player)
 {
 	if(!IsValid(player)) return
 	
-	if( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_tt )
+	if( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_tt ||
+	 MapName() == eMaps.mp_rr_desertlands_mu1 || MapName() == eMaps.mp_rr_desertlands__mu1_tt || MapName() == eMaps.mp_rr_desertlands_mu2 || MapName() == eMaps.mp_rr_desertlands_holiday )
 		player.SetOrigin(<10377.2695, 6253.86523, -4303.90625>)
 	else
 		player.SetOrigin(onGroundLocationPos)
