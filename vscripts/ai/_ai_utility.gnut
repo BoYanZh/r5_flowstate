@@ -1806,12 +1806,12 @@ void function DEV_SpawnLegendAtCrosshair( int team = 99)
 
 	if(GetCurrentPlaylistVarBool( "dummies_agressivedummies", true ))
 	{
-		dummy = CreateLegend_ai( team, origin, angles1 )
+		dummy = CreateDummy( team, origin, angles1 )
 		dummy.SetBehaviorSelector( "behavior_dummie_combat" )
 	}
 	else
 	{
-		dummy = CreateLegend_ai( team, origin, angles1, true)
+		dummy = CreateDummy( team, origin, angles1)
 		dummy.SetBehaviorSelector( "behavior_dummy_empty" )
 		dummy.EnableNPCFlag( NPC_DISABLE_SENSING )
 		dummy.EnableNPCFlag( NPC_IGNORE_ALL )
