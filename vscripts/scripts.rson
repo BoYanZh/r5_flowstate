@@ -78,7 +78,7 @@ Scripts:
 [
 	gamemodes/sh_dev_gamemodes_mp.gnut // DEVSCRIPTS REMOVE
 	gamemodes/sh_gamemodes_mp.gnut
-
+	sh_ability_shadow_zombie.nut
   pilot/sh_pilot_tracking_vision.gnut
 	sh_bird_cluster.nut
 

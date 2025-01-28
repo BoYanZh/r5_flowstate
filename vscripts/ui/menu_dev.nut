@@ -563,10 +563,22 @@ void function SetupAlterLoadout_SlotScreen( LoadoutEntry entry )
 
 	array<ItemFlavor> flavors = clone DEV_GetValidItemFlavorsForLoadoutSlotForDev( LocalClientEHI(), entry )
 	flavors.sort( int function( ItemFlavor a, ItemFlavor b ) {
-		if ( Localize( ItemFlavor_GetLongName( a ) ) < Localize( ItemFlavor_GetLongName( b ) ) )
+		string textA = Localize( ItemFlavor_GetLongName( a ) )
+		string textB = Localize( ItemFlavor_GetLongName( b ) )
+
+		//
+		if ( textA.slice( 0, 1 ) == "[" && textB.slice( 0, 1 ) != "[" )
 			return -1
-		if ( Localize( ItemFlavor_GetLongName( a ) ) > Localize( ItemFlavor_GetLongName( b ) ) )
+
+		if ( textA.slice( 0, 1 ) != "[" && textB.slice( 0, 1 ) == "[" )
 			return 1
+
+		if ( textA < textB )
+			return -1
+
+		if ( textA > textB )
+			return 1
+
 		return 0
 	} )
 
@@ -813,7 +825,8 @@ void function SetupPrototypesDevMenu()
 	SetupDevCommand( "Toggle Akimbo With Current Weapon", "script DEV_ToggleAkimboWeapon(gp()[0])" )
 	SetupDevCommand( "Toggle Akimbo With Holstered Weapon", "script DEV_ToggleAkimboWeaponAlt(gp()[0])" )
 	SetupDevCommand( "Developer: Cubemap Viewer", "give weapon_cubemap" )
-	// SetupDevCommand( "Change to Shadow Squad", "script Dev_ShadowFormEnable( GP() )" )
+	SetupDevCommand( "Change to Shadow", "script DEV_GiveShadowZombieAbilities( GP() )" )
+	SetupDevCommand( "Change back from Shadow to Legend", "script RemoveShadowZombieAbilities(gp()[0])" )
 }
 
 
