@@ -51,9 +51,10 @@ void function Olympus_MapInit_Common()
 		}
 
 		thread KillPlayersUnderMap_Thread( MAP_KILL_VOLUME_OFFSET_OLYMPUS ) //-28320
+		AddSpawnCallbackEditorClass( "player_vehicle", "hover_vehicle", EditorSpawnCallbackForPlacedHoverVehicle )
 	#endif
 
-	#if SERVER && DEVELOPER
+	#if SERVER
 		AddCallback_EntitiesDidLoad( EntitiesDidLoad )
 	#endif
 
@@ -62,7 +63,7 @@ void function Olympus_MapInit_Common()
 	#endif
 }
 
-#if SERVER && DEVELOPER
+#if SERVER
 void function EntitiesDidLoad()
 {
 	#if SERVER && DEVELOPER
@@ -71,7 +72,13 @@ void function EntitiesDidLoad()
 
 	// JFS: Create phase runner pings
 }
+
+void function EditorSpawnCallbackForPlacedHoverVehicle( entity vehicle )
+{
+	vehicle.Destroy()//TODO: Remove this function once we get tridents -LorryLeKral
+}
 #endif
+
 
 
 #if SERVER
