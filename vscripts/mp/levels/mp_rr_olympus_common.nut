@@ -51,7 +51,9 @@ void function Olympus_MapInit_Common()
 		}
 
 		thread KillPlayersUnderMap_Thread( MAP_KILL_VOLUME_OFFSET_OLYMPUS ) //-28320
-		AddSpawnCallbackEditorClass( "player_vehicle", "hover_vehicle", EditorSpawnCallbackForPlacedHoverVehicle )
+		AddSpawnCallbackEditorClass( "player_vehicle", "hover_vehicle", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "script_survival_crafting_harvester", "script_survival_crafting_harvester", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "script_survival_crafting_workbench_cluster", "script_survival_crafting_workbench_cluster", EditorSpawnCallbackRemoveEnts )//TODO: REMOVE THESE!!!
 	#endif
 
 	#if SERVER
@@ -73,9 +75,9 @@ void function EntitiesDidLoad()
 	// JFS: Create phase runner pings
 }
 
-void function EditorSpawnCallbackForPlacedHoverVehicle( entity vehicle )
+void function EditorSpawnCallbackRemoveEnts( entity ent )
 {
-	vehicle.Destroy()//TODO: Remove this function once we get tridents -LorryLeKral
+	ent.Destroy()//TODO: Remove this function once we get tridents -LorryLeKral
 }
 #endif
 
