@@ -40,7 +40,7 @@ void function CodeCallback_MapInit()
 	// AddSpawnCallbackEditorClass( "prop_dynamic", "script_survival_crafting_harvester", CleanupEnt )
 	// AddSpawnCallbackEditorClass( "player_vehicle", "hover_vehicle", CleanupEnt )
 	// AddSpawnCallbackEditorClass( "prop_script", "control_vehicle_summon_platform", CleanupEnt )
-	// AddSpawnCallbackEditorClass( "func_brush", "func_brush_arenas_start_zone", CleanupEnt )
+	AddSpawnCallbackEditorClass( "func_brush", "func_brush_arenas_start_zone", CleanupEnt )
 	
 	// AddSpawnCallback( "info_spawnpoint_human", InitSpawnpoint )
 	// AddSpawnCallback( "info_spawnpoint_human_start", InitSpawnpoint )
@@ -56,11 +56,6 @@ void function CodeCallback_MapInit()
 
 void function Olympus_OnEntitiesDidLoad() 
 {
-	// //Remove trident walls
-	// array<entity> tridentWalls = GetEntArrayByScriptName( "vehicle_fence_01" )
-	// foreach( ent in tridentWalls )
-		// ent.Destroy()
-
 	//Adjust props
 	array<entity> props
 	entity first = Entities_FindByClassname( null, "prop_dynamic" )
@@ -89,7 +84,7 @@ void function Olympus_OnEntitiesDidLoad()
 
 		if( ent.GetTargetName() == "vehicle_platform" )
 		{
-			// printt( "Removed vehicle platform" )
+			printt( "Removed vehicle platform" )
 			ent.Destroy()
 		}
 		
@@ -191,7 +186,7 @@ void function InitSpawnpoint( entity spawn )
 
 void function InitInfoTarget( entity infotarget )
 {
-	if( GetEditorClass( infotarget ) == "info_warp_gate_path_node" ) // || GetEditorClass( infotarget ) == "warp_node_rift_exit" || GetEditorClass( infotarget ) == "oly_pr_warn_fx_ref"  )
+	if( GetEditorClass( infotarget ) == "info_warp_gate_path_node" || GetEditorClass( infotarget ) == "warp_node_rift_exit" || GetEditorClass( infotarget ) == "oly_pr_warn_fx_ref"  )
 	{
 		//screen_flash_on_node && cinematic_path_node
 	
@@ -275,8 +270,10 @@ void function CleanupEnt( entity ent )
 
 void function InitWarpGateTrigger( entity ent )
 {
+	if( Gamemode() != eGamemodes.SURVIVAL )
+		return
+
 	WarpTunnel_SetupEnterTrigger( ent )
-	CreatePhaseRunnerPings( ent )
 
 	ent.e.warpEntrancePath.clear()
 
@@ -294,78 +291,33 @@ void function InitWarpGateTrigger( entity ent )
 	printt( "Warp Path created for Trigger:", ent, ent.e.warpEntrancePath.len(), "- Smooth path len:", ent.e.warpEntranceSmoothedPath.len() )
 }
 
-void function CreatePhaseRunnerPings( entity trig )
-{
-	array<entity> phaseRiftTrigArr = GetEntArrayByScriptName( "amb_diag_rift" )
-	if ( phaseRiftTrigArr.len() != 1 )
-	{
-		Warning( "Warning! Found more than one trigger with name amb_diag_rift, exiting out of phase runner ping volume creation" )
-		return
-	}
-	entity phaseRiftTrig = phaseRiftTrigArr[ 0 ]
-
-	bool isPhaseRiftTrigger = phaseRiftTrig.ContainsPoint( trig.GetOrigin() )
-	if ( isPhaseRiftTrigger )
-	{
-		entity traceBlocker = CreateTraceBlockerVolume( trig.GetOrigin(), 640.0, false, CONTENTS_BLOCK_PING | CONTENTS_NOGRAPPLE, TEAM_MILITIA, "pr_pingvol" )
-	}
-	else
-	{
-		entity traceBlocker = CreateTraceBlockerVolume( trig.GetOrigin(), 640, false, CONTENTS_BLOCK_PING | CONTENTS_NOGRAPPLE, TEAM_MILITIA, "pr_pingvol" )
-
-		// On olympus, the warp exit hints indicate trigger orientation. On CLands, they don't.
-		entity warpExitHint
-		array<entity> linkedEnts = trig.GetLinkEntArray()
-		foreach( entity linkedEnt in linkedEnts )
-		{
-			if ( linkedEnt.GetLinkEntArray().len() > 0 )
-				continue
-			if ( linkedEnt.GetClassName() != "info_target" )
-				continue
-
-			warpExitHint = linkedEnt
-			break
-		}
-
-		vector forward = warpExitHint.GetForwardVector()
-		vector newOrg = trig.GetOrigin() + ( forward * -512 )
-		traceBlocker.SetOrigin( newOrg )
-	}
-
-}
-
 void function InitWarpNode( entity infotarget )
 {
 	file.nodes.append( infotarget )
 	
-	// #if DEVELOPER
-	// if( infotarget.GetLinkEntArray().len() == 2 )
-	// {
-		// DebugDrawSphere( infotarget.GetOrigin(), 80, 255, 0, 255, true, 999.0 ) //morado
-
-			// DebugDrawLine( infotarget.GetOrigin(), infotarget.GetLinkEntArray()[0].GetOrigin(), 255, 0, 255, true, 999 )
-			// DebugDrawLine( infotarget.GetOrigin(), infotarget.GetLinkEntArray()[1].GetOrigin(), 0, 255, 0, true, 999 )
-
-	// }
-	// else if( infotarget.GetLinkEntArray().len() == 1 )
-	// {
-		// DebugDrawSphere( infotarget.GetOrigin(), 80, 0, 0, 255, true, 999.0 ) //azul
-		// foreach( link in infotarget.GetLinkEntArray() )
-		// {
-			
-			// DebugDrawLine( infotarget.GetOrigin(), link.GetOrigin(), 0, 0, 255, true, 999 )
-		// }
-	// } else if( infotarget.GetLinkEntArray().len() == 0 )
-	// {
-		// DebugDrawSphere( infotarget.GetOrigin(), 80, 0, 255, 0, true, 999.0 ) //green
-		// foreach( link in infotarget.GetLinkEntArray() )
-		// {
-			
-			// DebugDrawLine( infotarget.GetOrigin(), link.GetOrigin(), 0, 255, 0, true, 999 )
-		// }
-	// }
-	// #endif
-
+	#if DEVELOPER
+	if( infotarget.GetLinkEntArray().len() == 2 )
+	{
+		DebugDrawSphere( infotarget.GetOrigin(), 80, 255, 0, 255, true, 999.0 ) //purple
+		DebugDrawLine( infotarget.GetOrigin(), infotarget.GetLinkEntArray()[0].GetOrigin(), 255, 0, 255, true, 999 )
+		DebugDrawLine( infotarget.GetOrigin(), infotarget.GetLinkEntArray()[1].GetOrigin(), 0, 255, 0, true, 999 )
+	}
+	else if( infotarget.GetLinkEntArray().len() == 1 )
+	{
+		DebugDrawSphere( infotarget.GetOrigin(), 80, 0, 0, 255, true, 999.0 ) //blue
+		foreach( link in infotarget.GetLinkEntArray() )
+		{
+			DebugDrawLine( infotarget.GetOrigin(), link.GetOrigin(), 0, 0, 255, true, 999 )
+		}
+	} else if( infotarget.GetLinkEntArray().len() == 0 )
+	{
+		DebugDrawSphere( infotarget.GetOrigin(), 80, 0, 255, 0, true, 999.0 ) //green
+		foreach( link in infotarget.GetLinkEntArray() )
+		{
+			DebugDrawLine( infotarget.GetOrigin(), link.GetOrigin(), 0, 255, 0, true, 999 )
+		}
+	}
+	#endif
 }
 
 #if DEVELOPER
@@ -376,10 +328,10 @@ void function DEV_StartNodesLinksShow()
 		if( node.GetLinkEntArray().len() != 2 )
 			continue
 
-		DebugDrawSphere( node.GetOrigin(), 80, 255, 0, 255, true, 3.0 ) //morado
+		DebugDrawSphere( node.GetOrigin(), 80, 255, 0, 255, true, 3.0 ) //purple
 		
-		printt( "morado:", node.GetLinkEntArray()[0], node.GetLinkEntArray()[0].GetOrigin() )
-		printt( "verde:", node.GetLinkEntArray()[1], node.GetLinkEntArray()[1].GetOrigin() )
+		printt( "purple:", node.GetLinkEntArray()[0], node.GetLinkEntArray()[0].GetOrigin() )
+		printt( "green:", node.GetLinkEntArray()[1], node.GetLinkEntArray()[1].GetOrigin() )
 		DebugDrawLine( node.GetOrigin(), node.GetLinkEntArray()[0].GetOrigin(), 255, 0, 255, true, 3.0 )
 		DebugDrawLine( node.GetOrigin(), node.GetLinkEntArray()[1].GetOrigin(), 0, 255, 0, true, 3.0 )
 
@@ -393,7 +345,7 @@ array<entity> function GenerateWarpBasePathForTrigger( entity ent )
 	array<entity> nodes
 	array<entity> linkedEnts = ent.GetLinkEntArray()
 	
-	foreach ( entity link in linkedEnts ) //Obtener el nodo verde
+	foreach ( entity link in linkedEnts )
 	{
 		if( GetEditorClass( link ) != "info_warp_gate_path_node" )
 			continue
@@ -508,7 +460,6 @@ array<vector> function GenerateSmoothPathForBasePath( array<vector> path )
     return smoothPath
 }
 
-//Catmull-Rom algo to smooth the path.
 vector function CatmullRom( vector p0, vector p1, vector p2, vector p3, float t)
 {
     vector v0 = p1
@@ -658,32 +609,32 @@ void function WarpTunnel_MoveEntAlongPath( entity player, array<entity> entNodes
 	//Phase Shift Player
 	PhaseShift( player, 0.0, 999, eShiftStyle.Gate )
 	
-	// int actualmovements
+	int actualmovements
 
-	// foreach( int i, node in portalNodes )
-	// {
-		// if( i == 0 || i == 4 && typeOfTunnel == 1 )
-		// {
-			// continue
-		// }
+	foreach( int i, node in portalNodes )
+	{
+		if( i == 0 || i == 4 && typeOfTunnel == 1 )
+		{
+			continue
+		}
 
-		// if( i == 3 && typeOfTunnel == 1 )
-		// {
-			// continue
-		// }
+		if( i == 3 && typeOfTunnel == 1 )
+		{
+			continue
+		}
 
-		// if( node == portalNodes[portalNodes.len()-2] )
-		// {
-			// continue
-		// }
+		if( node == portalNodes[portalNodes.len()-2] )
+		{
+			continue
+		}
 
-		// if( i == portalNodes.len()-1 )
-		// {
-			// break
-		// }
+		if( i == portalNodes.len()-1 )
+		{
+			break
+		}
 
-		// actualmovements++
-	// }
+		actualmovements++
+	}
 
 	foreach( int i, node in portalNodes )
 	{
@@ -731,14 +682,14 @@ void function WarpTunnel_MoveEntAlongPath( entity player, array<entity> entNodes
 
 		distanceToNextNode = Distance( mover.GetOrigin(), node )
 		
-		// distanceToFinalNode = 0
-		// for( int j = i ; j < portalNodes.len()-2; j++)
-		// {
-			// // if( i == 3 && typeOfTunnel == 1 )
-				// // continue
+		float distanceToFinalNode = 0
+		for( int j = i ; j < portalNodes.len()-2; j++)
+		{
+			if( i == 3 && typeOfTunnel == 1 )
+				continue
 
-			// distanceToFinalNode += Distance( portalNodes[j - 1], portalNodes[j] )
-		// }
+			distanceToFinalNode += Distance( portalNodes[j - 1], portalNodes[j] )
+		}
 
 		phaseTime = distanceToNextNode / travelSpeed // :)
 	

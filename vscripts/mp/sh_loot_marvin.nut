@@ -163,6 +163,8 @@ void function ShLootMarvin_Init()
 	//"PrecacheScriptString( LOOT_MARVIN_SCRIPTNAME )
 	
 	//RegisterCSVDialogue( STORY_MARVIN_CSV_DIALOGUE )
+
+	return // TODO: ENABLE THIS WHEN WE GET ANIMATIONS FOR MARVINS - LorryLeKral
 	PrecacheParticleSystem( VFX_LOT_MARVIN_DISPERSE )
 	PrecacheParticleSystem( VFX_LOT_MARVIN_SPARK_ARM )
 

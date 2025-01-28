@@ -51,9 +51,15 @@ void function Olympus_MapInit_Common()
 		}
 
 		thread KillPlayersUnderMap_Thread( MAP_KILL_VOLUME_OFFSET_OLYMPUS ) //-28320
+
+		/////////////////////////////////////////////////////////////REMOVE THESE ONCE FIXED/////////////////////////////////////////////////////////////////////////
+
 		AddSpawnCallbackEditorClass( "player_vehicle", "hover_vehicle", EditorSpawnCallbackRemoveEnts )
-		AddSpawnCallbackEditorClass( "script_survival_crafting_harvester", "script_survival_crafting_harvester", EditorSpawnCallbackRemoveEnts )
-		AddSpawnCallbackEditorClass( "script_survival_crafting_workbench_cluster", "script_survival_crafting_workbench_cluster", EditorSpawnCallbackRemoveEnts )//TODO: REMOVE THESE!!!
+		AddSpawnCallbackEditorClass( "prop_dynamic", "script_loot_marvin", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "prop_dynamic", "audio_log_console_03", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "prop_dynamic", "audio_log_console_tunnel", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "prop_dynamic", "script_survival_crafting_harvester", EditorSpawnCallbackRemoveEnts )
+		AddSpawnCallbackEditorClass( "prop_dynamic", "script_survival_crafting_workbench_cluster", EditorSpawnCallbackRemoveEnts )//TODO: REMOVE THESE!!!
 	#endif
 
 	#if SERVER
@@ -77,6 +83,9 @@ void function EntitiesDidLoad()
 
 void function EditorSpawnCallbackRemoveEnts( entity ent )
 {
+	if( !IsValid( ent ) )
+		return
+
 	ent.Destroy()//TODO: Remove this function once we get tridents -LorryLeKral
 }
 #endif
