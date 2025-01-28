@@ -4361,8 +4361,8 @@ playlists
 			"Language" "english"
 			"Tokens"
 			{
-				"MP_RR_CONSTRUCT"								"MP_RR_CONSTRUCT"
-				"MP_RR_OLYMPUS_MU1"					  			"Olympus MU1 (Alpha Version)"
+				"MP_RR_CONSTRUCT"								"CONSTRUCT"
+				"MP_RR_OLYMPUS"					  				"Olympus"
 				"MP_FLOWSTATE"						  			"Creative"
 
 				"MP_RR_ASHS_REDEMPTION"			   				"Ash's Redemption"
