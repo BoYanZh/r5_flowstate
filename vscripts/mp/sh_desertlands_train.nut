@@ -527,7 +527,7 @@ void function SetupTracks()
 			}
 			else if ( scriptName == TRACK_BIN_MOVER_NAME )
 			{
-				if ( GetCurrentPlaylistVarBool( "ignore_station_loot_bins", false ) || GetMapName() == "mp_rr_desertlands_holiday" )
+				if ( GetCurrentPlaylistVarBool( "ignore_station_loot_bins", false ) )
 					continue
 
 				stationLootBinData data
