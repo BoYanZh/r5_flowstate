@@ -139,7 +139,6 @@ void function EntitiesDidLoad()
 
 void function InitLootBinFromMap( entity lootbin )
 {
-	bool onMovingGeo = SURVIVAL_ShouldBinOrSpawnPointMoveWithGeo( lootbin )
 	if( isScenariosMode() )
 	{
 		FS_Scenarios_SaveLootbinData( lootbin )
@@ -164,7 +163,7 @@ void function InitLootBinFromMap( entity lootbin )
 
 	//Check for moving geo such as train
 	TraceResults trace = TraceLineHighDetail( lootbin.GetOrigin(), lootbin.GetOrigin() - <0, 0, 88>, lootbin, LOOT_TRACE, LOOT_COLLISION_GROUP )
-	if ( onMovingGeo )
+	if ( IsValid( trace.hitEnt ) && trace.hitEnt.HasPusherAncestor() )
 	{
 		if( Gamemode() == eGamemodes.WINTEREXPRESS ) //removes train lootbins in winter express mode
 		{
