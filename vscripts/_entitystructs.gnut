@@ -211,6 +211,7 @@ global struct ServerEntityStruct
 	string spawnSourceIdType
 	bool isStickyCrit = false
 	int stickyRoundsArrayId = -1 //script managed ent array index
+	bool   isOnMovingGeo = false
 
 	table<string,AnimEventData> animEventDataForEntity
 

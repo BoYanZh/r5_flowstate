@@ -68,13 +68,12 @@ global function Loot_AddCallback_OnWeaponDrop
 global function Loot_RemoveCallback_OnWeaponDrop
 global function Loot_IsStandardSurvivalLootEnabled
 
-//added 8/8/2024 ~mkos
 global function AddCallback_OnPlayerWeaponAttachmentChanged
 global function RemoveCallback_OnPlayerWeaponAttachmentChanged 
 
 global function GetGroundPosition
 
-const int GIVE_FULL_AMMO_MARKER = 1337 // I hate this //(mk): wtf lmao
+const int GIVE_FULL_AMMO_MARKER = 1337
 
 global const LOOT_COLLISION_GROUP = 1
 global const int LOOT_TRACE = TRACE_MASK_PLAYERSOLID | TRACE_MASK_OPAQUE

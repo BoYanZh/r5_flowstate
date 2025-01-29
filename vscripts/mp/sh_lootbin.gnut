@@ -139,6 +139,7 @@ void function EntitiesDidLoad()
 
 void function InitLootBinFromMap( entity lootbin )
 {
+	bool onMovingGeo = SURVIVAL_ShouldBinOrSpawnPointMoveWithGeo( lootbin )
 	if( isScenariosMode() )
 	{
 		FS_Scenarios_SaveLootbinData( lootbin )
@@ -163,7 +164,7 @@ void function InitLootBinFromMap( entity lootbin )
 
 	//Check for moving geo such as train
 	TraceResults trace = TraceLineHighDetail( lootbin.GetOrigin(), lootbin.GetOrigin() - <0, 0, 88>, lootbin, LOOT_TRACE, LOOT_COLLISION_GROUP )
-	if ( IsValid( trace.hitEnt ) && trace.hitEnt.HasPusherAncestor() )
+	if ( onMovingGeo )
 	{
 		if( Gamemode() == eGamemodes.WINTEREXPRESS ) //removes train lootbins in winter express mode
 		{
@@ -180,8 +181,8 @@ void function InitLootBinFromMap( entity lootbin )
 			parentPoint.SetAngles( lootbin.GetAngles() )
 			DispatchSpawn( parentPoint )
 			parentPoint.Hide()
-			lootbin.SetParent(parentPoint)
 			parentPoint.SetParent( trace.hitEnt, "", true, 0 )
+			lootbin.SetParent( parentPoint )
 		}
 		
 		if( IsValid( parentPoint ) && trace.hitEnt.GetScriptName() == "train_brush" )
@@ -194,6 +195,17 @@ void function InitLootBinFromMap( entity lootbin )
 		InitLootBin( lootbin )
 	}
 
+}
+
+bool function SURVIVAL_ShouldBinOrSpawnPointMoveWithGeo( entity binOrSpawnPoint )
+{
+	if ( binOrSpawnPoint.HasKey( "onMovingGeo" ) )
+		return true
+
+	if ( binOrSpawnPoint.e.isOnMovingGeo )
+		return true
+
+	return false
 }
 #endif
 
