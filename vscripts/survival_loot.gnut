@@ -201,10 +201,8 @@ struct
 	bool death_box_dist_check
 	bool drop_loot_on_death
 	bool thank_for_loot_ping_enabled
-	bool flowstate_giveskins_weapons
 	bool sur_dev_disable_hibernation
 	bool survival_weapon_spawn_with_ammo
-	bool flowstate_givecharms_weapons
 	bool survival_transfer_attachment
 	bool survival_unequip_attachment
 	bool survival_equip_attachment
@@ -296,11 +294,9 @@ void function SurvivalLoot_Settings_Init()
 	settings.deathbox_ondeath_enabled			= GetCurrentPlaylistVarBool( "deathbox_ondeath_enabled", true )
 	settings.death_box_dist_check				= GetCurrentPlaylistVarBool( "death_box_dist_check", true  )
 	settings.thank_for_loot_ping_enabled		= GetCurrentPlaylistVarBool( "thank_for_loot_ping_enabled", true )
-	settings.flowstate_giveskins_weapons		= GetCurrentPlaylistVarBool( "flowstate_giveskins_weapons", false )
 	settings.sur_dev_disable_hibernation		= ( GetCurrentPlaylistVarInt( "sur_dev_disable_hibernation", 0 ) == 1 )
 	settings.drop_loot_on_death					= GetCurrentPlaylistVarBool( "drop_loot_on_death", true )
 	settings.survival_weapon_spawn_with_ammo	= ( GetCurrentPlaylistVarInt( "survival_weapon_spawn_with_ammo", 1 ) != 0 )
-	settings.flowstate_givecharms_weapons		= GetCurrentPlaylistVarBool( "flowstate_givecharms_weapons", false )
 	settings.survival_transfer_attachment		= GetCurrentPlaylistVarBool( "survival_transfer_attachment", true )
 	settings.survival_unequip_attachment		= GetCurrentPlaylistVarBool( "survival_unequip_attachment", true )
 	settings.survival_equip_attachment			= GetCurrentPlaylistVarBool( "survival_equip_attachment", true )
@@ -2466,27 +2462,10 @@ entity function SURVIVAL_GiveMainWeapon( entity player, entity pickup, array<str
 	{
 		weaponSkinOrNull = GetItemFlavorByGUID( pickup.e.skinItemFlavorGUID )
 	} 
-	else if ( settings.flowstate_giveskins_weapons )
-	{
-		ItemFlavor ornull weaponFlavor = GetWeaponItemFlavorByClass( pickupRef )
-		
-		if( weaponFlavor != null )
-		{
-			array<int> weaponLegendaryIndexMap = FS_ReturnLegendaryModelMapForWeaponFlavor( expect ItemFlavor( weaponFlavor ) )
-			if( weaponLegendaryIndexMap.len() > 1 )
-				weaponSkinOrNull = GetItemFlavorByGUID( weaponLegendaryIndexMap[RandomIntRangeInclusive(1,weaponLegendaryIndexMap.len()-1)] )
-		}
-	}
-
-	if ( settings.flowstate_givecharms_weapons )
-		weaponCharmOrNull = GetItemFlavorByGUID( chosenCharm )
 
 	if( newWeapon.LookupAttachment( "CHARM" ) > 0 )
 	{
-		if( GetCurrentPlaylistVarBool( "is_hiswattson_event", false ) )
-			newWeapon.SetWeaponCharm( $"mdl/flowstate_custom/charm_hiswattson.rmdl", "CHARM" )
-		else
-			WeaponCosmetics_Apply( newWeapon, weaponSkinOrNull, weaponCharmOrNull )
+		WeaponCosmetics_Apply( newWeapon, weaponSkinOrNull, weaponCharmOrNull )
 	}
 
 	if ( WeaponHasCosmetics( newWeapon ) && ( pickup.e.firstOwner != null ) && ( pickup.e.firstOwner != player ) && CodeCallback_CanStartCustomWeaponActivity( player, ACT_VM_WEAPON_INSPECT ) )
@@ -3974,21 +3953,6 @@ entity function SpawnWeaponAndAmmo( string weaponName, vector origin, int realm 
 		}
 
 		weapon.SetParent( trace.hitEnt, "", true, 0 )
-	}
-
-	if ( settings.flowstate_giveskins_weapons )
-	{
-		ItemFlavor ornull weaponFlavor = GetWeaponItemFlavorByClass( weaponName )
-		ItemFlavor ornull weaponSkinOrNull = null
-
-		if( weaponFlavor != null )
-		{
-			array<int> weaponLegendaryIndexMap = FS_ReturnLegendaryModelMapForWeaponFlavor( expect ItemFlavor( weaponFlavor ) )
-			if( weaponLegendaryIndexMap.len() > 1 )
-				weaponSkinOrNull = GetItemFlavorByGUID( weaponLegendaryIndexMap[RandomIntRangeInclusive(1,weaponLegendaryIndexMap.len()-1)] )
-		}
-		
-		WeaponCosmetics_Apply( weapon, weaponSkinOrNull, null )
 	}
 	
 	LootData data = SURVIVAL_Loot_GetLootDataByRef( weaponName )

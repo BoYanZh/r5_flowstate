@@ -43,10 +43,6 @@ playlists
 				bleedout_infinite_self_res_eliminate_with_self_res	1
 				
 				flowstate_rat_wipe_notification							0
-				
-				flowstate_giveskins_characters 					0 //Don't use this when hosting public servers
-				flowstate_giveskins_weapons						0 //Don't use this when hosting public servers
-				flowstate_givecharms_weapons 					1
 				flowstate_enable_health_bars 					1
 				flowstate_enable_editor_hud						0
 				flowstate_force_softened_locale					1		//Removes blood sprays and blood shot fx

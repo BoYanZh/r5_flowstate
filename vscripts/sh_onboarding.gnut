@@ -576,9 +576,6 @@ bool script_bRespawnInitComplete = false
 
 void function RespawnBehavior_Init()
 {
-	script_bHighlight = ( Gamemode() == eGamemodes.SURVIVAL || Gamemode() == eGamemodes.fs_snd || Playlist() == ePlaylists.fs_scenarios )
-	script_bGiveskins = GetCurrentPlaylistVarBool( "flowstate_giveskins_characters", false )
-	
 	table<string, string> possibleMods = {
 		survival_jumpkit_enabled = "enable_doublejump",
 		survival_wallrun_enabled = "enable_wallrun"
