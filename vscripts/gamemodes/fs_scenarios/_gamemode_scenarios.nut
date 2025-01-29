@@ -1748,7 +1748,7 @@ void function FS_Scenarios_Main_Thread()
 		int playersN = minint( waitingPlayers.len(), ( settings.fs_scenarios_playersPerTeam * settings.fs_scenarios_teamAmount ) )
 		
 		//Limpiar equipos sobrantes.
-		int CALCULATED_TEAMS = minint( int( ceil( playersN / settings.fs_scenarios_playersPerTeam + 0.5 ) ), settings.fs_scenarios_teamAmount ) //Cafe was here
+		int CALCULATED_TEAMS = minint( int( ceil( playersN / settings.fs_scenarios_playersPerTeam + 0.5 ) ), settings.fs_scenarios_teamAmount )
 		
 		for( int i = newGroup.teams.len() - 1; i >= 0 ; i-- )
 		{
@@ -2147,7 +2147,6 @@ void function FS_Scenarios_Main_Thread()
 
 					foreach ( newWeapon in player.GetMainWeapons() )
 					{
-						//Cafe was here
 						ItemFlavor ornull weaponSkinOrNull = null
 						array<string> fsCharmsToUse = [ "SAID00701640565", "SAID01451752993", "SAID01334887835", "SAID01993399691", "SAID00095078608", "SAID01439033541", "SAID00510535756", "SAID00985605729" ]
 						ItemFlavor ornull weaponCharmOrNull 

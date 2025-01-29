@@ -1036,7 +1036,7 @@ void function OnClientConnected( entity player )
 					groundPlayer = teammate
 			}
 
-			if ( !putInPlane && !IsValid( skydiveFollowPlayer ) ) //Cafe was here
+			if ( !putInPlane && !IsValid( skydiveFollowPlayer ) )
 			{
 				//If team is on the ground already, means that player has connected too late, which shouldn't be allowed to respawn in the game.
 				//Let's put the player to spectate.

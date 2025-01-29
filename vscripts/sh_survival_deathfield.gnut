@@ -193,7 +193,6 @@ void function Sh_ArenaDeathField_Init()
 #endif
 }
 
-//Cafe was here
 //Moved to eGameState.Playing enter to modify preshrink and shrink speeds dynamically based on the amount of players connected.
 void function Deathfield_OnPlayingGameStateEnter()
 {

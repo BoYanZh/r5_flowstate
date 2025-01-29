@@ -1912,7 +1912,6 @@ void function DoBrowseModeCharacterSelectEffects()
 
 void function OnLoadoutButton_Activate_AimTrainer( var button )
 {
-	printt( "cafe was here")
 	int buttonIndex      = fileLevel.characterButtons.find( button )
 	ItemFlavor character = fileLevel.buttonIndexCharacterMap[ buttonIndex ]
 

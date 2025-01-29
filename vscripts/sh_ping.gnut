@@ -3283,7 +3283,7 @@ void function ClientCommand_PingNewLoot( entity player, array<string> args )
 		return
 	}
 
-	if( !CanPlayerPingDebounce( player, ePingType.LOOT ) ) //Cafe was here
+	if( !CanPlayerPingDebounce( player, ePingType.LOOT ) )
 		return
 
 	#if DEVELOPER

@@ -170,7 +170,7 @@ void function InitLootBinFromMap( entity lootbin )
 			lootbin.Destroy()
 			return
 		}
-		//Cafe was here
+
 		entity parentPoint = CreateEntity( "script_mover_lightweight" )
 		{
 			parentPoint.kv.solid = 0

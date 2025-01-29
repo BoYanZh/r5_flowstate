@@ -289,7 +289,6 @@ struct {
 void function WinterExpress_Init()
 {
 	#if SERVER
-		//Cafe was here
 		SurvivalShip_Init()
 		MapZones_SharedInit()
 		SurvivalFreefall_Init()
@@ -371,7 +370,7 @@ void function WinterExpress_Init()
 	#endif
 
 	#if CLIENT
-		//Cafe was here
+		
 		RegisterSignal( "ReviveRuiThread" )
 		RegisterSignal( "CaptureEndTimeRui" )
 		Sh_ArenaDeathField_Init()
@@ -662,7 +661,7 @@ void function OnEntitiesDidLoad_Client()
 	SurvivalCommentary_SetHost( eSurvivalHostType.MIRAGE )
 	
 	FS_Scenarios_InitPlayersCards()
-	if( GetGameState() == eGameState.Playing ) //Cafe was here
+	if( GetGameState() == eGameState.Playing )
 	{
 		FS_Scenarios_SetupPlayersCards( false )
 		FS_CreateScoreHUD()
@@ -1236,7 +1235,7 @@ void function Thread_OnGameStatePlaying()
 		}()
 	}
 
-	//Cafe was here
+	
 	if( IsRoundBasedRespawn() )
 	{
 		thread function () : () 
@@ -1350,7 +1349,7 @@ void function OnWinnerDetermined()
 	StopSoundOnEntity( file.trainRef, "WXpress_Train_Capture_Status" )
 	StopSoundOnEntity( file.trainRef, "WXpress_Train_Capture_Status_Enemy" )
 
-	//Cafe was here
+	
 	//Send stats
 	thread function () : ()
 	{
@@ -3505,7 +3504,7 @@ void function AddSelectMenuPromptRui( string hintText)
 	file.legendSelectMenuPromptRuiTopo = topo
 }
 
-void function DEV_UpdateTopoPos( float voffset, float hoffset ) //Cafe was here
+void function DEV_UpdateTopoPos( float voffset, float hoffset )
 {
 	if( file.legendSelectMenuPromptRuiTopo != null )
 	{
@@ -3753,7 +3752,7 @@ void function ServerCallback_CL_RoundEnded( int endCondition, int winningTeam, i
 		announcementColor = Squads_GetNonLinearSquadColor( squadWinningIndex )
 		borderIcon = $""//$"rui/hud/gametype_icons/winter_express/legend_icon_round_won"
 		soundAlias = "WXpress_Train_Capture"
-		FS_UpdateScoreForTeam( winningTeam, newScore ) //Cafe was here
+		FS_UpdateScoreForTeam( winningTeam, newScore )
 	}
 	else  // local team lost 
 	{
@@ -3762,7 +3761,7 @@ void function ServerCallback_CL_RoundEnded( int endCondition, int winningTeam, i
 		announcementColor = Squads_GetNonLinearSquadColor( squadWinningIndex )
 		borderIcon = $""//winningSquadRuiIndex == 1 ? $"rui/hud/gametype_icons/winter_express/icon_announcement_fail" : $"rui/hud/gametype_icons/winter_express/icon_announcement_fail_alt"
 		soundAlias = "WXpress_Train_Capture_Enemy"
-		FS_UpdateScoreForTeam( squadWinningIndex, newScore ) //Cafe was here
+		FS_UpdateScoreForTeam( squadWinningIndex, newScore )
 	}
 
 	if ( endCondition == eWinterExpressRoundEndCondition.OBJECTIVE_CAPTURED )
@@ -4287,7 +4286,7 @@ void function SetupPlayerThread( entity player )
 
 	ClearPlayerIntroDropSettings( player )
 
-	if( IsRoundBasedRespawn() ) //Cafe was here
+	if( IsRoundBasedRespawn() )
 		return
 
 	if ( player.GetTeam() == file.lastValidTeamToScore )
@@ -4572,7 +4571,7 @@ entity function HolidayHoverTank_GetHovertankEnt( int index )
 #endif
 
 #if CLIENT
-//Cafe was here
+
 void function OnServerVarChanged_CaptureEndTime( entity player, float old, float new, bool actuallyChanged )
 {
 	if( new == -1 && file.customCaptureProgressRui != null )

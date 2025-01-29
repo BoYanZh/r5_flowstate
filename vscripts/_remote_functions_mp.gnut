@@ -716,7 +716,7 @@ void function RemoteFunctions_Init_Begin()
 		RegisterNetworkedVariable( "pickLoadoutGamestateEndTime", SNDC_GLOBAL, SNVT_TIME, -1 )
 		RegisterNetworkedVariable( "pickLoadoutGamestateStartTime", SNDC_GLOBAL, SNVT_TIME, -1 )
 	} 
-	else // cafe was here
+	else
 	{
 		RegisterNetworkedVariable( "characterSelectionReady", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, false )
 		RegisterNetworkedVariable( "characterSelectLockstepIndex", SNDC_PLAYER_EXCLUSIVE, SNVT_INT, -1 )

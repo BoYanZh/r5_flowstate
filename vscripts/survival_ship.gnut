@@ -213,10 +213,10 @@ void function ClearPlayerPlaneViewMode( entity player )
 
 	// if( Playlist() == ePlaylists.fs_haloMod_survival )
 	// {
-		// GiveLoadoutRelatedWeapons_HaloMod( player ) //Cafe was here
+		// GiveLoadoutRelatedWeapons_HaloMod( player )
 	// } else if( !IsDevGamemode() )
 	// {
-		// GiveLoadoutRelatedWeapons( player ) //Cafe was here
+		// GiveLoadoutRelatedWeapons( player )
 	// }
 }
 
@@ -314,7 +314,7 @@ void function JumpFromPlane( entity player, bool forcedOut = false )
 	foreach ( jumpingPlayer in jumpingPlayers )
 	{
 		thread PlayerSkyDive( jumpingPlayer, driverViewVector, jumpingPlayers, player )
-		GiveBasicSurvivalItems( jumpingPlayer ) //Cafe was here	
+		GiveBasicSurvivalItems( jumpingPlayer )
 	}
 }
 
@@ -354,10 +354,10 @@ void function GiveBasicSurvivalItems( entity player )
 
 	if( Playlist() == ePlaylists.fs_haloMod_survival )
 	{
-		GiveLoadoutRelatedWeapons_HaloMod( player ) //Cafe was here
+		GiveLoadoutRelatedWeapons_HaloMod( player )
 	} else
 	{
-		GiveLoadoutRelatedWeapons( player ) //Cafe was here
+		GiveLoadoutRelatedWeapons( player )
 	}
 	
 	if( player.p.respawnPodLanded )

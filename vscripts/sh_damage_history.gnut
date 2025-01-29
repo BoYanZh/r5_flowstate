@@ -616,7 +616,6 @@ void function SendDeathRecapDataToPlayer( entity player )
 		if ( index >= numSentBlock )
 			break
 		
-		//Cafe was here
 		Remote_CallFunction_NonReplay( player, "ServerCallback_SendDeathRecapData", block.attackerEHandle, block.victimEHandle, block.damageSourceID, block.damageType, block.totalDamage, block.hitCount, block.headShotBits, block.healthFrac, block.shieldFrac, block.blockTime, index, numSentBlock )
 
 		// stack a block to the client
@@ -652,7 +651,6 @@ void function SendDeathRecapDataToPlayer( entity player )
 
 	// player.FlushDeathRecapBlocks( killerEHandle )
 	
-	//Cafe was here
 	Remote_CallFunction_NonReplay( player, "ServerCallback_DeathRecapDataUpdated", true, killerEHandle)
 
 	// TEMP DUMP OF DAMAGE HISTORY (TAKEN AND DEALT)

@@ -577,11 +577,10 @@ void function BangaloreSmokescreenEffectEnabled( entity ent, int statusEffect, b
 
 	thread UpdatePlayerScreenColorCorrection( viewPlayer, statusEffect, file.colorCorrectionGas )
 
-	//Cafe was here. This is chad part of my implementation
 	if ( BangSmokeHighlightsEnabled() )
 	{
 		thread Cafe_SmokesHighlights( ent )
-	}	//CLIENT
+	}
 
 	if ( !viewPlayer.IsTitan() )
 	{

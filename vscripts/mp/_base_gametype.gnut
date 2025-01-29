@@ -1426,7 +1426,7 @@ void function OnNPCKilled_SP( entity npc, var damageInfo )
 
 void function CodeCallback_OnEntityDestroyed( entity ent )
 {
-	foreach ( callbackFunc in ent.e.onEntityDestroyedCallbacks ) //Cafe was here
+	foreach ( callbackFunc in ent.e.onEntityDestroyedCallbacks )
 	{
 		callbackFunc( ent )
 	}

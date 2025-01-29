@@ -70,7 +70,7 @@ void function OnPlayerTeamChanged( entity player, int oldTeam, int newTeam )
 		DestroyTeamUnitFrame( player )
 	}
 	
-	if( newTeam == GetLocalViewPlayer().GetTeam() || player == GetLocalViewPlayer() ) //Cafe was here
+	if( newTeam == GetLocalViewPlayer().GetTeam() || player == GetLocalViewPlayer() )
 		RefreshUnitframesForPlayer( GetLocalViewPlayer() )
 }
 

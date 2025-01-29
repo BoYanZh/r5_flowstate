@@ -539,7 +539,7 @@ void function CodeCallback_OnMeleePressed( entity attacker, entity meleeInputWea
 		vector eyeTraceHitPos
 		if ( doorLungeEnabled && !IsValid( lungeTarget ) )
 		{
-			//Cafe was here
+			
 			array<entity> ignoreEnts = [ attacker ]
 			
 			array<entity> tocheck

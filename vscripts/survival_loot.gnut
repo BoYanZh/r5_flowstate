@@ -2449,7 +2449,6 @@ entity function SURVIVAL_GiveMainWeapon( entity player, entity pickup, array<str
 	newWeapon.SetProScreenOwner( ( ( pickup.e.firstOwner == null) ? player : pickup.e.firstOwner) )
 	// TryRemoveExtraWeaponModsThatMustBeOnPlayer( player, newWeapon, mods ) //for rampart. Cafe
 
-	//Cafe was here
 	ItemFlavor ornull weaponSkinOrNull = null
 	array<string> fsCharmsToUse = [ "SAID00701640565", "SAID01451752993", "SAID01334887835", "SAID01993399691", "SAID00095078608", "SAID01439033541", "SAID00510535756", "SAID00985605729" ]
 	ItemFlavor ornull weaponCharmOrNull 
@@ -5476,7 +5475,7 @@ void function SURVIVAL_RefreshWeaponSkinAndModel( entity weapon, entity player )
 			WeaponCosmetics_ApplyModelAndSkin( weapon, skin )
 		}
 	} 
-	else //Cafe was here
+	else
 	{
 		ItemFlavor ornull weaponFlavor = GetWeaponItemFlavorByClass( weapon.GetWeaponClassName() )
 		

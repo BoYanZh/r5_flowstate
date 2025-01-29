@@ -109,7 +109,7 @@ void function EntitiesDidLoad()
 
 	FillLootTable()
 	
-	if( Gamemode() == eGamemodes.SURVIVAL && MapName() != eMaps.mp_rr_desertlands_holiday ) 
+	if( Gamemode() == eGamemodes.SURVIVAL ) 
 	{
 		thread function () : ()
 		{

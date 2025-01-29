@@ -985,7 +985,7 @@ string function GetWeaponClassNameWithLockedSet( entity weapon )
 		lockedSet = expect int( GetEntityVar( weapon, "weaponLockedSet" ) )
 	}
 	
-	switch( lockedSet ) //Cafe was here. Retail implementation uses weapon.GetWeaponLockedSet() code funct which we don't have in s3.
+	switch( lockedSet ) //Retail implementation uses weapon.GetWeaponLockedSet() code funct which we don't have in s3.
 	{
 		case eWeaponLockedSet.WHITESET:
 			result += WEAPON_LOCKEDSET_SUFFIX_WHITESET
