@@ -1,4 +1,4 @@
-"resource/ui/menus/panels/armory.res"
+"scripts/resource/ui/menus/CustomLobby/panels/credits.res"
 {
     PanelFrame
     {
@@ -16,7 +16,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              0
         xpos                  10
         ypos                  20
@@ -30,7 +30,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              1
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -47,7 +47,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              2
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -64,7 +64,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              3
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -80,7 +80,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              4
         ypos                  35
         cursorVelocityModifier 0.7
@@ -101,7 +101,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              5
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -123,7 +123,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              6
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -145,7 +145,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              7
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -166,7 +166,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              8
         ypos                  35
         cursorVelocityModifier 0.7
@@ -186,7 +186,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              9
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -207,7 +207,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              10
         xpos                  -121
         cursorVelocityModifier 0.7
@@ -228,7 +228,7 @@
     {
         ControlName           RuiButton
         InheritProperties     WeaponCategoryButton
-        classname             WeaponCategoryButtonClass
+        classname             CreditProfileButtonClass
         scriptID              11
         xpos                  -121
         cursorVelocityModifier 0.7
