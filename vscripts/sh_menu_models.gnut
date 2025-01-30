@@ -1,4 +1,4 @@
-//Updated for s3
+//Updated for s4
 
 #if CLIENT
 const float CARD_TAG_SCALE = 0.0 // update to match same const in hud_defs.rui

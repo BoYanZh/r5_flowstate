@@ -891,6 +891,7 @@ Scripts:
 	ui/CustomLobby/panel_serverbrowser.nut
 	ui/CustomLobby/panel_legends.nut
 	ui/CustomLobby/panel_loadout.nut
+	ui/CustomLobby/panel_credits.nut
 
 	//R5R Extra
 	ui/CustomLobby/menu_news.nut
