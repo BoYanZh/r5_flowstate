@@ -25,8 +25,8 @@ global function Infection_CreateEvacCountdown
 global function Infection_DestroyEvacCountdown
 global function Infection_CreateEvacShipMinimapIcons
 
-const asset ANNOUNCEMENT_LEGEND_ICON = $"rui/gamemodes/shadow_squad/legend_icon"
-const asset ANNOUNCEMENT_SHADOW_ICON = $"rui/gamemodes/shadow_squad/shadow_icon_orange"
+const asset ANNOUNCEMENT_LEGEND_ICON = $"rui/gamemodes/shadow_squad/legend_icon_sdk"
+const asset ANNOUNCEMENT_SHADOW_ICON = $"rui/gamemodes/shadow_squad/shadow_icon_orange_sdk"
 #endif
 
 global enum eShadowSquadMessage
@@ -768,8 +768,8 @@ void function OnPlayerLifeStateChanged( entity player, int oldState, int newStat
 		//
 		//
 		//
-		SetCustomPlayerInfoCharacterIcon( player, $"rui/gamemodes/shadow_squad/generic_shadow_character" )
-		SetCustomPlayerInfoTreatment( player, $"rui/gamemodes/shadow_squad/player_info_custom_treatment" )
+		SetCustomPlayerInfoCharacterIcon( player, $"rui/gamemodes/shadow_squad/generic_shadow_character_sdk" )
+		SetCustomPlayerInfoTreatment( player, $"rui/gamemodes/shadow_squad/player_info_custom_treatment_sdk" )
 		SetCustomPlayerInfoColor( player, <245, 81, 35 > )
 	}
 }
@@ -1170,14 +1170,14 @@ void function ServerCallback_ModeShadowSquad_AnnouncementSplash( int messageInde
 void function Infection_CreateEvacShipMinimapIcons(entity cpoint)
 {
 	//Minimap Icon
-	var rui = Infection_AddMinimapIcon( $"rui/gamemodes/shadow_squad/evac_countdown", 80, <0.5, 0.5, 0>)
+	var rui = Infection_AddMinimapIcon( $"rui/gamemodes/shadow_squad/evac_countdown_sdk", 80, <0.5, 0.5, 0>)
 	RuiTrackFloat3( rui, "objectPos", cpoint, RUI_TRACK_ABSORIGIN_FOLLOW )
-	RuiSetImage( rui, "clampedIconImage", $"rui/gamemodes/shadow_squad/evac_countdown" )
+	RuiSetImage( rui, "clampedIconImage", $"rui/gamemodes/shadow_squad/evac_countdown_sdk" )
 	RuiSetFloat3( rui, "objColor", SrgbToLinear( Vector( 235, 213, 52 ) / 255.0 ) )
 	file.minimapEvacShipIcon = rui
 	
 	//Fullmap Icon
-	var ruiFullmap = Infection_AddFullmapIcon( $"rui/gamemodes/shadow_squad/evac_countdown", 30, <0.5, 0.5, 0>)
+	var ruiFullmap = Infection_AddFullmapIcon( $"rui/gamemodes/shadow_squad/evac_countdown_sdk", 30, <0.5, 0.5, 0>)
 	RuiTrackFloat3( ruiFullmap, "objectPos", cpoint, RUI_TRACK_ABSORIGIN_FOLLOW )
 	RuiSetFloat3( ruiFullmap, "objColor", SrgbToLinear( Vector( 235, 213, 52 ) / 255.0 ) )
 	Fullmap_AddRui( ruiFullmap )
