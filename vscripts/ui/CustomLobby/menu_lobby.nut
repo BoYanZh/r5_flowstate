@@ -216,7 +216,7 @@ void function CreateNavButtons()
 
 	AddNavButton("Loadout", Hud_GetChild(file.menu, "LoadoutPanel"), ePresentationType.WEAPON_CATEGORY, void function( var button ) {ShowLoadoutPanel()}, true )
 
-	AddNavButton("Credits", Hud_GetChild(file.menu, "CreditsPanel"), ePresentationType.COLLECTION_EVENT, void function( var button ) {ShowCreditPanel()}, true )
+	AddNavButton("Credits", Hud_GetChild(file.menu, "CreditsPanel"), ePresentationType.WEAPON_CATEGORY, void function( var button ) {ShowCreditPanel()}, true )
 
 	/*AddNavButton("Settings", null, void function( var button ) {
 		AdvanceMenu( GetMenu( "MiscMenu" ) )
