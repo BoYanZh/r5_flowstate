@@ -609,6 +609,10 @@ const array<string> InvalidModesForTrackScoreBoard = //const values
 
 void function FS_RestartServerAfterSomeTimeWithoutPlayers()
 {
+	#if DEVELOPER
+		return
+	#endif
+	
 	int timeWithoutPlayers
 	int previousPlayerCount
 	int timeToWaitWithoutPlayers = GetCurrentPlaylistVarInt( "flowstate_seconds_to_wait_without_players_before_restarting", 3600 )
