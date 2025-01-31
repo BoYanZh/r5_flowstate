@@ -61,7 +61,7 @@
     {
         ControlName				RuiPanel
         xpos                    950
-		ypos                    20
+		ypos                    30
         visible					1
         enabled					1
         proportionalToParent    1
