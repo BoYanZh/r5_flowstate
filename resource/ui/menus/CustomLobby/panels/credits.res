@@ -57,6 +57,17 @@
         visible                 1
         rui 					"ui/tabs_background.rpak"
     }
+    HeaderPanel
+    {
+        ControlName				RuiPanel
+        xpos                    950
+		ypos                    20
+        visible					1
+        enabled					1
+        proportionalToParent    1
+        visible                 1
+        rui 					"ui/store_header_special.rpak"
+    }
     // First Row (Buttons 0-5)
     CreditProfileButton0
     {
