@@ -956,7 +956,7 @@ void function RunDevCommand( DevCommand cmd, bool isARepeat )
 		}
 		else
 		{
-			CloseAllMenus()
+			//CloseAllMenus() // Temporarily disable dev menu closing itself - todo: revert this later, -lorrylekral
 		}
 	}
 	else
@@ -1284,6 +1284,7 @@ void function SetupAbilities()
 	SetupDevCommand( "Wraith Tactical", "give mp_ability_phase_walk" )
 	SetupDevCommand( "Wraith Ultimate", "give mp_weapon_phase_tunnel" )
 	
+	SetupDevCommand( "-> Custom abilities", "give mp" )
 	SetupDevCommand( "Tf2: Pulse Blade", "give mp_weapon_grenade_sonar" )
 	SetupDevCommand( "Tf2: Amped Wall", "give mp_weapon_deployable_cover" )
 	SetupDevCommand( "Tf2: Electric Smoke", "give mp_weapon_grenade_electric_smoke" )
@@ -1293,12 +1294,12 @@ void function SetupAbilities()
 	
 	//SetupDevCommand( "Gravity Star", "give mp_weapon_grenade_gravity" )
 	
-	SetupDevCommand( "-> Custom abilities", "give mp" )
+	/*SetupDevCommand( "-> Custom abilities", "give mp" )
 	SetupDevCommand( "Custom: Gravity Lift", "give mp_ability_space_elevator_tac" )
 	SetupDevCommand( "Custom: Phase Rewind", "give mp_ability_phase_rewind" )
 	SetupDevCommand( "Custom: Suppressor Turret", "give mp_weapon_turret")
 	SetupDevCommand( "Custom: Phase Chamber", "give mp_ability_phase_chamber")
-	SetupDevCommand( "Custom: Ring Flare", "give mp_weapon_ringflare")
+	SetupDevCommand( "Custom: Ring Flare", "give mp_weapon_ringflare")*/
 	#endif
 }
 
