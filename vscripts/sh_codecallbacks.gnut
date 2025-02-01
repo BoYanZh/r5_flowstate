@@ -543,7 +543,7 @@ void function CheckForAccelerants( entity player )
 	else if ( ammoNow >= ammoMax )
 	{
 		#if DEVELOPER
-			printt("Flowstate DEBUG - Ultimate is ready we can't use accelerants.")
+			//printt("Flowstate DEBUG - Ultimate is ready we can't use accelerants.")
 		#endif
 	}
 }

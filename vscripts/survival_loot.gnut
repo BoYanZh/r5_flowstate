@@ -57,6 +57,7 @@ global function ShouldForceUseSafeSpotForDeathBox_RemovePlayer
 
 global function AddCallback_LootPhysicsParented
 global function RemoveCallback_LootPhysicsParented
+global function GetRefOrRefFromGroup
 
 global function Dev_ForceDropDeathbox
 global function SURVIVAL_Death_DropLoot_Internal
@@ -2013,6 +2014,13 @@ void function TrackingVision_CreatePOIForPickedUpLoot( entity player, int lootTy
 
 }
 
+string function GetRefOrRefFromGroup( string refOrGroup )
+{
+	if ( SURVIVAL_IsValidLootGroup( refOrGroup ) )
+		return SURVIVAL_GetWeightedItemFromGroup( refOrGroup )
+	return refOrGroup
+}
+
 void function AddValidModsFromAttachList( entity player, string weaponName, array<string> mods, array<string> additionalAttachments )
 {
 	if ( SURVIVAL_Weapon_IsAttachmentLocked( weaponName ) )
@@ -2117,19 +2125,8 @@ entity function SURVIVAL_ThrowLootFromPointEx( ThrowLootParams params )
 	}
 	else
 	{
-		vector vel
-		if( params.fwd == <-1,-1,-1> )
-		{
-			float speed = RandomFloatRange( params.throwVelocityRange[0], params.throwVelocityRange[1] )
-			vel  = (params.fwd * speed) + <0, 0, 100>
-		} else
-		{
-			vel = params.fwd
-		}
-		#if DEVELOPER
-			printt( "will throw with vel", vel )
-		#endif 
-		
+		float speed = RandomFloatRange( params.throwVelocityRange[0], params.throwVelocityRange[1] )
+		vector vel  = (params.fwd * speed) + <0, 0, 100>
 		FakePhysicsThrow_Retail( player, ent, vel, true )
 	}
 
@@ -2148,6 +2145,7 @@ entity function SURVIVAL_ThrowLootFromPoint( vector dropOrg, vector fwd, string 
 
 	return SURVIVAL_ThrowLootFromPointEx( params )
 }
+
 
 void function RemovePlayerExtraWeaponMods( entity player, array<string> mods )
 {
@@ -2988,7 +2986,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector overrideAngl
 	ent.kv.CollisionGroup = collisionGroup
 	Assert( lootData.model != $"" )
 	ent.SetValueForModelKey( lootData.model )
-	ent.kv.fadedist = 6000
+	ent.kv.fadedist = 18000
 	ent.kv.renderamt = 255
 	ent.kv.rendercolor = "255 255 255"
 	ent.kv.solid = 0 // 0 = no collision, 2 = bounding box, 6 = use vPhysics, 8 = hitboxes only
@@ -3733,11 +3731,13 @@ void function FakePhysicsThrow_Retail( entity player, entity drop, vector vel, b
 		return
 
 	asset model       = drop.GetModelName()
-	entity physicsEnt = CreatePropPhysics( model, drop.GetOrigin(), drop.GetAngles(), SF_PHYSPROP_DEBRIS )
+	entity physicsEnt = CreatePropPhysics( model, drop.GetOrigin(), drop.GetAngles(), 0 )
 	physicsEnt.kv.CollideWithOwner = false
-	// physicsEnt.SetIgnoreCombatCharacters( ignoreCombatCharacters )
+	physicsEnt.kv.solid = 0
 	physicsEnt.SetBlocksRadiusDamage( false )
 	drop.SetParent( physicsEnt )
+	drop.kv.solid = 0
+	drop.kv.CollideWithOwner = false
 
 	// PutEntityInSafeSpot( physicsEnt, null, null, physicsEnt.GetOrigin(), physicsEnt.GetOrigin() )
 

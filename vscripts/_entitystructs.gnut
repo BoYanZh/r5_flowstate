@@ -550,6 +550,7 @@ global struct DropWeaponData
 // This struct is hooked up to entity.p in code
 global struct ServerPlayerStruct
 {
+	table<string,int> weaponsAndMeleeLockedSources
 	float						connectTime
 	bool						clientScriptInitialized = false
 

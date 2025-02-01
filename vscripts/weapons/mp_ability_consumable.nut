@@ -31,6 +31,7 @@ global function Consumable_IsCurrentSelectedConsumableTypeUseful
 
 global function Consumable_SetClientTypeOnly
 global function AddModAndFireWeapon_Thread
+global function Consumable_DoHealScreenFx
 #endif // CLIENT
 
 #if SERVER

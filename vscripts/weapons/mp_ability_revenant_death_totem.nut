@@ -143,8 +143,6 @@ void function MpAbilityRevenantDeathTotem_Init()
 	PrecacheParticleSystem( DEATH_TOTEM_SHADOW_RECALL_FX )
 	PrecacheParticleSystem( DEATH_TOTEM_SHADOW_BODY_FX )
 	PrecacheParticleSystem( DEATH_TOTEM_SHADOW_TIMER_FX )
-	
-	//PrecacheEntity( "death_totem" )
 
 	RegisterSignal( "DeathTotem_ChangePlayerStance" )
 	RegisterSignal( DEATH_TOTEM_RECALL_SIGNAL )
@@ -205,12 +203,12 @@ var function OnWeaponPrimaryAttack_ability_revenant_death_totem( entity weapon, 
 	Assert( ownerPlayer.IsPlayer() )
 
 	PlayerUsedOffhand( ownerPlayer, weapon )
-	bool serverOrPredicted = IsServer() || (InPrediction() && IsFirstTimePredicted())
+	/*bool serverOrPredicted = IsServer() || (InPrediction() && IsFirstTimePredicted())
 	if ( serverOrPredicted )
 	{
 		weapon.AddMod( ABILITY_USED_MOD )
 		weapon.AddMod( ULTIMATE_ACTIVE_MOD_STRING )
-	}
+	}*/
 
 	thread DeathTotem_DisableWallClimbWhileDeployingTotem( ownerPlayer, weapon )
 
@@ -420,7 +418,7 @@ void function DeathTotem_DeployTotem( entity owner, vector origin, vector angles
 
 	totemProxy.e.isBusy = false
 	totemProxy.e.canBurn = true
-	//totemProxy.EnableAttackableByAI( AI_PRIORITY_NO_THREAT, 0, AI_AP_FLAG_SMART_AI_ONLY )
+	totemProxy.EnableAttackableByAI( AI_PRIORITY_NO_THREAT, 0, AI_AP_FLAG_NONE )
 
 	owner.e.activeUltimateTraps.insert( 0, totemProxy )
 
@@ -443,7 +441,7 @@ void function DeathTotem_CleanupWeaponOnBleedout( entity player )
 	entity weapon = player.GetActiveWeapon( eActiveInventorySlot.mainHand )
 	if( IsValid( weapon ) && weapon.GetWeaponClassName() == DEATH_TOTEM_WEAPON_NAME && weapon.w.wasFired )
 	{
-		UnlockWeaponsAndMelee( player )
+		UnlockWeaponsAndMelee_Retail( player, DEATH_TOTEM_WEAPON_NAME )
 		weapon.w.wasFired = false
 	}
 }
@@ -1369,7 +1367,7 @@ bool function DeathTotem_CanUseTotem( entity player, entity ent, int useFlags )
 	if ( player.IsPhaseShifted() )
 		return false
 
-	/*array <entity> activeWeapons = player.GetAllActiveWeapons()
+	array <entity> activeWeapons = player.GetAllActiveWeapons()
 	if ( activeWeapons.len() == 1 )
 	{
 		entity activeWeapon = activeWeapons[0]
@@ -1378,7 +1376,7 @@ bool function DeathTotem_CanUseTotem( entity player, entity ent, int useFlags )
 			if ( IsBitFlagSet( activeWeapon.GetWeaponTypeFlags(), WPT_CONSUMABLE ) )
 				return false
 		}
-	}*/
+	}
 
 	return true
 }
@@ -1482,7 +1480,7 @@ void function DeathTotem_StartVisualEffect( entity ent, int statusEffect, bool a
 	file.deathProtectionStatusRui = CreateFullscreenRui( $"ui/death_protection_status.rpak" )
 
 	//RuiSetFloat( file.deathProtectionStatusRui, "maxDuration", file.deathTotemBuffDuration )
-	//RuiTrackFloat( file.deathProtectionStatusRui, "timeRemaining", ent, RUI_TRACK_STATUS_EFFECT_TIME_REMAINING, eStatusEffect.death_totem_visual_effect )
+	RuiTrackFloat( file.deathProtectionStatusRui, "timeRemaining", ent, RUI_TRACK_STATUS_EFFECT_TIME_REMAINING, eStatusEffect.death_totem_visual_effect )
 	//RuiTrackInt( file.deathProtectionStatusRui, "gameState", null, RUI_TRACK_SCRIPT_NETWORK_VAR_GLOBAL_INT, GetNetworkedVariableIndex( "gameState" ) )
 
 
@@ -1512,12 +1510,13 @@ void function RefreshTeamDeathTotemHUD()
 		if ( StatusEffect_GetSeverity( ent, eStatusEffect.death_totem_visual_effect ) == 0.0 )
 			continue
 
-		/*if ( ent == localViewPlayer )
+		if ( ent == localViewPlayer )
 		{
-			SetCustomPlayerInfoShadowFormState( localViewPlayer, true )
+			//SetCustomPlayerInfoShadowFormState( localViewPlayer, true )
 			SetCustomPlayerInfoColor( localViewPlayer, <245, 81, 35 > )
+			SetCustomPlayerInfoTreatment( localViewPlayer, $"rui/hud/revenant_shadow_effects/player_info_shadow_mode" )
 		}
-		else*/
+		else
 		{
 			SetUnitFrameShadowFormState( ent, true )
 			SetUnitFrameCustomColor( ent, <245, 81, 35 > )
@@ -1537,12 +1536,13 @@ void function DeathTotem_StopVisualEffect( entity ent, int statusEffect, bool ac
 
 	if ( localViewPlayer.GetTeam() == ent.GetTeam() )
 	{
-		/*if ( ent == localViewPlayer )
+		if ( ent == localViewPlayer )
 		{
-			SetCustomPlayerInfoShadowFormState( localViewPlayer, false )
+			//SetCustomPlayerInfoShadowFormState( localViewPlayer, false )
 			ClearCustomPlayerInfoColor( localViewPlayer )
+			ClearCustomPlayerInfoTreatment( localViewPlayer )
 		}
-		else*/
+		else
 		{
 			SetUnitFrameShadowFormState( ent, false )
 			ClearUnitFrameCustomColor( ent )
@@ -1655,7 +1655,7 @@ void function OnWeaponDeactivate_ability_revenant_death_totem( entity weapon )
 	#if SERVER
 		if( weapon.w.wasFired )
 		{
-			UnlockWeaponsAndMelee( ownerPlayer )
+			UnlockWeaponsAndMelee_Retail( ownerPlayer, DEATH_TOTEM_WEAPON_NAME )
 			weapon.w.wasFired = false
 		}
 	#endif
@@ -1671,10 +1671,7 @@ void function CancelDeathTotemForPlayer( entity player )
 
 bool function DoesPlayerHaveDeathProtection( entity player )
 {
-	if ( StatusEffect_GetSeverity( player, eStatusEffect.death_totem_visual_effect ) > 0.0 )
-		return true
-		
-	return false
+	return StatusEffect_GetSeverity( player, eStatusEffect.death_totem_visual_effect ) > 0.0 
 }
 
 //TODO: Add a minimum angle check to try to spawn the Totem slightly in front of you even when looking down.

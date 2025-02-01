@@ -88,6 +88,7 @@ global enum ePassives
 	PAS_FORTIFIED,
 	PAS_LOWPROFILE,
 	PAS_PILOT_BLOOD
+	PAS_DUMMIE
 	//new
 	PAS_BONUS_SMALL_HEAL,
 	PAS_EXTRA_MED_INV,
@@ -190,6 +191,7 @@ void function PassivesShared_Init()
 		AddCallback_OnPassiveChanged( ePassives.PAS_TRACKING_VISION, Bloodhound_PassiveToggle )
 		AddCallback_OnPassiveChanged( ePassives.PAS_BATTERY_POWERED, Wattson_PassiveToggle )
 		AddCallback_OnPassiveChanged( ePassives.PAS_DEATHSTALKER, Revenant_PassiveToggle )
+		AddCallback_OnPassiveChanged( ePassives.PAS_DUMMIE, Dummie_PassiveToggle )
 		
 		RegisterSignal( "PassiveMirage_StartRes" )
 		Bleedout_AddCallback_OnPlayerStartGiveFirstAid( Passives_OnPlayerStartRes )		
@@ -605,6 +607,12 @@ void function Slipstream_Passive(entity player, int passive, bool didHave, bool 
 }
 
 void function Revenant_PassiveToggle(  entity player, int passive, bool didHave, bool nowHas )
+{
+	if ( !IsAlive( player ) )
+		return
+}
+
+void function Dummie_PassiveToggle(  entity player, int passive, bool didHave, bool nowHas )
 {
 	if ( !IsAlive( player ) )
 		return

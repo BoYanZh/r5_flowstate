@@ -19,7 +19,6 @@ WeaponData
 	"offhand_interupts_weapon_anims"				"1"
 	"play_offhand_charging_anim"  					"0"
 	"play_offhand_start_end_anim"					"1"
-	"has_linked_anims"								"1"
 
 	"fire_mode"   									"offhand"
 

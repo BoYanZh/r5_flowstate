@@ -58,6 +58,7 @@ global enum eCharacterClassRole
 }
 
 const table<int, asset> CHARACTER_ROLE_ICONS = {
+	[eCharacterClassRole.UNDECIDED] = $"",
 	[eCharacterClassRole.OFFENSE] = $"rui/menu/character_select/utility/util_role_offense",
 	[eCharacterClassRole.DEFENSE] = $"rui/menu/character_select/utility/util_role_defense",
 	[eCharacterClassRole.SUPPORT] = $"rui/menu/character_select/utility/util_role_support",
