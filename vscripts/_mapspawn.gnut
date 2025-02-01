@@ -299,10 +299,7 @@ void function PrecacheFSEntities()
 		rankupmap_init()
 		break
 	}
-}
-
-void function PrecacheFSEntities()
-{
+	
 	PrecacheWeapon( $"mp_ability_emote_projector" )
 	PrecacheWeapon( $"mp_weapon_vctblue_primary" )
 	PrecacheWeapon( $"melee_vctblue" )
@@ -379,6 +376,10 @@ void function PrecacheFSEntities()
 		PrecacheModel( $"mdl/flowstate_custom/w_haloelite.rmdl" )
 		PrecacheModel( $"mdl/flowstate_custom/ptpov_haloelite.rmdl" )
 	}
+}
+
+void function PrecacheSDKWeapons()
+{
 	
 	PrecacheWeapon( $"mp_weapon_droneplasma" )//remove these from here later!!! -kral
 	PrecacheWeapon( $"mp_weapon_dronerocket" )
@@ -473,7 +474,7 @@ const array<string> InvalidModesForTrackScoreBoard = //const values
 ]
 
 void function FS_RestartServerAfterSomeTimeWithoutPlayers()
-
+{
 	int timeWithoutPlayers
 	int previousPlayerCount
 	int timeToWaitWithoutPlayers = GetCurrentPlaylistVarInt( "flowstate_seconds_to_wait_without_players_before_restarting", 3600 )
