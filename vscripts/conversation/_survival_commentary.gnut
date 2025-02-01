@@ -581,6 +581,8 @@ void function SurvivalCommentary_HostAnnounce( int commentaryBucket, float delay
 
 void function SetCanDoDamageCallout( entity player, bool canDo )
 {
+	if ( ! ( player in playerCommentaryMap ) )
+		return
 	playerCommentaryMap[player].canDoDamageCallout = canDo
 }
 

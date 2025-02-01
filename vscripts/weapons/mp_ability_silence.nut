@@ -18,6 +18,7 @@ const float SILENCE_EFFECT_DURATION = 20.0 //
 //SILENCE FX
 const asset FX_SILENCE_READY_1P = $"P_wpn_bSilence_glow_FP"
 const asset FX_SILENCE_READY_3P = $"P_wpn_bSilence_glow_3P"
+const asset SHADOW_SCREEN_FX = $"P_Bshadow_screen"
 
 const asset FX_SILENCE_SMOKE_CENTER = $"P_bSilent_orb"
 const asset FX_SILENCE_SMOKE = $"P_bSilent_fill"
@@ -47,6 +48,7 @@ void function MpAbilitySilence_Init()
 	PrecacheParticleSystem( FX_SILENCE_READY_3P )
 	PrecacheParticleSystem( FX_SILENCE_SMOKE )
 	PrecacheParticleSystem( FX_SILENCE_SMOKE_CENTER )
+	PrecacheParticleSystem( SHADOW_SCREEN_FX )
 
 	RegisterSignal( "hasBeenSilenced" )
 
@@ -54,10 +56,8 @@ void function MpAbilitySilence_Init()
 
 	#if SERVER
 	RegisterDynamicEntCleanupItem_Parented_Scriptname( SILENCE_MOVER_SCRIPTNAME )
-	//RegisterDynamicEntCleanupItem_Area_Scriptname( SILENCE_MOVER_SCRIPTNAME )
-	AddDamageCallbackSourceID( eDamageSourceId.damagedef_loot_drone_explosion, ApplySilence )
-	//Bleedout_AddCallback_OnPlayerStartBleedout( OnPlayerStartBleedout_Silence )
-	RegisterSignal( "StopSilence")
+	RegisterDynamicEntCleanupItem_Area_Scriptname( SILENCE_MOVER_SCRIPTNAME )
+	AddDamageCallbackSourceID( eDamageSourceId.damagedef_ability_silence, ApplySilence )
 	#endif
 }
 
@@ -103,10 +103,6 @@ bool function ShouldStickToHitEnt( entity hitEnt )
 {
 	if ( !IsValid( hitEnt ) )
 		return false
-
-	                     
-		//if ( EntIsHoverVehicle( hitEnt ) )
-			//return false
                             
 
 	return true
@@ -116,7 +112,7 @@ bool function ShouldStickToHitEnt( entity hitEnt )
 void function OnProjectileCollision_ability_silence( entity projectile, vector pos, vector normal, entity hitEnt, int hitbox, bool isCritical)
 {
 	projectile.proj.projectileBounceCount++
-
+	bool isPassthrough = false
 	if ( projectile.proj.projectileBounceCount <= projectile.GetProjectileWeaponSettingInt( eWeaponVar.projectile_ricochet_max_count )
 			&& DotProduct( normal, <0, 0, 1> ) < SILENCE_BOUNCE_DOT_MAX )
 	{
@@ -143,13 +139,13 @@ void function OnProjectileCollision_ability_silence( entity projectile, vector p
 			entity mover
 			if ( ShouldStickToHitEnt( hitEnt ) )
 			{
-				/*mover = CreateScriptMover( SILENCE_MOVER_SCRIPTNAME, origin, FlattenAngles( projectile.GetAngles() ) )
+				mover = CreateScriptMover_NEW( SILENCE_MOVER_SCRIPTNAME, origin, FlattenAngles( projectile.GetAngles() ) )
 
 				if ( hitEnt.HasPusherAncestor() && !hitEnt.IsPlayer() )
 					mover.SetParent( hitEnt ) // don't ever parent to players
 
 				mover.RemoveFromAllRealms()
-				mover.AddToOtherEntitysRealms( player )*/
+				mover.AddToOtherEntitysRealms( player )
 			}
 			thread CreateSilenceField( player, origin, mover, normal )
 		}
@@ -384,7 +380,7 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 		}
 
 		vector explosionOrigin = IsValid( mover ) ? mover.GetOrigin() : origin
-		Explosion_DamageDefSimple( damagedef_loot_drone_explosion, explosionOrigin, player, inflictor, explosionOrigin )
+		Explosion_DamageDefSimple( damagedef_ability_silence, explosionOrigin, player, inflictor, explosionOrigin )
 		WaitFrame()
 	}
 }
@@ -394,13 +390,10 @@ void function Hack_HandleSilenceDamage( entity ent, var damageInfo )
 {
 	int damageSourceID = DamageInfo_GetDamageSourceIdentifier( damageInfo )
 
-	if ( damageSourceID == eDamageSourceId.damagedef_loot_drone_explosion )
+	if ( damageSourceID == eDamageSourceId.damagedef_ability_silence )
 	{
                                              
-		if ( !IsFlyer( ent ) /*&& !IsSpiderEgg( ent ) */)
-       
-                        
-        
+		if ( !IsFlyer( ent ) )
 		{
 			DamageInfo_SetDamage( damageInfo, 0.0 )
 			return
@@ -431,13 +424,13 @@ void function ApplySilence( entity ent, var damageInfo )
 		if ( ent.EyePosition().z - damagePos.z < 100 ) //Tune with debug circles to match FX size
 			heightCheck = true
 	}
-	/*if ( heightCheck )
+	if ( heightCheck )
 	{
 		entity silenceOwner = DamageInfo_GetAttacker( damageInfo )
 		float effectDuration = Silence_GetEffectDuration()
 		thread SilenceThink( ent, silenceOwner, SILENCE_AREA_DURATION, effectDuration )
 	}
-	else*/
+	else
 	{
 		DamageInfo_SetDamage( damageInfo, 0.0 )
 		entity inflictor = DamageInfo_GetInflictor( damageInfo )

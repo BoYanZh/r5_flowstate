@@ -61,8 +61,9 @@ global enum eDamageSourceId
 	damagedef_dirty_bomb_explosion
 	damagedef_sonic_boom
 	damagedef_bangalore_smoke_explosion
-	damagedef_creeping_bombardment_detcord_explosion
 	damagedef_tank_bombardment_detcord_explosion
+	damagedef_creeping_bombardment_detcord_explosion
+	damagedef_ability_silence
 	damagedef_defensive_bombardment
 	damagedef_loot_drone_explosion
 	//// end of must match order ////

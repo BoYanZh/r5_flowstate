@@ -9,6 +9,7 @@ global function MpAbilitySharedSilence_Init
 //SILENCE FX
 const asset FX_SILENCE_REV_VICTIM_1P = $"P_bSilent_screen_CP"
 const asset FX_SILENCE_REV_VICTIM_3P = $"P_bSilent_body"
+const asset SHADOW_SCREEN_FX = $"P_Bshadow_screen"
 
 global enum eSilenceOwner
 {
@@ -36,7 +37,7 @@ struct
 
 void function MpAbilitySharedSilence_Init()
 {
-	file.interruptedDuration = GetCurrentPlaylistVarFloat( "silence_interrupt_duration", 5.25 )
+	file.interruptedDuration = GetCurrentPlaylistVarFloat( "silence_interrupt_duration", 0.25 )
 
 	RegisterSignal( "Interrupted" )
 
@@ -242,7 +243,7 @@ void function SilenceThink( entity ent, entity silenceOwner, float silenceAreaDu
 		}
 	)
 
-	while ( StatusEffect_GetSeverity( ent, eStatusEffect.silenced ) )
+	while ( StatusEffect_GetSeverity( ent, eStatusEffect.silenced ) > 0.0)
 	{
 		if ( ent.IsPhaseShiftedOrPending() )
 		{
@@ -311,14 +312,14 @@ void function Silenced_WeaponStatusCheck( entity player, var rui, int slot )
 
 			if ( rui != null )
 			{
-				if ( StatusEffect_GetSeverity( player, eStatusEffect.silenced ) )
+				if ( StatusEffect_GetSeverity( player, eStatusEffect.silenced ) > 0.0 )
 				{
 					if ( !overwrite )
 						RuiSetString( rui, "hintText", "" )
 					RuiSetBool( rui, "isSilenced", true )
-					if ( StatusEffect_GetSeverity( player, eStatusEffect.silenced_rev_visuals ) )
+					if ( StatusEffect_GetSeverity( player, eStatusEffect.silenced_rev_visuals ) > 0.0 )
 					{
-						RuiSetInt( rui, "silenceOwner", eSilenceOwner.REVENANT )
+						//RuiSetInt( rui, "silenceOwner", eSilenceOwner.REVENANT )
 					}
 				}
 				else
@@ -445,14 +446,28 @@ void function AbilitySilence_ScreenEffectThread( entity viewPlayer, int fxHandle
 			silenceSound = "Silence_Victim_Loop_1p"
 			break
 	}
+	
+	entity cockpit = viewPlayer.GetCockpit()
+		if ( !IsValid( cockpit ) )
+			return
+	
+	int fxHandleScreen = StartParticleEffectOnEntity( cockpit, PrecacheParticleSystem( SHADOW_SCREEN_FX ), FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
+	viewPlayer.p.shadowFxHandles.append(fxHandleScreen)
+	EffectSetIsWithCockpit( fxHandleScreen, true )
+	vector controlPoint = <1,1,1>
+	EffectSetControlPointVector( fxHandleScreen, 1, controlPoint )
 
 	OnThreadEnd(
-		function() : ( fxHandle, viewPlayer, silenceSound )
+		function() : ( fxHandleScreen, fxHandle, viewPlayer, silenceSound )
 		{
 			if ( !EffectDoesExist( fxHandle ) )
 				return
+				
+			if ( !EffectDoesExist( fxHandleScreen ) )
+				return
 
 			EffectStop( fxHandle, false, true )
+			EffectStop( fxHandleScreen, false, true )
 			if ( IsValid( viewPlayer ) )
 			{
 				if ( silenceSound != "" )

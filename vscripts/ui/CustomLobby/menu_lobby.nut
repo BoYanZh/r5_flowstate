@@ -180,7 +180,7 @@ void function SetupLobby()
 
 	if ( !file.initialisedHomePanel )
 	{
-		ItemFlavor character = GetItemFlavorByHumanReadableRef( GetCurrentPlaylistVarString( "set_legend", "character_wraith" ) )
+		ItemFlavor character = GetItemFlavorByHumanReadableRef( GetCurrentPlaylistVarString( "set_legend", "character_revenant" ) )
 		RequestSetItemFlavorLoadoutSlot( LocalClientEHI(), Loadout_CharacterClass(), character )
 
 		file.initialisedHomePanel = true

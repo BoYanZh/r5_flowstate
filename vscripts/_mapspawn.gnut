@@ -405,6 +405,7 @@ void function PrecacheSDKEntities()
 {
 	///////////////////////character_revenant///////////////////////
 	PrecacheModel( $"mdl/dev/empty_model_revenant.rmdl" )
+	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem.rmdl" )
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_contemplation_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_patience_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem_glad_card.rmdl" ) // revenant gladcard models
