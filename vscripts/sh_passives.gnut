@@ -69,6 +69,7 @@ global enum ePassives
 	PAS_OCTANE,
 	PAS_CRYPTO,
 	PAS_GUARDIAN_ANGEL,
+	PAS_DEATHSTALKER,
 	PAS_BATTERY_POWERED,
 	PAS_WATTSON_CIRCLE_REFUND,
 	PAS_DOWN_HEALTH,
@@ -188,6 +189,7 @@ void function PassivesShared_Init()
 		AddCallback_OnPassiveChanged( ePassives.PAS_PATHFINDER, Pathfinder_PassiveToggle )
 		AddCallback_OnPassiveChanged( ePassives.PAS_TRACKING_VISION, Bloodhound_PassiveToggle )
 		AddCallback_OnPassiveChanged( ePassives.PAS_BATTERY_POWERED, Wattson_PassiveToggle )
+		AddCallback_OnPassiveChanged( ePassives.PAS_DEATHSTALKER, Revenant_PassiveToggle )
 		
 		RegisterSignal( "PassiveMirage_StartRes" )
 		Bleedout_AddCallback_OnPlayerStartGiveFirstAid( Passives_OnPlayerStartRes )		
@@ -600,6 +602,12 @@ void function Slipstream_Passive(entity player, int passive, bool didHave, bool 
 		}
 		WaitFrame()
 	}
+}
+
+void function Revenant_PassiveToggle(  entity player, int passive, bool didHave, bool nowHas )
+{
+	if ( !IsAlive( player ) )
+		return
 }
 
 void function Wattson_PassiveToggle(  entity player, int passive, bool didHave, bool nowHas )
