@@ -13,6 +13,7 @@ global function Hack_HandleSilenceDamage
 //SILENCE AREA VARS
 const float SILENCE_AREA_DURATION = 10.0
 const float SILENCE_AREA_RADIUS = 175.0 //should match damageDef value
+const float SILENCE_EFFECT_DURATION = 20.0 //
 
 //SILENCE FX
 const asset FX_SILENCE_READY_1P = $"P_wpn_bSilence_glow_FP"
@@ -31,7 +32,7 @@ global const string SILENCE_TRACE_SCRIPTNAME = "silence_trace_blocker"
 
 const float SILENCE_BOUNCE_DOT_MAX = 0.5
 
-const bool SILENCE_DEBUG = false
+const bool SILENCE_DEBUG = true
 const bool SILENCE_DEBUG_STATUSEFFECT = false
 const bool SILENCE_DEBUG_WEAPONEFFECT = false
 
@@ -170,7 +171,7 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 	inflictor.AddToOtherEntitysRealms( player )
 
 	if ( SILENCE_DEBUG )
-		DebugDrawSphere( origin, SILENCE_AREA_RADIUS, COLOR_RED, true, SILENCE_AREA_DURATION )
+		DebugDrawSphere( origin, SILENCE_AREA_RADIUS, 255, 0, 0, true, SILENCE_AREA_DURATION )
 
 	if ( IsValid( mover ) )
 	{
@@ -181,7 +182,7 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 		EmitSoundAtPosition( TEAM_UNASSIGNED, origin, "Revenant_Silence_Sustain", player )
 	}
 
-	//DebugDrawSphere( origin, 100, COLOR_GREEN, true, SILENCE_AREA_DURATION )
+	DebugDrawSphere( origin, 100, 0, 255, 0, true, SILENCE_AREA_DURATION )
 
 	vector center = origin
 	float radius = SILENCE_AREA_RADIUS
@@ -298,8 +299,8 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 								}
 								else
 								{
-									//fx = StartParticleEffectOnEntityWithPos_ReturnEntity( mover, index, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, "REF", offsetVector + FX_SILENCE_SMOKE_OFFSET, <0,0,0> )
-									//EffectAddTrackingForControlPoint( fx, 1, mover, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, mover.LookupAttachment( "REF" ) ) //probably needs and offset too
+									fx = StartParticleEffectOnEntityWithPos_ReturnEntity( mover, index, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, -1, offsetVector + FX_SILENCE_SMOKE_OFFSET, <0,0,0> )
+									EffectAddTrackingForControlPoint( fx, 1, mover, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, mover.LookupAttachment( "REF" ) ) //probably needs and offset too
 								}
 
 								smokeFXs[i][0] = fx
@@ -327,7 +328,7 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 									if ( IsValid( smokeFXs[i][1] ) )
 										smokeFXs[i][1].SetOrigin( org )
 									if ( SILENCE_DEBUG )
-										DebugDrawSphere( org, 64, COLOR_BLUE, true, 0.1 )
+										DebugDrawSphere( org, 64, 0, 255, 255, true, 0.1 )
 								}
 							}
 						//}
@@ -347,8 +348,8 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 					}
 					else
 					{
-						//fx = StartParticleEffectOnEntityWithPos_ReturnEntity( mover, index, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, "REF", offsetVector + FX_SILENCE_SMOKE_OFFSET, <0,0,0> )
-						//EffectAddTrackingForControlPoint( fx, 1, mover, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, mover.LookupAttachment( "REF" ) ) //probably needs and offset too
+						fx = StartParticleEffectOnEntityWithPos_ReturnEntity( mover, index, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, -1, offsetVector + FX_SILENCE_SMOKE_OFFSET, <0,0,0> )
+						EffectAddTrackingForControlPoint( fx, 1, mover, FX_PATTACH_ABSORIGIN_FOLLOW_NOROTATE, mover.LookupAttachment( "REF" ) ) //probably needs and offset too
 					}
 
 					smokeFXs[i][0] = fx
@@ -376,7 +377,7 @@ void function CreateSilenceField( entity player, vector origin, entity mover, ve
 						if ( IsValid( smokeFXs[i][1] ) )
 							smokeFXs[i][1].SetOrigin( org )
 						if ( SILENCE_DEBUG )
-							DebugDrawSphere( org, 64, COLOR_BLUE, true, 0.1 )
+							DebugDrawSphere( org, 64, 0, 255, 255, true, 0.1 )
 					}
 				}
 			}
@@ -430,171 +431,22 @@ void function ApplySilence( entity ent, var damageInfo )
 		if ( ent.EyePosition().z - damagePos.z < 100 ) //Tune with debug circles to match FX size
 			heightCheck = true
 	}
-	//if ( heightCheck )
+	/*if ( heightCheck )
 	{
 		entity silenceOwner = DamageInfo_GetAttacker( damageInfo )
 		float effectDuration = Silence_GetEffectDuration()
 		thread SilenceThink( ent, silenceOwner, SILENCE_AREA_DURATION, effectDuration )
 	}
-	/*else
+	else*/
 	{
 		DamageInfo_SetDamage( damageInfo, 0.0 )
 		entity inflictor = DamageInfo_GetInflictor( damageInfo )
 		if ( IsValid( inflictor ) )
 			inflictor.e.damagedEntities.fastremovebyvalue( ent )
-	}*/
+	}
 
 	ent.Signal( "hasBeenSilenced" )
 }
-
-void function SilenceThink( entity ent, entity silenceOwner, float silenceAreaDuration, float silenceEffectDuration, bool applyInterrupt=false, bool isEndless=false )
-{
-	ent.EndSignal( "OnDestroy" )
-	ent.EndSignal( "OnDeath" )
-	ent.EndSignal( "StopSilence" )
-
-	//Play effect on player so we can see they are silenced.
-	int attachmentID = ent.LookupAttachment( "CHESTFOCUS" )
-	int fxID
-	int silenceVisualsStatusEffect
-	bool fxVisible = true
-	float endTime = Time() + silenceEffectDuration
-
-	{
-		fxID                = GetParticleSystemIndex( FX_SILENCE_REV_VICTIM_3P )
-		//silenceVisualsStatusEffect = eStatusEffect.silenced_rev_visuals
-	}                    
-
-	entity fx = StartParticleEffectOnEntity_ReturnEntity ( ent, fxID, FX_PATTACH_POINT_FOLLOW, attachmentID )
-	fx.kv.VisibilityFlags = ENTITY_VISIBLE_TO_FRIENDLY | ENTITY_VISIBLE_TO_ENEMY
-	fx.SetOwner( ent )
-
-	//SetCanDoDamageCallout( ent, false )
-	int victimTeam = ent.GetTeam() //Ent is assumed to be a player above
-
-	//Seer's silence is short enough that we're going to turn off the battle chatter for it.  The focus is more on the interrupt than a long term disable.
-	bool playBattleChatter = true//PlayerHasPassive( silenceOwner, ePassives.PAS_DEATHSTALKER )
-
-	if ( playBattleChatter )
-	{
-		PlayBattleChatterLineToSpeakerAndTeam( ent, "bc_abilitiesBlocked" )
-	}
-
-	ent.Signal( "PhaseTunnel_CancelPlacement" )
-	int silenceVisualsHandle
-	int silenceHandle
-	/*if( isEndless )
-	{
-		silenceVisualsHandle = StatusEffect_AddEndless( ent, silenceVisualsStatusEffect, 1.0 )
-		silenceHandle = StatusEffect_AddEndless( ent, eStatusEffect.silenced, 1.0 )
-	}
-	else
-	{
-		StatusEffect_AddTimed( ent, silenceVisualsStatusEffect, 1.0, silenceEffectDuration, silenceEffectDuration )
-		StatusEffect_AddTimed( ent, eStatusEffect.silenced, 1.0, silenceEffectDuration, silenceEffectDuration )
-	}
-*/
-	string silenceLoopSound_3p = "Silence_Victim_Loop_3p"
-
-	if ( ent.IsPlayer() )
-	{
-		EmitSoundOnEntityExceptToPlayer( ent, ent, silenceLoopSound_3p )
-	}
-	else
-	{
-		EmitSoundOnEntity( ent, silenceLoopSound_3p )
-	}
-
-	if( ent.IsPlayer() && silenceOwner.IsPlayer() )
-	{
-		AddAssistingPlayerToVictim( silenceOwner, ent, Silence_GetEffectDuration() ) //Note: Only works because we don't have things that prematurely clears status effects, e.g. no cleanse etc.
-	}
-
-	bool shouldSwap = true
-	array <entity> activeWeapons = ent.GetAllActiveWeapons()
-	if ( activeWeapons.len() > 0 )
-	{
-		entity activeWeapon = activeWeapons[0]
-		if ( IsValid( activeWeapon ) )
-		{
-			shouldSwap = IsBitFlagSet( activeWeapon.GetWeaponTypeFlags(), WPT_TACTICAL ) || IsBitFlagSet( activeWeapon.GetWeaponTypeFlags(), WPT_ULTIMATE )
-		}
-
-		if ( activeWeapons.len() > 1 )
-		{
-			entity offhandWeapon = activeWeapons[1]
-			if ( IsValid( offhandWeapon ) )
-			{
-				//if ( file.abilitiesToCancel.contains( offhandWeapon.GetWeaponClassName() ) )
-					//ent.ClearOffhand( eActiveInventorySlot.altHand )
-			}
-		}
-	}
-
-	if ( shouldSwap )
-		SwapToLastEquippedPrimary( ent )
-
-	ent.GrappleDetach()
-	//ent.DisableWeaponTypes( WPT_ULTIMATE | WPT_TACTICAL )
-
-	if( PlayerHasPassive( ent, ePassives.PAS_CRYPTO ) )
-		Drone_ExitView( ent )
-
-                               
-                               
-                                           
-                                         
-
-	OnThreadEnd(
-		function() : ( ent, silenceOwner, fx, silenceLoopSound_3p, isEndless, silenceVisualsHandle, silenceHandle )
-		{
-			if ( IsValid( ent ) )
-			{
-				//ent.EnableWeaponTypes( WPT_ULTIMATE | WPT_TACTICAL )
-
-                                  
-                                  
-                                             
-                                           
-
-				//SetCanDoDamageCallout( ent, true )
-				StopSoundOnEntity( ent, silenceLoopSound_3p )
-
-				if( isEndless )
-				{
-					StatusEffect_Stop( ent, silenceVisualsHandle )
-					StatusEffect_Stop( ent, silenceHandle )
-				}
-			}
-
-			if ( IsValid( fx ) )
-				EffectStop( fx )
-		}
-	)
-
-	/*while ( StatusEffect_HasSeverity( ent, eStatusEffect.silenced ) )
-	{
-		if ( ent.IsPhaseShiftedOrPending() )
-		{
-			if ( fxVisible )
-			{
-				fx.kv.VisibilityFlags = ENTITY_VISIBLE_TO_NOBODY
-				fxVisible = false
-			}
-		}
-		else
-		{
-			if ( !fxVisible )
-			{
-				fx.kv.VisibilityFlags = ( ENTITY_VISIBLE_TO_FRIENDLY | ENTITY_VISIBLE_TO_ENEMY )
-				fxVisible = true
-			}
-		}
-
-		WaitFrame()
-	}*/
-}
-
 #endif //SERVER
 
 float function Silence_GetEffectDuration()

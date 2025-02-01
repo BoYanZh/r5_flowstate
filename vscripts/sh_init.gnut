@@ -199,6 +199,7 @@ void function SV_CL_Init()
 	
 	MpWeaponTitanSword_Init() //Flowstate Sword
 	MpWeaponFlameThrower_Init()
+	MpAbilitySharedSilence_Init()
 	// MpUltimatePhaseChamber_Init()
 	// MpWeaponPortalGun_Init() //It needs rework
 	MpNextBots_Init()
@@ -238,7 +239,7 @@ void function SV_CL_Init()
 	PassiveMedic_Init() //Should be shared. Cafe
 	MpAbilityCryptoDrone_Init()
 	MpAbilityCryptoDroneEMP_Init()
-	//MpAbilitySilence_Init()
+	MpAbilitySilence_Init()
 	MpWeaponSmartPistol_Init()
 	MpWeaponProximityMine_Init()
 	MpWeaponRocketLauncher_Init()

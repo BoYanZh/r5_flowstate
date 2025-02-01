@@ -12,7 +12,7 @@ global function CreateEditorProp
 global table _ClientCommandCallbacks = {}
 global entity _cc = null
 global entity _sc = null
-
+global int ATTACHMENTID_INVALID = -1
 
 
 // dumpsite for other files
