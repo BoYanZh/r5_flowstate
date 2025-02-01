@@ -97,6 +97,9 @@
 	silenced
 	silenced_rev_visuals
 	interrupted
+	disable_wall_run
+	disable_double_jump
+	disable_automantle_hang
 	script_helper
 	pass_through_amps_weapon
 	simple_timer

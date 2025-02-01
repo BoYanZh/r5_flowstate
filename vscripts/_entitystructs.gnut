@@ -292,6 +292,7 @@ global struct ServerEntityStruct
 	array<void functionref( entity ent, var damageInfo )> entPostDamageCallbacks
 	array<void functionref( entity titan, entity attacker )> entSegmentLostCallbacks
 	array<void functionref( entity ent, var damageInfo, float actualShieldDamage )> entPostShieldDamageCallbacks
+	array<bool functionref( entity player )>                                                                               entOnShadowHealthExhaustedCallbacks
 
 	// Used for weapons and abilities that have multiple ticks, but we only want a single tick to hit each player
 	array<entity> damagedEntities
@@ -1164,10 +1165,10 @@ global struct ServerPlayerStruct
 	array<ConsumableInventoryItem> ornull cachedInventory
 	
 	float lastTimeUsedRailjump
-	
+	int savedTotemHealth = 50
 	int  weaponsAndMeleeLockedCount
 	float timeWaitingInLobby
-	
+	float totemRecallTime
 	//instagib
 	int railjumptimes = 0
 	int shotsfired = 0

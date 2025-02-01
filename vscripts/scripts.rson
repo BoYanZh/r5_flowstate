@@ -279,6 +279,7 @@ Scripts:
 	weapons/mp_ability_grapple.nut
 	weapons/mp_ability_holopilot.nut
 	weapons/mp_ability_silence.nut
+	weapons/mp_ability_revenant_death_totem.nut
 	weapons/sh_silence.gnut
 
 	weapons/mp_weapon_flamethrower.nut

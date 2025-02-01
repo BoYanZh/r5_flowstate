@@ -19,13 +19,15 @@ WeaponData
 	"offhand_interupts_weapon_anims"				"1"
 	"play_offhand_charging_anim"  					"0"
 	"play_offhand_start_end_anim"					"1"
+	"has_linked_anims"								"1"
 
 	"fire_mode"   									"offhand"
 
-	//"OnWeaponActivate"								"OnWeaponActivate_ability_revenant_death_totem"
-	//"OnWeaponDeactivate"							"OnWeaponDeactivate_ability_revenant_death_totem"
+	"OnWeaponPrimaryAttack" 						"OnWeaponPrimaryAttack_ability_revenant_death_totem"
+	"OnWeaponActivate"								"OnWeaponActivate_ability_revenant_death_totem"
+	"OnWeaponDeactivate"							"OnWeaponDeactivate_ability_revenant_death_totem"
 	"OnWeaponRegenEnd"                              "OnWeaponRegenEndGeneric"
-	//"OnWeaponAttemptOffhandSwitch"					"OnWeaponAttemptOffhandSwitch_ability_revenant_death_totem"
+	"OnWeaponAttemptOffhandSwitch"					"OnWeaponAttemptOffhandSwitch_ability_revenant_death_totem"
 
 	// Models
 	"viewmodel"   									"mdl/weapons/empty_handed/ptpov_revenant_totem.rmdl"
