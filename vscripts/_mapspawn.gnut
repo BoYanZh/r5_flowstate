@@ -301,7 +301,7 @@ void function PrecacheFSEntities()
 	}
 }
 
-void function PrecacheSDKEntities()
+void function PrecacheFSEntities()
 {
 	PrecacheWeapon( $"mp_ability_emote_projector" )
 	PrecacheWeapon( $"mp_weapon_vctblue_primary" )
