@@ -4425,6 +4425,23 @@ playlists
 				"WPN_ARC_TOOL_RUI_READY"						"RDY"
 				"WPN_ARC_TOOL_RUI_DANGER"						"DNGR"
 				"WPN_ARC_TOOL_RUI_CHARGING"						"CHARGING"
+
+				"SPECIALS" 										"R5RELOADED CONTRIBUTORS"
+				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
+
+				///////////////////////////////////////CUSTOM LOADSCREEN LOCALIZATION////////////////////////////////////
+				"LOADSCREEN_CUSTOM_SDK_1_NAME"					"Better Play R5Reloaded"
+				"LOADSCREEN_CUSTOM_SDK_1_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_2_NAME"					"R FIVE, Re LOADED"
+				"LOADSCREEN_CUSTOM_SDK_2_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_3_NAME"					"Look at that nessie!"
+				"LOADSCREEN_CUSTOM_SDK_3_TEXT" 					"Made by uber_panzerhund, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_4_NAME"					"Pink is life"
+				"LOADSCREEN_CUSTOM_SDK_4_TEXT" 					"Made by gl2imm, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_5_NAME"					"Back to back"
+				"LOADSCREEN_CUSTOM_SDK_5_TEXT" 					"Made by ruefulshifu, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_6_NAME"					"I own the sky"
+				"LOADSCREEN_CUSTOM_SDK_6_TEXT" 					"Made by scoop, Thank you for your contribution to R5Reloaded!"
 			}
 		}
 	}

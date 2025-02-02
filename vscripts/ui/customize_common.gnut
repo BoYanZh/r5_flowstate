@@ -859,7 +859,7 @@ void function UpdateActionButton()
 	bool isParentItemOwned = IsParentItemOwned( cbc )
 	bool isOwned           = GRX_IsItemOwnedByPlayer_AllowOutOfDateData( item )
 	bool isEquipped        = IsItemInCBCEquipped( cbc )
-	bool isVisible         = !isParentItemOwned || !isOwned || (isOwned && !isEquipped)
+	bool isVisible         = false//!isParentItemOwned || !isOwned || (isOwned && !isEquipped)
 
 	Hud_SetVisible( fileLevel.actionButton, isVisible )
 

@@ -564,7 +564,7 @@ void function OpenSettingsMenu()
 void function HostEndMatch()
 {
 	#if LISTEN_SERVER
-	CreateServer( GetPlayerName() + " Lobby", "", "mp_lobby", "menufall", eServerVisibility.OFFLINE )
+	CreateServer( GetPlayerName() + " Lobby", "", "mp_lobby", "dev_default", eServerVisibility.OFFLINE )
 	#endif // LISTEN_SERVER
 }
 
