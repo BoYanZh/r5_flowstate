@@ -206,8 +206,8 @@ void function SilenceThink( entity ent, entity silenceOwner, float silenceAreaDu
 		SwapToLastEquippedPrimary( ent )
 
 	ent.GrappleDetach()
-	//ent.DisableWeaponTypes( WPT_ULTIMATE | WPT_TACTICAL )
-
+	DisableOffhandWeapons( ent )
+	
 	if( PlayerHasPassive( ent, ePassives.PAS_CRYPTO ) )
 		Drone_ExitView( ent )
 
@@ -221,8 +221,7 @@ void function SilenceThink( entity ent, entity silenceOwner, float silenceAreaDu
 		{
 			if ( IsValid( ent ) )
 			{
-				//ent.EnableWeaponTypes( WPT_ULTIMATE | WPT_TACTICAL )
-
+				ent.Server_TurnOffhandWeaponsDisabledOff()
                                   
                                   
                                              
@@ -243,7 +242,7 @@ void function SilenceThink( entity ent, entity silenceOwner, float silenceAreaDu
 		}
 	)
 
-	while ( StatusEffect_GetSeverity( ent, eStatusEffect.silenced ) > 0.0)
+	while ( StatusEffect_GetSeverity( ent, eStatusEffect.silenced ) == 0.0)
 	{
 		if ( ent.IsPhaseShiftedOrPending() )
 		{
@@ -446,28 +445,14 @@ void function AbilitySilence_ScreenEffectThread( entity viewPlayer, int fxHandle
 			silenceSound = "Silence_Victim_Loop_1p"
 			break
 	}
-	
-	entity cockpit = viewPlayer.GetCockpit()
-		if ( !IsValid( cockpit ) )
-			return
-	
-	int fxHandleScreen = StartParticleEffectOnEntity( cockpit, PrecacheParticleSystem( SHADOW_SCREEN_FX ), FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
-	viewPlayer.p.shadowFxHandles.append(fxHandleScreen)
-	EffectSetIsWithCockpit( fxHandleScreen, true )
-	vector controlPoint = <1,1,1>
-	EffectSetControlPointVector( fxHandleScreen, 1, controlPoint )
 
 	OnThreadEnd(
-		function() : ( fxHandleScreen, fxHandle, viewPlayer, silenceSound )
+		function() : ( fxHandle, viewPlayer, silenceSound )
 		{
 			if ( !EffectDoesExist( fxHandle ) )
 				return
-				
-			if ( !EffectDoesExist( fxHandleScreen ) )
-				return
 
 			EffectStop( fxHandle, false, true )
-			EffectStop( fxHandleScreen, false, true )
 			if ( IsValid( viewPlayer ) )
 			{
 				if ( silenceSound != "" )

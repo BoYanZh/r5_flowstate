@@ -119,7 +119,6 @@ void function OnProjectileCollision_ability_silence( entity projectile, vector p
 		return
 	}
 
-
 	#if SERVER
 		entity player = projectile.GetOwner()
 		vector projectileOrigin = projectile.GetOrigin()
@@ -149,8 +148,8 @@ void function OnProjectileCollision_ability_silence( entity projectile, vector p
 			}
 			thread CreateSilenceField( player, origin, mover, normal )
 		}
+		projectile.GrenadeExplode( normal )
 	#endif
-	projectile.GrenadeExplode( normal )
 }
 
 #if SERVER
