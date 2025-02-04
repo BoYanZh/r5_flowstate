@@ -652,9 +652,9 @@ void function AnimWindow_ShadowFormFX_Start( ScriptAnimWindow window, var settin
 		float fadeOutDuration = GetSettingsBlockFloat( settingsBlock, "fadeOutDuration" )
 
 
-		bool hasEyes      = true//GetSettingsBlockBool( settingsBlock, "hasEyes" )
-		bool fadeAlphaIN  = false//GetSettingsBlockBool( settingsBlock, "fadeAlphaIN" )
-		bool fadeAlphaOUT = false//GetSettingsBlockBool( settingsBlock, "fadeAlphaOUT" )
+		bool hasEyes      = GetSettingsBlockBool( settingsBlock, "hasEyes" )
+		bool fadeAlphaIN  = GetSettingsBlockBool( settingsBlock, "fadeAlphaIN" )
+		bool fadeAlphaOUT = GetSettingsBlockBool( settingsBlock, "fadeAlphaOUT" )
 
 		thread AnimWindow_ShadowFormBodyFX_Thread( window.ent, attachIndex, fadeInDuration, fadeOutDuration, fadeAlphaIN, fadeAlphaOUT )
 
