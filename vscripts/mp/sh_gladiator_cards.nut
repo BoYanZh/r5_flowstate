@@ -1155,7 +1155,7 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 		entry.DEV_category = "gcard_frames"
 		entry.DEV_name = ItemFlavor_GetHumanReadableRef( characterClass ) + " GCard Frame"
 		entry.stryderCharDataArrayIndex = ePlayerStryderCharDataArraySlots.BANNER_FRAME
-		entry.defaultItemFlavor = frameList[0]//GetItemFlavorByAsset( $"settings/itemflav/gladiator_card_frame/all_proto_default.rpak" )
+		entry.defaultItemFlavor = GetItemFlavorByAsset( $"settings/itemflav/gladiator_card_frame/all_proto_default.rpak" )
 		entry.validItemFlavorList = frameList
 		entry.isSlotLocked = bool function( EHI playerEHI ) {
 			return !IsLobby()
