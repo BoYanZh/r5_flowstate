@@ -22,6 +22,7 @@ global const array<asset> CHARACTER_ASSETS =
 	$"settings/itemflav/character/crypto.rpak",
 	$"settings/itemflav/character/revenant.rpak",
 	$"settings/itemflav/character/dummie.rpak",
+	$"settings/itemflav/character/random.rpak",
 ]
 
 global const array<asset> CAL_EVENT_ASSET_LIST =

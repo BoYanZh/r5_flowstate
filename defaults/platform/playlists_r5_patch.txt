@@ -4428,6 +4428,7 @@ playlists
 
 				"SPECIALS" 										"R5RELOADED CONTRIBUTORS"
 				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
+				"CHARACTER_RANDOM_CHARSELECT_SUBTITLE"          ""
 
 				///////////////////////////////////////CUSTOM LOADSCREEN LOCALIZATION////////////////////////////////////
 				"LOADSCREEN_CUSTOM_SDK_1_NAME"					"Better Play R5Reloaded"
