@@ -768,6 +768,9 @@ Ability_Shadow_Zombie_RegisterNetworking()
 	RegisterNetworkedVariable( "freefallEmoteAvailable", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, false )
 	RegisterNetworkedVariable( "freefallIsFromPlane", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, false )
 
+	//Player Name Obscurance
+	RegisterNetworkedVariable( "anonymizePlayerName", SNDC_PLAYER_GLOBAL, SNVT_BOOL, false )
+
 	RegisterNetworkedVariable( "inventoryEnabled", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, true )
 
 	RegisterNetworkedVariable( "pingEnabled", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, true )
