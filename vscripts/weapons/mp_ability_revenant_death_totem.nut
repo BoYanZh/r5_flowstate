@@ -1518,7 +1518,7 @@ void function RefreshTeamDeathTotemHUD()
 		}
 		else
 		{
-			SetUnitFrameShadowFormState( ent, true )
+			//SetUnitFrameShadowFormState( ent, true )
 			SetUnitFrameCustomColor( ent, <245, 81, 35 > )
 		}
 	}
