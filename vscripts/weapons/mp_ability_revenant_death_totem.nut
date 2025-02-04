@@ -1526,8 +1526,8 @@ void function RefreshTeamDeathTotemHUD()
 
 void function DeathTotem_StopVisualEffect( entity ent, int statusEffect, bool actuallyChanged )
 {
-	//if ( !actuallyChanged )
-	//	return
+	if ( !actuallyChanged )
+		return
 
 	entity localViewPlayer = GetLocalViewPlayer()
 

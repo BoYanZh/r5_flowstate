@@ -1152,10 +1152,11 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 			fileLevel.frameCharacterMap[frame] <- characterClass
 
 		LoadoutEntry entry = RegisterLoadoutSlot( eLoadoutEntryType.ITEM_FLAVOR, "gcard_frame", ItemFlavor_GetGUIDString( characterClass ) )
+		entry.pdefSectionKey = "character " + ItemFlavor_GetGUIDString( characterClass )
 		entry.DEV_category = "gcard_frames"
 		entry.DEV_name = ItemFlavor_GetHumanReadableRef( characterClass ) + " GCard Frame"
 		entry.stryderCharDataArrayIndex = ePlayerStryderCharDataArraySlots.BANNER_FRAME
-		entry.defaultItemFlavor = GetItemFlavorByAsset( $"settings/itemflav/gladiator_card_frame/all_proto_default.rpak" )
+		entry.defaultItemFlavor = frameList[0]//GetItemFlavorByAsset( $"settings/itemflav/gladiator_card_frame/all_proto_default.rpak" )
 		entry.validItemFlavorList = frameList
 		entry.isSlotLocked = bool function( EHI playerEHI ) {
 			return !IsLobby()
@@ -1262,6 +1263,7 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 		fileLevel.loadoutCharacterBadgesSlotListMap[characterClass].append( entry )
 
 		LoadoutEntry tierEntry = RegisterLoadoutSlot( eLoadoutEntryType.INTEGER, "gcard_badge_" + badgeIndex + "_tier", ItemFlavor_GetGUIDString( characterClass ) )
+		tierEntry.pdefSectionKey = "character " + ItemFlavor_GetGUIDString( characterClass )
 		tierEntry.DEV_category = "gcard_badge_tier"
 		tierEntry.DEV_name = ItemFlavor_GetHumanReadableRef( characterClass ) + " GCard Badge" + badgeIndex + " Tier"
 		tierEntry.stryderCharDataArrayIndex = ePlayerStryderCharDataArraySlots.BANNER_BADGE1_TIER + 2 * badgeIndex
@@ -1639,7 +1641,7 @@ void function ActualUpdateNestedGladiatorCard( NestedGladiatorCardHandle handle 
 						badgeOrNull = LoadoutSlot_GetItemFlavor( handle.currentOwnerEHI, badgeSlot )
 					}
 
-					switch( badgeIndex ) //test itemflavors
+					/*switch( badgeIndex ) //test itemflavors
 					{
 						case 0:
 							if( dev )
@@ -1655,7 +1657,7 @@ void function ActualUpdateNestedGladiatorCard( NestedGladiatorCardHandle handle 
 						badgeOrNull = GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01774065557" ) )
 						overrideDataIntegerOrNull = 100
 						break
-					}
+					}*/
 
 					if ( badgeOrNull != null )
 					{
