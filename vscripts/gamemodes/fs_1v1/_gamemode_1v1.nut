@@ -2102,7 +2102,6 @@ entity function returnChallengedPlayer( entity player )
 	foreach( challenged_eHandle, challenger in file.acceptedChallenges )
 	{
 		if( !IsValid( challenger ) )
-		{
 			continue
 		
 		if ( challenger == player )
@@ -3492,9 +3491,7 @@ void function Gamemode1v1_Init( int eMap )
 		
 		for ( int i = 0; i < allSoloLocations.len(); i = i + teamAmount )
 		{
-			soloLocStruct p
-			int teamAmount = GetCurrentPlaylistVarInt( "fs_scenarios_teamAmount", 3 )
-			
+			soloLocStruct p	
 			for ( int j = 0; j < teamAmount; j++  )
 				p.respawnLocations.append( allSoloLocations[ i + j ].spawn )
 
