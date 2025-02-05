@@ -231,7 +231,7 @@ void function Callback_HandleScenariosStats( entity player )
 	foreach( string statKey, var statValue in Stats__GetPlayerStatsTable( uid ) ) //Todo: register by script name group ( set in backend )
 	{
 		#if DEVELOPER
-			printw( "found statKey =", statKey, "statValue =", statValue )
+			//printw( "found statKey =", statKey, "statValue =", statValue )
 		#endif 
 		
 		if( statKey.find( strSlice ) != -1 )

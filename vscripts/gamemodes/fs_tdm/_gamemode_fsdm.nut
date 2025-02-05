@@ -164,6 +164,8 @@ struct
 	array< string > metagameWeaponsPrimary
 	array< string > metagameWeaponsSecondary
 	
+	bool bVictimDeathErrorReported = false
+	array<string> victimErrorUIDs
 } file
 
 struct
@@ -423,6 +425,8 @@ void function _CustomTDM_Init()
 			}
 		}
 	)
+	
+	AddCallback_OnPlayerKilled( Callback_OnPlayerKilled_FSCommon )
 
 	if ( FlowState_SURF() )
 	{
@@ -7566,4 +7570,40 @@ void function FS_Hack_CreateBulletsCollisionVolume( vector origin, float large =
 	
 	//Kill trigger
 	file.playerSpawnedProps.append( AddDeathTriggerWithParams( origin - <0,0,500>, large ) )
+}
+
+const int MAX_GAMESTAT_NET_INT = MAX_GAMESTAT_NET_INT
+void function Callback_OnPlayerKilled_FSCommon( entity victim, entity attacker, var damageInfo )
+{
+	if( !IsValid( attacker ) )
+		return 
+		
+	int attackerKills = attacker.GetPlayerNetInt( "kills" )	
+	if( attackerKills >= MAX_GAMESTAT_NET_INT )
+	{
+		#if TRACKER 
+			LogError( "player '" + victim.GetPlatformUID() + "' reached 510 deaths in a match." )
+		#endif 
+		
+		attacker.SetPlayerNetInt( minint( attackerKills, MAX_GAMESTAT_NET_INT ) )
+		SetTdmStateToNextRound()
+	}
+		
+	if( !IsValid( victim ) )
+		return
+		
+	int victimDeaths = victim.GetPlayerNetInt( "deaths" )
+	if( victimDeaths >= MAX_GAMESTAT_NET_INT )
+	{
+		#if TRACKER 
+			victimUID = victim.GetPlatformUID()
+			if ( !file.bVictimDeathErrorReported && !victimErrorUIDs.contains( victimUID ) )
+			{
+				LogError( "player '" + victimUID + "' reached " + MAX_GAMESTAT_NET_INT + " deaths in a match." )
+				file.bVictimDeathErrorReported = true
+			}		
+		#endif
+		
+		victim.SetPlayerNetInt( "deaths", minint( victimDeaths, MAX_GAMESTAT_NET_INT ) )
+	}
 }

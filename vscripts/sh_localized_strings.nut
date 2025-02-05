@@ -374,9 +374,7 @@ void function INIT_Flowstate_Localization_Strings()
 string function Flowstate_FetchToken( int tokenID )
 {
 	if( tokenID in file.FS_LocalizedStrings )
-	{
-		return file.FS_LocalizedStrings[tokenID]
-	}
+		return file.FS_LocalizedStrings[ tokenID ]
 	
 	//possibly developer define out and return blank	
 	return "Token not found"
@@ -445,9 +443,7 @@ void function Localization_ConsistencyCheck()
 	int function Flowstate_FetchTokenID( string ref )
 	{
 		if ( ref in file.FS_LocalizedStringMap )
-		{
 			return file.FS_LocalizedStringMap[ref]
-		}
 		
 		return 0
 	}
@@ -671,9 +667,10 @@ void function LocalVarMsg( entity player, string ref, int uiType = 2, float dura
 
 bool function ValidateType( ... )
 {
-	if( vargc <= 0 ){ return false }
+	if( vargc <= 0 )
+		return false
 	
-	string type = typeof( vargv[0] )
+	string type = typeof( vargv[ 0 ] )
 	
 	switch( type )
 	{	

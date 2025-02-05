@@ -485,7 +485,7 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 				#endif 
 			}
 
-			if( IsValid( attacker ) && attacker.IsPlayer() && IsAlive( attacker ) && file.flowstate_evo_shields && Gamemode() == eGamemodes.SURVIVAL )
+			if( file.flowstate_evo_shields && Gamemode() == eGamemodes.SURVIVAL && IsValid( attacker ) && attacker.IsPlayer() && IsAlive( attacker ) )
 				EvoCurrentShieldToNextTier( damageInfo, attacker )
 		}
 	}
