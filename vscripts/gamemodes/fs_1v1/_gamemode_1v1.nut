@@ -75,6 +75,7 @@ const bool RELEASE_TESTED = false
 	global function DEV_acceptedchallenges
 	global function DEV_GetGamestateRef
 	global function DEV_PrintGameStates
+	global function DEV_rest
 #endif
 
 global struct soloLocStruct
@@ -116,8 +117,10 @@ global struct soloGroupStruct
 	bool GROUP_INPUT_LOCKED = false //(mk): lock group to their input
 	bool IsFinished = false //player1 or player2 is died, set this to true and soloModeThread() will handle this
 	bool IsKeep = false //player may want to play with current opponent,so we will keep this group
-	bool cycle = false //(mk): locked 1v1s can choose to cycle spawns
-	bool swap = false //(mk): locked 1v1s can have random side they spawn on
+	bool cycle = true //(mk): locked 1v1s can choose to cycle spawns
+	bool swap = true //(mk): locked 1v1s can have random side they spawn on
+	
+	bool isValid = false 
 	
 	float startTime
 	table <entity,groupStats> statsRecap
@@ -274,97 +277,106 @@ const array<string> LEGEND_INDEX_ARRAY = [
 
 //DEV functions
 #if DEVELOPER
-void function DEV_printlegends()
-{
-	foreach ( char in GetAllCharacters() )
+	void function DEV_printlegends()
 	{
-		printt( ItemFlavor_GetHumanReadableRef( char ) )
-	}
-}
-	
-void function DEV_legend( entity player, int id )
-{
-	if( id < GetAllCharacters().len() )
-	{
-		ItemFlavor select_character = file.characters[ characterslist[ id ] ]
-		CharacterSelect_AssignCharacter( ToEHI( player ), select_character )
-	}
-	else
-	{
-		SetPlayerCustomModel( player, id )
-	}
-}
-
-void function DEV_acceptchal( entity player )
-{
-	array<string> args = ["accept"]
-	ClientCommand_mkos_challenge( player, args )
-}
-
-void function DEV_allchals()
-{
-	string printtext = ""
-	
-	foreach( index, structs in file.allChallenges )
-	{
-		printtext += "\n\n --- All challenges Index: " + index + " ---\n\n"
-		
-		printtext += " Struct for player: " + string( structs.player ) + "\n"
-		
-		foreach( int handle, float ztime in structs.challengers )
+		foreach ( char in GetAllCharacters() )
 		{
-			printtext += "Handle: " + handle + " Time:" + ztime
+			printt( ItemFlavor_GetHumanReadableRef( char ) )
 		}
 	}
-	
-	printt( printtext )
-}
-
-void function DEV_acceptedchallenges()
-{
-	foreach( int handle, entity player in file.acceptedChallenges )
-	{
-		printt( handle, player )
-	}
-}
-
-void function DEV_1v1Init()
-{
-	foreach( string key, int value in e1v1State )
-	{
-		file.e1v1StateNameToIntMap[ key ] <- value 
-		file.e1v1StateIDToNameMap[ value ] <- key 
-	}
-}
-
-string function DEV_GetGamestateRef( int e1v1StateEnum )
-{
-	if( e1v1StateEnum in file.e1v1StateIDToNameMap )
-		return file.e1v1StateIDToNameMap[ e1v1StateEnum ]
 		
-	return "not found"
-}
-
-int function DEV_GetGamestateID( string e1v1StateRef )
-{
-	if( e1v1StateRef in file.e1v1StateNameToIntMap )
-		return file.e1v1StateNameToIntMap[ e1v1StateRef ]
-		
-	return -1
-}
-
-void function DEV_PrintGameStates()
-{
-	string printmsg = ""
-	
-	foreach( player in GetPlayerArray() )
+	void function DEV_legend( entity player, int id )
 	{
-		int state = player.e.gamemode1v1State
-		printmsg += string( player ) + " State: " + state + " : " + DEV_GetGamestateRef( state ) + " \n"
+		if( id < GetAllCharacters().len() )
+		{
+			ItemFlavor select_character = file.characters[ characterslist[ id ] ]
+			CharacterSelect_AssignCharacter( ToEHI( player ), select_character )
+		}
+		else
+		{
+			SetPlayerCustomModel( player, id )
+		}
 	}
-	
-	printt( printmsg )
-}
+
+	void function DEV_acceptchal( entity player )
+	{
+		array<string> args = ["accept"]
+		ClientCommand_mkos_challenge( player, args )
+	}
+
+	void function DEV_allchals()
+	{
+		string printtext = ""
+		
+		foreach( index, structs in file.allChallenges )
+		{
+			printtext += "\n\n --- All challenges Index: " + index + " ---\n\n"
+			
+			printtext += " Struct for player: " + string( structs.player ) + "\n"
+			
+			foreach( int handle, float ztime in structs.challengers )
+			{
+				printtext += "Handle: " + handle + " Time:" + ztime
+			}
+		}
+		
+		printt( printtext )
+	}
+
+	void function DEV_acceptedchallenges()
+	{
+		foreach( int handle, entity player in file.acceptedChallenges )
+		{
+			printt( handle, player )
+		}
+	}
+
+	void function DEV_1v1Init()
+	{
+		foreach( string key, int value in e1v1State )
+		{
+			file.e1v1StateNameToIntMap[ key ] <- value 
+			file.e1v1StateIDToNameMap[ value ] <- key 
+		}
+	}
+
+	string function DEV_GetGamestateRef( int e1v1StateEnum )
+	{
+		if( e1v1StateEnum in file.e1v1StateIDToNameMap )
+			return file.e1v1StateIDToNameMap[ e1v1StateEnum ]
+			
+		return "not found"
+	}
+
+	int function DEV_GetGamestateID( string e1v1StateRef )
+	{
+		if( e1v1StateRef in file.e1v1StateNameToIntMap )
+			return file.e1v1StateNameToIntMap[ e1v1StateRef ]
+			
+		return -1
+	}
+
+	void function DEV_PrintGameStates()
+	{
+		string printmsg = ""
+		
+		foreach( player in GetPlayerArray() )
+		{
+			int state = player.e.gamemode1v1State
+			printmsg += string( player ) + " State: " + state + " : " + DEV_GetGamestateRef( state ) + " \n"
+		}
+		
+		printt( printmsg )
+	}
+
+	void function DEV_rest( entity player = null )
+	{
+		if( !IsValid( player ) )
+			player = p( 0 )
+			
+		expliciteRest( player )
+	}
+
 #endif
 
 void function resetChallenges()
@@ -372,7 +384,7 @@ void function resetChallenges()
 	foreach ( chalStruct in file.allChallenges )
 	{
 		if( isChalValid( chalStruct ) )
-			chalStruct.challengers = {}
+			chalStruct.challengers.clear()
 	}
 	
 	file.acceptedChallenges = {}
@@ -907,13 +919,7 @@ soloGroupStruct function returnSoloGroupOfPlayer( entity player )
 
 //p
 void function addGroup( soloGroupStruct newGroup ) 
-{
-	if( !IsValid( newGroup ) )
-	{
-		sqerror("[addGroup]: Logic Flow Error: group is invalid during creation")
-		return
-	}
-	
+{	
 	mGroupMutexLock = true
 	
 		int groupHandle = GetUniqueID()
@@ -949,7 +955,10 @@ void function addGroup( soloGroupStruct newGroup )
 			}
 			
 			if( success )
+			{
+				newGroup.isValid = true
 				file.groupsInProgress[ groupHandle ] <- newGroup
+			}
 		}
 		else 
 		{	
@@ -1154,6 +1163,9 @@ void function mkos_Force_Rest( entity player )
 	}
 	else 
 	{
+		//soloGroupStruct group = returnSoloGroupOfPlayer( player )
+		//group.IsFinished = true
+		
 		if( isPlayerInWaitingList( player ) )
 		{
 			deleteWaitingPlayer( player.p.handle )
@@ -2090,6 +2102,7 @@ entity function returnChallengedPlayer( entity player )
 	foreach( challenged_eHandle, challenger in file.acceptedChallenges )
 	{
 		if( !IsValid( challenger ) )
+		{
 			continue
 		
 		if ( challenger == player )
@@ -2414,8 +2427,7 @@ void function expliciteRest( entity player )
 		return 
 	 
 	LocalMsg( player, "#FS_YouAreResting", "#FS_BASE_RestText" )
-	
-	soloModePlayerToRestingList(player)
+	soloModePlayerToRestingList( player )
 	
 	try
 	{
@@ -2451,7 +2463,8 @@ entity function getRandomOpponentOfPlayer(entity player)
 		}
     }
 	
-	int count = eligible.len()	
+	int count = eligible.len()
+	
 	if( count > 0 )
 	{
 		entity foundOpponent = eligible[ RandomIntRangeInclusive( 0, count - 1 ) ]
@@ -2603,6 +2616,8 @@ void function soloModePlayerToWaitingList( entity player )
 	if( !isScenariosMode() )
 		Remote_CallFunction_ByRef( player, "ForceScoreboardFocus" )
 
+	// Check if the player is part of any group
+	
 	//检查resting list 是否有该玩家
 	deleteSoloPlayerResting( player )
 	if( isScenariosMode() && FS_Scenarios_GetMatchIsEnding() )
@@ -2627,6 +2642,7 @@ void function soloModePlayerToInProgressList( soloGroupStruct newGroup )
 	}
 	
 	Gamemode1v1_SetPlayerGamestate( player, e1v1State.MATCHING )
+	Gamemode1v1_SetPlayerGamestate( opponent, e1v1State.MATCHING )
 	
     player.SetPlayerNetEnt("FSDM_1v1_Enemy", opponent )
     opponent.SetPlayerNetEnt("FSDM_1v1_Enemy", player )
@@ -2698,7 +2714,7 @@ void function soloModePlayerToRestingList(entity player)
 
 	soloGroupStruct group = returnSoloGroupOfPlayer( player )
 	
-	if( IsValid( group ) )
+	if( IsValid( group ) ) //this wont work, needs to check .isValid
 	{
 		if( isPlayerPendingChallenge( player ) || isPlayerPendingLockOpponent( player ) )
 		{
@@ -3164,11 +3180,16 @@ void function BannerImages_1v1Init()
 					
 					foreach( assetRef in playlistBannerAssets )
 					{
-						BannerAssets_GroupAppendAsset
-						(
-							"main_banner",
-							WorldDrawAsset_AssetRefToID( assetRef )
-						)
+						int refID = WorldDrawAsset_AssetRefToID( assetRef )
+						
+						if( refID != -1 )
+						{
+							BannerAssets_GroupAppendAsset
+							(
+								"main_banner",
+								refID
+							)
+						}
 					}
 				}
 			}
@@ -3472,7 +3493,8 @@ void function Gamemode1v1_Init( int eMap )
 		for ( int i = 0; i < allSoloLocations.len(); i = i + teamAmount )
 		{
 			soloLocStruct p
-					
+			int teamAmount = GetCurrentPlaylistVarInt( "fs_scenarios_teamAmount", 3 )
+			
 			for ( int j = 0; j < teamAmount; j++  )
 				p.respawnLocations.append( allSoloLocations[ i + j ].spawn )
 
@@ -3721,10 +3743,9 @@ void function DefinePanelCallbacks( PanelTable panels )
             enemiesArray.fastremovebyvalue( user )
             
             #if TRACKER
-				if ( bBotEnabled() && IsValid( GetMessageBotEnt() ) && IsAlive( GetMessageBotEnt() ) )
-				{
-					enemiesArray.fastremovebyvalue( GetMessageBotEnt() )
-				}
+				entity messageBot = GetMessageBotEnt()
+				if ( bBotEnabled() && IsValid( messageBot ) && IsAlive( messageBot ) )
+					enemiesArray.fastremovebyvalue( messageBot )
             #endif
 			
 			if ( enemiesArray.len() == 0 )
@@ -3980,7 +4001,7 @@ void function soloModeThread( LocPair waitingRoomLocation )
 			//}
 			//else 
 			//{	
-				if( !IsValid(group) )
+				if( !IsValid( group ) )
 				{
 					removed = true
 				}
@@ -3988,7 +4009,8 @@ void function soloModeThread( LocPair waitingRoomLocation )
 				if ( !removed && group.IsFinished ) //this round has been finished //IsValid(group) &&
 				{
 					SetIsUsedBoolForRealmSlot( group.slotIndex, false )
-					
+					HandleOpponentInfo( group )
+										
 					soloModePlayerToWaitingList( group.player1 )
 					soloModePlayerToWaitingList( group.player2 )
 					destroyRingsForGroup( group )
@@ -4040,7 +4062,6 @@ void function soloModeThread( LocPair waitingRoomLocation )
 						if ( processRestRequest( group.player1 ) )
 						{	
 							nowep = true
-							processRestRequest( group.player1 )
 						}
 						else 
 						{
@@ -4049,10 +4070,9 @@ void function soloModeThread( LocPair waitingRoomLocation )
 						}
 						
 						
-						if ( processRestRequest( group.player1 ) )
+						if ( processRestRequest( group.player2 ) )
 						{
 							nowep = true
-							processRestRequest( group.player1 )
 						}
 						else 
 						{
@@ -5265,6 +5285,8 @@ void function Init_IBMM( entity player )
 		SetDefaultIBMM( player )
 }
 
+//Made by @CafeFPS - don't ask wtf is this just enjoy it
+//modified by mkos ( Todo: Move to code )
 void function Thread_CheckInput( entity player )
 {
 	int timesCheckedForNewInput = 0
@@ -5744,6 +5766,9 @@ void function Gamemode1v1_OnSpawned( entity player )
 	
 	maki_tp_player( player, waitingRoomLocation )
 	player.UnfreezeControlsOnServer()
+	
+	if( !IsCurrentState( player, e1v1State.MATCHING ) || ( player.GetPlayerNetEnt( "FSDM_1v1_Enemy" ) == null ) )
+		HolsterAndDisableWeapons( player )
 }
 
 array<string> function ValidateBlacklistedWeapons( array<string> Weapons )
@@ -5813,4 +5838,24 @@ void function SetupPlayerReserveAmmo( entity player, entity weapon )
 void function Gamemode1v1_SetWeaponAmmoStackAmount( int amount )
 {
 	settings.give_weapon_stack_count_amount = amount
+}
+
+void function HandleOpponentInfo( soloGroupStruct group )
+{
+	#if ( false ) && DEVELOPER
+		printt
+		( 
+			"Setting Opponents: \n", 
+			group.player1, 
+			"'s Opponent:", 
+			group.player2, 
+			"\n ",
+			group.player2, 
+			"'s Opponent:", 
+			group.player1 
+		)
+	#endif 
+	
+	group.player1.p.lastOpponent = group.player2
+	group.player2.p.lastOpponent = group.player1
 }

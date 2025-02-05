@@ -164,8 +164,6 @@ struct
 	array< string > metagameWeaponsPrimary
 	array< string > metagameWeaponsSecondary
 	
-	bool bVictimDeathErrorReported = false
-	array<string> victimErrorUIDs
 } file
 
 struct
@@ -425,8 +423,6 @@ void function _CustomTDM_Init()
 			}
 		}
 	)
-	
-	AddCallback_OnPlayerKilled( Callback_OnPlayerKilled_FSCommon )
 
 	if ( FlowState_SURF() )
 	{
@@ -3819,7 +3815,7 @@ void function SimpleChampionUI()
 			PlayerRestoreShieldsFIESTA(player, player.GetShieldHealthMax())
 			PlayerRestoreHPFIESTA(player, 100)
 		}
-		else
+		else if( player.GetShieldHealthMax() >= Equipment_GetDefaultShieldHP() )
 			PlayerRestoreHP(player, 100, Equipment_GetDefaultShieldHP())
 		
 		ClientCommand( player, "-zoom" )
@@ -4505,10 +4501,25 @@ void function RingDamage( entity circle, float currentRadius)
 	}
 }
 
-void function PlayerRestoreHP(entity player, float health, float shields)
+void function PlayerRestoreHP( entity player, float health, float shields )
 {
-	if ( !IsValid( player ) ) return
-	if( !IsAlive( player) ) return
+	if ( !IsValid( player ) ) 
+		return
+		
+	if( !IsAlive( player) ) 
+		return
+	
+	/* Debug code */
+	// int shieldMax = player.GetShieldHealthMax()
+	// if( shieldMax < shields )
+	// {
+		// string error = format( "Runtime Timing issue: Trying to set shields to '%.2f' for player '%s' but maxshields is %.2f", shields, string( player ), shieldMax )
+		// Warning( error )
+		
+		// DumpStack()
+		// DEV_SetBreakPoint()
+		// return
+	// }
 
 	player.SetHealth( health )
 	Inventory_SetPlayerEquipment(player, "helmet_pickup_lv3", "helmet")
@@ -7570,40 +7581,4 @@ void function FS_Hack_CreateBulletsCollisionVolume( vector origin, float large =
 	
 	//Kill trigger
 	file.playerSpawnedProps.append( AddDeathTriggerWithParams( origin - <0,0,500>, large ) )
-}
-
-const int MAX_GAMESTAT_NET_INT = MAX_GAMESTAT_NET_INT
-void function Callback_OnPlayerKilled_FSCommon( entity victim, entity attacker, var damageInfo )
-{
-	if( !IsValid( attacker ) )
-		return 
-		
-	int attackerKills = attacker.GetPlayerNetInt( "kills" )	
-	if( attackerKills >= MAX_GAMESTAT_NET_INT )
-	{
-		#if TRACKER 
-			LogError( "player '" + victim.GetPlatformUID() + "' reached 510 deaths in a match." )
-		#endif 
-		
-		attacker.SetPlayerNetInt( minint( attackerKills, MAX_GAMESTAT_NET_INT ) )
-		SetTdmStateToNextRound()
-	}
-		
-	if( !IsValid( victim ) )
-		return
-		
-	int victimDeaths = victim.GetPlayerNetInt( "deaths" )
-	if( victimDeaths >= MAX_GAMESTAT_NET_INT )
-	{
-		#if TRACKER 
-			victimUID = victim.GetPlatformUID()
-			if ( !file.bVictimDeathErrorReported && !victimErrorUIDs.contains( victimUID ) )
-			{
-				LogError( "player '" + victimUID + "' reached " + MAX_GAMESTAT_NET_INT + " deaths in a match." )
-				file.bVictimDeathErrorReported = true
-			}		
-		#endif
-		
-		victim.SetPlayerNetInt( "deaths", minint( victimDeaths, MAX_GAMESTAT_NET_INT ) )
-	}
 }

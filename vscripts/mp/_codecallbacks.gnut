@@ -21,6 +21,9 @@ global function SvCodeCallbacksCommon_Init
 global function EvoCurrentShieldToNextTier
 global function CodeCallback_OnPhysicsAutoDisable
 global function AddEntityCallback_OnPhysicsDisabled
+global function __IncrementPlayerNetInt
+
+global const int MAX_GAMESTAT_NET_INT = 510
 
 struct AccumulatedDamageData
 {
@@ -478,7 +481,7 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 				if( IsValid( ent ) )
 					AddPlayerScore( attacker, "Sur_DownedPilot", ent )
 				
-				attacker.SetPlayerNetInt( "kills", attacker.GetPlayerNetInt( "kills" ) + 1 )
+				__IncrementPlayerNetInt( attacker, "kills" )
 				
 				#if TRACKER 
 					Tracker_EndFight( ent, attacker, damageInfo )
@@ -1178,4 +1181,12 @@ void function AddEntityCallback_OnPhysicsDisabled( entity ent, void functionref(
 
 	ent.PhysicsSetAutoDisableNotifications( true )
 	ent.e.onPhysicsDisabledCallbacks.append( callbackFunc )
+}
+
+void function __IncrementPlayerNetInt( entity player, string type )
+{
+	int playerStat = player.GetPlayerNetInt( type )
+	
+	if( playerStat < MAX_GAMESTAT_NET_INT )
+		player.SetPlayerNetInt( type, playerStat + 1 )	
 }
