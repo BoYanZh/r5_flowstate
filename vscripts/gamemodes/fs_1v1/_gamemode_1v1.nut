@@ -4599,7 +4599,6 @@ void function FS_1v1_OnPlayerDisconnected( entity player )
 	}
 }
 
-//mkos input watch
 void function InputWatchdog( entity player, entity opponent, soloGroupStruct group )
 {
 	#if DEVELOPER
@@ -5421,7 +5420,6 @@ int function GetInput( entity player )
 	#endif
 }
 
-//mkos
 void function SetInput_IN_MOVELEFT( entity player )
 {
 	//sqprint( "Setting movevalue for " + player.GetPlayerName() + " to 3" )

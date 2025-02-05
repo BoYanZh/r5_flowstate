@@ -1106,7 +1106,6 @@ Scripts:
 	// 4d specific
 	custom_maps/_custom_maps_4d.nut
 	
-	//mkos LG patches & map based patches
 	custom_maps/_LG_Duel.nut
 	custom_maps/_map_patch.nut
 

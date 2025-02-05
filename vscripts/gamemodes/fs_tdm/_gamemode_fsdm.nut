@@ -4687,7 +4687,7 @@ void function Message( entity player, string text, string subText = "", float du
 		return
 		
 	if( !player.IsPlayer() ) 
-		return //mkos ( crash fix )
+		return
 		
 	if ( !player.p.isConnected ) 
 		return

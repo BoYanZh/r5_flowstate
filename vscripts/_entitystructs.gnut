@@ -832,6 +832,8 @@ global struct ServerPlayerStruct
 	int ziplineUsages = 0
 	float lastmoved
 	
+	
+	////////////////////////////////////////////////////////////////
 	//mkos /or/ r5r stats /r5r.dev
 	
 	int handle 					= -1
@@ -888,6 +890,9 @@ global struct ServerPlayerStruct
 	int relayChallengeCode 		= 0
 	
 	bool bTextmute 				= false	
+	
+	////////////////////////////////////////////////////////////////
+
 
 	//MovementGym
 	bool isTimerActive = false
