@@ -2179,10 +2179,8 @@ void function Init_NewGame()
 		
 		if ( IsValid( player ) && access_status >= RESTRICTED_ACCESS_STATUS_REQUIRED )//Todo: Revisit for more modularity from a single defined source and remove CONST adjustments
 		{	
-			mkos_Force_Rest( player )
-			
-			if( file.gamemode_type_1v1 )
-				Message( player, "Welcome " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
+			mkos_Force_Rest( player )		
+			Message( player, "Welcome " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
 			
 			CommandsEnabled( player, true )
 		}
@@ -5765,8 +5763,8 @@ void function FireRemoteMotd( entity player )
 				Remote_CallFunction_UI( player, "UI_Callback_MOTD" )
 					wait 5
 					
-				if( IsValid( player ) && player.p.isConnected )
-					LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message //todo: move to client
+				// if( IsValid( player ) && player.p.isConnected )
+					// LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )
 			}
 		}
 	)()
@@ -5787,8 +5785,8 @@ void function ShowPlayerLocalMOTD( entity player )
 					SendMotdToPlayer( player, file.localFlowstate_MOTD ) //LineBreak( file.localFlowstate_MOTD, 80 )
 						wait 5
 						
-					if( IsValid( player ) )
-						LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
+					// if( IsValid( player ) )
+						// LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
 				}
 		}
 	)()
