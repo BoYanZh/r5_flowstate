@@ -21,6 +21,7 @@ global const array<asset> CHARACTER_ASSETS =
 	$"settings/itemflav/character/wattson.rpak",
 	$"settings/itemflav/character/crypto.rpak",
 	$"settings/itemflav/character/revenant.rpak",
+	$"settings/itemflav/character/loba.rpak",
 	$"settings/itemflav/character/dummie.rpak",
 	$"settings/itemflav/character/random.rpak",
 ]
@@ -71,6 +72,7 @@ global const array<asset> LOADSCREEN_ASSET_LIST =
 	$"settings/itemflav/loadscreen/custom_sdk_4.rpak",
 	$"settings/itemflav/loadscreen/custom_sdk_5.rpak",
 	$"settings/itemflav/loadscreen/custom_sdk_6.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_7.rpak",
 ]
 
 global const array<asset> MUSIC_PACK_ASSET_LIST =

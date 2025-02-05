@@ -291,6 +291,7 @@ struct
 	table<string, bool functionref(entity player)> unlockFuncs
 } file
 
+global const array< string > HIDDEN_CHARACTER_REFS = [ "character_dummie", "character_random", "SAID01897196488", "SAID00996325304" ]
 /////////////////////////
 /////////////////////////
 //// Initialiszation ////

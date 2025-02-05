@@ -412,8 +412,6 @@ void function PrecacheSDKEntities()
 	PrecacheModel( $"mdl/weapons_r5/lmg_devotion/w_lmg_devotion_legendary_03.rmdl") // not a skin! used for revenant gcard
 
 	///////////////////////character_loba///////////////////////
-	PrecacheModel( $"mdl/Humans/class/medium/pilot_medium_loba.rmdl" )
-	PrecacheModel( $"mdl/Weapons/arms/pov_pilot_medium_loba.rmdl" )
 	PrecacheModel( $"mdl/fx/loba_staff_holo_stand.rmdl" )
 	PrecacheModel( $"mdl/Weapons/loba_rings/ptpov_loba_rings.rmdl" )
 	PrecacheModel( $"mdl/Weapons/loba_rings/w_loba_rings.rmdl" )
@@ -424,6 +422,9 @@ void function PrecacheSDKEntities()
 	PrecacheModel( $"mdl/props/loba_mirror/loba_mirror.rmdl" )
 	PrecacheModel( $"mdl/props/loba_loot_stick/loba_loot_stick.rmdl" )
 	PrecacheModel( $"mdl/Weapons/p2011/w_p2011_loba_prop_version.rmdl" )
+	PrecacheModel( $"mdl/props/revenant_jar/revenant_jar.rmdl" )
+	PrecacheModel( $"mdl/props/loot_bin/loot_bin_01_loba_gladcard.rmdl" )
+	PrecacheModel( $"mdl/props/loba_treasure/loba_treasure.rmdl" )
 
 	///////////////////////npcs///////////////////////
 	PrecacheModel( $"mdl/Humans/grunts/imc_grunt_lmg_corpse.rmdl" )
