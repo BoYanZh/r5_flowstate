@@ -225,6 +225,9 @@ void function SV_CL_Init()
 	MpWeaponProximityMine_Init()
 	MpWeaponRocketLauncher_Init()
 
+	//MpWeaponMountedTurretPlaceable_Init()
+	MpWeaponMountedTurretWeapon_Init()
+
     // Zipline Utility
     #if SERVER
 		TurretPlasma_Init()

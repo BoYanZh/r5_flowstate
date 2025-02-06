@@ -130,6 +130,7 @@ global enum eDamageSourceId
 	mp_weapon_rspn101_og
 	sp_weapon_arc_tool
 	mp_weapon_pulse_lmg
+	mp_weapon_mounted_turret_weapon
 	//
 	melee_pilot_emptyhanded
 	melee_pilot_arena
@@ -676,6 +677,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.mp_weapon_arc_launcher ] 					= "#WPN_ARC_LAUNCHER",
 		[ eDamageSourceId.mp_ability_octane_stim ] 					= "#WPN_OCTANE_STIM_SHORT",		
 		[ eDamageSourceId.mp_weapon_tesla_trap ] 					= "#DEATH_TESLA_TRAP",
+		[ eDamageSourceId.mp_weapon_mounted_turret_weapon ] 		= "#untyped",
 		[ eDamageSourceId.mp_ability_crypto_drone_emp ]				= "#WPN_DRONE_EMP",
 		[ eDamageSourceId.mp_ability_crypto_drone_emp_trap ]		= "#WPN_DRONE_EMP",
 		[ eDamageSourceId.melee_wraith_kunai ] 						= "#DEATH_MELEE_WRAITH_KUNAI",

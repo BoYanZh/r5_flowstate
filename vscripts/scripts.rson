@@ -349,6 +349,9 @@ Scripts:
 	weapons/sh_stim.gnut
 	weapons/mp_weapon_energy_shotgun.nut
 	weapons/mp_weapon_grenade_sonar.nut
+
+	weapons/mp_weapon_mounted_turret_placeable.nut
+	weapons/mp_weapon_mounted_turret_weapon.nut
 ]
 
 When: "SERVER || CLIENT"

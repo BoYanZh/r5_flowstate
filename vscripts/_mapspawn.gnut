@@ -399,6 +399,9 @@ void function PrecacheSDKWeapons()
 	PrecacheWeapon( $"npc_weapon_lstar" )
 	PrecacheWeapon( $"npc_weapon_hemlok" )
 	PrecacheWeapon( $"npc_weapon_energy_shotgun" )
+
+	PrecacheWeapon( $"mp_weapon_mounted_turret_weapon" )
+	PrecacheWeapon( $"mp_weapon_mounted_turret_placeable" )
 }
 
 void function PrecacheSDKEntities()
