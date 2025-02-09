@@ -125,14 +125,6 @@ void function MapTriggers_Init()
     
     switch ( MapName() )
     {
-        case eMaps.mp_rr_aqueduct_night:
-        case eMaps.mp_rr_aqueduct:
-        {
-            CreateWallTrigger( <425, -1590, -1689>, 1, 30000 )
-            CreateWallTrigger( <732, -4456, 840>, 2 , 6000)
-            CreateWallTrigger( <774, -6394, 2067>, 1 )
-            break
-        }
         // case eMaps.mp_rr_arena_skygarden:
         // {
             // CreateWallTrigger( <0, -250, 3490>, 0, 10000 )
