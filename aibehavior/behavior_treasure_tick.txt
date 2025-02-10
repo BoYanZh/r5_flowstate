@@ -1,22 +1,18 @@
 Selector Common
-	SelectSchedule_FallToGround
-	SelectSchedule_Flinch
 	SelectSchedule_LayeredBehavior
 Selector_End
 
 
 Selector Idle
-	SelectSchedule_Idle
+	SelectSchedule_IdleStand
 Selector_End
 
 
 Selector Alert
-	SelectSchedule_RunFromEnemy
-	SelectSchedule_CombatFace
+	SelectSchedule_IdleStand
 Selector_End
 
 
 Selector Combat
-	SelectSchedule_RunFromEnemy
-	SelectSchedule_CombatFace
+	SelectSchedule_IdleStand
 Selector_End
