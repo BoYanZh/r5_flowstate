@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 #base "_base_handgun_modded_weapons.txt"
 
 WeaponData

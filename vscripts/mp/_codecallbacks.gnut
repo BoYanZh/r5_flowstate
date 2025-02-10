@@ -21,6 +21,9 @@ global function SvCodeCallbacksCommon_Init
 global function EvoCurrentShieldToNextTier
 global function CodeCallback_OnPhysicsAutoDisable
 global function AddEntityCallback_OnPhysicsDisabled
+global function __IncrementPlayerNetInt
+
+global const int MAX_GAMESTAT_NET_INT = 510
 
 struct AccumulatedDamageData
 {
@@ -73,8 +76,6 @@ void function OnClientConnected( entity player )
 		return
 
 	printt( "[+] New player connected! ", player )
-
-	//By CafeFPS
 
 	//Wraith Q fix
 	player.SetForceVisibleInPhaseShift( true )
@@ -397,7 +398,6 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 	if (  ( entIsNPC && attackerIsPlayer ) ) //|| ( entIsPlayer && attackerIsNPC ) )
 	{
 		float damage = 0
-		//AI bleedthrough fix By @CafeFPS (CafeFPS)
 		if( ent.GetShieldHealth() > 0 )
 		{
 			//DamageInfo_AddCustomDamageType( damageInfo, DF_SHIELD_DAMAGE )
@@ -481,14 +481,14 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 				if( IsValid( ent ) )
 					AddPlayerScore( attacker, "Sur_DownedPilot", ent )
 				
-				attacker.SetPlayerNetInt( "kills", attacker.GetPlayerNetInt( "kills" ) + 1 )
+				__IncrementPlayerNetInt( attacker, "kills" )
 				
 				#if TRACKER 
 					Tracker_EndFight( ent, attacker, damageInfo )
 				#endif 
 			}
 
-			if( IsValid( attacker ) && attacker.IsPlayer() && IsAlive( attacker ) && file.flowstate_evo_shields && Gamemode() == eGamemodes.SURVIVAL )
+			if( file.flowstate_evo_shields && Gamemode() == eGamemodes.SURVIVAL && IsValid( attacker ) && attacker.IsPlayer() && IsAlive( attacker ) )
 				EvoCurrentShieldToNextTier( damageInfo, attacker )
 		}
 	}
@@ -1181,4 +1181,12 @@ void function AddEntityCallback_OnPhysicsDisabled( entity ent, void functionref(
 
 	ent.PhysicsSetAutoDisableNotifications( true )
 	ent.e.onPhysicsDisabledCallbacks.append( callbackFunc )
+}
+
+void function __IncrementPlayerNetInt( entity player, string type )
+{
+	int playerStat = player.GetPlayerNetInt( type )
+	
+	if( playerStat < MAX_GAMESTAT_NET_INT )
+		player.SetPlayerNetInt( type, playerStat + 1 )	
 }

@@ -276,7 +276,6 @@ int function SmartAmmo_FireWeapon_Bullet( entity weapon, WeaponPrimaryAttackPara
 	return 1
 }
 int function SmartAmmo_FireNeedler( entity weapon, WeaponPrimaryAttackParams attackParams, int damageType, int explosionDamageType )
-//By ColombiaFPS
 {
 	if ( !IsValid( weapon ) )
 		return 0

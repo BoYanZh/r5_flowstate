@@ -237,7 +237,6 @@ void function SetupWeaponSkin( ItemFlavor skin )
 		{
 			int skinLegendaryIndex = weaponLegendaryIndexMap.len()
 			
-			//Cafe was here
 			#if !UI
 				// printt( skinLegendaryIndex, "to weapon:", ItemFlavor_GetHumanReadableRef( weaponFlavor ), "Added to worldModel", worldModel)
 				if ( !( ItemFlavor_GetHumanReadableRef( weaponFlavor ) in fileLevel.legendaryWeaponSkinsMap_FS ) )

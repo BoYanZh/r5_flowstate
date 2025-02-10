@@ -5,15 +5,6 @@ globalize_all_functions
 //  +-++-+-  -+-++-++-+++++-+  +-+- -+-+
 //  ¦¦¦¦ ¦++++¦¦ ¦¦¦¦¦ ¦¦¦ ¦   ¦ -+-+¦¦¦
 //  - -+-+ ++ +-+- -+-++++ -   +-+ - - -
-//  
-//  Client Script
-//  
-//  Made by DEAFPS
-//
-//  With help from:
-//  CafeFPS - General help
-//  
- 
 
 //Basic settings
 bool kmh

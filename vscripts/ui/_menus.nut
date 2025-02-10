@@ -199,7 +199,7 @@ string function GetCurrentLobbyMenu()
 	string menuName = "R5RLobbyMenu"
 
 	if(IsLobby())
-		menuName = GetPlaylistVarBool("menufall", "r5reloaded_lobby", true) ? "R5RLobbyMenu" : "LobbyMenu"
+		menuName = GetPlaylistVarBool("dev_default", "r5reloaded_lobby", true) ? "R5RLobbyMenu" : "LobbyMenu"
 
 	return menuName
 }
@@ -492,8 +492,7 @@ void function UICodeCallback_LevelInit( string levelname )
 {	
 	if ( GetCurrentPlaylistVarBool( "random_loadscreen", false ) )
 	{	
-		if ( RandomFloat( 1.0 ) >= 0.90 ) // 10% chance to load a custom loadscreen
-			SetCustomLoadScreen( $"loadscreens/custom/loadscreen_r5r_community_01" )
+		//SetCustomLoadScreen( $"loadscreens/custom/loadscreen_r5r_community_01" )
 	}
 }
 
@@ -1772,6 +1771,7 @@ void function InitMenus()
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel2", InitWeaponSkinsPanel )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel3", InitWeaponSkinsPanel )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel4", InitWeaponSkinsPanel )
+	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel5", InitWeaponSkinsPanel )
 
 	var miscCustomizeMenu = AddMenu( "MiscCustomizeMenu", $"scripts/resource/ui/menus/CustomLobby/misc_customize.menu", InitMiscCustomizeMenu )
 	AddPanel( miscCustomizeMenu, "LoadscreenPanel", InitLoadscreenPanel )

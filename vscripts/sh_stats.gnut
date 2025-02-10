@@ -246,6 +246,11 @@ global struct CareerStats
 	StatTemplate& pathfinder_ultimate_ziplines_used_by_allies
 	StatTemplate& pathfinder_passive_beacons_scanned
 
+	// Revenant
+	StatTemplate& revenant_silenced_target
+	StatTemplate& revenant_silenced_target_knockdowns
+	StatTemplate& revenant_death_totem_activates
+
 	// Wattson
 	StatTemplate& wattson_breaches_detected
 	StatTemplate& wattson_friendly_shields_charged
@@ -736,6 +741,9 @@ void function RegisterAllStats()
 	CAREER_STATS.bangalore_passive_distance = RegisterAccumulatedStat_Int( null, "bangalore_passive_distance", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.bangalore_tactical_smoke_hits = RegisterAccumulatedStat_Int( null, "bangalore_tactical_smoke_hits", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.bangalore_ultimate_damage_done = RegisterAccumulatedStat_Int( null, "bangalore_ultimate_damage_done", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_silenced_target = RegisterAccumulatedStat_Int( null, "revenant_silenced_target", TRACKERS_NEED | CHALLENGES_NEED ) //
+	CAREER_STATS.revenant_silenced_target_knockdowns = RegisterAccumulatedStat_Int( null, "revenant_silenced_target_knockdowns", TRACKERS_NEED | CHALLENGES_NEED ) //
+	CAREER_STATS.revenant_death_totem_activates = RegisterAccumulatedStat_Int( null, "revenant_death_totem_activates", TRACKERS_NEED | CHALLENGES_NEED ) //
 
 	StatEnumStruct season_SES = RegisterStatEnumStruct( null, "seasons", "eSeasonFlavor", allSeasonRefs )
 	CAREER_STATS.season_battlepass_level = RegisterCachedCalculatedStat_Int( season_SES, "battlepass_level", BADGES_NEED, SetupGetSeasonBattlePassLevelForStat, [] ) // ✓

@@ -1,8 +1,3 @@
-//Flowstate Lightning Gun
-//Made by @CafeFPS
-//mkos - persistence (cafe is the goat)
-//-- everyone else: advice
-
 untyped 
 
 global function OnWeaponPrimaryAttack_Clickweapon

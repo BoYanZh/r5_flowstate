@@ -73,6 +73,7 @@ global function SetVictorySequenceSunSkyIntensity
 global function IsShowingVictorySequence
 global function ServerCallback_NessyMessage
 global function ShowChampionVictoryScreen
+global function SetCustomPlayerInfoShadowFormState
 
 global function CanReportPlayer
 
@@ -1021,6 +1022,12 @@ void function ClearCustomPlayerInfoTreatment(entity player)
 		delete file.customPlayerInfoTreatment[player]
 		RuiSetImage( file.pilotRui, "customTreatment", $"" )
 	}
+}
+
+void function SetCustomPlayerInfoShadowFormState( entity player, bool state )
+{
+	if ( file.pilotRui != null )
+		RuiSetBool( file.pilotRui, "useShadowFormFrame", state )
 }
 
 void function SetCustomPlayerInfoColor( entity player, vector characterColor )
@@ -2571,7 +2578,7 @@ void function AddInWorldMinimapObjectInternal( entity ent, var screen, asset def
 
 	var rui = RuiCreate( minimapAsset, screen, drawType, FULLMAP_Z_BASE + zOrder + zOrderOffset )
 
-	if ( ent.IsPlayer() ) //Colombia
+	if ( ent.IsPlayer() )
 	{
 		foreach(player, savedRui in file.playerArrows)
 		{

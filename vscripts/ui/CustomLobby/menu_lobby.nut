@@ -62,6 +62,8 @@ global table<string, asset> MapAssets = {
 	[ "mp_rr_arena_composite" ] = $"rui/menu/maps/mp_rr_arena_composite",
 	[ "mp_rr_arena_skygarden" ] = $"rui/menu/maps/mp_rr_arena_skygarden",
 	[ "mp_rr_party_crasher" ] = $"rui/menu/maps/mp_rr_party_crasher",
+	[ "mp_rr_olympus" ] = $"rui/menu/maps/mp_rr_olympus",
+	[ "mp_rr_olympus_tt" ] = $"rui/menu/maps/mp_rr_olympus_tt",
 	[ "mp_rr_olympus_mu1" ] = $"rui/menu/maps/mp_rr_olympus_mu1",
 	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/maps/mp_rr_phase_runner",
 	[ "mp_lobby" ] = $"rui/menu/maps/mp_lobby"
@@ -90,6 +92,8 @@ global table<string, string> MapNames = {
 	[ "mp_rr_arena_composite" ] = "Drop Off",
 	[ "mp_rr_arena_skygarden" ] = "Encore",
 	[ "mp_rr_party_crasher" ] = "Party Crasher",
+	[ "mp_rr_olympus" ] = "Olympus S7",
+	[ "mp_rr_olympus_tt" ] = "Olympus S7 - Boxing Ring",
 	[ "mp_rr_olympus_mu1" ] = "Olympus S9 [WIP]",
 	[ "mp_rr_arena_phase_runner" ] = "Phase Runner",
 	[ "mp_rr_arena_empty" ] = "Creative",
@@ -132,6 +136,7 @@ void function OnR5RLobby_Open()
 
 	ToolTips_MenuOpened( file.menu )
 	RegisterServerBrowserButtonPressedCallbacks()
+	InitPanelonLobbyLoad()
 }
 
 void function OnR5RLobby_Close()
@@ -175,7 +180,7 @@ void function SetupLobby()
 
 	if ( !file.initialisedHomePanel )
 	{
-		ItemFlavor character = GetItemFlavorByHumanReadableRef( GetCurrentPlaylistVarString( "set_legend", "character_wraith" ) )
+		ItemFlavor character = GetItemFlavorByHumanReadableRef( GetCurrentPlaylistVarString( "set_legend", "character_revenant" ) )
 		RequestSetItemFlavorLoadoutSlot( LocalClientEHI(), Loadout_CharacterClass(), character )
 
 		file.initialisedHomePanel = true
@@ -209,10 +214,9 @@ void function CreateNavButtons()
 		R5RCharactersPanel_Show()
 	} )
 
-	//Item flavor bugged, disable for now
-	// AddNavButton("Loadout", Hud_GetChild(file.menu, "LoadoutPanel"), ePresentationType.WEAPON_CATEGORY, void function( var button ) {
-		// ShowLoadoutPanel()
-	// }, false )
+	AddNavButton("Loadout", Hud_GetChild(file.menu, "LoadoutPanel"), ePresentationType.WEAPON_CATEGORY, void function( var button ) {ShowLoadoutPanel()}, true )
+
+	AddNavButton("Credits", Hud_GetChild(file.menu, "CreditsPanel"), ePresentationType.WEAPON_CATEGORY, void function( var button ) {ShowCreditPanel()}, true )
 
 	/*AddNavButton("Settings", null, void function( var button ) {
 		AdvanceMenu( GetMenu( "MiscMenu" ) )

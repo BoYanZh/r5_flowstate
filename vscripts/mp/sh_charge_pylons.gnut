@@ -1,8 +1,6 @@
-//By @CafeFPS
-
 global function ChargePylons_Init
 global function SetButtonNoBusyDelayed
-
+//TODO: REWORK THIS SCRIPT, ITS NOT PROPERLY MADE - LorryLeKral
 global const asset CHARGE_PYLON_PING_MODEL = $"mdl/test/davis_test/charge_pylong_ping_proxy.rmdl"
 
 struct

@@ -2681,6 +2681,24 @@ bool function empty( string a )
 	}
 #endif
 
+
+#if SERVER || CLIENT
+vector function RoundVectorInLocalSpace( vector vec, float interval, vector parentPos, vector parentAng )
+{
+	vec = WorldPosToLocalPos_NoEnt( vec, parentPos, parentAng )
+	vec = RotateVector( vec, AnglesInverse( parentAng ) )
+	vec = <floor( vec.x / interval ) * interval, floor( vec.y / interval ) * interval, floor( vec.z / interval ) * interval >
+	vec = RotateVector( vec, parentAng )
+	vec = LocalPosToWorldPos_NoEnt( vec, parentPos, parentAng )
+	return vec
+}
+
+bool function VectorInWorldBounds( vector vec )
+{
+	return fabs( vec.x ) <= MAX_WORLD_COORD_BUFFER && fabs( vec.y ) <= MAX_WORLD_COORD_BUFFER && fabs( vec.z ) <= MAX_WORLD_COORD_BUFFER
+}
+#endif
+
 //////////////////////////////////////////////////
 //												//
 //				string to array			 		//

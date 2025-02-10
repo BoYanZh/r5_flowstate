@@ -527,7 +527,7 @@ void function SetupTracks()
 			}
 			else if ( scriptName == TRACK_BIN_MOVER_NAME )
 			{
-				if ( GetCurrentPlaylistVarBool( "ignore_station_loot_bins", false ) || GetMapName() == "mp_rr_desertlands_holiday" )
+				if ( GetCurrentPlaylistVarBool( "ignore_station_loot_bins", false ) )
 					continue
 
 				stationLootBinData data
@@ -1265,7 +1265,7 @@ array<entity> function GetTrainPath()
 	Assert( nodes.len() > 1, "Train needs at least two nodes to travel between." )
 
 	#if DEVELOPER
-		// if ( file.devShowTrainPath )
+		if ( file.devShowTrainPath )
 			DrawTrainPath( nodes )
 	#endif
 
@@ -1559,7 +1559,7 @@ void function DesertlandsTrain_DisableSpotlight()
 
 void function DesertlandsTrain_ShowPath()
 {
-	file.devShowTrainPath = true
+	file.devShowTrainPath = false
 }
 #endif // SERVER && DEVELOPER
 

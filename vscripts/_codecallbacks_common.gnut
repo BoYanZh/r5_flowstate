@@ -76,6 +76,8 @@ global function AddEntityCallback_OnPostDamaged
 global function RemoveEntityCallback_OnPostDamaged
 global function AddEntityCallback_OnKilled
 global function RemoveEntityCallback_OnKilled
+global function AddEntityCallback_OnShadowHealthExhausted
+global function RemoveEntityCallback_OnShadowHealthExhausted
 global function AddEntityCallback_OnPostShieldDamage
 global function RemoveEntityCallback_OnPostShieldDamage
 
@@ -937,6 +939,26 @@ void function RemoveEntityCallback_OnKilled( entity ent, void functionref( entit
 
 	if ( ent.e.entKilledCallbacks.len() == 0 )
 		ent.SetDeathNotifications( false )
+}
+
+void function AddEntityCallback_OnShadowHealthExhausted( entity player, bool functionref( entity ) callbackFunc )
+{
+	#if DEVELOPER
+	foreach ( func in player.e.entOnShadowHealthExhaustedCallbacks )
+	{
+		Assert( func != callbackFunc , "Already added " + string( callbackFunc ) + " to entity" )
+	}
+	#endif
+
+	player.e.entOnShadowHealthExhaustedCallbacks.append( callbackFunc )
+}
+
+void function RemoveEntityCallback_OnShadowHealthExhausted( entity player, bool functionref( entity ) callbackFunc )
+{
+	int index = player.e.entOnShadowHealthExhaustedCallbacks.find( callbackFunc )
+
+	Assert( index != -1, "Requested OnShadowHealthExhausted " + string( callbackFunc ) + " to be removed not found! " )
+	player.e.entOnShadowHealthExhaustedCallbacks.fastremove( index )
 }
 
 void function AddEntityCallback_OnPostShieldDamage( entity ent, void functionref( entity, var, float ) callbackFunc )

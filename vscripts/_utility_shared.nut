@@ -200,7 +200,7 @@ void function InitWeaponScripts()
 
 	MpWeaponBasicBolt_Init()
 
-	WeaponMastiff_Init() //mkos
+	WeaponMastiff_Init()
 
 	#if SERVER
 		//BallLightning_Init()

@@ -1,7 +1,3 @@
-//Flowstate v4.5 playlist
-//By @CafeFPS and @ttvmkos
-//Playlist cleaned up by @darthelmo
-
 playlists
 {
 	version stable
@@ -15,10 +11,6 @@ playlists
 				///////////////////////////////////////////////////////////////////////////////////
 				///////////////////////////	SECTION 1: DEFAULTS	///////////////////////////////////
 				//////////////	FOR MOST USE CASES, NO NEED TO CHANGE ANY OF THESE	///////////////
-				///////////////////////////////////////////////////////////////////////////////////
-
-				///////////////////////////////////////////////////////////////////////////////////
-				//// General Flowstate Custom Settings by @CafeFPS							///////
 				///////////////////////////////////////////////////////////////////////////////////
 
 				flowstate_enable_weapons_locked_sets			1 //Enables predefined white, blue, purple weapons.
@@ -51,10 +43,6 @@ playlists
 				bleedout_infinite_self_res_eliminate_with_self_res	1
 				
 				flowstate_rat_wipe_notification							0
-				
-				flowstate_giveskins_characters 					0 //Don't use this when hosting public servers
-				flowstate_giveskins_weapons						0 //Don't use this when hosting public servers
-				flowstate_givecharms_weapons 					1
 				flowstate_enable_health_bars 					1
 				flowstate_enable_editor_hud						0
 				flowstate_force_softened_locale					1		//Removes blood sprays and blood shot fx
@@ -542,8 +530,6 @@ playlists
 		{
 			inherit defaults
 		}
-
-		//By @CafeFPS
 		winterexpress
 		{
 			inherit defaults
@@ -634,7 +620,7 @@ playlists
 				staging_ultimates_enabled						1
 				survival_staging_area_enabled					0
 				
-				//Flowstate by CafeFPS
+				
 				
 				firingrange_aimtrainerbycolombia				1
 				aimtrainer_enableSkins							1
@@ -703,7 +689,7 @@ playlists
 				sur_bots_spawn_with_random_weapons				1
 				match_ending_enabled							0
 
-				//Flowstate by CafeFPS
+				
 				flowstate_armed_and_dangerous_ltm				0
 				flowstate_disable_all_map_triggers				0
 
@@ -765,7 +751,7 @@ playlists
 				// No circle:
 				sur_circle_start_paused							0
 				
-				//Flowstate by CafeFPS
+				
 				bleedout_enabled								0
 				
 				SND_force_initial_map							6 // 0 dust2, 1 shoothouse, 2 de_cache, 3, nuketown, 4 dncanals, 5 killyard, 6 random
@@ -827,7 +813,7 @@ playlists
 				// No circle:
 				sur_circle_start_paused							0
 				
-				//Flowstate by CafeFPS
+				
 
 				bleedout_enabled								0
 				
@@ -916,7 +902,7 @@ playlists
 				// No circle:
 				sur_circle_start_paused							1
 				
-				//Flowstate by CafeFPS
+				
 
 				// General Settings:
 				survival_shields							   	1
@@ -1039,7 +1025,7 @@ playlists
 				replay_enabled					 				1 
 				replay_delay					   				5
 				
-				//Flowstate by CafeFPS
+				
 				
 				default_shield_hp				  				75
 				survival_shields				   				1
@@ -1062,7 +1048,7 @@ playlists
 				respawn_kit_ultimate 							"mp_weapon_jump_pad"
 
 				//GENERAL SETTINGS PROPHUNT
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				flowstateResetKills 							1
 
 				flowstateKickHighPingPlayer						0
@@ -1128,7 +1114,7 @@ playlists
 				replay_enabled					 				1 
 				replay_delay					   				5
 				
-				//Flowstate by CafeFPS
+				
 
 				bleedout_enabled								1
 				
@@ -1182,7 +1168,7 @@ playlists
 				//No circle:
 				sur_circle_start_paused							0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_infinite_ammo			 				1
 
@@ -1248,7 +1234,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -1288,7 +1274,7 @@ playlists
 				//whitelisted_ability_1							""
 
 				flowstateEndlessFFAorTDM						0 //location won't change, no champion will be defined
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									5
 				flowstateRoundtime 								800
 				flowstateResetKills 							1
@@ -1364,7 +1350,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -1404,7 +1390,7 @@ playlists
 				//whitelisted_ability_1 						""
 				
 				flowstateEndlessFFAorTDM						0 //location won't change, no champion will be defined
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									5
 				flowstateRoundtime 								800
 				flowstateResetKills 							1
@@ -1525,7 +1511,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -1570,7 +1556,7 @@ playlists
 				//whitelisted_ability_1 						""
 				
 				flowstateEndlessFFAorTDM						0 //location won't change, no champion will be defined
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									5
 				flowstateRoundtime 								800
 				flowstateResetKills 							1
@@ -1669,7 +1655,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 
-				//Flowstate by CafeFPS
+				
 
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -1714,7 +1700,7 @@ playlists
 				//whitelisted_ability_1 						""
 
 				flowstateEndlessFFAorTDM						0 //location won't change, no champion will be defined
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									0 // no respawn delay
 				flowstateRoundtime 								800
 				flowstateResetKills 							1
@@ -1812,7 +1798,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -1852,7 +1838,7 @@ playlists
 				//whitelisted_ability_1 						""
 				
 				flowstateEndlessFFAorTDM						0 //location won't change, no champion will be defined
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									5
 				flowstateRoundtime 								800
 				flowstateResetKills 							1
@@ -1976,7 +1962,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstate_allow_cfgs							0
@@ -2005,7 +1991,7 @@ playlists
 				flowstateRandomTactical 						0 	//grapple,phase walk,stim,bubble, bang smokes, hound q, tf2 cloak
 				flowstateRandomUltimate							0 	//caustic ult,jumppad,wraith ult,3dash,hound ult, gibby ult
 				
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				respawn_delay 									5
 				flowstateRoundtime 								800
 				flowstateTimer 									1
@@ -2099,7 +2085,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				default_shield_hp				  				125
 				survival_shields				   				1
@@ -2282,7 +2268,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				
 				default_shield_hp				  				125
@@ -2473,7 +2459,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				flowstateForceCharacter 						1	//It enables the following settings
 				// 11 blisk, 12 fade, 13 amogus, 14 rhapsody, 15 ash, 16 jack cooper, 17 loba, 18 revenant, 19 ballistic, 20 marvin, 21 pete
@@ -2587,7 +2573,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 
 				flowstateForceCharacter 						1	//It enables the following settings
 				// 11 blisk, 12 fade, 13 amogus, 14 rhapsody, 15 ash, 16 jack cooper, 17 loba, 18 revenant, 19 ballistic, 20 marvin, 21 pete
@@ -2734,7 +2720,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				flowstateForceCharacter 						1	//It enables the following settings
 				// 11 blisk, 12 fade, 13 amogus, 14 rhapsody, 15 ash, 16 jack cooper, 17 loba, 18 revenant, 19 ballistic, 20 marvin, 21 pete
@@ -2877,7 +2863,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstateBattleLogEnable 						0
@@ -2981,7 +2967,7 @@ playlists
 				character_select_time_min					0.0
 				survival_enable_gladiator_intros			   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				bleedout_enabled								1
 				
@@ -3048,7 +3034,7 @@ playlists
 				video							  				worlds_edge
 				panel_image										panel_worlds_edge
 				
-				Admins											"r5r_CafeFPS"
+				Admins											""
 				
 				// match teams will not fill with more than one party, up to max_teams of size max_team_size (or less) -- not exceeding max_players
 				max_teams						   				2
@@ -3085,7 +3071,7 @@ playlists
 				replay_delay					   				5
 				replay_new_ui 									1
 				
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstateBattleLogEnable 						0
@@ -3206,7 +3192,7 @@ playlists
 				//No circle:
 				sur_circle_start_paused							1
 				
-				//Flowstate by CafeFPS
+				
 
 				// General Settings:
 				survival_shields							   	1
@@ -3297,7 +3283,7 @@ playlists
 				replay_enabled					 				0  
 				replay_new_ui 									1
 
-				//Flowstate by CafeFPS
+				
 				
 				//GENERAL SETTINGS
 				flowstateBattleLogEnable 						0
@@ -3388,7 +3374,7 @@ playlists
 				// character_select_time_min					0.0
 				// survival_enable_gladiator_intros			   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				bleedout_enabled								1
 				
@@ -3449,7 +3435,7 @@ playlists
 				// character_select_time_min					0.0
 				// survival_enable_gladiator_intros			   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				bleedout_enabled								1
 				
@@ -3512,7 +3498,7 @@ playlists
 				
 				bleedout_enabled								1
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields							   	1
 				is_ranked_game								 	0
@@ -3571,7 +3557,7 @@ playlists
 				// character_select_time_min					0.0
 				// survival_enable_gladiator_intros			   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields							   	1
 				is_ranked_game								 	0
@@ -3632,7 +3618,7 @@ playlists
 				// character_select_time_min					0.0
 				// survival_enable_gladiator_intros			   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				bleedout_enabled								1
 				
@@ -3782,7 +3768,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -3831,7 +3817,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -3881,7 +3867,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -3930,7 +3916,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -3979,7 +3965,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -4028,7 +4014,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -4077,7 +4063,7 @@ playlists
 				sur_bots_spawn_with_random_weapons			 	1
 				match_ending_enabled						   	0
 				
-				//Flowstate by CafeFPS
+				
 				
 				survival_shields								1
 				survival_infinite_ammo							1
@@ -4099,7 +4085,7 @@ playlists
 				visible											1
 				
 				name										   	"Firing Range"
-				description										#PL_FIRINGRANGE_DESC
+				description										"#PL_FIRINGRANGE_DESC"
 				
 				ui_slot											firing_range
 				image										  	firing_range
@@ -4371,8 +4357,8 @@ playlists
 			"Language" "english"
 			"Tokens"
 			{
-				"MP_RR_CONSTRUCT"								"MP_RR_CONSTRUCT"
-				"MP_RR_OLYMPUS_MU1"					  			"Olympus MU1 (Alpha Version)"
+				"MP_RR_CONSTRUCT"								"CONSTRUCT"
+				"MP_RR_OLYMPUS"					  				"Olympus"
 				"MP_FLOWSTATE"						  			"Creative"
 
 				"MP_RR_ASHS_REDEMPTION"			   				"Ash's Redemption"
@@ -4401,6 +4387,8 @@ playlists
 				"MP_RR_CANYONLANDS_MU2_MV"			   			"Kings Canyon Season 7 - Mirage Voyage"
 				"MP_RR_CANYONLANDS_MU1_NIGHT"		 			"Kings Canyon After Dark"
 
+				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
+
 
 				"Playtest"										"Playtest"
 				"Playtest_Only"					   				"Playtest"
@@ -4415,9 +4403,9 @@ playlists
 				"DISCONNECT_SEND_OVERFLOW"						"Connection to server overflowed (code:dam)."
 				"DISCONNECT_NETCHAN_OVERFLOW"		 			"Connection to server overflowed (code:vulkan)."
 				"DISCONNECT_STRINGCMD_OVERFLOW"	   				"Connection to server overflowed (code:skillissue)."
-				"MOTD"								  			"What's new in R5Reloaded? \n\nFlowstate Scripts now uses S21 retail scripts as base. Enjoy updated map features and hundred of bugs fixes. \n\nIt also features new modes: \nLG Duels, Cafe's Instagib, Winter Express, Zone Wars, Movement Recorder, Search and Destroy, Surf, Halo Mod and two new movement practice modes! \n\nNew maps: \n   -Kings Canyon MU2 (S5)\n    -Phase Runner\n    -World's Edge Holiday (Winter Express)\n    -mp_rr_construct (custom)\n    -Empty Map (custom) \n\n Flowstate Scripts (Gameplay) brought to you by @CafeFPS, @ttvmkos and collaborators.\nR5Reloaded (Engine) by @AmosModz and collaborators."
+				"MOTD"								  			""
 				"BETA_BUILD_WATERMARK" 				  			""
-				"FS_PLAYLIST_MOTD"					  			"Flowstate x R5Reloaded" 		//1000 char max
+				"FS_PLAYLIST_MOTD"					  			"R5Reloaded" 		//1000 char max
 				"FS_PLAYLIST_MOTD_CONTINUE"			  			"" 								//append to first - 1000 char limit
 
 				"SILO_DOOR_PANEL_HINT"							"Press %use% to activate silo doors"
@@ -4437,6 +4425,24 @@ playlists
 				"WPN_ARC_TOOL_RUI_READY"						"RDY"
 				"WPN_ARC_TOOL_RUI_DANGER"						"DNGR"
 				"WPN_ARC_TOOL_RUI_CHARGING"						"CHARGING"
+
+				"SPECIALS" 										"R5RELOADED CONTRIBUTORS"
+				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
+				"CHARACTER_RANDOM_CHARSELECT_SUBTITLE"          ""
+
+				///////////////////////////////////////CUSTOM LOADSCREEN LOCALIZATION////////////////////////////////////
+				"LOADSCREEN_CUSTOM_SDK_1_NAME"					"Better Play R5Reloaded"
+				"LOADSCREEN_CUSTOM_SDK_1_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_2_NAME"					"R FIVE, Re LOADED"
+				"LOADSCREEN_CUSTOM_SDK_2_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_3_NAME"					"Look at that nessie!"
+				"LOADSCREEN_CUSTOM_SDK_3_TEXT" 					"Made by uber_panzerhund, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_4_NAME"					"Pink is life"
+				"LOADSCREEN_CUSTOM_SDK_4_TEXT" 					"Made by gl2imm, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_5_NAME"					"Back to back"
+				"LOADSCREEN_CUSTOM_SDK_5_TEXT" 					"Made by ruefulshifu, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_6_NAME"					"I own the sky"
+				"LOADSCREEN_CUSTOM_SDK_6_TEXT" 					"Made by scoop, Thank you for your contribution to R5Reloaded!"
 			}
 		}
 	}

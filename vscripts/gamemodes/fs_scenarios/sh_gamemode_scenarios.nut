@@ -1,6 +1,3 @@
-// Designed by @CafeFPS
-// stats/persistence/recaps - mkos
-
 global function FS_Scenarios_Score_System_Init
 global function FS_Scenarios_GetEventScoreValue
 global function Scenarios_RegisterNetworking
@@ -644,7 +641,7 @@ void function FS_Scenarios_UpdatePlayerScore( entity player, int event, entity v
 			//Todo(mk): remove with bot nuke
 			{				
 				string botCheck = playerName.slice( 0, 1 ) //don't .find entire string.	
-				if( botCheck.find( "[" ) != -1 )
+				if( botCheck == "[" ) //even faster, pointer comp.
 					continue
 			}
 				

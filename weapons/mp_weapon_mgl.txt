@@ -21,6 +21,7 @@ WeaponData
 	"aimassist_adspull_weaponclass"					"broad"
 	"fast_swap_to"									"0"
 	"leveled_pickup"								"1"
+	"trophy_system_ignores"                          "allowBounce"
 
 	"OnWeaponActivate"								"OnWeaponActivate_weapon_mgl"
 	"OnClientAnimEvent"								"OnClientAnimEvent_weapon_mgl"

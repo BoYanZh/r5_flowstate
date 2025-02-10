@@ -915,7 +915,6 @@ void function OnClientConnected( entity player )
 		file.playerInventoryData[ player ][ slot ] <- ""
 	}
 
-	ValidateDataTable( player, "datatable/flowstate_all_new.rpak" )
 	ValidateDataTable( player, "datatable/survival_loot_sdk.rpak" )
 	ValidateDataTable( player, "datatable/flowstate_all_new_halomod.rpak" )
 	ValidateDataTable( player, "datatable/flowstate_all_new_snd.rpak" )
@@ -985,7 +984,7 @@ string function GetWeaponClassNameWithLockedSet( entity weapon )
 		lockedSet = expect int( GetEntityVar( weapon, "weaponLockedSet" ) )
 	}
 	
-	switch( lockedSet ) //Cafe was here. Retail implementation uses weapon.GetWeaponLockedSet() code funct which we don't have in s3.
+	switch( lockedSet ) //Retail implementation uses weapon.GetWeaponLockedSet() code funct which we don't have in s3.
 	{
 		case eWeaponLockedSet.WHITESET:
 			result += WEAPON_LOCKEDSET_SUFFIX_WHITESET

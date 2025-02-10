@@ -78,7 +78,7 @@ Scripts:
 [
 	gamemodes/sh_dev_gamemodes_mp.gnut // DEVSCRIPTS REMOVE
 	gamemodes/sh_gamemodes_mp.gnut
-
+	sh_ability_shadow_zombie.nut
   pilot/sh_pilot_tracking_vision.gnut
 	sh_bird_cluster.nut
 
@@ -278,7 +278,11 @@ Scripts:
 	weapons/mp_ability_cloak.nut
 	weapons/mp_ability_grapple.nut
 	weapons/mp_ability_holopilot.nut
-	//weapons/mp_ability_silence.nut
+	weapons/mp_ability_silence.nut
+	weapons/mp_ability_revenant_death_totem.nut
+	weapons/mp_ability_item_spawner.nut
+	weapons/mp_ability_panic_button.nut
+	weapons/sh_silence.gnut
 
 	weapons/mp_weapon_flamethrower.nut
 	weapons/sp_weapon_arc_tool.nut
@@ -345,6 +349,9 @@ Scripts:
 	weapons/sh_stim.gnut
 	weapons/mp_weapon_energy_shotgun.nut
 	weapons/mp_weapon_grenade_sonar.nut
+
+	weapons/mp_weapon_mounted_turret_placeable.nut
+	weapons/mp_weapon_mounted_turret_weapon.nut
 ]
 
 When: "SERVER || CLIENT"
@@ -367,6 +374,7 @@ Scripts:
 
 	mp/sh_game_state_dialog.nut
 	mp/sh_comms_menu.nut
+	mp/sh_loot_marvin.nut
 	
 	mp/sh_warp_gates.gnut
 	mp/sh_rising_walls.nut  //World's Edge MU2/MU3
@@ -890,6 +898,7 @@ Scripts:
 	ui/CustomLobby/panel_serverbrowser.nut
 	ui/CustomLobby/panel_legends.nut
 	ui/CustomLobby/panel_loadout.nut
+	ui/CustomLobby/panel_credits.nut
 
 	//R5R Extra
 	ui/CustomLobby/menu_news.nut
@@ -962,7 +971,6 @@ Scripts:
 	mp/sh_weapon_inspect.gnut
 	weapons/mp_weapon_throwingknife.nut
 	
-	//Custom content made by @CafeFPS
 	weapons/mp_weapon_titan_sword.nut
 	weapons/mp_weapon_titan_sword_heavy.nut
 	weapons/mp_weapon_titan_sword_block.nut
@@ -1101,7 +1109,6 @@ Scripts:
 	// 4d specific
 	custom_maps/_custom_maps_4d.nut
 	
-	//mkos LG patches & map based patches
 	custom_maps/_LG_Duel.nut
 	custom_maps/_map_patch.nut
 

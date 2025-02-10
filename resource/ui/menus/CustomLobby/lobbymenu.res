@@ -254,6 +254,21 @@
     	    "pin_corner_to_sibling"		"TOP"
     	    "pin_to_sibling_corner"		"BOTTOM"
     	}
+		
+		"CreditsPanel"
+    	{
+    	    "ControlName"				"CNestedPanel"
+    	    "ypos"						"20"
+    	    "wide"						"f0"
+			"tall"						"1200"
+			"visible"					"0"
+    	    "controlSettingsFile"		"scripts/resource/ui/menus/CustomLobby/panels/credits.res"
+    	    "proportionalToParent"    	"1"
+
+    	    "pin_to_sibling"          	"MainButtonsFrame"
+    	    "pin_corner_to_sibling"		"TOP"
+    	    "pin_to_sibling_corner"		"BOTTOM"
+    	}
 
 		"R5RNamePanel"
 		{

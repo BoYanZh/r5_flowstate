@@ -813,7 +813,7 @@ void function PostDeathThread( entity player, var damageInfo )
 	//if( GamemodeUtility_IsSpectatorEnabled() )
 		//DecideRespawnPlayer( player, false )
 	
-	thread ObserverThread( player ) //Cafe was here
+	thread ObserverThread( player )
 }
 
 void function WaitForDeathCamFadeOrAbort( entity player, float deathCamBeforeFadeDuration )

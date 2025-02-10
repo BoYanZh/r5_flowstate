@@ -211,6 +211,7 @@ global struct ServerEntityStruct
 	string spawnSourceIdType
 	bool isStickyCrit = false
 	int stickyRoundsArrayId = -1 //script managed ent array index
+	bool   isOnMovingGeo = false
 
 	table<string,AnimEventData> animEventDataForEntity
 
@@ -291,6 +292,7 @@ global struct ServerEntityStruct
 	array<void functionref( entity ent, var damageInfo )> entPostDamageCallbacks
 	array<void functionref( entity titan, entity attacker )> entSegmentLostCallbacks
 	array<void functionref( entity ent, var damageInfo, float actualShieldDamage )> entPostShieldDamageCallbacks
+	array<bool functionref( entity player )>                                                                               entOnShadowHealthExhaustedCallbacks
 
 	// Used for weapons and abilities that have multiple ticks, but we only want a single tick to hit each player
 	array<entity> damagedEntities
@@ -545,9 +547,17 @@ global struct DropWeaponData
 	int 		  skinItemFlavorGUID  = -1
 }
 
+global struct CringeReport
+{
+	string cringedOID
+	string cringedName
+	string reason
+}
+
 // This struct is hooked up to entity.p in code
 global struct ServerPlayerStruct
 {
+	table<string,int> weaponsAndMeleeLockedSources
 	float						connectTime
 	bool						clientScriptInitialized = false
 
@@ -822,6 +832,8 @@ global struct ServerPlayerStruct
 	int ziplineUsages = 0
 	float lastmoved
 	
+	
+	////////////////////////////////////////////////////////////////
 	//mkos /or/ r5r stats /r5r.dev
 	
 	int handle 					= -1
@@ -878,6 +890,9 @@ global struct ServerPlayerStruct
 	int relayChallengeCode 		= 0
 	
 	bool bTextmute 				= false	
+	
+	////////////////////////////////////////////////////////////////
+
 
 	//MovementGym
 	bool isTimerActive = false
@@ -906,10 +921,8 @@ global struct ServerPlayerStruct
 	bool DeathRecap_PlayerIsBuildingBlock = false
 	float DeathRecap_BlockTime = 0
 
-	//Flyers Easteregg by Colombia
 	bool isParentedToFlyer = false
 	entity ParentedFlyer
-	//Prophunt by Colombia
 	int PROPHUNT_ChangePropUsageLimit
 	int PROPHUNT_DecoysPropUsageLimit
 	int PROPHUNT_FlashbangPropUsageLimit
@@ -921,7 +934,6 @@ global struct ServerPlayerStruct
 	int PROPHUNT_TimesSurvivedAsProp = 0
 	int PROPHUNT_SurvivalTime = 0
 
-	//By Endergreen
 	// This is for Octane's ability chatter
 	float lastStimChatterTime = -30
 	float lastJumpPadChatterTime = -30
@@ -1166,10 +1178,10 @@ global struct ServerPlayerStruct
 	array<ConsumableInventoryItem> ornull cachedInventory
 	
 	float lastTimeUsedRailjump
-	
+	int savedTotemHealth = 50
 	int  weaponsAndMeleeLockedCount
 	float timeWaitingInLobby
-	
+	float totemRecallTime
 	//instagib
 	int railjumptimes = 0
 	int shotsfired = 0
@@ -1188,6 +1200,12 @@ global struct ServerPlayerStruct
 	
 	bool didSkipLastKillreplay = true
 	bool cloakedForever = false
+	
+	//custom new 
+	entity lastOpponent
+	int submitCringeCount
+	int cringedCount
+	array< CringeReport > cringeDataReports
 }
 
 global struct ChallengeScore
@@ -1487,4 +1505,4 @@ global struct ServerFirstPersonProxyStruct
 {
 	entity battery
 }
-	
+

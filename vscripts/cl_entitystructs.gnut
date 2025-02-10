@@ -109,6 +109,9 @@ global struct ClientEntityStruct
 	int    clientEntMinimapCustomState
 	int    clientEntMinimapFlags
 	float  clientEntMinimapScale = 1.0
+	EncodedEHandle ornull gladCardPropOwnerPlayerEEH = null
+	ItemFlavor ornull     animWindowCosmeticItemFlavor = null
+	ItemFlavor ornull     animWindowSkinItemFlavor = null
 }
 
 

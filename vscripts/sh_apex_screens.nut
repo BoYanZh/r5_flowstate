@@ -342,7 +342,7 @@ void function SetupScreenOverrides()
 {
 	for ( int overrideIdx = 0; overrideIdx < 5; ++overrideIdx )
 	{
-		//
+		// "apexscreen_tv_override_0"
 		string keyName = format( "apexscreen_tv_override_%d", overrideIdx )
 		if ( !GetCurrentPlaylistVarBool( keyName, false ) )
 			continue
@@ -714,11 +714,15 @@ void function DEV_ApexScreens_SetMode( var opt = "random" )
 		nextMode = int(opt)
 
 	array<entity> testArray = GetPlayerArray()
+	entity firstPlayer = null
+	if ( testArray.len() > 0 )
+		firstPlayer = testArray[0]
+
 	testArray.append( null )
 
 	HaltApexScreenMasterThink()
 	ShowModeInternal( eApexScreenPosition.L, eApexScreenTransitionStyle.SLIDE, nextMode, EHIToEncodedEHandle( testArray[RandomIntRange( 0, testArray.len() )] ) )
-	ShowModeInternal( eApexScreenPosition.C, eApexScreenTransitionStyle.NONE, nextMode, EHIToEncodedEHandle( gp()[0] ) )
+	ShowModeInternal( eApexScreenPosition.C, eApexScreenTransitionStyle.NONE, nextMode, EHIToEncodedEHandle( firstPlayer ) )
 	ShowModeInternal( eApexScreenPosition.R, eApexScreenTransitionStyle.SLIDE, nextMode, EHIToEncodedEHandle( testArray[RandomIntRange( 0, testArray.len() )] ) )
 
 	printt( "Apex Screen Mode: " + GetEnumString( "eApexScreenMode", nextMode ) )
@@ -1280,9 +1284,14 @@ bool function OnEnumStaticPropRui( StaticPropRui staticPropRuiInfo )
 		}
 	}
 
+	// NOTE: model names used to have random backslashes in them. I changed them to always have forward slashes, but I left both ways in here to keep compatibility.
+	// When the slash change has had time to settle, we should remove the backslash versions.
 	bool needsScreenPositionSetup = true
 	switch( staticPropRuiInfo.modelName )
 	{
+		case "mdl/olympus/path_tt_screen_01_off.rmdl":
+		case "mdl/eden/beacon_small_screen_02_off.rmdl":
+		case "mdl/olympus\\path_tt_screen_01_off.rmdl":
 		case "mdl/eden\\beacon_small_screen_02_off.rmdl":
 			apexScreen.uvMin = <0.0, 0.295, 0.0>
 			apexScreen.uvMax = <1.0, 0.705, 0.0>
@@ -1290,11 +1299,16 @@ bool function OnEnumStaticPropRui( StaticPropRui staticPropRuiInfo )
 			needsScreenPositionSetup = false
 			break
 
+		case "mdl/thunderdome/apex_screen_05.rmdl":
 		case "mdl/thunderdome\\apex_screen_05.rmdl":
 			apexScreen.uvMin = <0.235, 0.0, 0.0>
 			apexScreen.uvMax = <0.765, 1.0, 0.0>
 			break
 
+		case "mdl/thunderdome/survival_modular_flexscreens_01.rmdl":
+		case "mdl/thunderdome/survival_modular_flexscreens_02.rmdl":
+		case "mdl/thunderdome/survival_modular_flexscreens_03.rmdl":
+		case "mdl/thunderdome/survival_modular_flexscreens_04.rmdl":
 		case "mdl/thunderdome\\survival_modular_flexscreens_01.rmdl":
 		case "mdl/thunderdome\\survival_modular_flexscreens_02.rmdl":
 		case "mdl/thunderdome\\survival_modular_flexscreens_03.rmdl":
@@ -1303,6 +1317,7 @@ bool function OnEnumStaticPropRui( StaticPropRui staticPropRuiInfo )
 			apexScreen.uvMax = <0.684, 1.0, 0.0>
 			break
 
+		case "mdl/thunderdome/survival_modular_flexscreens_05.rmdl":
 		case "mdl/thunderdome\\survival_modular_flexscreens_05.rmdl":
 			apexScreen.uvMin = <0.0, 0.215, 0.0>
 			apexScreen.uvMax = <1.0, 0.785, 0.0>
@@ -1325,7 +1340,7 @@ bool function OnEnumStaticPropRui( StaticPropRui staticPropRuiInfo )
 		bool isVertical         = (screenAspectRatio < 1.1)
 		if ( !isVertical )
 		{
-			//
+			//apexScreen.screenPosition = eApexScreenPosition.TV_LIKE
 			apexScreen.position = eApexScreenPosition.DISABLED
 		}
 		else

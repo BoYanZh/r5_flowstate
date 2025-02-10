@@ -576,9 +576,6 @@ bool script_bRespawnInitComplete = false
 
 void function RespawnBehavior_Init()
 {
-	script_bHighlight = ( Gamemode() == eGamemodes.SURVIVAL || Gamemode() == eGamemodes.fs_snd || Playlist() == ePlaylists.fs_scenarios )
-	script_bGiveskins = GetCurrentPlaylistVarBool( "flowstate_giveskins_characters", false )
-	
 	table<string, string> possibleMods = {
 		survival_jumpkit_enabled = "enable_doublejump",
 		survival_wallrun_enabled = "enable_wallrun"
@@ -845,16 +842,16 @@ void function Flowstate_SetAssignedCustomModelToPlayer( entity player, int index
 
 void function SetSkydiveEmotesForAllCharacters( entity player ) // You need to unlock the loadout for this to work
 {
-	// array< array< string > > emoteArrays = [ [ "skydive_emote_bangalore_backflip" ], [ "skydive_emote_bloodhound_backflip" ], [ "skydive_emote_caustic_backflip" ], [ "skydive_emote_gibraltar_backflip" , 
-								// "skydive_emote_gibraltar_surf" ], [ "skydive_emote_lifeline_backflip", "skydive_emote_lifeline_windmill" ], [ "skydive_emote_mirage_backflip", 
-								// "skydive_emote_mirage_rodeo" ], [ "skydive_emote_octane_backflip" ], [ "skydive_emote_pathfinder_backflip", "skydive_emote_pathfinder_birdattack" ], 
-								// [ "skydive_emote_wattson_backflip", "skydive_emote_wattson_explorer" ], [ "skydive_emote_wraith_backflip" ] ]
+	/*array< array< string > > emoteArrays = [ [ "skydive_emote_bangalore_backflip" ], [ "skydive_emote_bloodhound_backflip" ], [ "skydive_emote_caustic_backflip" ], [ "skydive_emote_gibraltar_backflip" , 
+								"skydive_emote_gibraltar_surf" ], [ "skydive_emote_lifeline_backflip", "skydive_emote_lifeline_windmill" ], [ "skydive_emote_mirage_backflip", 
+								"skydive_emote_mirage_rodeo" ], [ "skydive_emote_octane_backflip" ], [ "skydive_emote_pathfinder_backflip", "skydive_emote_pathfinder_birdattack" ], 
+								[ "skydive_emote_wattson_backflip", "skydive_emote_wattson_explorer" ], [ "skydive_emote_wraith_backflip" ], [ "skydive_emote_revenant_backflip", "skydive_emote_revenant_snake" ] ]
 
-	// foreach( emoteArray in emoteArrays )
-	// {
-		// for( int i = 0; i < emoteArray.len(); i++ )
-			// ClientCommand( player, "loadouts_devset skydive_emote_" + i + " " + emoteArray[ i ] )
-	// }
+	foreach( emoteArray in emoteArrays )
+	{
+		for( int i = 0; i < emoteArray.len(); i++ )
+			ClientCommand( player, "loadouts_devset skydive_emote_" + i + " " + emoteArray[ i ] )
+	}*/
 }
 #endif
 
@@ -907,10 +904,8 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 	UpdatePlayerCounts()
 		
 	if ( attacker.IsPlayer() && victim.IsPlayer() && attacker != victim )
-	{
-		attacker.SetPlayerNetInt( "kills", attacker.GetPlayerNetInt( "kills" ) + 1 )
-	}
-
+		__IncrementPlayerNetInt( attacker, "kills" )
+		
 	if( Gamemode() == eGamemodes.SURVIVAL )
 		Remote_CallFunction_NonReplay( victim, "ServerCallback_YouDied", attacker, GetHealthFrac( victim ), DamageInfo_GetDamageSourceIdentifier( damageInfo ), DamageInfo_GetDamage( damageInfo ) )
 
@@ -1039,7 +1034,7 @@ void function OnClientConnected( entity player )
 					groundPlayer = teammate
 			}
 
-			if ( !putInPlane && !IsValid( skydiveFollowPlayer ) ) //Cafe was here
+			if ( !putInPlane && !IsValid( skydiveFollowPlayer ) )
 			{
 				//If team is on the ground already, means that player has connected too late, which shouldn't be allowed to respawn in the game.
 				//Let's put the player to spectate.

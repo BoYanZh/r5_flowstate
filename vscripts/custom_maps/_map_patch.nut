@@ -63,19 +63,6 @@ void function Patch_Barrier_Dropoff()
 
 void function Patch_Barrier_Overflow()
 {	
-	if( !is1v1EnabledAndAllowed() ) 
-		return
-
-	// Props
-    entity prop
-    prop = MapEditor_CreateProp( $"mdl/desertlands/highrise_rectangle_top_01.rmdl", < 242.2993, -5713, 466.3979 >, < 90, 0, 0 >, false, 0.0001, -1, 1 )
-    prop.kv.contents = CONTENTS_PLAYERCLIP | CONTENTS_BULLETCLIP | CONTENTS_MONSTERCLIP | CONTENTS_SOLID | CONTENTS_PHYSICSCLIP | CONTENTS_BLOCKLOS; prop.MakeInvisible()
-    prop = MapEditor_CreateProp( $"mdl/desertlands/highrise_rectangle_top_01.rmdl", < 737, -6196.701, 466.3979 >, < 90, 90, 0 >, false, 0.0001, -1, 1 )
-    prop.kv.contents = CONTENTS_PLAYERCLIP | CONTENTS_BULLETCLIP | CONTENTS_MONSTERCLIP | CONTENTS_SOLID | CONTENTS_PHYSICSCLIP | CONTENTS_BLOCKLOS; prop.MakeInvisible()
-    prop = MapEditor_CreateProp( $"mdl/desertlands/highrise_rectangle_top_01.rmdl", < 1151.299, -5713, 466.3979 >, < 90, 0, 0 >, false, 0.0001, -1, 1 )
-    prop.kv.contents = CONTENTS_PLAYERCLIP | CONTENTS_BULLETCLIP | CONTENTS_MONSTERCLIP | CONTENTS_SOLID | CONTENTS_PHYSICSCLIP | CONTENTS_BLOCKLOS; prop.MakeInvisible()
-	prop = MapEditor_CreateProp( $"mdl/desertlands/highrise_rectangle_top_01.rmdl", < 737, -5291.701, 466.3979 >, < 90, 90, 0 >, false, 0.0001, -1, 1 )
-    prop.kv.contents = CONTENTS_PLAYERCLIP | CONTENTS_BULLETCLIP | CONTENTS_MONSTERCLIP | CONTENTS_SOLID | CONTENTS_PHYSICSCLIP | CONTENTS_BLOCKLOS; prop.MakeInvisible()
 }
 
 void function Patch_Dropoff() 

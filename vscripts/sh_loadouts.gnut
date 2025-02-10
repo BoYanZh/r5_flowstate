@@ -1827,6 +1827,10 @@ bool function ValidateAndFixLoadoutSlot( EHI playerEHI, LoadoutEntry entry, bool
 
 	if ( shouldReset )
 	{
+		array<ItemFlavor> exceptions = []
+		if ( entry == Loadout_CharacterClass() )
+			exceptions  = [ GetItemFlavorByAsset( CHARACTER_RANDOM ), GetItemFlavorByAsset( CHARACTER_DUMMIE ) ]
+
 		if ( entry.type == eLoadoutEntryType.ITEM_FLAVOR )
 		{
 			ItemFlavor itemFlavor
@@ -1952,7 +1956,7 @@ bool function ClientCommand_loadouts_set( entity player, array<string> args )
 		return true
 	}
 	
-	if( ItemFlavor_GetType( itemFlavor ) == eItemType.character && Gamemode() == eGamemodes.WINTEREXPRESS && IsValid( GetPlayerWithLockedCharacter( itemFlavor, GetPlayerArrayOfTeam( player.GetTeam() ) ) ) ) //Cafe was here
+	if( ItemFlavor_GetType( itemFlavor ) == eItemType.character && Gamemode() == eGamemodes.WINTEREXPRESS && IsValid( GetPlayerWithLockedCharacter( itemFlavor, GetPlayerArrayOfTeam( player.GetTeam() ) ) ) )
 	{
 		//A player already has that character.
 		return true

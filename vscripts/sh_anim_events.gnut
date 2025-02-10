@@ -70,6 +70,7 @@ void function AnimEvents_Init()
 
 	AddGlobalAnimEventTokenize( "set_skin", GlobalAnimEvent_SetSkin )
 	AddGlobalAnimEventTokenize( "fade_over_time", GlobalAnimEvent_FadeOverTime )
+	AddGlobalAnimEventTokenize( "fade_intensity_over_time", GlobalAnimEvent_FadeIntensityOverTime )
 }
 
 void function RegisterImpactTable( string name )
@@ -472,6 +473,23 @@ void function GlobalAnimEvent_FadeOverTime( entity ent, array<string> tokens )
 	thread PROTO_FadeModelAlphaOverTime( ent, fadeTime, fadeFrom, fadeTo )
 }
 
+void function GlobalAnimEvent_FadeIntensityOverTime( entity ent, array<string> tokens )
+{
+
+	//
+	Assert( tokens.len() == 4 )
+
+	float fadeTime = float( tokens[ 1 ] )
+	float fadeFrom = float( tokens[ 2 ] )
+	float fadeTo = float( tokens[ 3 ] )
+
+
+	if ( fadeTime > 0 )
+		thread PROTO_FadeModelIntensityOverTime( ent, fadeTime, fadeFrom, fadeTo )
+	else
+		ent.kv.intensity = fadeTo
+
+}
 void function GlobalAnimEvent_SetSkin( entity model, array<string> tokens )
 {
 	// ex: "set_skin:1"

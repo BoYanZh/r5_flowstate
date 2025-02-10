@@ -1,6 +1,3 @@
-// Made by @CafeFPS
-// -- holo thing for the spawner - Zer0bytes
-
 globalize_all_functions
 
 struct

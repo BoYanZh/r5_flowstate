@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 untyped
 
 #if SERVER

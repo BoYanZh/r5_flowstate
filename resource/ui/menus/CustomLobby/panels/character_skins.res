@@ -77,7 +77,7 @@
         ypos                    -25
         rui                     "ui/generic_loot_button.rpak"
         labelText               ""
-        visible					1
+        visible					0
         cursorVelocityModifier  0.7
 
         pin_to_sibling			PanelFrame
@@ -94,7 +94,7 @@
         ypos                    6
         rui                     "ui/generic_loot_button.rpak"
         labelText               ""
-        visible                 1
+        visible                 0
         cursorVelocityModifier  0.7
 
         pin_to_sibling			ActionButton

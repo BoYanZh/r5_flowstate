@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 global function Oddball_HintCatalog
 global function Cl_FsOddballInit
 global function SetBallPosesionIconOnHud

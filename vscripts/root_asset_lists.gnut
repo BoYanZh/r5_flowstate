@@ -9,17 +9,21 @@
 //////////////////////
 global const array<asset> CHARACTER_ASSETS =
 [
-	$"settings/itemflav/character/bangalore.rpak",  //
-	$"settings/itemflav/character/bloodhound.rpak", //
-	$"settings/itemflav/character/caustic.rpak",    //
-	$"settings/itemflav/character/gibraltar.rpak",  //
-	$"settings/itemflav/character/lifeline.rpak",   //
-	$"settings/itemflav/character/mirage.rpak",     //
-	$"settings/itemflav/character/octane.rpak",     //
-	$"settings/itemflav/character/pathfinder.rpak", //
-	$"settings/itemflav/character/wraith.rpak",     //
-	$"settings/itemflav/character/wattson.rpak",    //
-	$"settings/itemflav/character/crypto.rpak",     //
+	$"settings/itemflav/character/bangalore.rpak",
+	$"settings/itemflav/character/bloodhound.rpak",
+	$"settings/itemflav/character/caustic.rpak",
+	$"settings/itemflav/character/gibraltar.rpak",
+	$"settings/itemflav/character/lifeline.rpak",
+	$"settings/itemflav/character/mirage.rpak",
+	$"settings/itemflav/character/octane.rpak",
+	$"settings/itemflav/character/pathfinder.rpak",
+	$"settings/itemflav/character/wraith.rpak",
+	$"settings/itemflav/character/wattson.rpak",
+	$"settings/itemflav/character/crypto.rpak",
+	$"settings/itemflav/character/revenant.rpak",
+	$"settings/itemflav/character/loba.rpak",
+	$"settings/itemflav/character/dummie.rpak",
+	$"settings/itemflav/character/random.rpak",
 ]
 
 global const array<asset> CAL_EVENT_ASSET_LIST =
@@ -61,6 +65,14 @@ global const array<asset> LOADSCREEN_ASSET_LIST =
 	$"settings/itemflav/loadscreen/s03bp_09.rpak",
 	$"settings/itemflav/loadscreen/s03bp_10.rpak",
 	$"settings/itemflav/loadscreen/s03bp_11.rpak",
+	////////////////SDK LOADSCREENS///////////////
+	$"settings/itemflav/loadscreen/custom_sdk_1.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_2.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_3.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_4.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_5.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_6.rpak",
+	$"settings/itemflav/loadscreen/custom_sdk_7.rpak",
 ]
 
 global const array<asset> MUSIC_PACK_ASSET_LIST =
@@ -128,4 +140,5 @@ global const array<asset> WEAPON_ASSETS =
 	$"settings/itemflav/loot/main_weapon/energy_ar.rpak",
 	$"settings/itemflav/loot/main_weapon/lstar.rpak",
 	$"settings/itemflav/loot/main_weapon/chargerifle.rpak",
+	$"settings/itemflav/loot/main_weapon/sentinel.rpak",
 ]

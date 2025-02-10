@@ -1,5 +1,3 @@
-// Ported by @CafeFPS
-
 global function MpAbilityCryptoDrone_Init
 
 global function OnWeaponTossReleaseAnimEvent_ability_crypto_drone
@@ -819,7 +817,7 @@ void function CryptoDrone_CameraImpact_Thread( entity projectile, DeployableColl
 		entity cameraVehicle
 		foreach( child in children )
 		{
-			if( child.GetClassName() == "player_vehicle" && child.GetScriptName() == CRYPTO_DRONE_SCRIPTNAME ) //Cafe was here
+			if( child.GetClassName() == "player_vehicle" && child.GetScriptName() == CRYPTO_DRONE_SCRIPTNAME )
 			{
 				cameraVehicle = child
 				break
@@ -2781,7 +2779,7 @@ void function NeurolinkThink( entity camera, bool attachFx = true )
 
 		array<entity> nearbyEntities = []
 
-		//Cafe was here. Retail implementation uses VehicleGetPlayersInViewArray and VehicleGetNpcsInViewArray code functs that we don't have in s3.
+		//Retail implementation uses VehicleGetPlayersInViewArray and VehicleGetNpcsInViewArray code functs that we don't have in s3.
 		//I suppose that function check for LOS and by min dot, so let's do that.
 		float minDot = deg_cos( NEUROLINK_VIEW_MINDOT_BUFFED )
 

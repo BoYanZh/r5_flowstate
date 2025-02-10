@@ -1,10 +1,3 @@
-//FLOWSTATE PROPHUNT
-//Made by @CafeFPS (@CafeFPS)
-
-// AyeZee#6969 -- Ctf voting phase to work off
-// _RitzKing#1715 -- Gamemode Icon
-// everyone else -- advice
-
 global function _GamemodeProphunt_Init
 global function _RegisterLocationPROPHUNT
 global function _OnPlayerConnectedPROPHUNT
@@ -146,7 +139,6 @@ void function PROPHUNT_StartGameThread()
 }
 
 void function PROPHUNT_CharSelect( entity player)
-//By @CafeFPS (CafeFPS)//
 {
 	if(FlowState_ForceCharacter())
 	{

@@ -1,5 +1,3 @@
-//Ported by @CafeFPS
-
 global function Sh_SkydiveLaunchers_Init
 
 #if SERVER

@@ -2531,6 +2531,10 @@ void function Survival_PlayerCharacterSetup( entity player, ItemFlavor character
 		asset setFile = CharacterClass_GetSetFile( character )
 		player.SetPlayerSettingsWithMods( setFile, [] )
 	}
+	
+	//Anonymous Mode
+	bool playerIsAnonymous = false//player.IsHudSettingAnonymousMode()
+	player.SetPlayerNetBool( "anonymizePlayerName", playerIsAnonymous )
 
 	// GiveLoadoutRelatedWeapons( player )
 
@@ -2748,7 +2752,6 @@ void function SurvivalPlayerRespawnedInit( entity player )
 		}
 		else
 		{
-			// Cafe was here
 			// The following should be allowed only in dev modes, but those are handled in a different way in r5r, which allows us to completely disable this. 
 			// The fixed behavior for this part has been moved to OnClientConnected callback in sh_onboarding, where we do the pertinent checks before respawning the player.
 			

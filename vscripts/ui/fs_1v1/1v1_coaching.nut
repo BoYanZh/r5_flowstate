@@ -1,5 +1,3 @@
-//Made by @CafeFPS
-
 global function InitCoachingMenu
 
 global function Init_CoachingRecordingsList

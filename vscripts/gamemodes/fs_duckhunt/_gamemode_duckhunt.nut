@@ -1,9 +1,3 @@
-//APEX DUCKHUNT
-//Made by @CafeFPS
-
-// Darkes#8647 - duckhunt maps
-// everyone else - advice
-
 global function _GamemodeDuckhunt_Init
 global function CreateFanPusher
 global function SpawnKillerWalls

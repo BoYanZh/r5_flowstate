@@ -1,16 +1,3 @@
-// Flowstate DM
-// Fork of the custom_tdm gamemode made by sal#3261
-
-// Credits:
-
-// CafeFPS 			- Main Developer
-// AyeZee#6969 		-- Ctf voting phase to work off & droppods
-// Zer0Bytes#4428 	-- Weapons randomizer rewrite
-// makimakima#5561 	-- TDM Saved Weapon List, 1v1 gamemode
-// michae\l/#1125 	-- flowstate admin
-// mkos 			-- Developer #2 ( cafe's apprentice :D )
-// everyone else 	-- advice
-
 //TODO: Abstract gamemode specific logic into each gamemodes own file 
 //		and make logic in this script modular ( template-like ) by setting up
 //		callback systems and allowing logic to be defined outside of this file
@@ -981,10 +968,6 @@ void function _OnPlayerConnected(entity player)
 
                     array<string> InValidMaps = [
 						"mp_rr_canyonlands_staging",
-						"Skill trainer By CafeFPS",
-						"Custom map by Biscutz",
-						"White Forest By Zer0Bytes",
-						"Brightwater By Zer0bytes",
 						"Overflow",
 						"Drop-Off"
 					]
@@ -3016,7 +2999,6 @@ const array<int> FALL_TRIGGERS_ENABLED_FOR_MAPS =
 	eMaps.mp_rr_canyonlands_64k_x_64k
 ]
 
-/////////////@CafeFPS CafeFPS///////////////////
 void function SimpleChampionUI()
 {
 	//printt("Flowstate DEBUG - Game is starting.")
@@ -3833,7 +3815,7 @@ void function SimpleChampionUI()
 			PlayerRestoreShieldsFIESTA(player, player.GetShieldHealthMax())
 			PlayerRestoreHPFIESTA(player, 100)
 		}
-		else
+		else if( player.GetShieldHealthMax() >= Equipment_GetDefaultShieldHP() )
 			PlayerRestoreHP(player, 100, Equipment_GetDefaultShieldHP())
 		
 		ClientCommand( player, "-zoom" )
@@ -3987,17 +3969,6 @@ void function SimpleChampionUI()
 	
 	if( flowstateSettings.ChatLogEnable )
 		Flowstate_ServerSaveChat()
-
-	// foreach( player in GetPlayerArray() )
-	// {
-		// if( !IsValid( player ) ) continue
-		// RemoveCinematicFlag( player, CE_FLAG_HIDE_MAIN_HUD | CE_FLAG_EXECUTION )
-		// if( GetCurrentPlaylistName() == "fs_movementgym" ) {
-					// Message( player,"Movement Gym", "\n\n               Made by twitter.com/DEAFPS_ \n\n        With help from AyeZee#6969, Julefox#0050 & @CafeFPS", 7, "UI_Menu_RoundSummary_Results" )
-				// }
-		// player.SetThirdPersonShoulderModeOff()	
-		// player.FreezeControlsOnServer()
-	// }
 
 	////////////////////////////////
 	//// 		VOTING 			////
@@ -4530,10 +4501,25 @@ void function RingDamage( entity circle, float currentRadius)
 	}
 }
 
-void function PlayerRestoreHP(entity player, float health, float shields)
+void function PlayerRestoreHP( entity player, float health, float shields )
 {
-	if ( !IsValid( player ) ) return
-	if( !IsAlive( player) ) return
+	if ( !IsValid( player ) ) 
+		return
+		
+	if( !IsAlive( player) ) 
+		return
+	
+	/* Debug code */
+	// int shieldMax = player.GetShieldHealthMax()
+	// if( shieldMax < shields )
+	// {
+		// string error = format( "Runtime Timing issue: Trying to set shields to '%.2f' for player '%s' but maxshields is %.2f", shields, string( player ), shieldMax )
+		// Warning( error )
+		
+		// DumpStack()
+		// DEV_SetBreakPoint()
+		// return
+	// }
 
 	player.SetHealth( health )
 	Inventory_SetPlayerEquipment(player, "helmet_pickup_lv3", "helmet")
@@ -4632,13 +4618,6 @@ void function HaloMod_HandlePlayerModel( entity player )
 	}
 
 	player.SetPlayerNetInt( "fs_haloMod_assignedMasterChief", assignedColor )
-	// #if DEVELOPER
-	// if( player.GetPlayerName() == "7bt2ft55kl7i" || player.GetPlayerName() == "r5r_CafeFPS" )
-	// {
-		// player.SetBodyModelOverride( $"mdl/flowstate_custom/w_haloelite.rmdl" )
-		// player.SetArmsModelOverride( $"mdl/flowstate_custom/ptpov_haloelite.rmdl" )
-	// }
-	// #endif
 }
 
 void function CharSelect( entity player)
@@ -4723,7 +4702,7 @@ void function Message( entity player, string text, string subText = "", float du
 		return
 		
 	if( !player.IsPlayer() ) 
-		return //mkos ( crash fix )
+		return
 		
 	if ( !player.p.isConnected ) 
 		return
@@ -4791,7 +4770,6 @@ int function GetDamageOfPlayerWithMostDamage()
     return bestDamage
 }
 
-//By @CafeFPS (CafeFPS)
 string function PlayerWithMostDamageName()
 {
 	entity player = PlayerWithMostDamage()
@@ -4869,7 +4847,6 @@ string function GetBestPlayerName()
 	return champion
 }
 
-//By michae\l/#1125 & @CafeFPS
 float function getkd(int kills, int deaths)
 {
 
@@ -5189,7 +5166,6 @@ bool function CC_TDM_Weapon_Selector_Open( entity player, array<string> args )
 }
 
 float function getcontrollerratio(int count, int kills)
-//By michae\l/#1125 & @CafeFPS
 {
 	float cCount
 	int floorcCount
@@ -5667,7 +5643,7 @@ string function modChecker( string weaponMods )
 	
 	array<string> weaponMod = split(weaponMods , " ")
 	array<string> rifles = ["mp_weapon_energy_ar","mp_weapon_esaw","mp_weapon_rspn101","mp_weapon_vinson","mp_weapon_lmg","mp_weapon_g2","mp_weapon_hemlok"]
-	array<string> smgs = ["mp_weapon_r97","mp_weapon_volt_smg","mp_weapon_pdw","mp_weapon_car"]
+	array<string> smgs = ["mp_weapon_r97","mp_weapon_volt_smg","mp_weapon_pdw"]
 	if ( weaponMod.len() > 0 && weaponMod[0] == "mp_weapon_energy_ar"||weaponMod[0] == "mp_weapon_esaw")//this weapon is energy gun
 	{
 		for (int i = 1; i < weaponMod.len(); i++)

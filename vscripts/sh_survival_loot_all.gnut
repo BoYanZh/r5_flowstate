@@ -281,7 +281,6 @@ void function SURVIVAL_Loot_All_InitShared()
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod_survival_groundloot.rpak" ) )
 	} else
 	{
-		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new.rpak" ) )
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk.rpak" ) )
 		
 		if( GetCurrentPlaylistVarBool( "is_halo_gamemode", false ) )
@@ -347,7 +346,7 @@ bool function IsNewLootEnabled( string ref )
 		case "mp_weapon_grenade_gravity":
 		
 		// case "mp_weapon_sentinel":
-		// case "incapshield_pickup_lv0":
+		case "mp_titanweapon_flightcore_rockets":
 		case "mp_weapon_bow":
 		case "mp_weapon_3030":
 		case "mp_weapon_nemesis":
@@ -362,7 +361,6 @@ bool function IsNewLootEnabled( string ref )
 		// case "mp_weapon_raygun":
 		// if( Gamemode() == eGamemodes.fs_infected && ref == "mp_weapon_raygun" )
 			// return true
-		case "mp_titanweapon_flightcore_rockets":
 		// case "laser_sight_l1":
 		// case "laser_sight_l2": 
 		// case "laser_sight_l3":
