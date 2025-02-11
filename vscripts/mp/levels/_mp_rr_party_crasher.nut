@@ -14,7 +14,21 @@ void function CodeCallback_MapInit()
 	//printt("PARTY CRASHER LOADED!")
 	//PrecacheModel($"mdl/levels_terrain/mp_rr_canyonlands/waterfall_canyonlands_04.rmdl")
 	AddCallback_EntitiesDidLoad( PartyCrasherOnEntitiesDidLoad )
+
+	#if SERVER
+	thread InitARBarriers()
+	#endif
 }
+
+#if SERVER
+void function InitARBarriers()
+{
+	AddSpawnCallback( "func_brush", void function ( entity brush )
+	{
+		brush.Destroy()//TODO: Recover this function once we get correct shaders and arenas -LorryLeKral
+	} )
+}
+#endif
 
 void function PartyCrasherOnEntitiesDidLoad()
 {

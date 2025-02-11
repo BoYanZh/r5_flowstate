@@ -187,9 +187,12 @@ playlists
 				///////////////////////////////////////////////////////////////////////////////////
 				
 				character_dummie								hide
-				//character_wattson								lock
-				//character_crypto								lock
+				character_random								hide
+				character_loba									hide
+
+				character_dummie								lock
 				character_random								lock
+				character_loba									lock
 
 
 				///////////////////////////////////////////////////////////////////////////////////
@@ -647,9 +650,6 @@ playlists
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_mu1						  	1
 				mp_rr_desertlands_mu1_tt						1
-				mp_rr_desertlands_mu2						  	1
-				mp_rr_desertlands_mu3						  	0
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -707,17 +707,12 @@ playlists
 			gamemodes { survival { maps {
 				mp_rr_party_crasher								1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1							1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx					1
 				mp_rr_desertlands_64k_x_64k_tt					1
-				mp_rr_arena_skygarden							1
-				mp_rr_aqueduct_night							1
-				mp_rr_ashs_redemption							1
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -778,7 +773,6 @@ playlists
 			}
 			gamemodes { fs_snd { maps {
 				mp_rr_arena_empty								1
-				mp_rr_arena_composite							1
 			} } }
 		}
 
@@ -1461,14 +1455,10 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
 				mp_rr_party_crasher					  			1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_canyonlands_staging					  	1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -1906,17 +1896,14 @@ playlists
 			gamemodes { fs_dm { maps {
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
+				mp_rr_canyonlands_mu2						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_canyonlands_staging					  	1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -2035,16 +2022,13 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
 				mp_rr_canyonlands_mu2						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -2212,9 +2196,7 @@ playlists
 				spawnsets_mp_rr_canyonlands_64k_x_64k			"1"
 				spawnsets_mp_rr_desertlands_64k_x_64k			"1,2"
 				spawnsets_mp_rr_aqueduct 						"1"
-				spawnsets_mp_rr_arena_composite 				"1"
 				spawnsets_mp_rr_arena_phase_runner				"1"
-				spawnsets_mp_rr_olympus_mu1						"1"
 				
 				spawnpaks_use_sets 								1	// bool, enables using other than stock spawn paks
 				spawnpaks_use_random							0	// bool, loads random configured pak on mapstart
@@ -2223,7 +2205,6 @@ playlists
 			}
 			gamemodes { fs_dm { maps {
 				mp_rr_desertlands_64k_x_64k 					1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -2379,10 +2360,7 @@ playlists
 				
 				spawnsets_mp_rr_desertlands_64k_x_64k			"1"
 				spawnsets_mp_rr_canyonlands_64k_x_64k			"1"
-				spawnsets_mp_rr_arena_composite 				"1"
 				spawnsets_mp_rr_arena_phase_runner				"1"
-				spawnsets_mp_rr_olympus_mu1						"1"
-				spawnsets_mp_rr_arena_skygarden					"1"
 				
 				spawnpaks_use_sets 								0	// bool, enables using other than stock spawn paks
 				spawnpaks_use_random							0	// bool, loads random configured pak on mapstart
@@ -2394,14 +2372,10 @@ playlists
 				custom_playlist_spawnpak						""  // string, custom playlist override (fs_1v1, fs_scenarios, etc. )  loads spawns for this gametype instead of game loaded gametype
 			}
 			gamemodes { fs_dm { maps {
-				mp_rr_ashs_redemption							1
 				mp_rr_canyonlands_64k_x_64k 					1
 				mp_rr_aqueduct 									1
-				mp_rr_aqueduct_night 							1
 				mp_rr_arena_composite 							1
 				mp_rr_arena_phase_runner 						1
-				mp_rr_olympus_mu1 								1
-				mp_rr_arena_skygarden 							1
 				mp_rr_party_crasher 							1
 			} } }
 		}
@@ -2661,9 +2635,7 @@ playlists
 			gamemodes { fs_dm { maps {
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
 				mp_rr_arena_phase_runner						1
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -2793,19 +2765,16 @@ playlists
 				//has its own spawn pak hardcoded
 			}
 			gamemodes { fs_dm { maps {
-				mp_rr_canyonlands_staging 						1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
+				mp_rr_canyonlands_mu2						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 
@@ -3013,7 +2982,6 @@ playlists
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
-				mp_rr_canyonlands_mu2						  	1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_mu2						  	1
 			} } }
@@ -3399,7 +3367,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_desertlands_mu2						  	1
 			} } }
 		}
 		
@@ -3460,7 +3427,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 		
@@ -3523,7 +3489,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -3584,7 +3549,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -3642,7 +3606,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -4265,20 +4228,13 @@ playlists
 			gamemodes { survival { maps {
 				mp_rr_party_crasher					 			1
 				mp_rr_aqueduct								 	1
-				mp_rr_arena_composite						  	1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
-				mp_rr_canyonlands_mu2						 	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_desertlands_mu2			 				1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
 				mp_rr_arena_phase_runner						1
-				mp_rr_aqueduct_night						   	1
-				mp_rr_ashs_redemption						  	1
-				mp_rr_olympus_mu1 								1
 				mp_rr_arena_empty								1
 				mp_rr_construct									1
 			} } }
@@ -4319,8 +4275,6 @@ playlists
 				// survival_wallrun_enabled					   	1
 			}
 			gamemodes { survival { maps {
-				mp_rr_canyonlands_mu2						 	1
-				mp_rr_olympus_mu1 								1
 				mp_rr_arena_empty								1
 				mp_rr_arena_phase_runner						1
 				mp_rr_canyonlands_64k_x_64k						1
@@ -4328,14 +4282,10 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
 				mp_rr_party_crasher					 			1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_canyonlands_staging					  	1
 				mp_rr_aqueduct								 	1
-				mp_rr_aqueduct_night						   	1
-				mp_rr_ashs_redemption						  	1
-				mp_rr_arena_composite						  	1
 				mp_rr_construct									1
 			} } }
 		}
