@@ -1101,7 +1101,7 @@ void function InspectMenu_OnClose()
 
 	RemoveCallback_UserInfoUpdated( OnUserInfoUpdated )
 
-	ActivateNav(0)
+	//ActivateNav(0)
 }
 
 
