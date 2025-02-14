@@ -35,6 +35,7 @@ void function InitLobbyMenu( var newMenuArg )
 
 	AddMenuVarChangeHandler( "isFullyConnected", UpdateFooterOptions )
 	AddMenuVarChangeHandler( "isPartyLeader", UpdateFooterOptions )
+	
 	#if DURANGO_PROG
 		AddMenuVarChangeHandler( "DURANGO_canInviteFriends", UpdateFooterOptions )
 		AddMenuVarChangeHandler( "DURANGO_isJoinable", UpdateFooterOptions )
@@ -160,7 +161,7 @@ void function OnLobbyMenu_Close()
 
 void function OnGRXStateChanged()
 {
-	bool ready = GRX_IsInventoryReady() && GRX_AreOffersReady()
+	bool ready = true //GRX_IsInventoryReady() && GRX_AreOffersReady()
 
 	string bpPanel = "PassPanelV2"
 
@@ -173,17 +174,14 @@ void function OnGRXStateChanged()
 
 	foreach ( var panel in panels )
 	{
-		if ( panel == GetPanel( bpPanel ) )
-			SetPanelTabEnabled( panel, ready && ShouldBattlePassTabBeEnabled() )
-		else
-			SetPanelTabEnabled( panel, ready )
+		SetPanelTabEnabled( panel, ready )
 	}
 
-	if ( ready )
-	{
-		if ( ShouldShowPremiumCurrencyDialog() )
-			ShowPremiumCurrencyDialog( false )
-	}
+	//if ( ready )
+	//{
+	//	if ( ShouldShowPremiumCurrencyDialog() )
+	//		ShowPremiumCurrencyDialog( false )
+	//}
 }
 
 
