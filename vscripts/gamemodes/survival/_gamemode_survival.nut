@@ -41,6 +41,7 @@ global function SURVIVAL_SetPlaneHeight
 global function Survival_RunPlaneLogic_Thread
 global function Survival_GenerateSingleRandomPlanePath
 global function Survival_RunSinglePlanePath_Thread
+global function Survival_GetPlayerRealm
 
 global function SetPlayerIntroDropSettings
 global function ClearPlayerIntroDropSettings
@@ -2780,6 +2781,17 @@ void function Survival_ClearPrematchSettings( entity player )
 {
 	if ( file.shouldFreezeControlsOnPrematch )
 		player.UnfreezeControlsOnServer()
+}
+
+int function Survival_GetPlayerRealm( entity player )
+{
+	foreach ( realm in Survival_Loot_GetRealmsToPopulate() )
+	{
+		if ( player.IsInRealm( realm ) )
+			return realm
+	}
+
+	return eRealms.DEFAULT
 }
 
 void function Survival_ResetPlayerHighlights()

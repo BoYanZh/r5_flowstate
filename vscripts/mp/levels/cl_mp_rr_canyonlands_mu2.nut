@@ -26,11 +26,14 @@ void function ClientCodeCallback_MapInit()
 	ShPrecacheBreachAndClearAssets()
 	ShPrecacheTreasureExtractionAssets()
 
-	ClCryptoTVsInit()
+	
 	InitHatchBunkers()
-	RegisterCLCryptoCallbacks()
+
 	ClCanyonlandsStoryEvents_Init()
 	ClCommonStoryEvents_Init()*/
+
+	ClCryptoTVsInit()
+	RegisterCLCryptoCallbacks()
 }
 
 void function MinimapLabelsCanyonlandsMU2()
@@ -76,7 +79,6 @@ void function MinimapLabelsCanyonlandsMU2()
 
 void function EntitiesDidLoad()
 {
-	//InitCryptoMap()
 }
 
 void function MU1_OnWinnerDetermined()

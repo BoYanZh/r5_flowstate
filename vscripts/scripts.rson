@@ -415,6 +415,8 @@ Scripts:
 	sh_apex_screens.nut
 	sh_survival_deathfield.gnut
 	sh_survival_freefall.gnut
+	
+	mp/levels/sh_crypto_tt_common.nut
 
 	mp/sh_lootbin.gnut
 	mp/_sh_tutorial.gnut

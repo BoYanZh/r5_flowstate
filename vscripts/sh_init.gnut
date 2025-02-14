@@ -64,6 +64,7 @@ void function SV_CL_Init()
 		#endif 
 	Flags_Init()
 	RemoteFunctions_Init_Begin()
+	CryptoTT_Init()
 	ShGamepad_LevelInit()
 	Thirdperson_Init()
 	DeathHints_Init()

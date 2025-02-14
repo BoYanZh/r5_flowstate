@@ -16,9 +16,6 @@ void function CodeCallback_MapInit()
 	SURVIVAL_SetAirburstHeight( 8000 )
 	SURVIVAL_SetMapCenter( <0, 0, 0> )
     SURVIVAL_SetMapDelta( 4900 )
-	
-	if (MapName() == eMaps.mp_rr_canyonlands_mu2_tt )
-		thread InitCryptoMap()
 
 	MapZones_RegisterDataTable( $"datatable/map_zones/zones_mp_rr_canyonlands_mu2.rpak" )
 	
@@ -101,6 +98,9 @@ void function KCMU2_OnEntitiesDidLoad()
 	array<entity> props = GetEntArrayByClass_Expensive( "prop_dynamic" )
 	foreach( prop in props )
 		InitPropDynamic( prop )
+
+	if (MapName() == eMaps.mp_rr_canyonlands_mu2_tt )
+		thread CryptoTT_Init()
 
 	SetupBunkersDoors()
 }

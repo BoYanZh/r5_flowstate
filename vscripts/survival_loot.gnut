@@ -62,6 +62,9 @@ global function GetRefOrRefFromGroup
 global function Dev_ForceDropDeathbox
 global function SURVIVAL_Death_DropLoot_Internal
 global function SURVIVAL_IsValidLootGroup
+global function Survival_Loot_SetRealmsToPopulate
+global function Survival_Loot_GetRealmsToPopulate
+global function Survival_Loot_GetDefaultRealm
 
 global function Loot_AddCallback_OnGiveMainWeapon
 global function Loot_RemoveCallback_OnGiveMainWeapon
@@ -178,6 +181,7 @@ struct {
 	table< string, array<void functionref( entity parentEnt, entity childEnt ) > >  Callbacks_OnLootSpawnParented
 	array< void functionref(entity, entity, entity) >								Callbacks_OnGiveMainWeapon
 	array< void functionref(entity, entity, entity) >								Callbacks_OnWeaponDrop
+	array<int>                     realmsToPopulate = [ eRealms.DEFAULT ]
 
 	array<entity> playersThatShouldForceUseSafeSpotForDeathBox
 	
@@ -226,6 +230,8 @@ void function SV_Survival_Loot_Init()
 
 	AddClientCommandCallback( "Sur_EquipAttachment", ClientCommand_Sur_EquipAttachment )
 	AddClientCommandCallback( "Sur_UnequipAttachment", ClientCommand_Sur_UnequipAttachment )
+	
+	
 
 	AddClientCommandCallback( "Sur_TransferAttachment", ClientCommand_Sur_TransferAttachment )
 
@@ -5646,6 +5652,23 @@ void function MoveToNewPosition( entity loot, vector origin, vector angles )
 	WaitEndFrame()
 	
 	loot.ClearParent()
+}
+
+void function Survival_Loot_SetRealmsToPopulate( array<int> realms )
+{
+	file.realmsToPopulate = realms
+}
+
+
+array<int> function Survival_Loot_GetRealmsToPopulate()
+{
+	return file.realmsToPopulate
+}
+
+
+int function Survival_Loot_GetDefaultRealm()
+{
+	return file.realmsToPopulate[ 0 ]
 }
 
 void function AddCallback_LootPhysicsParented( entity ent, void functionref( entity parentEnt, entity childEnt ) callbackFunc )

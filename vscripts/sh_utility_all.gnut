@@ -434,6 +434,74 @@ vector function FindAnyPerpendicularVector( vector v )
 }
 
 
+float function GetArcLengthDeg( float startDeg, float endDeg )
+{
+	if ( endDeg < startDeg )
+		endDeg += 360
+
+	return fabs( startDeg - endDeg )
+}
+
+bool function CirclesAreIntersecting( vector org1, float rad1, vector org2, float rad2 )
+{
+	float distBetweenCircles = Distance( org1, org2 )
+	float epsilon = 1
+
+	// New circle inside projection radius
+	if ( distBetweenCircles < fabs( rad1 - rad2 ) + epsilon )
+		return false
+	else if ( distBetweenCircles < fabs( rad2 - rad1 ) + epsilon )
+		return false
+
+	// Circles are literally the same
+	else if ( distBetweenCircles == 0 && rad2 == rad1 )
+		return false
+
+	// Circles aren't touching
+	else if ( distBetweenCircles > ( rad1 + rad2 + epsilon ) )
+		return false
+
+	return true
+}
+
+bool function IsCircleAEncompassingCircleB( vector org1, float rad1, vector org2, float rad2 )
+{
+	float epsilon
+	float distBetweenCircles = Distance( org1, org2 )
+	if ( ( distBetweenCircles < fabs( rad1 - rad2 ) + epsilon ) && ( rad1 > rad2 ) )
+		return true
+
+	return false
+}
+array<vector> function GetCircleToCircleIntersectionPoints( vector org1, float rad1, vector org2, float rad2, vector up = < 0, 0, 1 >, bool debugDraw = false )
+{
+	float distBetweenCircles        = Distance( org1, org2 )
+	float distOrg1ToIntersectCenter = ( ( rad1 * rad1 ) - ( rad2 * rad2 ) + ( distBetweenCircles * distBetweenCircles ) ) / ( 2.0 * distBetweenCircles )
+
+	vector intersectDir    = Normalize( org2 - org1 )
+	vector intersectCenter = intersectDir * distOrg1ToIntersectCenter
+
+	float intersectHeight = sqrt( ( rad1 * rad1 ) - ( distOrg1ToIntersectCenter * distOrg1ToIntersectCenter ) )
+	vector heightDir      = CrossProduct( up, intersectDir )
+
+	array<vector> intersectionPoints = [ intersectCenter + ( heightDir * intersectHeight ), intersectCenter - ( heightDir * intersectHeight ) ]
+
+	if ( debugDraw )
+	{
+		#if SERVER || CLIENT
+		// Circle origins
+		//DebugDrawLine( org1, org1 + < 0, 0, 32 >, COLOR_RED, true, 1.0 )
+		//DebugDrawLine( org2, org2 + < 0, 0, 32 >, COLOR_GREEN, true, 1.0 )
+
+		// Lines to intersection points
+		//DebugDrawLine( org2, intersectionPoints[ 0 ] + org1, COLOR_WHITE, true, 1.0 )
+		//DebugDrawLine( org2, intersectionPoints[ 1 ] + org1, COLOR_BLACK, true, 1.0 )
+		#endif
+	}
+
+	return intersectionPoints
+}
+
 bool function IsLobbyMapName( string levelname )
 {
 	if ( levelname == "mp_lobby" || levelname == "mp_npe" )

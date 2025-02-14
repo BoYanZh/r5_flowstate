@@ -4,9 +4,11 @@
 
 global function ShLootRollers_Init
 global function IsLootRoller
+global function LootRollerSpawned
 
 #if SERVER
 global function Flowstate_ReturnDroneLootForCurrentTier
+global function Flowstate_StartRollerLootLoop
 #endif
 
 #if CLIENT

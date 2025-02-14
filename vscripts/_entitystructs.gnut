@@ -364,6 +364,7 @@ global struct ServerEntityStruct
 	array<void functionref( entity vehicle )> onPlayerUseButtonReleased
 	array<void functionref( entity )> onEntityDestroyedCallbacks
 	bool functionref( entity player, entity ent ) canUseEntityCallback
+	bool functionref( entity player, entity ent, int useFlags ) canUseEntityCallbackNew = null
 	bool headshotImmunity
 	bool forceHeadshotDeath
 	bool isLeftDoor

@@ -5,7 +5,8 @@ global function ClientCodeCallback_MinimapEntitySpawned
 global function Minimap_AddCustomLayer
 
 global function RegisterMinimapPackage
-
+global function FullMap_AddEnemyLocation
+global function FS_Minimap_AddEnemyToMinimap_HACK
 global function CreateMinimapRui
 global function Minimap_SetSizeScale
 global function Minimap_IsUsingLargeMinimap
@@ -941,6 +942,22 @@ void function Minimap_OnPlayerTeamChanged( entity player, int oldTeam, int newTe
 		player.Signal( "TeamChanged" )
 }
 
+var function FullMap_AddEnemyLocation( entity enemy, asset enemyIconOverride = $"", float sizeOverride = -1.0 )
+{
+	var rui = FullMap_CommonAdd( $"ui/in_world_minimap_square_simple.rpak" )
+
+	RuiSetFloat3( rui, "objectPos", enemy.GetOrigin() )
+	RuiSetFloat3( rui, "objectAngles", ( enemy.GetAngles() + <0, -90, 0> ) )
+	RuiSetFloat( rui, "objectSize", sizeOverride <= 0 ? 5.0 : sizeOverride )
+	RuiSetBool( rui, "doAnnounceEffect", true )
+	RuiSetImage( rui, "iconImage", enemyIconOverride == $"" ? $"rui/hud/minimap/compass_icon_player" : enemyIconOverride )
+
+	
+	RuiSetFloat3( rui, "objColor", GetKeyColor( COLORID_FX_LOOT_TIER4 ) * ( 1.0 / 255.0 ) )
+
+	Fullmap_AddRui( rui )
+	return rui
+}
 void function UpdatePlayerRuiTracking( entity player )
 {
 	Assert( player == GetLocalClientPlayer() )
@@ -1927,9 +1944,10 @@ var function FS_Minimap_AddEnemyToMinimap_HACK( entity enemy )
 	RuiTrackInt( rui, "objectFlags", viewPlayer, RUI_TRACK_MINIMAP_FLAGS )
 	RuiTrackInt( rui, "customState", viewPlayer, RUI_TRACK_MINIMAP_CUSTOM_STATE )
 	
-	RuiSetFloat2( rui, "iconScale", < 0.7, 0.7, 0 > )
+	RuiSetFloat2( rui, "iconScale", < 1.5, 1.5, 0 > )
 	RuiSetBool( rui, "alwaysShowOnMinimap", true )
-	RuiSetBool( rui, "useTeamColor", false )
+	//RuiSetBool( rui, "useOverrideColor", true )
+	//RuiSetFloat3( rui, "overrideColor", SrgbToLinear( <186.0, 12.42, 12.42> ) )
 	RuiSetImage( rui, "defaultIcon", $"rui/menu/buttons/new" )
 	RuiSetImage( rui, "clampedDefaultIcon", $"" )
 
