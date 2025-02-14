@@ -407,12 +407,13 @@ void function PrecacheSDKWeapons()
 void function PrecacheSDKEntities()
 {
 	///////////////////////character_revenant///////////////////////
-	PrecacheModel( $"mdl/dev/empty_model_revenant.rmdl" )
-	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem.rmdl" )
+	PrecacheModel( $"mdl/dev/empty_model_revenant.rmdl" ) // called by revenant finisher, remove when rseq dependency support added?
+	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_contemplation_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_patience_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem_glad_card.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/weapons_r5/lmg_devotion/w_lmg_devotion_legendary_03.rmdl") // not a skin! used for revenant gcard
+	PrecacheModel( $"mdl/props/tablet/tablet_mini.rmdl" ) // s4 mirage animset needs this model? game crashes if not precached, remove when rseq dependency support added?
 
 	///////////////////////character_loba///////////////////////
 	PrecacheModel( $"mdl/fx/loba_staff_holo_stand.rmdl" )
