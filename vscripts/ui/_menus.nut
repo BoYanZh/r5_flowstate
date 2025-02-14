@@ -196,10 +196,10 @@ void function UICodeCallback_CloseAllMenus()
 
 string function GetCurrentLobbyMenu()
 {
-	string menuName = "R5RLobbyMenu"
+	string menuName = "LobbyMenu"
 
 	if(IsLobby())
-		menuName = GetPlaylistVarBool("dev_default", "r5reloaded_lobby", true) ? "R5RLobbyMenu" : "LobbyMenu"
+		menuName = GetPlaylistVarBool("dev_default", "r5reloaded_lobby", true) ? "LobbyMenu" : "LobbyMenu"
 
 	return menuName
 }
@@ -1641,7 +1641,7 @@ void function InitMenus()
 	var r5rmainMenu = AddMenu( "R5RMainMenu", $"scripts/resource/ui/menus/CustomLobby/main.res", InitR5RMainMenu, "#MAIN" )
 	AddPanel( r5rmainMenu, "R5RMainMenuPanel", InitR5RMainMenuPanel )
 
-	var r5rlobbymenu = AddMenu( "R5RLobbyMenu", $"scripts/resource/ui/menus/CustomLobby/lobbymenu.res", InitR5RLobbyMenu )
+	/*var r5rlobbymenu = AddMenu( "R5RLobbyMenu", $"scripts/resource/ui/menus/CustomLobby/lobbymenu.res", InitR5RLobbyMenu )
 	AddPanel( r5rlobbymenu, "HomePanel", InitHomePanel )
 	AddPanel( r5rlobbymenu, "R5RNamePanel", InitR5RNamePanel )
 	AddPanel( r5rlobbymenu, "R5RDescPanel", InitR5RDescPanel )
@@ -1657,7 +1657,7 @@ void function InitMenus()
 	AddPanel( r5rlobbymenu, "R5RConnectingPanel", InitR5RConnectingPanel )
 
 	AddMenu( "R5RNews", $"scripts/resource/ui/menus/CustomLobby/news.res", InitR5RNews )
-	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/CustomLobby/gamemode_select.res", InitR5RGamemodeSelectDialog )
+	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/CustomLobby/gamemode_select.res", InitR5RGamemodeSelectDialog )*/
 
 
 	//Settings
