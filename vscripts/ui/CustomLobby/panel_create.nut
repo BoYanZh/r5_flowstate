@@ -42,6 +42,7 @@ void function InitR5RDescPanel( var panel )
 
 void function InitCreatePanel( var panel )
 {
+	SetPanelTabTitle( panel, "CREATE" )
 	file.panel = panel
 	file.menu = GetParentMenu( file.panel )
 

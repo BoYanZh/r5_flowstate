@@ -86,6 +86,7 @@ void function InitR5RConnectingPanel( var panel )
 
 void function InitServerBrowserPanel( var panel )
 {
+	SetPanelTabTitle( panel, "SERVERS" )
 	file.panel = panel
 	file.menu = GetParentMenu( file.panel )
 

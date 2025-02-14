@@ -162,6 +162,15 @@ void function InitPlayPanel( var panel )
 	Hud_AddEventHandler( file.gamemodeSelectV2Button, UIE_GET_FOCUS, GameModeSelectV2Button_OnGetFocus )
 	Hud_AddEventHandler( file.gamemodeSelectV2Button, UIE_LOSE_FOCUS, GameModeSelectV2Button_OnLoseFocus )
 	Hud_SetVisible( file.gamemodeSelectV2Button, false )
+	
+	RuiSetString( Hud_GetRui( file.gamemodeSelectV2Button ), "modeNameText", "Random" )
+	RuiSetString( Hud_GetRui( file.gamemodeSelectV2Button ), "modeDescText", "Not Ready" )
+	RuiSetBool( Hud_GetRui( file.gamemodeSelectV2Button ), "alwaysShowDesc", true )
+	RuiSetImage( Hud_GetRui( file.gamemodeSelectV2Button ), "modeImage", $"rui/menu/gamemode/ranked_1" )
+	HudElem_SetRuiArg( file.gamemodeSelectV2Button, "isPartyLeader", true )
+
+	Hud_SetVisible( file.modeButton, false )
+	Hud_SetVisible( file.gamemodeSelectV2Button, true )
 
 	file.readyButton = Hud_GetChild( panel, "ReadyButton" )
 	Hud_AddEventHandler( file.readyButton, UIE_CLICK, ReadyButton_OnActivate )
@@ -384,7 +393,7 @@ void function UpdateLobbyButtons()
 
 	UpdateFillButton()
 	UpdateReadyButton()
-	UpdateModeButton()
+	//UpdateModeButton()
 	UpdateFriendButtons()
 	UpdateLastPlayedButtons()
 	UpdatePlaylistBadges()
@@ -1292,7 +1301,7 @@ void function GameModeSelectV2Button_OnActivate( var button )
 
 	ClientCommand( "ViewedModes" )
 
-	AdvanceMenu( GetMenu( "GamemodeSelectV2Dialog" ) )
+	AdvanceMenu( GetMenu( "R5RGamemodeSelectV2Dialog" ) )
 }
 
 

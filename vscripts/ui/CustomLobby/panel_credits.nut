@@ -49,21 +49,21 @@ void function InitCreditPanel( var panel )
 
 	AddPanelFooterOption( panel, LEFT, BUTTON_B, true, "#B_BUTTON_BACK", "#B_BUTTON_BACK" )
 	
-	var menu = GetMenu( "credits" )
-	file.menu = menu
+	//var menu = GetMenu( "credits" )
+	//file.menu = menu
 	
-	AddMenuEventHandler( menu, eUIEvent.MENU_OPEN, CreditDialog_OnOpen )
-	AddMenuEventHandler( menu, eUIEvent.MENU_CLOSE, CreditDialog_OnClose )
+	//AddMenuEventHandler( menu, eUIEvent.MENU_OPEN, CreditDialog_OnOpen )
+	//AddMenuEventHandler( menu, eUIEvent.MENU_CLOSE, CreditDialog_OnClose )
 
-	file.prevPageButton = Hud_GetChild( menu, "PrevPageButton" )
-	HudElem_SetRuiArg( file.prevPageButton, "flipHorizontal", true )
-	Hud_AddEventHandler( file.prevPageButton, UIE_CLICK, Page_NavLeft )
+	//file.prevPageButton = Hud_GetChild( menu, "PrevPageButton" )
+	//HudElem_SetRuiArg( file.prevPageButton, "flipHorizontal", true )
+	//Hud_AddEventHandler( file.prevPageButton, UIE_CLICK, Page_NavLeft )
 
-	file.nextPageButton = Hud_GetChild( menu, "NextPageButton" )
-	Hud_AddEventHandler( file.nextPageButton, UIE_CLICK, Page_NavRight )
+	//file.nextPageButton = Hud_GetChild( menu, "NextPageButton" )
+	//Hud_AddEventHandler( file.nextPageButton, UIE_CLICK, Page_NavRight )
 
-	file.lastPageRui = Hud_GetRui( Hud_GetChild( menu, "LastPage" ) )
-	file.activePageRui = Hud_GetRui( Hud_GetChild( menu, "ActivePage" ) )
+	//file.lastPageRui = Hud_GetRui( Hud_GetChild( menu, "LastPage" ) )
+	//file.activePageRui = Hud_GetRui( Hud_GetChild( menu, "ActivePage" ) )
 }
 
 void function Page_NavLeft( var button )
