@@ -99,7 +99,7 @@ int function TEMP_GetPromoDataVersion()
 
 bool function IsPromoDialogAllowed()
 {
-	return (IsPromoDataProtocolValid() && IsLobby() && IsFullyConnected() && GetActiveMenu() == GetMenu( "LobbyMenu" ) )
+	return (IsPromoDataProtocolValid() && IsLobby() && IsFullyConnected() && GetActiveMenu() == GetMenu( "R5RLobbyMenu" ) )
 }
 
 
