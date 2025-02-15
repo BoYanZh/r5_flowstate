@@ -94,6 +94,8 @@ void function OnCloseButton_Activate( var button )
 
 void function DiagCloseing()
 {
+	Lobby_OnGamemodeSelectV2Close()
+
 	if(!file.showfreeroam)
 		return
 	

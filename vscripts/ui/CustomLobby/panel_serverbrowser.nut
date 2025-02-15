@@ -98,6 +98,8 @@ void function InitServerBrowserPanel( var panel )
 	Hud_AddEventHandler( Hud_GetChild( file.panel, "BtnServerListUpArrow" ), UIE_CLICK, OnScrollUp )
 	AddButtonEventHandler( Hud_GetChild( file.panel, "BtnServerSearch"), UIE_CHANGE, FilterServer_Activate )
 
+	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, ServerBrowser_OnShow )
+
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "LeftButton" ), UIE_CLICK, FilterServer_Activate )
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "RightButton" ), UIE_CLICK, FilterServer_Activate )
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnSelectGamemode" ), "LeftButton" ), UIE_CLICK, FilterServer_Activate )
@@ -116,6 +118,11 @@ void function InitServerBrowserPanel( var panel )
 	ServerBrowser_NoServersFound(false)
 	ServerBrowser_UpdateFilterLists()
 	OnBtnFiltersClear()
+}
+
+void function ServerBrowser_OnShow( var panel )
+{
+	UI_SetPresentationType( ePresentationType.COLLECTION_EVENT )
 }
 
 void function RegisterServerBrowserButtonPressedCallbacks()

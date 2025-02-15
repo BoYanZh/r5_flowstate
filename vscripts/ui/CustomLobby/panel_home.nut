@@ -1,6 +1,5 @@
 global function InitHomePanel
 global function Play_SetupUI
-global function R5RPlay_SetSelectedPlaylist
 
 const MAX_PROMO_ITEMS = 0
 
@@ -29,14 +28,6 @@ struct PromoItem
 	asset promoImage
 	string promoText1
 	string promoText2
-}
-
-global enum JoinType
-{
-    TopServerJoin = 0,
-    QuickPlay = 1,
-    QuickServerJoin = 2,
-    None = 3
 }
 
 struct
@@ -165,13 +156,6 @@ void function Play_SetupUI()
 	SetPromoPage()
 	if(!promo.IsAutoAdvance && promo.HasPages)
 		thread AutoAdvancePages()
-
-	if(!file.firststart)
-	{
-		g_SelectedPlaylist = "Random Server"
-		R5RPlay_SetSelectedPlaylist(JoinType.QuickServerJoin)
-		file.firststart = true
-	}
 }
 
 void function TestNewButton(var button)
@@ -223,34 +207,6 @@ void function GamemodeSelect_OnActivate(var button)
 		return
 	
 	AdvanceMenu( GetMenu( "R5RGamemodeSelectV2Dialog" ) )
-}
-
-void function R5RPlay_SetSelectedPlaylist(int quickPlayType)
-{
-	switch(quickPlayType)
-	{
-		case JoinType.TopServerJoin:
-				quickplay.quickPlayType = JoinType.TopServerJoin
-				string servername = g_SelectedTopServer.svServerName
-				if(g_SelectedTopServer.svServerName.len() > 30)
-					servername = g_SelectedTopServer.svServerName.slice(0, 30) + "..."
-
-				SetGamemodeButtonRUI(servername, "Not Ready", true, GetUIMapAsset(g_SelectedTopServer.svMapName ))
-			break;
-		case JoinType.QuickServerJoin:
-			quickplay.quickPlayType = JoinType.QuickServerJoin
-
-			asset image = $"rui/menu/gamemode/play_apex"
-			if(g_SelectedPlaylist == "Random Server")
-				image = $"rui/menu/gamemode/ranked_1"
-
-			SetGamemodeButtonRUI(GetUIPlaylistName(g_SelectedPlaylist), "Not Ready", true, image)
-			break;
-		case JoinType.QuickPlay:
-			quickplay.quickPlayType = JoinType.QuickPlay
-			SetGamemodeButtonRUI(GetUIMapName(g_SelectedQuickPlayMap), "Not Ready", true, g_SelectedQuickPlayImage)
-			break;
-	}
 }
 
 void function GamemodeButtonSetSearching(bool searching)
