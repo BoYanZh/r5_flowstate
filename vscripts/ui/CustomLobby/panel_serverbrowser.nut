@@ -5,6 +5,7 @@ global function InitServerBrowserPanel
 global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
+global function ServerBrowser_Requested_RefreshServerListing
 global function RegisterServerBrowserButtonPressedCallbacks
 global function UnRegisterServerBrowserButtonPressedCallbacks
 global function ServerBrowser_UpdateFilterLists
@@ -156,7 +157,7 @@ void function FilterServer_Activate(var button)
 
 void function ServerBrowser_RefreshBtnClicked(var button)
 {
-	thread ServerBrowser_RefreshServerListing()
+	thread ServerBrowser_RefreshServerListing(false)
 }
 
 void function ServerBrowser_ConnectBtnClicked(var button)
@@ -295,11 +296,27 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 //		ServerListing Functions
 //
 ////////////////////////////////////
-
-void function ServerBrowser_RefreshServerListing(bool refresh = true)
+void function ServerBrowser_RefreshServerListing(bool old = true)
 {
-	if (refresh)
+	if(old)
+	{
 		RefreshServerList()
+		ServerBrowser_Requested_RefreshServerListing(true)
+		return
+	}
+
+	ServerBrowser_NoServersFound(true)
+
+	RequestServerBrowserList()
+}
+
+void function ServerBrowser_Requested_RefreshServerListing(bool success)
+{
+	if(!success)
+	{
+		ServerBrowser_NoServersFound(true)
+		return
+	}
 
 	file.m_vServerList.clear()
 
