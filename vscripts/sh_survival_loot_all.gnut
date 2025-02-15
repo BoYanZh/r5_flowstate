@@ -47,7 +47,6 @@ global enum eLootTier
 	EPIC
 	LEGENDARY
 	HEIRLOOM
-	FAMMADE
 
 	_count
 }
@@ -1396,9 +1395,6 @@ vector function GetFXRarityColorForUnlockable( int tier )
 
 			case eLootTier.HEIRLOOM:
 				return LOOT_COLOR_HEIRLOOM
-				
-			case eLootTier.FANMADE:
-				return <36, 194, 25>
 			
 			case 6:
 				return <36, 194, 25>
