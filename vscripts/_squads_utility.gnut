@@ -188,10 +188,10 @@ vector function Squads_GetSquadColor( int squadIndex, bool forceWinterExpress = 
 vector function Squads_GetNonLinearSquadColor( int squadIndex, bool forceWinterExpress = false )
 {
 	array<vector> squad_colors = [
-		GetKeyColor( COLORID_LOOT_TIER5 ),
-		GetKeyColor( COLORID_LOOT_TIER4 ),
-		GetKeyColor( COLORID_LOOT_TIER3 ),
-		GetKeyColor( COLORID_LOOT_TIER2 )
+		GetKeyColor( COLORID_MEMBER_COLOR0 ),
+		GetKeyColor( COLORID_MEMBER_COLOR1 ),
+		GetKeyColor( COLORID_MEMBER_COLOR2 ),
+		GetKeyColor( COLORID_MEMBER_COLOR3 )
 	]
 
 	return squad_colors[ int( clamp( squadIndex, 0, squad_colors.len() - 1 ) ) ]
@@ -259,42 +259,21 @@ string function Squads_GetSquadNameLong( int squadIndex, bool forceWinterExpress
 #if CLIENT
 void function Squads_SetCustomPlayerInfo( entity player )
 {
-	// entity localPlayer = GetLocalViewPlayer()
-	// if ( !IsValid(player) || player == null || !IsValid(localPlayer) || localPlayer == null)
-		// return
+	entity localPlayer = GetLocalViewPlayer()
+	if ( !IsValid(player) || player == null || !IsValid(localPlayer) || localPlayer == null)
+		return
 
-	// int team = player.GetTeam()
-	// if( team == TEAM_SPECTATOR || team == TEAM_UNASSIGNED )
-		// return
+	int team = player.GetTeam()
+	if( team == TEAM_SPECTATOR || team == TEAM_UNASSIGNED )
+		return
 
-	// int myTeam = localPlayer.GetTeam()
-	// bool isUsingAlliances   = AllianceProximity_IsUsingAlliances()
-	// int allianceOrTeam      = ( isUsingAlliances )? AllianceProximity_GetAllianceFromTeam( team ): team
-	// int myAllianceOrTeam    = ( isUsingAlliances )? AllianceProximity_GetAllianceFromTeam( myTeam ): myTeam
-	// bool sameAllianceOrTeam = allianceOrTeam == myAllianceOrTeam
+	int myTeam = localPlayer.GetTeam()
 
-	// if( !GameMode_IsActive( eGameModes.SURVIVAL ) || ( GameMode_IsActive( eGameModes.SURVIVAL ) && Survival_ShouldChangeTeamUI() ) )
-	// {
-		// vector color = Teams_GetTeamColor( team )
-
-		// SetCustomPlayerInfoColor( player, LinearToSrgb( color ) * 255 )
-
-		// int scoreboardTeam = isUsingAlliances ? allianceOrTeam : team - TEAM_IMC
-		// player.SetTargetInfoIcon( Teams_GetTeamIcon( scoreboardTeam ) )
-		// player.SetTargetInfoIconColor( color, 1.0 )
-
-		// if( sameAllianceOrTeam )
-		// {
-			// SetUnitFrameCustomColor( player, color )
-			// Minimap_SetPlayerColorOverride( player, color )
-			// FullMap_SetPlayerColorOverride( player, color )
-		// }
-	// }
-	// if ( LoadoutSlot_IsReady( ToEHI( player ), Loadout_Character() ) )
-	// {
-		// ItemFlavor character = LoadoutSlot_GetItemFlavor( ToEHI( player ), Loadout_Character() )
-		// player.SetTargetInfoCharacterPortrait( CharacterClass_GetGalleryPortrait( character ) )
-	// }
+	if ( LoadoutSlot_IsReady( ToEHI( player ), Loadout_CharacterClass() ) )
+	{
+		ItemFlavor character = LoadoutSlot_GetItemFlavor( ToEHI( player ), Loadout_CharacterClass() )
+		//player.SetTargetInfoCharacterPortrait( CharacterClass_GetGalleryPortrait( character ) )
+	}
 }
 #endif
 
