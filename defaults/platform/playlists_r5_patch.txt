@@ -4390,6 +4390,11 @@ playlists
 				"LOADSCREEN_CUSTOM_SDK_5_TEXT" 					"Made by ruefulshifu, Thank you for your contribution to R5Reloaded!"
 				"LOADSCREEN_CUSTOM_SDK_6_NAME"					"I own the sky"
 				"LOADSCREEN_CUSTOM_SDK_6_TEXT" 					"Made by scoop, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_7_NAME"					"Neon Drift"
+				"LOADSCREEN_CUSTOM_SDK_7_TEXT" 					"Made by HumanSAS, Thank you for your contribution to R5Reloaded!"
+				
+				///////////////////////////////////////CUSTOM COSMETIC LOCALIZATION////////////////////////////////////
+				"SKIN_WATTSON_CUSTOM1"							"Cherry Charge"
 			}
 		}
 	}
