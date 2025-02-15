@@ -894,12 +894,8 @@ Scripts:
 	ui/CustomLobby/panel_mainmenu.nut
 
 	//R5R Lobby
-	ui/CustomLobby/menu_lobby.nut
-	ui/CustomLobby/panel_home.nut
 	ui/CustomLobby/panel_create.nut
 	ui/CustomLobby/panel_serverbrowser.nut
-	ui/CustomLobby/panel_legends.nut
-	ui/CustomLobby/panel_loadout.nut
 	ui/CustomLobby/panel_credits.nut
 
 	//R5R Extra

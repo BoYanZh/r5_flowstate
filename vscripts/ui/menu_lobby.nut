@@ -177,7 +177,7 @@ void function InitLobbyMenu( var newMenuArg )
 
 void function OnLobbyMenu_Open()
 {
-	ServerBrowser_RefreshServerListing()
+	thread ServerBrowser_RefreshServerListing()
 
 	//ClientCommand( "gameCursor_ModeActive 1" )
 

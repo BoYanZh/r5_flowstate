@@ -79,6 +79,7 @@ struct
 } file
 
 global array<ServerListing> global_m_vServerList
+global bool ServerListFetching = false
 
 void function InitR5RConnectingPanel( var panel )
 {
@@ -157,7 +158,7 @@ void function FilterServer_Activate(var button)
 
 void function ServerBrowser_RefreshBtnClicked(var button)
 {
-	thread ServerBrowser_RefreshServerListing(false)
+	thread ServerBrowser_RefreshServerListing()
 }
 
 void function ServerBrowser_ConnectBtnClicked(var button)
@@ -296,22 +297,23 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 //		ServerListing Functions
 //
 ////////////////////////////////////
-void function ServerBrowser_RefreshServerListing(bool old = true)
+void function ServerBrowser_RefreshServerListing()
 {
-	if(old)
-	{
-		RefreshServerList()
-		ServerBrowser_Requested_RefreshServerListing(true)
-		return
-	}
-
 	ServerBrowser_NoServersFound(true)
-
 	RequestServerBrowserList()
+
+	ServerListFetching = true
+
+	while(ServerListFetching)
+	{
+		WaitFrame()
+	}
 }
 
 void function ServerBrowser_Requested_RefreshServerListing(bool success)
 {
+	ServerListFetching = false
+
 	if(!success)
 	{
 		ServerBrowser_NoServersFound(true)
@@ -364,7 +366,7 @@ void function ServerBrowser_FilterServerList()
 	for ( int i = 0, j = file.m_vServerList.len(); i < j; i++ )
 	{
 		// Filters
-		if ( filterArguments.hideEmpty && file.m_vServerList[i].svCurrentPlayers == 0 )
+		if ( filterArguments.hideEmpty && file.m_vServerList[i].svCurrentPlayers < 1 )
 			continue;
 
 		if ( filterArguments.filterMap != "Any" && filterArguments.filterMap != file.m_vServerList[i].svMapName )
@@ -594,7 +596,7 @@ void function SliderBarUpdate()
 int function MS_GetPlayerCount()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	int count = 0
 	for (int i=0, j=GetServerCount(); i < j; i++) {
@@ -607,7 +609,7 @@ int function MS_GetPlayerCount()
 int function MS_GetServerCount()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	return file.m_vServerList.len()
 }
@@ -615,7 +617,7 @@ int function MS_GetServerCount()
 array<string> function Servers_GetActivePlaylists()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	array<string> playlists
 
@@ -631,7 +633,7 @@ array<string> function Servers_GetActivePlaylists()
 void function Servers_GetCurrentServerListing()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	global_m_vServerList = file.m_vServerList
 }
