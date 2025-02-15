@@ -297,7 +297,7 @@ bool function ShouldDisplayCharacterSkin( ItemFlavor characterSkin )
 {
 	if ( GladiatorCardCharacterSkin_ShouldHideIfLocked( characterSkin ) )
 	{
-		if ( ItemFlavor_GetQuality( characterSkin ) == eQuality.RARE )//DISABLE ALL RARE SKINS DUE TO SOME OF THEM HAVE GRX NONE VALUE
+		if ( ItemFlavor_GetQuality( characterSkin ) != eQuality.COMMON && ItemFlavor_GetQuality( characterSkin ) != eQuality.FANMADE )
 			return false
 	}
 
