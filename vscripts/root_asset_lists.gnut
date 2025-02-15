@@ -29,10 +29,10 @@ global const array<asset> CHARACTER_ASSETS =
 
 global const array<asset> CAL_EVENT_ASSET_LIST =
 [
-	$"settings/itemflav/calevent/season01.rpak",
-	$"settings/itemflav/calevent/season02.rpak",
+	//$"settings/itemflav/calevent/season01.rpak",
+	//$"settings/itemflav/calevent/season02.rpak",
 	$"settings/itemflav/calevent/season03.rpak",
-	$"settings/itemflav/calevent/rankedperiod01.rpak",
+	//$"settings/itemflav/calevent/rankedperiod01.rpak",
 	$"settings/itemflav/calevent/rankedperiod02.rpak",
 
 	$"settings/itemflav/calevent/s03e01.rpak",
