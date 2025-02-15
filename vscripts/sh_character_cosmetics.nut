@@ -26,6 +26,8 @@ global function CharacterSkin_GetCustomCharSelectIntroAnim
 global function CharacterSkin_GetCustomCharSelectIdleAnim
 global function CharacterSkin_GetCustomCharSelectReadyIntroAnim
 global function CharacterSkin_GetCustomCharSelectReadyIdleAnim
+global function CharacterSkin_HasStoryBlurb
+global function CharacterSkin_GetStoryBlurbBodyText
 global function CharacterKillQuip_GetCharacterFlavor
 global function CharacterKillQuip_GetAttackerConversationName
 global function CharacterKillQuip_GetAttackerStingSoundEvent
@@ -302,6 +304,21 @@ LoadoutEntry function Loadout_CharacterIntroQuip( ItemFlavor characterClass )
 LoadoutEntry function Loadout_CharacterKillQuip( ItemFlavor characterClass )
 {
 	return fileLevel.loadoutCharacterKillQuipSlotMap[characterClass]
+}
+
+bool function CharacterSkin_HasStoryBlurb( ItemFlavor flavor )
+{
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.character_skin )
+
+	return ( CharacterSkin_GetStoryBlurbBodyText( flavor ) != "" )
+}
+
+
+string function CharacterSkin_GetStoryBlurbBodyText( ItemFlavor flavor )
+{
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.character_skin )
+
+	return GetGlobalSettingsString( ItemFlavor_GetAsset( flavor ), "skinName" )
 }
 
 
