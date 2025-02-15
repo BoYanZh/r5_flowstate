@@ -107,6 +107,9 @@ global function CodeCallback_OnNavMeshHotSwapEnd
 global function SetDefaultObserverBehavior
 global function AddCallback_OnPlayerUsedOffhandWeapon
 
+global function AddPlayerCallback_OnSpawned
+global function RemovePlayerCallback_OnSpawned
+
 const bool PRINT_MOVEMENT = false
 
 #document("CodeCallback_OnClientConnectionCompleted", "Called when player finishes connecting to the server")
@@ -1258,4 +1261,14 @@ void function AddCallback_OnClientReloadConnected( void functionref( entity play
 {
 	Assert( !svGlobal.onClientReloadConnectedCallbacks.contains( callbackFunc ), "Already added " + string( callbackFunc ) + " with AddCallback_OnClientReloadConnected" )
 	svGlobal.onClientReloadConnectedCallbacks.append( callbackFunc )
+}
+
+void function AddPlayerCallback_OnSpawned( entity player, void functionref(entity) func )
+{
+	player.p.playerSpawnedCallbacks.append( func )
+}
+
+void function RemovePlayerCallback_OnSpawned( entity player, void functionref(entity) func )
+{
+	player.p.playerSpawnedCallbacks.fastremovebyvalue( func )
 }

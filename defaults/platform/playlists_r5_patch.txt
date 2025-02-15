@@ -375,13 +375,10 @@ playlists
 				
 				season03_reveal_unixtime						1626656230
 				season03_start_unixtime							1626656230
-				season03_finish_unixtime						1637272618
-				season03_hide_unixtime							1637272618
-				season01_start_unixtime							1626656230
-				season02_start_unixtime							1626656230
+				season03_finish_unixtime						2145916800
+				season03_hide_unixtime							2145916800
 				ranked_period_02_start_unixtime					1630749435
 				s03e01_start_unixtime							1630749435
-				season01_start_unixtime							1626656230
 				
 				
 				///////////////////////////////////////////////////////////////////////////////////
@@ -4393,6 +4390,11 @@ playlists
 				"LOADSCREEN_CUSTOM_SDK_5_TEXT" 					"Made by ruefulshifu, Thank you for your contribution to R5Reloaded!"
 				"LOADSCREEN_CUSTOM_SDK_6_NAME"					"I own the sky"
 				"LOADSCREEN_CUSTOM_SDK_6_TEXT" 					"Made by scoop, Thank you for your contribution to R5Reloaded!"
+				"LOADSCREEN_CUSTOM_SDK_7_NAME"					"Neon Drift"
+				"LOADSCREEN_CUSTOM_SDK_7_TEXT" 					"Made by HumanSAS, Thank you for your contribution to R5Reloaded!"
+				
+				///////////////////////////////////////CUSTOM COSMETIC LOCALIZATION////////////////////////////////////
+				"SKIN_WATTSON_CUSTOM1"							"Cherry Charge"
 			}
 		}
 	}

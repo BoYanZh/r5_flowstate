@@ -965,6 +965,9 @@ string function ItemQuality_GetQualityName( int quality )
 {
 	switch ( quality )
 	{
+		case 5:
+			return "#QUALITY_FANMADE"
+			
 		case 4:
 			return "#LOOT_TIER5"
 

@@ -31,9 +31,6 @@ void function ClientCodeCallback_MapInit()
 
 	ClCanyonlandsStoryEvents_Init()
 	ClCommonStoryEvents_Init()*/
-
-	ClCryptoTVsInit()
-	RegisterCLCryptoCallbacks()
 }
 
 void function MinimapLabelsCanyonlandsMU2()

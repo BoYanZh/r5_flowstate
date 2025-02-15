@@ -220,6 +220,20 @@ void function CodeCallback_MapSpawn() // original script entry point
 	RegisterSignal( "GameStateChanged" )
 	RegisterSignal( "CleanupOutsideCircle" )
 
+	////////////////////DELETE THESE PARTICLES WHEN WE GET EFCT!!!!/////////////////////
+
+	PrecacheParticleSystem( $"P_crypto_map_arm_glow" )
+	PrecacheParticleSystem( $"P_crypto_map_center_glow" )
+	PrecacheParticleSystem( $"P_cryp_sat_act_world" )
+	PrecacheParticleSystem( $"P_crypto_map_arm_nrg" )
+	PrecacheParticleSystem( $"P_loba_staff_holo_loop" )
+	PrecacheParticleSystem( $"P_lob_menu_gun_ring" )
+	PrecacheParticleSystem( $"P_loba_staff_menu_dlight" )
+	PrecacheParticleSystem( $"P_lob_menu_gun_grab" )
+	PrecacheParticleSystem( $"P_loba_staff_holo_end_menu" )
+	PrecacheParticleSystem( $"P_lob_menu_hand_glow" )
+	PrecacheParticleSystem( $"P_lob_menu_staff_grab" )
+
 	_cc = CreateEntity( "point_clientcommand" )
 	_sc = CreateEntity( "point_servercommand" )
 	PrecacheEntity( "env_entity_dissolver" )

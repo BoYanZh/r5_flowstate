@@ -2394,6 +2394,8 @@ global enum eQuality
 	EPIC,
 	LEGENDARY,
 	HEIRLOOM,
+	COLLAB,
+	FANMADE,
 	_COUNT,
 }
 

@@ -29,10 +29,10 @@ global const array<asset> CHARACTER_ASSETS =
 
 global const array<asset> CAL_EVENT_ASSET_LIST =
 [
-	$"settings/itemflav/calevent/season01.rpak",
-	$"settings/itemflav/calevent/season02.rpak",
+	//$"settings/itemflav/calevent/season01.rpak",
+	//$"settings/itemflav/calevent/season02.rpak",
 	$"settings/itemflav/calevent/season03.rpak",
-	$"settings/itemflav/calevent/rankedperiod01.rpak",
+	//$"settings/itemflav/calevent/rankedperiod01.rpak",
 	$"settings/itemflav/calevent/rankedperiod02.rpak",
 
 	$"settings/itemflav/calevent/s03e01.rpak",
@@ -105,15 +105,15 @@ global const array<asset> SKYDIVE_TRAIL_ASSET_LIST = [
 
 
 global const array<asset> ENTITLEMENT_ASSETS = [
-	$"settings/itemflav/entitlement/BLOODHOUND_SKU_PACK.rpak",
-	$"settings/itemflav/entitlement/LIFELINE_SKU_PACK.rpak",
-	$"settings/itemflav/entitlement/MELTDOWN_PACK_BUNDLE.rpak",
-	$"settings/itemflav/entitlement/twitch_bangalore_skin1.rpak",
-	$"settings/itemflav/entitlement/twitch_caustic_skin1.rpak",
-	$"settings/itemflav/entitlement/twitch_launch_promo.rpak",
-	$"settings/itemflav/entitlement/twitch_mirage_skin1.rpak",
-	$"settings/itemflav/entitlement/twitch_octane_skin1.rpak",
-	$"settings/itemflav/entitlement/twitch_wattson_skin1.rpak",
+	//$"settings/itemflav/entitlement/BLOODHOUND_SKU_PACK.rpak",
+	//$"settings/itemflav/entitlement/LIFELINE_SKU_PACK.rpak",
+	//$"settings/itemflav/entitlement/MELTDOWN_PACK_BUNDLE.rpak",
+	//$"settings/itemflav/entitlement/twitch_bangalore_skin1.rpak",
+	//$"settings/itemflav/entitlement/twitch_caustic_skin1.rpak",
+	//$"settings/itemflav/entitlement/twitch_launch_promo.rpak",
+	//$"settings/itemflav/entitlement/twitch_mirage_skin1.rpak",
+	//$"settings/itemflav/entitlement/twitch_octane_skin1.rpak",
+	//$"settings/itemflav/entitlement/twitch_wattson_skin1.rpak",
 ]
 
 

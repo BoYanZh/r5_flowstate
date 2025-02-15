@@ -385,7 +385,7 @@ void function InitCryptoMap()
 
 	// Dev safeties
 	array<entity> cryptoHoloMapEnt_Raw = GetEntArrayByScriptName( "crypto_tt_holo_map_center" )
-	if ( cryptoHoloMapEnt_Raw.len() != 2 )
+	if ( cryptoHoloMapEnt_Raw.len() != 1 )
 	{
 		Warning( "!!! Warning !!! Missing ent for crypto holo map " + cryptoHoloMapEnt_Raw.len() )
 		foreach( entity mapEnt in cryptoHoloMapEnt_Raw )
