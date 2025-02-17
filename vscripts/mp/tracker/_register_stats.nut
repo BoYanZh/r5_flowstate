@@ -4,8 +4,8 @@ globalize_all_functions
 
 const bool STORE_STAT = true 
 
-struct {
-
+struct 
+{
 	bool RegisterCoreStats 	= true
 	bool bStatsIs1v1Type 	= false
 
@@ -123,6 +123,13 @@ void function Script_RegisterAllStats()
 		
 		AddCallback_PlayerDataFullyLoaded( Callback_CoreStatInit )
 	}
+	
+	#if DEVELOPER 
+		//Tracker_RegisterStat( "test_array", null, TrackerStats_TestStringArray )
+		//Tracker_RegisterStat( "test_bool_array", null, TrackerStats_TestBoolArray )
+		//Tracker_RegisterStat( "test_int_array", null, TrackerStats_TestIntArray, STORE_STAT )
+		//Tracker_RegisterStat( "test_float_array", null, TrackerStats_TestFloatArray )
+	#endif 
 	
 	//Reporting
 	if( Flowstate_EnableReporting() )
@@ -289,17 +296,38 @@ var function TrackerStats_CtfWins( string uid )
 	return ent.p.wonctf ? 1 : 0
 }
 
-var function TrackerStats_GetPortalPlacements( string uid )
-{
-	entity ent = GetPlayerEntityByUID( uid )
-	return ent.p.portalPlacements
-}
+// var function TrackerStats_TestStringArray( string uid )
+// {
+	// return ["test", "test2", "test3"]
+// }
 
-var function TrackerStats_GetPortalKidnaps( string uid )
-{
-	entity ent = GetPlayerEntityByUID( uid )
-	return ent.p.portalKidnaps
-}
+// var function TrackerStats_TestBoolArray( string uid )
+// {
+	// return [ true, false, false, true ]
+// }
+
+// var function TrackerStats_TestFloatArray( string uid )
+// {
+	// return [ 1.0, 3.5188494 ]
+// }
+
+// var function TrackerStats_TestIntArray( string uid )
+// {
+	// return MakeVarArrayInt( GetPlayerEntityByUID( uid ).p.testarray ) // must be plain 'array' or made untyped.
+// }
+
+//Todo: enable for indev.
+// var function TrackerStats_GetPortalPlacements( string uid )
+// {
+	// entity ent = GetPlayerEntityByUID( uid )
+	// return ent.p.portalPlacements
+// }
+
+// var function TrackerStats_GetPortalKidnaps( string uid )
+// {
+	// entity ent = GetPlayerEntityByUID( uid )
+	// return ent.p.portalKidnaps
+// }
 
 
 var function TrackerStats_CringeReports( string uid )
@@ -407,7 +435,7 @@ void function Script_RegisterAllShipFunctions()
 /////////////////////////////////
 
 
-void function OnStatsShipped_Cringe( string uid )
+void function OnStatsShipped_Cringe( string uid ) //todo deprecate
 {
 	entity ent = GetPlayerEntityByUID( uid )
 	
