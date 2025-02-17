@@ -279,9 +279,11 @@ void function SURVIVAL_Loot_All_InitShared()
 	if( Playlist() == ePlaylists.fs_haloMod_survival ) 
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod_survival_groundloot.rpak" ) )
-	} else
+	} 
+	else
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk.rpak" ) )
+		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new.rpak" ) ) //(mk): Do not remove. Thanks.
 		
 		if( GetCurrentPlaylistVarBool( "is_halo_gamemode", false ) )
 			SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod.rpak" ) )

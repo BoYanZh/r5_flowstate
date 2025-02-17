@@ -385,7 +385,7 @@ const array<string> LEGEND_INDEX_ARRAY =
 		if( !IsValid( player ) )
 			player = p( 0 )
 			
-		expliciteRest( player )
+		Gamemode1v1_ForceRest( player )
 	}
 
 #endif
@@ -2349,33 +2349,11 @@ bool function TryProcessRestRequest( entity player )
 	if ( player.p.rest_request )
 	{
 		player.p.rest_request = false
-		expliciteRest( player )
+		Gamemode1v1_ForceRest( player )
 		return true
 	}
 	
 	return false
-}
-
-
-void function expliciteRest( entity player )
-{
-	if( player.p.handle in file.soloPlayersResting )
-		return 
-		
-	LocalMsg( player, "#FS_YouAreResting", "#FS_BASE_RestText" )
-	
-	player.p.lastRestUsedTime = Time()
-	soloModePlayerToRestingList( player )
-	
-	try
-	{
-		player.Die( null, null, { damageSourceId = eDamageSourceId.damagedef_despawn } )
-	}
-	catch (error){}
-	
-	//thread respawnInSoloMode( player ) //problem
-	//TakeAllWeapons( player )	
-	HolsterAndDisableWeapons_Raw( player ) //✓
 }
 
 entity function getRandomOpponentOfPlayer( entity player )
@@ -3980,7 +3958,10 @@ void function soloModeThread( LocPair waitingRoomLocation )
 			
 			//#if !DEVELOPER 
 				if( Distance2D( player.GetOrigin(), waitingRoomLocation.origin ) > file.waitingRoomRadius )
+				{
 					maki_tp_player( player, g_randomWaitingSpawns.getrandom() ) //waiting player should be in waiting room,not battle area
+					HolsterAndDisableWeapons_Raw( player ) //(mk): dirty fix I wanted to avoid.
+				}
 			//#endif
 		}
 		
@@ -5389,12 +5370,7 @@ void function Gamemode1v1_OnPlayerDied( entity victim, entity attacker, var dama
 	victim.SetPlayerNetEnt( "FSDM_1v1_Enemy", null )
 
 	if( IsValid( attacker ) )
-	{
 		victim.p.lastKiller = attacker
-		HolsterAndDisableWeapons_Raw( attacker )
-	}
-	
-	HolsterAndDisableWeapons_Raw( victim )
 
 	// if( isPlayerInWaitingList( victim ) )
 	// {
@@ -5572,6 +5548,9 @@ void function HandleOpponentInfo( soloGroupStruct group )
 
 void function Gamemode1v1_TakeAll( entity player )
 {
+	if( !IsValid( player ) ) //this can fire after a player has quit, delayed.
+		return
+		
 	TakeUltimate( player )
 	player.TakeOffhandWeapon( OFFHAND_MELEE )
 	TakeAllPassives( player )

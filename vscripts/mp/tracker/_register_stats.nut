@@ -53,7 +53,7 @@ void function Script_RegisterAllStats()
 	
 	// null can be used as substitutes if specific in/out is not needed.
 	// Stats don't need an in function to be fetched from server cache with the getter functions:
-	// GetPlayerStat%TYPE%( playerUID, "statname" )  %TYPE% = [Int,Bool,Float,String]
+	// GetPlayerStat%TYPE%( playerUID, "statname" )  %TYPE% = [ Int, Bool, Float, String, Array, ArrayInt, ArrayBool, ArrayFloat, ArrayString ]
 
 	// They can also, all be fetched at once, when stats for a player loads.
 	// see: AddCallback_PlayerDataFullyLoaded below.
@@ -82,18 +82,17 @@ void function Script_RegisterAllStats()
 	// {
 			// Purpose:
 			
-			// if using any stat value that will be garbage cleaned on disconnect etc
-			// ( player net int, player struct var, structs cleared on round end, etc )
-			
-			// WARNING:	Do not set the same var in an inbound stat func, that the outbound stat func returns. 
-			// This will result in player stat data aggregation inflation on next disconnect. 		
-			
-			// If RegisterStat is passed with fourth parameter of true, 
+			// If Tracker_RegisterStat is passed with fourth parameter of true, ( STORE_STAT )
 			// a local copy is maintained of accumulated stats for the round, regardless of disconnects/rejoins.  
 			// This means you can use getters based on player entity 
 			
+			// Should be used: if using any stat value that will be garbage cleaned on disconnect etc
+			// ( player net int, player struct var, etc )
 			
-			// For base stats, the gamemode will have a record associated automatically by uid 
+			// WARNING:	Do not set the same var in an inbound stat func, that the outbound stat func returns. 
+			// This will result in player stat data aggregation inflation on next disconnect. 		
+				
+			// For base stats, the player will have a record associated automatically by uid 
 			// Tracker_ReturnKills
 			// Tracker_ReturnDeaths
 			// Tracker_ReturnDamage    etc... 
@@ -316,19 +315,17 @@ var function TrackerStats_CtfWins( string uid )
 	// return MakeVarArrayInt( GetPlayerEntityByUID( uid ).p.testarray ) // must be plain 'array' or made untyped.
 // }
 
-//Todo: enable for indev.
-// var function TrackerStats_GetPortalPlacements( string uid )
-// {
-	// entity ent = GetPlayerEntityByUID( uid )
-	// return ent.p.portalPlacements
-// }
+var function TrackerStats_GetPortalPlacements( string uid )
+{
+	entity ent = GetPlayerEntityByUID( uid )
+	return ent.p.portalPlacements
+}
 
-// var function TrackerStats_GetPortalKidnaps( string uid )
-// {
-	// entity ent = GetPlayerEntityByUID( uid )
-	// return ent.p.portalKidnaps
-// }
-
+var function TrackerStats_GetPortalKidnaps( string uid )
+{
+	entity ent = GetPlayerEntityByUID( uid )
+	return ent.p.portalKidnaps
+}
 
 var function TrackerStats_CringeReports( string uid )
 {
@@ -385,11 +382,11 @@ void function Script_RegisterAllPlayerDataCallbacks()
 		default:
 			break
 	}
-		
-	//func
 	
 	if( Flowstate_EnableReporting() )
 		AddCallback_PlayerData( "cringe_report_data" )
+		
+	//func
 }
 
 ///////////////////////////// QUERIES ////////////////////////////////////////////
@@ -424,18 +421,18 @@ void function Script_RegisterAllQueries()
 void function Script_RegisterAllShipFunctions()
 {
 	if( Flowstate_EnableReporting() )
-		tracker.RegisterShipFunction( OnStatsShipped_Cringe, true )
+		tracker.RegisterShipFunction( OnStatsShipping_Cringe, true )
 		
 	//more
 }
 
 
-/////////////////////////////////
-/// ON STATS SHIPPED FUNCTIONS //
-/////////////////////////////////
+///////////////////////////////////
+/// ON STATS SHIPPING FUNCTIONS ///
+///////////////////////////////////
 
 
-void function OnStatsShipped_Cringe( string uid ) //todo deprecate
+void function OnStatsShipping_Cringe( string uid ) //todo deprecate
 {
 	entity ent = GetPlayerEntityByUID( uid )
 	
