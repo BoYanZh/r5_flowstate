@@ -411,7 +411,7 @@ void function FS_1v1_StartUpdatingValues( entity newEnt )
 	while( file.show1v1Scoreboard && IsValid( newEnt ) && IsValid( player ) )
 	{
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyKills"), newEnt.GetPlayerNetInt( "kills" ).tostring() ) 
-		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDeaths"), newEnt.GetPlayerNetInt( "deaths" ) .tostring()) 
+		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDeaths"), newEnt.GetPlayerNetInt( "deaths" ).tostring() ) 
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDamage"), newEnt.GetPlayerNetInt( "damage" ).tostring() ) 
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyLatency"), newEnt.GetPlayerNetInt( "latency" ).tostring() )
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyPosition"), newEnt.GetPlayerNetInt( "FSDM_1v1_PositionInScoreboard" ).tostring() ) 

@@ -911,7 +911,7 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 
 	victim.SetPlayerGameStat( PGS_DEATHS, victim.GetPlayerGameStat( PGS_DEATHS ) + 1 )
 	if( Gamemode() != eGamemodes.CUSTOM_CTF && Gamemode() != eGamemodes.fs_snd )
-		victim.SetPlayerNetInt( "deaths", victim.GetPlayerNetInt( "deaths" ) + 1 )
+		__IncrementPlayerNetInt( victim, "deaths" )
 	
 	victim.FreezeControlsOnServer()
 	
