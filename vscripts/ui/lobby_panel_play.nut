@@ -404,7 +404,7 @@ void function PlayPanel_OnShow( var panel )
 	AddCallbackAndCallNow_OnGRXInventoryStateChanged( UpdateFriendButtons )
 	AddCallbackAndCallNow_RemoteMatchInfoUpdated( OnRemoteMatchInfoUpdated )
 
-	ClientCommand( "ViewingMainLobbyPage" )
+	//ClientCommand( "ViewingMainLobbyPage" )
 
 	MiniPromo_Start()
 
