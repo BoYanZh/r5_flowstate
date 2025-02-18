@@ -5,7 +5,7 @@ global function InitServerBrowserPanel
 global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
-global function CodeCallback_OnServerListRequestCompleted
+global function UICodeCallback_OnServerListRequestCompleted
 global function RegisterServerBrowserButtonPressedCallbacks
 global function UnRegisterServerBrowserButtonPressedCallbacks
 global function ServerBrowser_UpdateFilterLists
@@ -304,8 +304,8 @@ void function ServerBrowser_RefreshServerListing()
 	ServerBrowser_NoServersFound(true)
 
 	//Requests the serverlist
-	//CodeCallback_OnServerListRequestCompleted will be called once it gets the list
-	RequestServerBrowserList()
+	//UICodeCallback_OnServerListRequestCompleted will be called once it gets the list
+	RequestServerList()
 
 	//this is so we can make sure we cant do anything else with the list while it fetches
 	ServerListFetching = true
@@ -316,20 +316,20 @@ void function ServerBrowser_RefreshServerListing()
 	}
 }
 
-void function CodeCallback_OnServerListRequestCompleted(bool success)
+void function UICodeCallback_OnServerListRequestCompleted(bool success, string errorMsg, int serverCount)
 {
 	ServerListFetching = false
+	file.m_vServerList.clear()
 
 	if(!success)
 	{
 		ServerBrowser_NoServersFound(true)
+		printf("Failed getting serverlist: %s", errorMsg)
 		return
 	}
 
-	file.m_vServerList.clear()
-
 	// Add each server to the array
-	for (int i=0, j=GetServerCount(); i < j; i++) {
+	for (int i=0, j=serverCount; i < j; i++) {
 		ServerListing Server
 		Server.svServerID = i
 		Server.svServerName = GetServerName(i)
@@ -605,7 +605,7 @@ int function MS_GetPlayerCount()
 		waitthread ServerBrowser_RefreshServerListing()
 
 	int count = 0
-	for (int i=0, j=GetServerCount(); i < j; i++) {
+	for (int i=0, j=file.m_vServerList.len(); i < j; i++) {
 		count += GetServerCurrentPlayers(i)
 	}
 
@@ -627,7 +627,7 @@ array<string> function Servers_GetActivePlaylists()
 
 	array<string> playlists
 
-	for (int i=0, j=GetServerCount(); i < j; i++) {
+	for (int i=0, j=file.m_vServerList.len(); i < j; i++) {
 		string playlist = GetServerPlaylist(i)
 		if (!playlists.contains(playlist))
 			playlists.append(playlist)
