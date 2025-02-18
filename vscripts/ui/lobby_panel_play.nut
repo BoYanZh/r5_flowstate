@@ -2657,14 +2657,14 @@ void function FindServer(bool refresh = false)
 		return
 
 	file.m_vServerList.clear()
-	if(GetServerCount() == 0) {
+	if(MS_GetServerCount() == 0) {
 		file.noservers = true
 		file.foundserver = true
 		return
 	}
 
 	// Add each server to the array
-	for (int i=0, j=GetServerCount(); i < j; i++) {
+	for (int i=0, j=MS_GetServerCount(); i < j; i++) {
 		ServerListing Server
 		Server.svServerID = i
 		Server.svServerName = GetServerName(i)
