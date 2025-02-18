@@ -1,4 +1,4 @@
-"resource/ui/menus/main.menu"
+"scripts/resource/ui/menus/main.menu"
 {
 	"menu"
 	{
@@ -104,7 +104,7 @@
 			"InheritProperties"		"ToolTip"
 		}
 		// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		"R5RMainMenuPanel"
+		"MainMenuPanel"
 		{
 			"ControlName"				"CNestedPanel"
 			"classname"					"MainMenuPanelClass"

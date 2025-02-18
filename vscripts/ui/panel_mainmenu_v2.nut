@@ -12,7 +12,12 @@ struct
 
 void function InitR5RMainMenuPanel( var panel )
 {
-	file.panel = GetPanel( "R5RMainMenuPanel" )
+	RegisterSignal( "EndPrelaunchValidation" )
+	RegisterSignal( "EndSearchForPartyServerTimeout" )
+	RegisterSignal( "SetLaunchState" )
+	RegisterSignal( "MainMenu_Think" )
+	
+	file.panel = GetPanel( "MainMenuPanel" )
 	file.menu = GetParentMenu( file.panel )
 	file.launchButton = Hud_GetChild( panel, "LaunchButton" )
 

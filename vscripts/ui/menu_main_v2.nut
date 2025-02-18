@@ -11,7 +11,7 @@ struct
 
 void function InitR5RMainMenu( var newMenuArg )
 {
-	var menu = GetMenu( "R5RMainMenu" )
+	var menu = GetMenu( "MainMenu" )
 	file.menu = menu
 
 	//Setup menu event handlers
@@ -38,14 +38,14 @@ void function OnR5RSB_Show()
 	Hud_SetWidth( file.titleArt, width )
 	Hud_SetWidth( file.subtitle, width )
 
-	ActivatePanel( GetPanel( "R5RMainMenuPanel" ) )
+	ActivatePanel( GetPanel( "MainMenuPanel" ) )
 
 	Chroma_MainMenu()
 }
 
 void function OnR5RSB_Close()
 {
-	HidePanel( GetPanel( "R5RMainMenuPanel" ) )
+	HidePanel( GetPanel( "MainMenuPanel" ) )
 }
 
 void function OnR5RSB_NavigateBack()

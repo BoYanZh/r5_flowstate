@@ -1,4 +1,4 @@
-"resource/ui/menus/panels/mainmenu.res"
+"scripts/resource/ui/menus/panels/mainmenu.res"
 {
     "PanelFrame"
     {

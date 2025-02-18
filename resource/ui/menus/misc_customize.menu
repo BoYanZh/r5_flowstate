@@ -1,4 +1,4 @@
-resource/ui/menus/misc_customize.menu
+scripts/resource/ui/menus/misc_customize.menu
 {
 	menu
 	{
@@ -50,7 +50,7 @@ resource/ui/menus/misc_customize.menu
 			wide					f0
 			tall					44
 			visible					1
-			controlSettingsFile		"resource/ui/menus/panels/tabs_weapon_customize.res"
+			controlSettingsFile		"scripts/resource/ui/menus/panels/tabs_weapon_customize.res"
 
 			pin_to_sibling			ScreenFrame
 			pin_corner_to_sibling	TOP
@@ -99,7 +99,7 @@ resource/ui/menus/misc_customize.menu
             tall					820
             visible					0
             tabPosition             1
-            controlSettingsFile		"resource/ui/menus/panels/loadscreens.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/loadscreens.res"
 
             pin_to_sibling			TabsCommon
             pin_corner_to_sibling	TOP
@@ -114,7 +114,7 @@ resource/ui/menus/misc_customize.menu
             tall					820
             visible					0
             tabPosition             1
-            controlSettingsFile		"resource/ui/menus/panels/music_packs.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/music_packs.res"
 
             pin_to_sibling			TabsCommon
             pin_corner_to_sibling	TOP
@@ -129,7 +129,7 @@ resource/ui/menus/misc_customize.menu
             tall					820
             visible					0
             tabPosition             1
-            controlSettingsFile		"resource/ui/menus/panels/skydive_trail.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/skydive_trail.res"
 
             pin_to_sibling			TabsCommon
             pin_corner_to_sibling	TOP
