@@ -5,7 +5,7 @@ global function InitServerBrowserPanel
 global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
-global function ServerBrowser_Requested_RefreshServerListing
+global function CodeCallback_OnServerListRequestCompleted
 global function RegisterServerBrowserButtonPressedCallbacks
 global function UnRegisterServerBrowserButtonPressedCallbacks
 global function ServerBrowser_UpdateFilterLists
@@ -310,7 +310,7 @@ void function ServerBrowser_RefreshServerListing()
 	}
 }
 
-void function ServerBrowser_Requested_RefreshServerListing(bool success)
+void function CodeCallback_OnServerListRequestCompleted(bool success)
 {
 	ServerListFetching = false
 
