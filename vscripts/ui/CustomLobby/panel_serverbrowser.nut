@@ -5,6 +5,7 @@ global function InitServerBrowserPanel
 global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
+global function CodeCallback_OnServerListRequestCompleted
 global function RegisterServerBrowserButtonPressedCallbacks
 global function UnRegisterServerBrowserButtonPressedCallbacks
 global function ServerBrowser_UpdateFilterLists
@@ -78,6 +79,7 @@ struct
 } file
 
 global array<ServerListing> global_m_vServerList
+global bool ServerListFetching = false
 
 void function InitR5RConnectingPanel( var panel )
 {
@@ -86,6 +88,7 @@ void function InitR5RConnectingPanel( var panel )
 
 void function InitServerBrowserPanel( var panel )
 {
+	SetPanelTabTitle( panel, "SERVERS" )
 	file.panel = panel
 	file.menu = GetParentMenu( file.panel )
 
@@ -96,6 +99,8 @@ void function InitServerBrowserPanel( var panel )
 	Hud_AddEventHandler( Hud_GetChild( file.panel, "BtnServerListDownArrow" ), UIE_CLICK, OnScrollDown )
 	Hud_AddEventHandler( Hud_GetChild( file.panel, "BtnServerListUpArrow" ), UIE_CLICK, OnScrollUp )
 	AddButtonEventHandler( Hud_GetChild( file.panel, "BtnServerSearch"), UIE_CHANGE, FilterServer_Activate )
+
+	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, ServerBrowser_OnShow )
 
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "LeftButton" ), UIE_CLICK, FilterServer_Activate )
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "RightButton" ), UIE_CLICK, FilterServer_Activate )
@@ -115,6 +120,11 @@ void function InitServerBrowserPanel( var panel )
 	ServerBrowser_NoServersFound(false)
 	ServerBrowser_UpdateFilterLists()
 	OnBtnFiltersClear()
+}
+
+void function ServerBrowser_OnShow( var panel )
+{
+	UI_SetPresentationType( ePresentationType.COLLECTION_EVENT )
 }
 
 void function RegisterServerBrowserButtonPressedCallbacks()
@@ -278,8 +288,10 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 	ServerBrowser_ResetLabels()
 
 	if(showlabel)
+	{
 		Hud_SetText( Hud_GetChild( file.panel, "PlayersCount"), "Players: 0")
 		Hud_SetText( Hud_GetChild( file.panel, "ServersCount"), "Servers: 0")
+	}
 }
 
 ////////////////////////////////////
@@ -287,11 +299,32 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 //		ServerListing Functions
 //
 ////////////////////////////////////
-
-void function ServerBrowser_RefreshServerListing(bool refresh = true)
+void function ServerBrowser_RefreshServerListing()
 {
-	if (refresh)
-		RefreshServerList()
+	ServerBrowser_NoServersFound(true)
+
+	//Requests the serverlist
+	//CodeCallback_OnServerListRequestCompleted will be called once it gets the list
+	RequestServerBrowserList()
+
+	//this is so we can make sure we cant do anything else with the list while it fetches
+	ServerListFetching = true
+
+	while(ServerListFetching)
+	{
+		WaitFrame()
+	}
+}
+
+void function CodeCallback_OnServerListRequestCompleted(bool success)
+{
+	ServerListFetching = false
+
+	if(!success)
+	{
+		ServerBrowser_NoServersFound(true)
+		return
+	}
 
 	file.m_vServerList.clear()
 
@@ -339,7 +372,7 @@ void function ServerBrowser_FilterServerList()
 	for ( int i = 0, j = file.m_vServerList.len(); i < j; i++ )
 	{
 		// Filters
-		if ( filterArguments.hideEmpty && file.m_vServerList[i].svCurrentPlayers == 0 )
+		if ( filterArguments.hideEmpty && file.m_vServerList[i].svCurrentPlayers < 1 )
 			continue;
 
 		if ( filterArguments.filterMap != "Any" && filterArguments.filterMap != file.m_vServerList[i].svMapName )
@@ -569,7 +602,7 @@ void function SliderBarUpdate()
 int function MS_GetPlayerCount()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	int count = 0
 	for (int i=0, j=GetServerCount(); i < j; i++) {
@@ -582,7 +615,7 @@ int function MS_GetPlayerCount()
 int function MS_GetServerCount()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	return file.m_vServerList.len()
 }
@@ -590,7 +623,7 @@ int function MS_GetServerCount()
 array<string> function Servers_GetActivePlaylists()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	array<string> playlists
 
@@ -606,7 +639,7 @@ array<string> function Servers_GetActivePlaylists()
 void function Servers_GetCurrentServerListing()
 {
 	if(file.m_vServerList.len() == 0)
-		ServerBrowser_RefreshServerListing()
+		waitthread ServerBrowser_RefreshServerListing()
 
 	global_m_vServerList = file.m_vServerList
 }

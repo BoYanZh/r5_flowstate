@@ -1641,23 +1641,8 @@ void function InitMenus()
 	var r5rmainMenu = AddMenu( "R5RMainMenu", $"scripts/resource/ui/menus/CustomLobby/main.res", InitR5RMainMenu, "#MAIN" )
 	AddPanel( r5rmainMenu, "R5RMainMenuPanel", InitR5RMainMenuPanel )
 
-	//var r5rlobbymenu = AddMenu( "R5RLobbyMenu", $"scripts/resource/ui/menus/CustomLobby/lobbymenu.res", InitR5RLobbyMenu )
-	//AddPanel( r5rlobbymenu, "HomePanel", InitHomePanel )
-	//AddPanel( r5rlobbymenu, "R5RNamePanel", InitR5RNamePanel )
-	//AddPanel( r5rlobbymenu, "R5RDescPanel", InitR5RDescPanel )
-
-	//var privatematchmenu = AddPanel( r5rlobbymenu, "CreatePanel", InitCreatePanel )
-	//AddPanel( privatematchmenu, "R5RPlaylistPanel", InitR5RPlaylistPanel )
-	//AddPanel( privatematchmenu, "R5RMapPanel", InitR5RMapPanel )
-	//AddPanel( privatematchmenu, "R5RVisPanel", InitR5RVisPanel )
-
-	//AddPanel( r5rlobbymenu, "ServerBrowserPanel", InitServerBrowserPanel )
-	//AddPanel( r5rlobbymenu, "LegendsPanel", InitR5RLegendsPanel )
-	//AddPanel( r5rlobbymenu, "LoadoutPanel", InitLoadoutPanel )
-	//AddPanel( r5rlobbymenu, "R5RConnectingPanel", InitR5RConnectingPanel )
-
-	//AddMenu( "R5RNews", $"scripts/resource/ui/menus/CustomLobby/news.res", InitR5RNews )
-	//AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/CustomLobby/gamemode_select.res", InitR5RGamemodeSelectDialog )
+	AddMenu( "R5RNews", $"scripts/resource/ui/menus/CustomLobby/news.res", InitR5RNews )
+	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/CustomLobby/gamemode_select.res", InitR5RGamemodeSelectDialog )
 
 
 	//Settings
@@ -1720,15 +1705,23 @@ void function InitMenus()
 	AddPanel( lobbyMenu, "PlayPanel", InitPlayPanel )
 	AddPanel( lobbyMenu, "CharactersPanel", InitCharactersPanel )
 	AddPanel( lobbyMenu, "ArmoryPanel", InitArmoryPanel )
-	AddPanel( lobbyMenu, "PassPanelV2", InitPassPanel )
+	//AddPanel( lobbyMenu, "PassPanelV2", InitPassPanel )
+	AddPanel( lobbyMenu, "ServerBrowserPanel", InitServerBrowserPanel )
 
-	var storePanel = AddPanel( lobbyMenu, "StorePanel", InitStorePanel )
-	AddPanel( storePanel, "LootPanel", InitLootPanel )
-	AddPanel( storePanel, "CollectionEventPanel", CollectionEventPanel_Init )
-	AddPanel( storePanel, "ThemedShopPanel", ThemedShopPanel_Init )
-	AddPanel( storePanel, "ECPanel", InitOffersPanel )
-	AddPanel( storePanel, "CharacterPanel", InitStoreCharactersPanel )
-	AddPanel( storePanel, "VCPanel", InitStoreVCPanel )
+	var privatematchmenu = AddPanel( lobbyMenu, "CreatePanel", InitCreatePanel )
+	AddPanel( privatematchmenu, "R5RPlaylistPanel", InitR5RPlaylistPanel )
+	AddPanel( privatematchmenu, "R5RMapPanel", InitR5RMapPanel )
+	AddPanel( privatematchmenu, "R5RVisPanel", InitR5RVisPanel )
+
+	AddPanel( lobbyMenu, "CreditsPanel", InitCreditPanel )
+
+	//var storePanel = AddPanel( lobbyMenu, "StorePanel", InitStorePanel )
+	//AddPanel( storePanel, "LootPanel", InitLootPanel )
+	//AddPanel( storePanel, "CollectionEventPanel", CollectionEventPanel_Init )
+	//AddPanel( storePanel, "ThemedShopPanel", ThemedShopPanel_Init )
+	//AddPanel( storePanel, "ECPanel", InitOffersPanel )
+	//AddPanel( storePanel, "CharacterPanel", InitStoreCharactersPanel )
+	//AddPanel( storePanel, "VCPanel", InitStoreVCPanel )
 
 	var systemMenu = AddMenu( "SystemMenu", $"resource/ui/menus/system.menu", InitSystemMenu )
 	AddPanel( systemMenu, "SystemPanel", InitSystemPanelMain )
@@ -1922,7 +1915,7 @@ void function InitMenus()
 	}
 
 	InitFooterOptions()
-	InitMatchmakingOverlay()
+	//InitMatchmakingOverlay()
 	InitPromoData()
 
 	RegisterTabNavigationInput()

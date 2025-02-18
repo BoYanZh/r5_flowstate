@@ -42,6 +42,7 @@ void function InitR5RDescPanel( var panel )
 
 void function InitCreatePanel( var panel )
 {
+	SetPanelTabTitle( panel, "CREATE" )
 	file.panel = panel
 	file.menu = GetParentMenu( file.panel )
 
@@ -52,6 +53,8 @@ void function InitCreatePanel( var panel )
 	foreach ( var elem in buttons ) {
 		Hud_AddEventHandler( elem, UIE_CLICK, OpenSelectedPanel )
 	}
+
+	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, CreatePanel_OnShow )
 
 	//Setup panel array
 	file.panels.append(Hud_GetChild(file.panel, "R5RMapPanel"))
@@ -66,6 +69,11 @@ void function InitCreatePanel( var panel )
 	ServerSettings.svMapName = "mp_rr_canyonlands_64k_x_64k"
 	ServerSettings.svPlaylist = "survival_dev"
 	ServerSettings.svVisibility = eServerVisibility.OFFLINE
+}
+
+void function CreatePanel_OnShow( var panel )
+{
+	UI_SetPresentationType( ePresentationType.CHARACTER_SELECT )
 }
 
 void function OnCreateMatchOpen()

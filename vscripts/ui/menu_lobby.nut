@@ -1,5 +1,10 @@
 global function InitLobbyMenu
 
+global function GetUIPlaylistName
+global function GetUIMapName
+global function GetUIMapAsset
+global function GetUIVisibilityName
+
 struct
 {
 	var  menu
@@ -14,6 +19,84 @@ struct
 	var gameMenuButton
 	var datacenterButton
 } file
+
+// do not change this enum without modifying it in code at gameui/IBrowser.h
+global enum eServerVisibility
+{
+	OFFLINE,
+	HIDDEN,
+	PUBLIC
+}
+
+global int CurrentPresentationType = ePresentationType.PLAY
+
+//Map to asset
+global table<string, asset> MapAssets = {
+	[ "mp_rr_canyonlands_staging" ] = $"rui/menu/maps/mp_rr_canyonlands_staging",
+	[ "mp_rr_aqueduct" ] = $"rui/menu/maps/mp_rr_aqueduct",
+	[ "mp_rr_aqueduct_night" ] = $"rui/menu/maps/mp_rr_aqueduct_night",
+	[ "mp_rr_ashs_redemption" ] = $"rui/menu/maps/mp_rr_ashs_redemption",
+	[ "mp_rr_canyonlands_64k_x_64k" ] = $"rui/menu/maps/mp_rr_canyonlands_64k_x_64k",
+	[ "mp_rr_canyonlands_mu1" ] = $"rui/menu/maps/mp_rr_canyonlands_mu1",
+	[ "mp_rr_canyonlands_mu2" ] = $"rui/menu/maps/mp_rr_canyonlands_mu2",
+	[ "mp_rr_canyonlands_mu2_tt" ] = $"rui/menu/maps/mp_rr_canyonlands_mu2_tt",
+	[ "mp_rr_canyonlands_mu2_mv" ] = $"rui/menu/maps/mp_rr_canyonlands_mu2_mv",
+	[ "mp_rr_canyonlands_mu2_ufo" ] = $"rui/menu/maps/mp_rr_canyonlands_mu2_ufo",
+	[ "mp_rr_canyonlands_mu1_night" ] = $"rui/menu/maps/mp_rr_canyonlands_mu1_night",
+	[ "mp_rr_desertlands_64k_x_64k" ] = $"rui/menu/maps/mp_rr_desertlands_64k_x_64k",
+	[ "mp_rr_desertlands_64k_x_64k_nx" ] = $"rui/menu/maps/mp_rr_desertlands_64k_x_64k_nx",
+	[ "mp_rr_desertlands_64k_x_64k_tt" ] = $"rui/menu/maps/mp_rr_desertlands_64k_x_64k_tt",
+	[ "mp_rr_desertlands_holiday" ] = $"rui/menu/maps/mp_rr_desertlands_holiday",
+	[ "mp_rr_desertlands_mu1" ] = $"rui/menu/maps/mp_rr_desertlands_mu1",
+	[ "mp_rr_desertlands_mu1_tt" ] = $"rui/menu/maps/mp_rr_desertlands_mu1_tt",
+	[ "mp_rr_desertlands_mu2" ] = $"rui/menu/maps/mp_rr_desertlands_mu2",
+	[ "mp_rr_arena_composite" ] = $"rui/menu/maps/mp_rr_arena_composite",
+	[ "mp_rr_arena_skygarden" ] = $"rui/menu/maps/mp_rr_arena_skygarden",
+	[ "mp_rr_party_crasher" ] = $"rui/menu/maps/mp_rr_party_crasher",
+	[ "mp_rr_olympus" ] = $"rui/menu/maps/mp_rr_olympus",
+	[ "mp_rr_olympus_tt" ] = $"rui/menu/maps/mp_rr_olympus_tt",
+	[ "mp_rr_olympus_mu1" ] = $"rui/menu/maps/mp_rr_olympus_mu1",
+	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/maps/mp_rr_phase_runner",
+	[ "mp_lobby" ] = $"rui/menu/maps/mp_lobby"
+}
+
+//Map to readable name
+global table<string, string> MapNames = {
+	[ "mp_rr_canyonlands_staging" ] = "Firing Range",
+	[ "mp_rr_aqueduct" ] = "Overflow",
+	[ "mp_rr_aqueduct_night" ] = "Overflow After Dark",
+	[ "mp_rr_ashs_redemption" ] = "Ash's Redemption",
+	[ "mp_rr_canyonlands_64k_x_64k" ] = "Kings Canyon S1",
+	[ "mp_rr_canyonlands_mu1" ] = "Kings Canyon S2",
+	[ "mp_rr_canyonlands_mu2" ] = "Kings Canyon S5",
+	[ "mp_rr_canyonlands_mu2_tt" ] = "Kings Canyon S5 - Map Room",
+	[ "mp_rr_canyonlands_mu2_ufo" ] = "Kings Canyon S5 - Olympus Teaser",
+	[ "mp_rr_canyonlands_mu2_mv" ] = "Kings Canyon S7 - Mirage Voyage",
+	[ "mp_rr_canyonlands_mu1_night" ] = "Kings Canyon S2 After Dark",
+	[ "mp_rr_desertlands_64k_x_64k" ] = "Worlds Edge S3",
+	[ "mp_rr_desertlands_64k_x_64k_nx" ] = "Worlds Edge After Dark",
+	[ "mp_rr_desertlands_64k_x_64k_tt" ] = "Worlds Edge S3 Mirage Voyage",
+	[ "mp_rr_desertlands_holiday" ] = "Worlds Edge S3 - Holiday",
+	[ "mp_rr_desertlands_mu1" ] = "Worlds Edge S4",
+	[ "mp_rr_desertlands_mu1_tt" ] = "Worlds Edge S4 - Trials",
+	[ "mp_rr_desertlands_mu2" ] = "Worlds Edge S6",
+	[ "mp_rr_arena_composite" ] = "Drop Off",
+	[ "mp_rr_arena_skygarden" ] = "Encore",
+	[ "mp_rr_party_crasher" ] = "Party Crasher",
+	[ "mp_rr_olympus" ] = "Olympus S7",
+	[ "mp_rr_olympus_tt" ] = "Olympus S7 - Boxing Ring",
+	[ "mp_rr_olympus_mu1" ] = "Olympus S9 [WIP]",
+	[ "mp_rr_arena_phase_runner" ] = "Phase Runner",
+	[ "mp_rr_arena_empty" ] = "Creative",
+	[ "mp_lobby" ] = "Lobby"
+}
+
+//Vis to readable name
+global table<int, string> VisibilityNames = {
+	[ eServerVisibility.OFFLINE ] = "Offline",
+	[ eServerVisibility.HIDDEN ] = "Hidden",
+	[ eServerVisibility.PUBLIC ] = "Public"
+}
 
 void function InitLobbyMenu( var newMenuArg )
 {
@@ -94,6 +177,8 @@ void function InitLobbyMenu( var newMenuArg )
 
 void function OnLobbyMenu_Open()
 {
+	thread ServerBrowser_RefreshServerListing()
+
 	//ClientCommand( "gameCursor_ModeActive 1" )
 
 	if ( !file.tabsInitialized )
@@ -168,8 +253,8 @@ void function OnGRXStateChanged()
 	array<var> panels = [
 		GetPanel( "CharactersPanel" ),
 		GetPanel( "ArmoryPanel" ),
-		GetPanel( bpPanel ),
-		GetPanel( "StorePanel" ),
+		//GetPanel( bpPanel ),
+		//GetPanel( "StorePanel" ),
 	]
 
 	foreach ( var panel in panels )
@@ -191,7 +276,7 @@ void function UpdateNewnessCallbacks()
 
 	Newness_AddCallbackAndCallNow_OnRerverseQueryUpdated( NEWNESS_QUERIES.GladiatorTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "CharactersPanel" ) )
 	Newness_AddCallbackAndCallNow_OnRerverseQueryUpdated( NEWNESS_QUERIES.ArmoryTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "ArmoryPanel" ) )
-	Newness_AddCallbackAndCallNow_OnRerverseQueryUpdated( NEWNESS_QUERIES.StoreTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "StorePanel" ) )
+	//Newness_AddCallbackAndCallNow_OnRerverseQueryUpdated( NEWNESS_QUERIES.StoreTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "StorePanel" ) )
 	file.newnessInitialized = true
 }
 
@@ -203,7 +288,7 @@ void function ClearNewnessCallbacks()
 
 	Newness_RemoveCallback_OnRerverseQueryUpdated( NEWNESS_QUERIES.GladiatorTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "CharactersPanel" ) )
 	Newness_RemoveCallback_OnRerverseQueryUpdated( NEWNESS_QUERIES.ArmoryTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "ArmoryPanel" ) )
-	Newness_RemoveCallback_OnRerverseQueryUpdated( NEWNESS_QUERIES.StoreTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "StorePanel" ) )
+	//Newness_RemoveCallback_OnRerverseQueryUpdated( NEWNESS_QUERIES.StoreTab, OnNewnessQueryChangedUpdatePanelTab, GetPanel( "StorePanel" ) )
 	file.newnessInitialized = false
 }
 
@@ -476,4 +561,36 @@ void function OnLobbyMenu_FocusChat( var panel )
 			Hud_SetFocused( Hud_GetChild( textChat, "ChatInputLine" ) )
 		}
 	#endif
+}
+
+string function GetUIPlaylistName(string playlist)
+{
+	if(!IsLobby() || !IsConnected())
+		return ""
+
+	return GetPlaylistVarString( playlist, "name", playlist )
+}
+
+string function GetUIMapName(string map)
+{
+	if(map in MapNames)
+		return MapNames[map]
+
+	return map
+}
+
+string function GetUIVisibilityName(int vis)
+{
+	if(vis in VisibilityNames)
+		return VisibilityNames[vis]
+
+	return ""
+}
+
+asset function GetUIMapAsset(string map)
+{
+	if(map in MapAssets)
+		return MapAssets[map]
+
+	return $"rui/menu/maps/map_not_found"
 }

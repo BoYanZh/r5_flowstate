@@ -76,7 +76,12 @@ void function InitR5RGamemodeSelectDialog( var newMenuArg ) //
 
 void function OnOpenModeSelectDialog()
 {
-	Servers_GetCurrentServerListing()
+	thread SetupGamemodePanel()
+}
+
+void function SetupGamemodePanel()
+{
+	waitthread Servers_GetCurrentServerListing()
 	SetupTopServers()
 	SetupPlaylistQuickSearch()
 	SetupFreeRoamButtons()
@@ -94,6 +99,8 @@ void function OnCloseButton_Activate( var button )
 
 void function DiagCloseing()
 {
+	Lobby_OnGamemodeSelectV2Close()
+
 	if(!file.showfreeroam)
 		return
 	
@@ -116,13 +123,13 @@ void function DiagCloseing()
 void function NextPage_Activated(var button)
 {
 	file.pageoffset += 1
-	SetupPlaylistQuickSearch()
+	thread SetupPlaylistQuickSearch()
 }
 
 void function PrevPage_Activated(var button)
 {
 	file.pageoffset -= 1
-	SetupPlaylistQuickSearch()
+	thread SetupPlaylistQuickSearch()
 }
 
 void function PlaylistButton_Activated(var button)
