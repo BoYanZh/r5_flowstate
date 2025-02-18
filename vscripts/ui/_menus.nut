@@ -1638,11 +1638,11 @@ void function InitMenus()
 	AddMenu( "EliteIntroMenu", $"resource/ui/menus/elite_intro.menu", InitEliteIntroMenu )
 
 	//R5Reloaded UI
-	var r5rmainMenu = AddMenu( "R5RMainMenu", $"scripts/resource/ui/menus/CustomLobby/main.res", InitR5RMainMenu, "#MAIN" )
+	var r5rmainMenu = AddMenu( "R5RMainMenu", $"scripts/resource/ui/menus/panels/main.res", InitR5RMainMenu, "#MAIN" )
 	AddPanel( r5rmainMenu, "R5RMainMenuPanel", InitR5RMainMenuPanel )
 
-	AddMenu( "R5RNews", $"scripts/resource/ui/menus/CustomLobby/news.res", InitR5RNews )
-	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/CustomLobby/gamemode_select.res", InitR5RGamemodeSelectDialog )
+	AddMenu( "R5RNews", $"scripts/resource/ui/menus/news.menu", InitR5RNews )
+	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/dialogs/gamemode_select_v3.res", InitR5RGamemodeSelectDialog )
 
 
 	//Settings
@@ -1712,6 +1712,8 @@ void function InitMenus()
 	AddPanel( privatematchmenu, "R5RPlaylistPanel", InitR5RPlaylistPanel )
 	AddPanel( privatematchmenu, "R5RMapPanel", InitR5RMapPanel )
 	AddPanel( privatematchmenu, "R5RVisPanel", InitR5RVisPanel )
+	AddPanel( privatematchmenu, "R5RNamePanel", InitR5RNamePanel )
+	AddPanel( privatematchmenu, "R5RDescPanel", InitR5RDescPanel )
 
 	AddPanel( lobbyMenu, "CreditsPanel", InitCreditPanel )
 
@@ -1740,7 +1742,7 @@ void function InitMenus()
 	AddPanel( settingsPanel, "SoundPanel", InitSoundPanel )
 	AddPanel( settingsPanel, "HudOptionsPanel", InitHudOptionsPanel )
 
-	var customizeCharacterMenu = AddMenu( "CustomizeCharacterMenu", $"scripts/resource/ui/menus/CustomLobby/customize_character.menu", InitCustomizeCharacterMenu )
+	var customizeCharacterMenu = AddMenu( "CustomizeCharacterMenu", $"scripts/resource/ui/menus/customize_character.menu", InitCustomizeCharacterMenu )
 	AddPanel( customizeCharacterMenu, "CharacterSkinsPanel", InitCharacterSkinsPanel )
 
 	var cardPanel = AddPanel( customizeCharacterMenu, "CharacterCardsPanelV2", InitCharacterCardsPanel )
@@ -1758,7 +1760,7 @@ void function InitMenus()
 	AddPanel( customizeCharacterMenu, "CharacterExecutionsPanel", InitCharacterExecutionsPanel )
 
 	//shared with 1v1 weapon select
-	var customizeWeaponMenu = AddMenu( "CustomizeWeaponMenu", $"scripts/resource/ui/menus/CustomLobby/customize_weapon.menu", InitCustomizeWeaponMenu )
+	var customizeWeaponMenu = AddMenu( "CustomizeWeaponMenu", $"scripts/resource/ui/menus/customize_weapon.menu", InitCustomizeWeaponMenu )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel0", InitWeaponSkinsPanel )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel1", InitWeaponSkinsPanel )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel2", InitWeaponSkinsPanel )
@@ -1766,7 +1768,7 @@ void function InitMenus()
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel4", InitWeaponSkinsPanel )
 	AddPanel( customizeWeaponMenu, "WeaponSkinsPanel5", InitWeaponSkinsPanel )
 
-	var miscCustomizeMenu = AddMenu( "MiscCustomizeMenu", $"scripts/resource/ui/menus/CustomLobby/misc_customize.menu", InitMiscCustomizeMenu )
+	var miscCustomizeMenu = AddMenu( "MiscCustomizeMenu", $"scripts/resource/ui/menus/misc_customize.menu", InitMiscCustomizeMenu )
 	AddPanel( miscCustomizeMenu, "LoadscreenPanel", InitLoadscreenPanel )
 	AddPanel( miscCustomizeMenu, "MusicPackPanel", InitMusicPackPanel )
 	AddPanel( miscCustomizeMenu, "SkydiveTrailPanel", InitSkydiveTrailPanel )

@@ -35,10 +35,10 @@ void function LaunchButton_OnActivate( var button )
 	if(file.is_working)
 		return
 	
-	thread LaunchCustomLobby()
+	thread LaunchLobby()
 }
 
-void function LaunchCustomLobby()
+void function LaunchLobby()
 {
 	file.is_working = true
 

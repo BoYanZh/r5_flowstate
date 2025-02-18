@@ -481,6 +481,9 @@ void function OnLobbyMenu_NavigateBack()
 	}
 	else
 	{
+		if(pmatch_MenuOpen)
+			return
+			
 		TabData tabData = GetTabDataForPanel( file.menu )
 		ActivateTab( tabData, 0 )
 	}

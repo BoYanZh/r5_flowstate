@@ -1,4 +1,4 @@
-"scripts/resource/ui/menus/CustomLobby/panels/home.res"
+"scripts/resource/ui/menus/panels/home.res"
 {
     Screen
     {

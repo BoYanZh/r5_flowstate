@@ -1,4 +1,4 @@
-"scripts/resource/ui/menus/CustomLobby/panels/credits.res"
+"scripts/resource/ui/menus/panels/credits.res"
 {
     PanelFrame
     {

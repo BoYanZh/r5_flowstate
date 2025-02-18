@@ -5,7 +5,6 @@ global function InitR5RDescPanel
 global function SetSelectedServerMap
 global function SetSelectedServerPlaylist
 global function SetSelectedServerVis
-global function OnCreateMatchOpen
 
 struct
 {
@@ -40,6 +39,13 @@ void function InitR5RDescPanel( var panel )
 	AddButtonEventHandler( Hud_GetChild( panel, "BtnSaveDesc"), UIE_CLICK, UpdateServerDesc )
 }
 
+void function PopupPanel_OnNavBack( var panel )
+{
+	foreach ( p in file.panels ) {
+		Hud_SetVisible( p, false )
+	}
+}
+
 void function InitCreatePanel( var panel )
 {
 	SetPanelTabTitle( panel, "CREATE" )
@@ -55,13 +61,14 @@ void function InitCreatePanel( var panel )
 	}
 
 	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, CreatePanel_OnShow )
+	AddPanelEventHandler( panel, eUIEvent.PANEL_NAVBACK, PopupPanel_OnNavBack )
 
 	//Setup panel array
 	file.panels.append(Hud_GetChild(file.panel, "R5RMapPanel"))
 	file.panels.append(Hud_GetChild(file.panel, "R5RPlaylistPanel"))
 	file.panels.append(Hud_GetChild(file.panel, "R5RVisPanel"))
-	file.panels.append(Hud_GetChild(file.menu, "R5RNamePanel"))
-	file.panels.append(Hud_GetChild(file.menu, "R5RDescPanel"))
+	file.panels.append(Hud_GetChild(file.panel, "R5RNamePanel"))
+	file.panels.append(Hud_GetChild(file.panel, "R5RDescPanel"))
 
 	//Setup Default Server Config
 	ServerSettings.svServerName = "My custom server"
@@ -74,10 +81,6 @@ void function InitCreatePanel( var panel )
 void function CreatePanel_OnShow( var panel )
 {
 	UI_SetPresentationType( ePresentationType.CHARACTER_SELECT )
-}
-
-void function OnCreateMatchOpen()
-{
 	RefreshUIPlaylists()
 	RefreshUIMaps()
 
