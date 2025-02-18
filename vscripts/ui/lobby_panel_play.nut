@@ -2656,9 +2656,6 @@ void function FindServer(bool refresh = false)
 	if(!file.searching)
 		return
 
-	if(refresh)
-		RefreshServerList()
-
 	file.m_vServerList.clear()
 	if(GetServerCount() == 0) {
 		file.noservers = true

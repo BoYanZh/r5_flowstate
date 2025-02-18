@@ -64,7 +64,7 @@ resource/ui/menus/customize_character.menu
 			wide					f0
 			tall					44
 			visible					1
-			controlSettingsFile		"resource/ui/menus/panels/tabs_character_customize.res"
+			controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/tabs_character_customize.res"
 
 			pin_to_sibling			ScreenFrame
 			pin_corner_to_sibling	TOP
@@ -98,7 +98,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_skins.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_skins.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -113,7 +113,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_banners.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_banners.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -128,7 +128,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_banners_v2.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_banners_v2.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -143,7 +143,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_quips.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_quips.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -158,7 +158,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_emotes.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_emotes.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -173,7 +173,7 @@ resource/ui/menus/customize_character.menu
 			tall					820
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/character_executions.res"
+		    controlSettingsFile		"scripts/defaults/resource/ui/menus/panels/character_executions.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
