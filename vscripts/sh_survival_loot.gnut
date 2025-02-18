@@ -525,6 +525,7 @@ void function SURVIVAL_Loot_InitShared()
 	
 	if( Gamemode() == eGamemodes.SURVIVAL )
 		AddCallback_OnPlayerRespawned( OnPlayerRespawned )
+		
 #endif // SERVER
 
 #if SERVER
@@ -3707,10 +3708,11 @@ void function Inventory_SetPlayerEquipment_Internal( entity player, string itemR
 			player.SetShieldHealthMax( SURVIVAL_GetArmorShieldCapacity( 0 ) )
 		else
 			player.SetShieldHealthMax( 0 )
+		
 		player.SetShieldHealth( 0 )
 	}
 
-	if (SURVIVAL_Loot_IsRefValid( itemRef ) )
+	if ( SURVIVAL_Loot_IsRefValid( itemRef ) )
 	{
 		LootData data = SURVIVAL_Loot_GetLootDataByRef( itemRef )
 		index = data.index

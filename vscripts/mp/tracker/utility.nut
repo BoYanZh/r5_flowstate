@@ -12,6 +12,8 @@ global function Is_Bool
 global function sanitize
 global function LineBreak
 global function print_string_array
+global function print_var_table
+global function print_var_array
 global function CheckRate
 global function ParseWeapon
 global function IsWeaponValid
@@ -23,8 +25,6 @@ global function INIT_CC_playeradmins
 global function update
 global function TrackerWepTable
 global function exclude
-global function ReturnValue
-global function ReturnKey
 global function GetDefaultIBMM
 global function SetDefaultIBMM
 global function IsTrackerAdmin
@@ -39,6 +39,7 @@ global function TP
 global function Tracker_DetermineNextMap
 global function Tracker_GotoNextMap
 global function PrepareForJson
+global function ArrayUniqueInt
 
 #if TRACKER && HAS_TRACKER_DLL
 	global function PrintMatchIDtoAll
@@ -104,8 +105,8 @@ struct {
 	}
 	
 	//client command: show
-		bool function ClientCommand_mkos_return_data(entity player, array<string> args)
-		{		
+		bool function ClientCommand_mkos_return_data( entity player, array<string> args )
+		{
 			if ( !CheckRate( player ) ) 
 				return false
 			
@@ -1092,9 +1093,9 @@ struct {
 						
 			case "map":
 					
-						if( GetPlaylistMaps( GetMode(param2) ).contains( GetMap(param) ) )
+						if( GetPlaylistMaps( GetMode( param2 ) ).contains( GetMap( param ) ) )
 						{
-							GameRules_ChangeMap( GetMap(param) , GetMode(param2) )
+							GameRules_ChangeMap( GetMap( param ), GetMode( param2 ) )
 						}
 						else 
 						{	
@@ -1779,13 +1780,6 @@ struct {
 				//CreateServer("","","mp_rr_desertlands_64k_x_64k","fs_survival_solos", 0)
 				break
 				
-			case "testimg":
-			
-				#if DEVELOPER 
-					
-				#endif
-				break
-				
 			case "movement_recorder_playback_rate":
 			
 				if( IsNumeric( param ) )
@@ -1810,13 +1804,59 @@ struct {
 				BannerAssets_Restart()
 				break
 				
+			case "allow_legend_select":
+			
+				if( empty( param ) )
+				{
+					Message( player, "Command 'allow_legend_select' requires paramater of [true|1] / [false|0]" )
+					return true
+				}
+					
+				bool result = false
+				switch( param )
+				{
+					case "1":
+					case "true":
+						Gamemode1v1_SetAllowLegendSelect( true )
+						result = true
+						break
+						
+					case "0":
+					case "false":
+						Gamemode1v1_SetAllowLegendSelect( true )
+						result = false
+						break
+						
+					default:
+						Message( player, "Invalid paramater" )
+						return true
+				}
+				
+				Message( player, "Legend Select was set to " + ( result ? "ENABLED" : "DISABLED" ) )
+				break
+				
+			case "set_legend":
+			
+				if( empty( param ) || !IsNumeric( param ) )
+				{
+					Message( player, "Command 'set_legend' requires numeric paramater for legend index" )
+					return true
+				}
+				
+				int index = param.tointeger()
+				Gamemode1v1_SetAllPlayersLegend( index )
+				break
+				
+			case "endround":
+				g_fCurrentRoundEndTime = Time() //todo EndRound() global call from fsdm
+				break
+			
 			default:	
 						Message( player, "Usage", "cc #command #param1 #param2 #..." )
 						return true;
 		}
-		
-		
-		return true;
+			
+		return true
 	}
 
 void function RunUpdateMsg()
@@ -2087,42 +2127,6 @@ string function LineBreak(string str, int interval = 80)
 	return output;
 }
 
-string function ReturnKey( string str )
-{
-	array<string> split = split(str , ":")	
-	return split[0]
-}
-
-string function ReturnValue( string str )
-{	
-	try 
-	{
-		array<string> split = split(str , ":")
-		
-		if( split.len() < 2 )
-		{
-			return "";
-		}
-		
-		if ( split[1] == "NA" )
-		{	
-			#if DEVELOPER
-				sqprint( "Default value was returned for key: " + str )
-			#endif
-			return "";
-		}
-		
-		return split[1]
-	} 
-	catch (err)
-	{
-		#if DEVELOPER 
-			sqerror( "ReturnValue() failed for key:value " + str )
-		#endif 
-		return "";
-	}		
-}
-
 bool function Is_Bool(string str)
 {
 	int num = 0;
@@ -2223,9 +2227,7 @@ string function GetMap( string str ) //todo:deprecate
 	foreach ( map in list_maps ) 
 	{
 		if ( map[0] == str || map[1] == str ) 
-		{
-			return map[1];
-		}
+			return map[1]
 	}
 	
 	return GetMapName()
@@ -2273,7 +2275,7 @@ string function sanitize(string str)
 
 void function print_string_array( array<string> args )
 {
-	string test = "\n\n------ PRINT ARRAY ------\n\n"
+	string test = "\n\n------ PRINT STRING ARRAY ------\n\n"
 	
 	foreach( arg in args )
 	{
@@ -2281,6 +2283,24 @@ void function print_string_array( array<string> args )
 	}
 	
 	sqprint(test)
+}
+
+void function print_var_table( table<string,var> tbl )
+{
+	string prnt = "\n\n------ PRINT TABLE ------\n\n"
+	foreach( string k, var v in tbl )
+		prnt += format( "	[%s] = %s\n", k, string( v ) )
+	
+	sqprint( prnt )
+}
+
+void function print_var_array( array<var> arr )
+{
+	string prnt = "\n\n------ PRINT ARRAY ------\n\n"
+	foreach( i, v in arr )
+		prnt += format( "	[%d] = %s\n", i, string( v ) )
+	
+	sqprint( prnt )
 }
 
 //Returns false on limited. 
@@ -2343,7 +2363,6 @@ bool function VerifyAdmin( string PlayerName, string PlayerUID )
 	
 	return true
 }
-
 #endif //SERVER
 
 int function WeaponToIdentifier( string weaponName )
@@ -2518,14 +2537,13 @@ void function Tracker_GotoNextMap()
 {
 	string to_map = Tracker_DetermineNextMap()
 	sqprint( "Changing map to: " + to_map + " - Mode: " + GameRules_GetGameMode() )
-	GameRules_ChangeMap( to_map , GameRules_GetGameMode() )	
+	GameRules_ChangeMap( to_map, GameRules_GetGameMode() )	
 }
 
 string function PrepareForJson( string data ) 
 {
 	if( !empty( data ) )
 	{
-		data = StringReplace( data, ",", "-" ) //temp until playersettings delimiter change or table typed is done.
 		data = StringReplace( data, "\"", "\\\"" )
 		data = StringReplace( data, "'", "\\'" )
 		data = StringReplace( data, "\n", "\\n" ) 
@@ -2534,4 +2552,21 @@ string function PrepareForJson( string data )
 	}
 	
     return data
+}
+
+array<int> function ArrayUniqueInt( array<int> arr )
+{
+	array<int> newArr
+	
+	foreach( item in arr )
+	{
+		if( !newArr.contains( item ) )
+			newArr.append( item )
+		#if DEVELOPER 
+		else
+			printw( "ArrayUniqueInt: item", item, "was a duplicate and omitted" )
+		#endif			
+	}
+	
+	return newArr
 }
