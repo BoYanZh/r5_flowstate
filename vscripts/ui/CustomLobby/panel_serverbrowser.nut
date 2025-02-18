@@ -288,8 +288,10 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 	ServerBrowser_ResetLabels()
 
 	if(showlabel)
+	{
 		Hud_SetText( Hud_GetChild( file.panel, "PlayersCount"), "Players: 0")
 		Hud_SetText( Hud_GetChild( file.panel, "ServersCount"), "Servers: 0")
+	}
 }
 
 ////////////////////////////////////
@@ -300,8 +302,12 @@ void function ServerBrowser_NoServersFound(bool showlabel)
 void function ServerBrowser_RefreshServerListing()
 {
 	ServerBrowser_NoServersFound(true)
+
+	//Requests the serverlist
+	//CodeCallback_OnServerListRequestCompleted will be called once it gets the list
 	RequestServerBrowserList()
 
+	//this is so we can make sure we cant do anything else with the list while it fetches
 	ServerListFetching = true
 
 	while(ServerListFetching)
