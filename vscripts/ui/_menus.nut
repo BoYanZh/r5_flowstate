@@ -1701,7 +1701,7 @@ void function InitMenus()
 	//Buy Menu
 	AddMenu( "FSSND_BuyMenu", $"scripts/resource/ui/menus/FlowstateSND/flowstate_snd_buy_menu.menu", Init_FSSND_BuyMenu )
 	
-	var lobbyMenu = AddMenu( "LobbyMenu", $"resource/ui/menus/lobby.menu", InitLobbyMenu )
+	var lobbyMenu = AddMenu( "LobbyMenu", $"scripts/resource/ui/menus/lobby.menu", InitLobbyMenu )
 	AddPanel( lobbyMenu, "PlayPanel", InitPlayPanel )
 	AddPanel( lobbyMenu, "CharactersPanel", InitCharactersPanel )
 	AddPanel( lobbyMenu, "ArmoryPanel", InitArmoryPanel )
