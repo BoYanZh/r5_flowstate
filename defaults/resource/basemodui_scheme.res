@@ -2864,7 +2864,7 @@ Scheme
 			wide					%100
 			tall					1028
 		    visible					0
-		    controlSettingsFile		"resource/ui/menus/panels/settings.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/settings.res"
 		    clip                    1
             tabPosition				1
         }
@@ -4190,7 +4190,7 @@ Scheme
 			wide					f0
 			tall					36
 			visible					1
-			controlSettingsFile		"resource/ui/menus/panels/footer_buttons.res"
+			controlSettingsFile		"scripts/resource/ui/menus/panels/footer_buttons.res"
 		}
 
         DialogFooterButtons
@@ -4200,7 +4200,7 @@ Scheme
             wide					f0
             tall					60
             visible					1
-            controlSettingsFile		"resource/ui/menus/panels/dialog_footer_buttons.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/dialog_footer_buttons.res"
         }
 
         PromoFooterButtons
@@ -4210,7 +4210,7 @@ Scheme
             wide					f0
             tall					60
             visible					1
-            controlSettingsFile		"resource/ui/menus/panels/promo_footer_buttons.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/promo_footer_buttons.res"
         }
 
         DialogFooterButtonsR2
@@ -4220,7 +4220,7 @@ Scheme
             wide					f0
             tall					56
             visible					1
-            controlSettingsFile		"resource/ui/menus/panels/dialog_footer_buttons_r2.res"
+            controlSettingsFile		"scripts/resource/ui/menus/panels/dialog_footer_buttons_r2.res"
         }
 
 		R2_ContentDescriptionTitle
@@ -4389,7 +4389,7 @@ Scheme
 			wide					450
 			tall					67
 			visible					0
-			controlSettingsFile		"resource/UI/menus/button_locked_tooltip.res"
+			controlSettingsFile		"scripts/resource/ui/menus/button_locked_tooltip.res"
 		}
 
 		LobbyFriendlyBackground
