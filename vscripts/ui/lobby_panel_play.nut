@@ -716,6 +716,14 @@ void function KeepMicIconUpdated( PartyMember info, var rui )
 
 void function UpdateFriendButtons()
 {
+	Hud_SetVisible( file.inviteFriendsButton0, false )
+	Hud_SetVisible( file.inviteFriendsButton1, false )
+
+	Hud_SetVisible( file.friendButton0, false )
+	Hud_SetVisible( file.friendButton1, false )
+
+	return
+
 	Signal( uiGlobal.signalDummy, "UpdateFriendButtons" )
 
 	Hud_SetVisible( file.inviteFriendsButton0, !file.personInLeftSpot )
