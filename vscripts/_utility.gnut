@@ -3988,6 +3988,14 @@ void function HolsterAndDisableWeapons( entity player )
 }
 
 
+void function HolsterAndDisableWeapons_Raw( entity player )
+//(mk): This ignores the stack system for multiple conditions, performing the action immediately.
+{
+	player.HolsterWeapon()
+	player.Server_TurnOffhandWeaponsDisabledOn()
+}
+
+
 void function HolsterViewModelAndDisableWeapons( entity player, bool show3pTossWeapons = false )
 //Note that this skips the first person holster animation, and it appears to 3p observers you still have a gun out
 //However, toss weapons will be holstered on hand. Usually, we do not want to show toss weapons to 3p observers
@@ -4020,6 +4028,12 @@ void function DeployAndEnableWeapons( entity player )
 	}
 }
 
+void function DeployAndEnableWeapons_Raw( entity player )
+//(mk): This ignores the stack system for multiple conditions, performing the action immediately.
+{
+	player.DeployWeapon()
+	player.Server_TurnOffhandWeaponsDisabledOff()
+}
 
 void function DeployAndEnableWeaponsWithSlowDeploy( entity player, float time )
 {

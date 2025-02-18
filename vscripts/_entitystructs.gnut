@@ -203,7 +203,7 @@ global struct ServerEntityStruct
 	bool isHotDropping
 
 	bool spawnPointInUse
-	entity lastAttacker
+	entity lastAttacker //(mk): not even used,  ( .e.lastAttacker IS used )
 
 	// sticky props
 	float spawnTime = 0.0
@@ -522,6 +522,7 @@ global struct ServerEntityStruct
 	int portalDirection = -1
 
 	int lockedSet = eWeaponLockedSet.INVALID
+	entity lastAttackedEnt
 }
 
 global struct MeritData
@@ -878,6 +879,7 @@ global struct ServerPlayerStruct
 	int portalPlacements = 0
 	int portalKidnaps = 0
 	float portalPlaceTime = 0
+	bool eaVerifyProcessing = false
 	
 	//for adding specific spawn behavior on a player basis.
 	array<void functionref(entity)> playerSpawnedCallbacks
@@ -922,8 +924,10 @@ global struct ServerPlayerStruct
 	bool DeathRecap_PlayerIsBuildingBlock = false
 	float DeathRecap_BlockTime = 0
 
+	//Flyers Easteregg by Colombia
 	bool isParentedToFlyer = false
 	entity ParentedFlyer
+	//Prophunt by Colombia
 	int PROPHUNT_ChangePropUsageLimit
 	int PROPHUNT_DecoysPropUsageLimit
 	int PROPHUNT_FlashbangPropUsageLimit
@@ -935,6 +939,7 @@ global struct ServerPlayerStruct
 	int PROPHUNT_TimesSurvivedAsProp = 0
 	int PROPHUNT_SurvivalTime = 0
 
+	//By Endergreen
 	// This is for Octane's ability chatter
 	float lastStimChatterTime = -30
 	float lastJumpPadChatterTime = -30
@@ -1506,4 +1511,4 @@ global struct ServerFirstPersonProxyStruct
 {
 	entity battery
 }
-
+	
