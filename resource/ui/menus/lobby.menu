@@ -1,4 +1,4 @@
-resource/ui/menus/lobby.menu
+scripts/resource/ui/menus/lobby.menu
 {
 	menu
 	{
@@ -60,7 +60,7 @@ resource/ui/menus/lobby.menu
 			wide					f0
 			tall					84
 			visible					1
-			controlSettingsFile		"resource/ui/menus/panels/tabs_lobby.res"
+			controlSettingsFile		"scripts/resource/ui/menus/panels/tabs_lobby.res"
 
 			pin_to_sibling			ScreenFrame
 			pin_corner_to_sibling	TOP
@@ -118,7 +118,7 @@ resource/ui/menus/lobby.menu
 			tall					%87.32
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/play.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/play.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -135,7 +135,7 @@ resource/ui/menus/lobby.menu
 			tall					904
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/characters.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/characters.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -152,7 +152,7 @@ resource/ui/menus/lobby.menu
 		//	tall					954
 		//    visible					0
 		//    tabPosition             1
-		//    controlSettingsFile		"resource/ui/menus/panels/credits.res"
+		//    controlSettingsFile		"scripts/resource/ui/menus/panels/credits.res"
 //
 		//	pin_to_sibling			TabsCommon
 		//	pin_corner_to_sibling	TOP
@@ -169,7 +169,7 @@ resource/ui/menus/lobby.menu
 			tall					%87.32
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"scripts/resource/ui/menus/CustomLobby/panels/serverbrowser.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/serverbrowser.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -183,10 +183,10 @@ resource/ui/menus/lobby.menu
 		    xpos					0
 		    ypos					0
 			wide					%100
-			tall					904
+			tall					%100
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"scripts/resource/ui/menus/CustomLobby/panels/create_match.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/create_match.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -200,7 +200,7 @@ resource/ui/menus/lobby.menu
     	    "wide"						"%100"
 			"tall"						"%87.32"
 			"visible"					"0"
-    	    "controlSettingsFile"		"scripts/resource/ui/menus/CustomLobby/panels/credits.res"
+    	    "controlSettingsFile"		"scripts/resource/ui/menus/panels/credits.res"
     	    "proportionalToParent"    	"1"
 
     	    "pin_to_sibling"          	"MainButtonsFrame"
@@ -218,7 +218,7 @@ resource/ui/menus/lobby.menu
 			tall					904
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/armory.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/armory.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -235,7 +235,7 @@ resource/ui/menus/lobby.menu
 			tall					904
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/store.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/store.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -252,7 +252,7 @@ resource/ui/menus/lobby.menu
 			tall					904
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/battlepass.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/battlepass.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -269,7 +269,7 @@ resource/ui/menus/lobby.menu
 			tall					904
 		    visible					0
 		    tabPosition             1
-		    controlSettingsFile		"resource/ui/menus/panels/battlepass_v2.res"
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/battlepass_v2.res"
 
 			pin_to_sibling			TabsCommon
 			pin_corner_to_sibling	TOP
@@ -347,34 +347,6 @@ resource/ui/menus/lobby.menu
             pin_to_sibling_corner	BOTTOM
         }
 
-		"R5RNamePanel"
-		{
-			"ControlName"				"CNestedPanel"
-			"classname"					"CustomPrivateMatchMenu"
-			"ypos"						"0"
-			"zpos"						"45"
-			"wide"						"f0"
-			"tall"						"f0"
-			"visible"					"0"
-			"controlSettingsFile"		"scripts/resource/ui/menus/CustomLobby/panels/servername.res"
-			"proportionalToParent"    	"1"
-			"zpos"                      "10"
-		}
-
-		"R5RDescPanel"
-		{
-			"ControlName"				"CNestedPanel"
-			"classname"					"CustomPrivateMatchMenu"
-			"ypos"						"0"
-			"zpos"						"45"
-			"wide"						"f0"
-			"tall"						"f0"
-			"visible"					"0"
-			"controlSettingsFile"		"scripts/resource/ui/menus/CustomLobby/panels/serverdesc.res"
-			"proportionalToParent"    	"1"
-			"zpos"                      "10"
-		}
-
 		"R5RConnectingPanel"
 		{
 			"ControlName"				"CNestedPanel"
@@ -383,7 +355,7 @@ resource/ui/menus/lobby.menu
 			"wide"						"f0"
 			"tall"						"f0"
 			"visible"					"0"
-			"controlSettingsFile"		"scripts/resource/ui/menus/CustomLobby/panels/connecting.res"
+			"controlSettingsFile"		"scripts/resource/ui/menus/panels/connecting.res"
 			"proportionalToParent"    	"1"
 			"zpos"                      "10"
 		}

@@ -890,21 +890,22 @@ Scripts:
 	ui/KillReplay/menu_killreplay.nut
 	
 	//R5R Main Menu
-	ui/CustomLobby/menu_main.nut
-	ui/CustomLobby/panel_mainmenu.nut
+	ui/menu_main_v2.nut
+	ui/panel_mainmenu_v2.nut
 
 	//R5R Lobby
-	ui/CustomLobby/panel_create.nut
-	ui/CustomLobby/panel_serverbrowser.nut
-	ui/CustomLobby/panel_credits.nut
+	ui/lobby_panel_create.nut
+	ui/lobby_panel_serverbrowser.nut
+	ui/lobby_panel_credits.nut
+	ui/create_panel_map.nut
+	ui/create_panel_playlist.nut
+	ui/create_panel_visibility.nut
+	ui/dialogs/gamemode_select_v3.nut
+	ui/menu_news.nut
 
 	//R5R Extra
-	ui/CustomLobby/menu_news.nut
-	ui/CustomLobby/menu_gamemodeselect.nut
-	ui/CustomLobby/panel_map.nut
-	ui/CustomLobby/panel_playlist.nut
-	ui/CustomLobby/panel_visibility.nut
 	ui/CTFMenus/menu_ctf_vote.nut
+	
 	//Statistics
 	ui/FlowstateDM/flowstate_statistics.nut
 	ui/FlowstateDM/flowstate_menu_vote.nut
