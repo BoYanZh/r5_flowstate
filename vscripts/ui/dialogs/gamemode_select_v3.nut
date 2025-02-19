@@ -46,7 +46,7 @@ global asset g_SelectedQuickPlayImage
 
 void function InitR5RGamemodeSelectDialog( var newMenuArg ) //
 {
-	var menu = GetMenu( "R5RGamemodeSelectV2Dialog" )
+	var menu = GetMenu( "GamemodeSelectV4Dialog" )
 	file.menu = menu
 
 	HudElem_SetRuiArg( Hud_GetChild( menu, "PrevPageButton" ), "flipHorizontal", true )

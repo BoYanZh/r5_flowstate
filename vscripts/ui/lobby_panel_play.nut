@@ -1363,7 +1363,7 @@ void function GameModeSelectV2Button_OnActivate( var button )
 
 	ClientCommand( "ViewedModes" )
 
-	AdvanceMenu( GetMenu( "R5RGamemodeSelectV2Dialog" ) )
+	AdvanceMenu( GetMenu( "GamemodeSelectV4Dialog" ) )
 }
 
 
