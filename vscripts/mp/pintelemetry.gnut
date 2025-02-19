@@ -218,7 +218,7 @@ global function NULL_PDATA
 global function Gamemode1v1_PlayerDataCallbacks //TODO: this probably shouldn't be here, but a bit of logic needs sorted into it's gamemode file (will do soonTM)
 
 const bool DEBUGDMG = false
-const bool DEBUG_STATS = true
+const bool DEBUG_STATS = false
 
 #if DEVELOPER
 	global function DEV_GetPlayerMetricsIndexByUID
