@@ -329,6 +329,8 @@ void function UICodeCallback_OnServerListRequestCompleted(bool success, string e
 		file.m_vServerList.append(Server)
 	}
 
+	thread UpdateServerAndPlayerCountButtons()
+
 	thread ServerBrowser_FilterServerList()
 }
 
