@@ -4,6 +4,7 @@ global function GetUIPlaylistName
 global function GetUIMapName
 global function GetUIMapAsset
 global function GetUIVisibilityName
+global function UpdateServerAndPlayerCountButtons
 
 struct
 {
@@ -18,6 +19,9 @@ struct
 	var socialButton
 	var gameMenuButton
 	var datacenterButton
+
+	var serversButton
+	var playersButton
 } file
 
 // do not change this enum without modifying it in code at gameui/IBrowser.h
@@ -147,14 +151,28 @@ void function InitLobbyMenu( var newMenuArg )
 	HudElem_SetRuiArg( newsButton, "shortcutText", "%[R_TRIGGER|ESCAPE]%" )
 	Hud_AddEventHandler( newsButton, UIE_CLICK, NewsButton_OnActivate )
 
-	var socialButton = Hud_GetChild( menu, "SocialButton" )
-	file.socialButton = socialButton
-	ToolTipData socialToolTip
-	socialToolTip.descText = "#MENU_TITLE_FRIENDS"
-	Hud_SetToolTipData( socialButton, socialToolTip )
-	HudElem_SetRuiArg( socialButton, "icon", $"rui/menu/lobby/friends_icon" )
-	HudElem_SetRuiArg( socialButton, "shortcutText", "%[STICK2|]%" )
-	Hud_AddEventHandler( socialButton, UIE_CLICK, SocialButton_OnActivate )
+	//var socialButton = Hud_GetChild( menu, "SocialButton" )
+	//file.socialButton = socialButton
+	//ToolTipData socialToolTip
+	//socialToolTip.descText = "#MENU_TITLE_FRIENDS"
+	//Hud_SetToolTipData( socialButton, socialToolTip )
+	//HudElem_SetRuiArg( socialButton, "icon", $"rui/menu/lobby/friends_icon" )
+	//HudElem_SetRuiArg( socialButton, "shortcutText", "%[STICK2|]%" )
+	//Hud_AddEventHandler( socialButton, UIE_CLICK, SocialButton_OnActivate )
+
+	var playersButton = Hud_GetChild( menu, "PlayersButton" )
+	file.playersButton = playersButton
+	ToolTipData playersToolTip
+	playersToolTip.descText = "Total Player Count"
+	Hud_SetToolTipData( playersButton, playersToolTip )
+	HudElem_SetRuiArg( playersButton, "icon", $"rui/menu/lobby/friends_icon" )
+
+	var serversButton = Hud_GetChild( menu, "ServersButton" )
+	file.serversButton = serversButton
+	ToolTipData serversToolTip
+	serversToolTip.descText = "Total Server Count"
+	Hud_SetToolTipData( serversButton, serversToolTip )
+	HudElem_SetRuiArg( serversButton, "icon", $"rui/hud/gamestate/net_latency" )
 
 	var gameMenuButton = Hud_GetChild( menu, "GameMenuButton" )
 	file.gameMenuButton = gameMenuButton
@@ -322,6 +340,14 @@ void function LobbyMenuUpdate()
 	}
 }
 
+void function UpdateServerAndPlayerCountButtons()
+{
+	HudElem_SetRuiArg( file.playersButton, "buttonText", "" + MS_GetPlayerCount() )
+	Hud_SetWidth( file.playersButton, Hud_GetBaseWidth( file.playersButton ) * 2 )
+
+	HudElem_SetRuiArg( file.serversButton, "buttonText", "" + MS_GetServerCount() )
+	Hud_SetWidth( file.serversButton, Hud_GetBaseWidth( file.serversButton ) * 2 )
+}
 
 void function UpdateCornerButtons()
 {
@@ -336,7 +362,8 @@ void function UpdateCornerButtons()
 		Hud_SetX( postGameButton, Hud_GetBaseX( postGameButton ) - Hud_GetWidth( postGameButton ) - Hud_GetBaseX( postGameButton ) )
 
 	Hud_SetVisible( file.newsButton, isPlayPanelActive )
-	Hud_SetVisible( file.socialButton, isPlayPanelActive )
+	Hud_SetVisible( file.playersButton, isPlayPanelActive )
+	Hud_SetVisible( file.serversButton, isPlayPanelActive )
 	Hud_SetVisible( file.gameMenuButton, isPlayPanelActive )
 
 	var accessibilityHint = Hud_GetChild( playPanel, "AccessibilityHint" )
@@ -344,19 +371,19 @@ void function UpdateCornerButtons()
 
 	Hud_SetEnabled( file.gameMenuButton, !IsDialog( GetActiveMenu() ) )
 
-	int count = GetOnlineFriendCount( false )
-	if ( count > 0 )
-	{
-		HudElem_SetRuiArg( file.socialButton, "buttonText", "" + count )
-		Hud_SetWidth( file.socialButton, Hud_GetBaseWidth( file.socialButton ) * 2 )
-		InitButtonRCP( file.socialButton )
-	}
-	else
-	{
-		HudElem_SetRuiArg( file.socialButton, "buttonText", "" )
-		Hud_ReturnToBaseSize( file.socialButton )
-		InitButtonRCP( file.socialButton )
-	}
+	//int count = GetOnlineFriendCount( false )
+	//if ( count > 0 )
+	//{
+	//	HudElem_SetRuiArg( file.socialButton, "buttonText", "" + count )
+	//	Hud_SetWidth( file.socialButton, Hud_GetBaseWidth( file.socialButton ) * 2 )
+	//	InitButtonRCP( file.socialButton )
+	//}
+	//else
+	//{
+	//	HudElem_SetRuiArg( file.socialButton, "buttonText", "" )
+	//	Hud_ReturnToBaseSize( file.socialButton )
+	//	InitButtonRCP( file.socialButton )
+	//}
 
 	{
 		bool datacenterButtonVisible = false
@@ -391,7 +418,7 @@ void function RegisterInputs()
 	RegisterButtonPressedCallback( KEY_TAB, PostGameButton_OnActivate )
 	RegisterButtonPressedCallback( KEY_ENTER, OnLobbyMenu_FocusChat )
 	RegisterButtonPressedCallback( BUTTON_TRIGGER_RIGHT, NewsButton_OnActivate )
-	RegisterButtonPressedCallback( BUTTON_STICK_RIGHT, SocialButton_OnActivate )
+	//RegisterButtonPressedCallback( BUTTON_STICK_RIGHT, SocialButton_OnActivate )
 	file.inputsRegistered = true
 }
 
@@ -406,7 +433,7 @@ void function DeregisterInputs()
 	DeregisterButtonPressedCallback( KEY_TAB, PostGameButton_OnActivate )
 	DeregisterButtonPressedCallback( KEY_ENTER, OnLobbyMenu_FocusChat )
 	DeregisterButtonPressedCallback( BUTTON_TRIGGER_RIGHT, NewsButton_OnActivate )
-	DeregisterButtonPressedCallback( BUTTON_STICK_RIGHT, SocialButton_OnActivate )
+	//DeregisterButtonPressedCallback( BUTTON_STICK_RIGHT, SocialButton_OnActivate )
 	file.inputsRegistered = false
 }
 
@@ -419,7 +446,7 @@ void function NewsButton_OnActivate( var button )
 	if ( !IsTabPanelActive( GetPanel( "PlayPanel" ) ) )
 		return
 
-	AdvanceMenu( GetMenu( "PromoDialog" ) )
+	AdvanceMenu( GetMenu( "R5RNews" ) )
 }
 
 

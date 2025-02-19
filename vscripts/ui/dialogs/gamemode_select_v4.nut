@@ -2,6 +2,9 @@ global function InitGamemodeSelectDialogV4
 
 const int MAX_DISPLAYED_SERVERS = 3
 
+//RUI Element breaks after 21 pages so im limiting it
+const int MAX_SERVER_PAGES = 21
+
 struct {
 	var menu
 
@@ -38,6 +41,7 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerMapName" + i), false )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlaylist" + i), false )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerButton" + i), false )
+		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlayerCount" + i), false )
 
 		Hud_AddEventHandler( Hud_GetChild(file.menu, "ServerButton" + i), UIE_CLICK, SelectServer )
 	}
@@ -45,6 +49,9 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 
 void function Servers_PageBackward( var button )
 {
+	if(GetMaxPages() == 0)
+		return
+
 	int newPage = file.currentServerPage - 1
 
 	if( newPage - 1 < 0)
@@ -55,6 +62,9 @@ void function Servers_PageBackward( var button )
 
 void function Servers_PageForward( var button )
 {
+	if(GetMaxPages() == 0)
+		return
+
 	int newPage = file.currentServerPage + 1
 
 	if( newPage + 1 > GetMaxPages())
@@ -107,8 +117,8 @@ int function GetMaxPages()
 {
 	int maxPages = (global_m_vServerList.len() + 2 / 3 )
 
-	if(maxPages > 20)
-		maxPages = 20
+	if(maxPages > MAX_SERVER_PAGES)
+		maxPages = MAX_SERVER_PAGES
 
 	return maxPages
 }
@@ -124,7 +134,17 @@ void function OnOpenModeSelectDialog()
 void function SetupGameSelectV4()
 {
 	waitthread Servers_GetCurrentServerListing()
+
+	SetServerHeaderVis(GetMaxPages() > 1)
+
 	thread LoadServers(0)
+}
+
+void function SetServerHeaderVis(bool show)
+{
+	Hud_SetVisible( Hud_GetChild(file.menu, "ServersFooter"), show )
+	Hud_SetVisible( Hud_GetChild(file.menu, "ServersPrevButton"), show )
+	Hud_SetVisible( Hud_GetChild(file.menu, "ServersNextButton"), show )
 }
 
 void function OnCloseModeSelectDialog()
@@ -141,9 +161,16 @@ void function LoadServers(int page)
 
 	file.currentServerPage = page
 
+	Hud_SetVisible( Hud_GetChild(file.menu, "NoServersText"), global_m_vServerList.len() == 0 )
 	HudElem_SetRuiArg( Hud_GetChild(file.menu, "ServersFooter"), "currentPage", file.currentServerPage )
 	HudElem_SetRuiArg( Hud_GetChild(file.menu, "ServersFooter"), "numPages", GetMaxPages() )
-	Hud_SetText( Hud_GetChild(file.menu, "HeaderModes2Text"), "SERVERS: " + (file.currentServerPage + 1) + "/" + GetMaxPages())
+
+	string serversHeaderText = GetMaxPages() > 1 ? "SERVERS: " + (file.currentServerPage + 1) + "/" + GetMaxPages() : "SERVERS"
+
+	if(global_m_vServerList.len() < 1)
+		serversHeaderText = ""
+
+	Hud_SetText( Hud_GetChild(file.menu, "HeaderModes2Text"), serversHeaderText)
 
 	for(int i = 0; i < MAX_DISPLAYED_SERVERS; i++)
 	{
@@ -155,6 +182,7 @@ void function LoadServers(int page)
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerMapName" + i), !invalidIndex )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlaylist" + i), !invalidIndex )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerButton" + i), !invalidIndex )
+		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlayerCount" + i), !invalidIndex )
 
 		if(invalidIndex)
 			break
@@ -162,6 +190,7 @@ void function LoadServers(int page)
 		Hud_SetText( Hud_GetChild(file.menu, "ServerText" + i), WrapText(global_m_vServerList[adjustedPageIndex].svServerName, 30) )
 		Hud_SetText( Hud_GetChild(file.menu, "ServerMapName" + i), GetUIMapName(global_m_vServerList[adjustedPageIndex].svMapName) )
 		Hud_SetText( Hud_GetChild(file.menu, "ServerPlaylist" + i), GetUIPlaylistName(global_m_vServerList[adjustedPageIndex].svPlaylist) )
+		Hud_SetText( Hud_GetChild(file.menu, "ServerPlayerCount" + i), global_m_vServerList[adjustedPageIndex].svCurrentPlayers + "/" + global_m_vServerList[adjustedPageIndex].svMaxPlayers + " PLAYERS" )
 		RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName ) )
 
 		Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)

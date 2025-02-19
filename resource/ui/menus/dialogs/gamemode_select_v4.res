@@ -46,12 +46,31 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"visible"					"1"
             "scaleImage"				"1"
 			"zpos"						"0"
-            "fillColor"					"0 0 0 100"
-            "drawColor"					"0 0 0 100"
+            "fillColor"					"0 0 0 0"
+            "drawColor"					"0 0 0 0"
 
 			"pin_to_sibling"			"ScreenFrame"
 			"pin_corner_to_sibling"		"TOP"
 			"pin_to_sibling_corner"		"TOP"
+		}
+
+        BG
+		{
+			ControlName				RuiPanel
+			rui                     "ui/basic_image.rpak"
+            wide			        %110
+            tall			        %110
+			visible					1
+			scaleImage              1
+
+            ruiArgs
+            {
+                basicImage "rui/menu/character_skills/background"
+            }
+
+            pin_to_sibling			ScreenFrame
+            pin_corner_to_sibling	CENTER
+            pin_to_sibling_corner	CENTER
 		}
 
         HeaderPanel
@@ -425,7 +444,30 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
-			"ypos"					"-35"
+			"ypos"					"-60"
+            zpos                    20
+			"auto_wide_tocontents"	"1"
+			"tall"					"30"
+			"visible"				"1"
+			"wrap"					"0"
+			"fontHeight"			"23"
+			"zpos"					"5"
+			"textAlignment"			"north-west"
+			"labelText"				"Server 1 Map Name"
+			"font"					"TitleBoldFont"
+			"allcaps"				"1"
+			"fgcolor_override"		"255 255 255 255"
+
+			"pin_to_sibling"		"ServerButton0"
+			"pin_corner_to_sibling"	"BOTTOM"
+			"pin_to_sibling_corner"	"BOTTOM"
+		}
+
+        "ServerPlaylist0"
+		{
+			"ControlName"			"Label"
+			"xpos"                  "0"
+			"ypos"					"-40"
             zpos                    20
 			"auto_wide_tocontents"	"1"
 			"tall"					"20"
@@ -434,7 +476,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 1 Map Name"
+			"labelText"				"Server 1 Playlist"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -444,7 +486,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"pin_to_sibling_corner"	"BOTTOM"
 		}
 
-        "ServerPlaylist0"
+        "ServerPlayerCount0"
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
@@ -457,7 +499,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 1 Playlist"
+			"labelText"				"0/100 Players"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -527,7 +569,30 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
-			"ypos"					"-35"
+			"ypos"					"-60"
+            zpos                    20
+			"auto_wide_tocontents"	"1"
+			"tall"					"30"
+			"visible"				"1"
+			"wrap"					"0"
+			"fontHeight"			"23"
+			"zpos"					"5"
+			"textAlignment"			"north-west"
+			"labelText"				"Server 1 Map Name"
+			"font"					"TitleBoldFont"
+			"allcaps"				"1"
+			"fgcolor_override"		"255 255 255 255"
+
+			"pin_to_sibling"		"ServerButton1"
+			"pin_corner_to_sibling"	"BOTTOM"
+			"pin_to_sibling_corner"	"BOTTOM"
+		}
+
+        "ServerPlaylist1"
+		{
+			"ControlName"			"Label"
+			"xpos"                  "0"
+			"ypos"					"-40"
             zpos                    20
 			"auto_wide_tocontents"	"1"
 			"tall"					"20"
@@ -536,7 +601,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 2 Map Name"
+			"labelText"				"Server 1 Playlist"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -546,7 +611,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"pin_to_sibling_corner"	"BOTTOM"
 		}
 
-        "ServerPlaylist1"
+        "ServerPlayerCount1"
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
@@ -559,7 +624,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 2 Playlist"
+			"labelText"				"0/100 Players"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -629,7 +694,30 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
-			"ypos"					"-35"
+			"ypos"					"-60"
+            zpos                    20
+			"auto_wide_tocontents"	"1"
+			"tall"					"30"
+			"visible"				"1"
+			"wrap"					"0"
+			"fontHeight"			"23"
+			"zpos"					"5"
+			"textAlignment"			"north-west"
+			"labelText"				"Server 1 Map Name"
+			"font"					"TitleBoldFont"
+			"allcaps"				"1"
+			"fgcolor_override"		"255 255 255 255"
+
+			"pin_to_sibling"		"ServerButton2"
+			"pin_corner_to_sibling"	"BOTTOM"
+			"pin_to_sibling_corner"	"BOTTOM"
+		}
+
+        "ServerPlaylist2"
+		{
+			"ControlName"			"Label"
+			"xpos"                  "0"
+			"ypos"					"-40"
             zpos                    20
 			"auto_wide_tocontents"	"1"
 			"tall"					"20"
@@ -638,7 +726,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 3 Map Name"
+			"labelText"				"Server 1 Playlist"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -648,7 +736,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"pin_to_sibling_corner"	"BOTTOM"
 		}
 
-        "ServerPlaylist2"
+        "ServerPlayerCount2"
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
@@ -661,7 +749,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"fontHeight"			"20"
 			"zpos"					"5"
 			"textAlignment"			"north-west"
-			"labelText"				"Server 3 Playlist"
+			"labelText"				"0/100 Players"
 			"font"					"Default"
 			"allcaps"				"1"
 			"fgcolor_override"		"229 157 11 255"
@@ -678,7 +766,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             ypos					0
             wide					500
             tall					48
-            visible					1
+            visible					0
             rui					    "ui/battle_pass_footer_bar_v2.rpak"
             //proportionalToParent    1
 
@@ -702,7 +790,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             tall					64
             rui                     "ui/arrow_button_square.rpak"
             labelText               ""
-            visible					1
+            visible					0
             cursorVelocityModifier  0.7
             proportionalToParent    1
             sound_focus             "UI_Menu_BattlePass_Level_Focus"
@@ -726,7 +814,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             tall					64
             rui                     "ui/arrow_button_square.rpak"
             labelText               ""
-            visible					1
+            visible					0
             cursorVelocityModifier  0.7
             proportionalToParent    1
             sound_focus             "UI_Menu_BattlePass_Level_Focus"
@@ -803,6 +891,29 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			pin_to_sibling			ServersFooter
             pin_corner_to_sibling	BOTTOM
             pin_to_sibling_corner	TOP
+		}
+
+        "NoServersText"
+		{
+			"ControlName"			"Label"
+			"xpos"                  "0"
+			"ypos"					"10"
+            zpos                    20
+			"auto_wide_tocontents"	"1"
+			"tall"					"60"
+			"visible"				"0"
+			"wrap"					"0"
+			"fontHeight"			"50"
+			"zpos"					"5"
+			"textAlignment"			"north-west"
+			"labelText"				"NO SERVERS AVAILABLE"
+			"font"					"TitleFont"
+			"allcaps"				"1"
+			"fgcolor_override"		"255 255 255 255"
+
+			pin_to_sibling			ServerButton1
+            pin_corner_to_sibling	CENTER
+            pin_to_sibling_corner	CENTER
 		}
 
         FooterButtons
