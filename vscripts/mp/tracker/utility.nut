@@ -40,10 +40,16 @@ global function Tracker_DetermineNextMap
 global function Tracker_GotoNextMap
 global function PrepareForJson
 global function ArrayUniqueInt
+global function sqprint
+global function sqerror
+global function sqwarning
+
 
 #if TRACKER && HAS_TRACKER_DLL
 	global function PrintMatchIDtoAll
 #endif
+
+
 
 //Todo: Clean up/refactor
 //entire file needs audited for code refactor ~mkos
@@ -366,7 +372,7 @@ struct {
 					try 
 					{
 						
-						data += format("\n\n %s ", SQMatchID__internal() );
+						data += format("\n\n %s ", TrackerMatchID__internal() )
 								
 						if( (inputmsg.len() + data.len()) > 599 )
 						{	
@@ -407,7 +413,7 @@ struct {
 		string pair;
 		
 		#if TRACKER && HAS_TRACKER_DLL
-			admins_list = SQ_GetSetting__internal("settings.ADMINS")
+			admins_list = TrackerGetSetting__internal("settings.ADMINS")
 		#endif
 		
 		if( admins_list != "" )
@@ -1241,7 +1247,7 @@ struct {
 			case "cleanuplogs":
 				
 					#if TRACKER && HAS_TRACKER_DLL	
-						CleanupLogs__internal()
+						TrackerCleanupLogs__internal()
 					#endif
 							
 						return true
@@ -1249,7 +1255,7 @@ struct {
 			case "reload_config":
 			
 					#if TRACKER && HAS_TRACKER_DLL	
-						SQ_ReloadConfig__internal()
+						TrackerReloadConfig__internal()
 					#endif
 						
 						return true
@@ -1267,13 +1273,13 @@ struct {
 						
 						try 
 						{	
-							string return_str = "";
-							return_str = SQ_GetSetting__internal(param);	
+							string return_str = ""
+							return_str = TrackerGetSetting__internal( param )	
 							
-							Message( player, param + ":", return_str)
+							Message( player, param + ":", return_str )
 							return true
 						} 
-						catch (errset) 
+						catch ( errset ) 
 						{
 							
 							Message( player, "Failed", "Command failed because of: \n\n " + errset )
@@ -1282,7 +1288,7 @@ struct {
 					
 					#endif
 						
-					break;
+					break
 					
 			case "spamupdate":
 			case "spam":
@@ -1290,106 +1296,107 @@ struct {
 					file.stop_update_msg_flag = false;
 					thread RunUpdateMsg()
 				
-				break;
+				break
 			
 			case "spamstop":
 			case "stopspam":
 			
 					file.stop_update_msg_flag = true;
 				
-				break;
+				break
 				
 			case "msg":
 			
-						if ( args.len() < 2)
+					if ( args.len() < 2)
+					{
+						Message( player, "Failed", "Param 1 of command 'serversay' requires string")
+						return true
+					}
+					
+					
+					try 
+					{	
+						if( !SendServerMessage( param ) )
 						{
-							Message( player, "Failed", "Param 1 of command 'serversay' requires string")
-							return true
+							Message( player, "Error", "Message was truncated")
 						}
 						
-						
-						try 
-						{	
-							if( !SendServerMessage( param ) )
-							{
-								Message( player, "Error", "Message was truncated")
-							}
-							
-							return true
-						} 
-						catch (errservermsg) 
-						{		
-							Message( player, "Failed", "Command failed because of: \n\n " + errservermsg )
-							return true		
-						}
+						return true
+					} 
+					catch ( errservermsg ) 
+					{		
+						Message( player, "Failed", "Command failed because of: \n\n " + errservermsg )
+						return true		
+					}
+					
+				break
 						
 			case "vc":
 				
 					if ( args.len() < 2)
-						{
-							Message( player, "Failed", "Param 1 of command 'vc' requires bool: 1/0 true/false on/off enabled/disabled")
-							return true
-						}
+					{
+						Message( player, "Failed", "Param 1 of command 'vc' requires bool: 1/0 true/false on/off enabled/disabled")
+						return true
+					}
 						
 						
-						try 
+					try 
+					{	
+						switch(param)
 						{	
-							switch(param)
-							{	
-								case "1":
-								case "true":
-								case "on":
-								case "enabled":
-									SetConVarBool( "sv_voiceenable", true )
-									SetConVarBool( "sv_alltalk", true )
-									
-									if ( GetConVarBool( "sv_voiceenable" ) || GetConVarBool( "sv_alltalk" ) )
-									{
-										foreach ( active_player in GetPlayerArray() )
-										{	
-											Message( active_player, "VOICE CHAT ENABLED" )
-										}
-									}
-									else 
-									{
-										Message( player, "FAILED" )
-									}
-		
-									return true
-									
-								case "0":
-								case "false":
-								case "off":
-								case "disabled":
-									SetConVarBool( "sv_voiceenable", false )
-									SetConVarBool( "sv_alltalk", false )
-									
-									if ( !GetConVarBool( "sv_voiceenable" ) || !GetConVarBool( "sv_alltalk" ) )
+							case "1":
+							case "true":
+							case "on":
+							case "enabled":
+								SetConVarBool( "sv_voiceenable", true )
+								SetConVarBool( "sv_alltalk", true )
+								
+								if ( GetConVarBool( "sv_voiceenable" ) || GetConVarBool( "sv_alltalk" ) )
+								{
+									foreach ( active_player in GetPlayerArray() )
 									{	
-										foreach ( active_player in GetPlayerArray() )
-										{	
-											Message( active_player, "VOICE CHAT DISABLED" )
-										}
+										Message( active_player, "VOICE CHAT ENABLED" )
 									}
-									else 
-									{
-										Message( player, "FAILED" )
+								}
+								else 
+								{
+									Message( player, "FAILED" )
+								}
+	
+								return true
+								
+							case "0":
+							case "false":
+							case "off":
+							case "disabled":
+								SetConVarBool( "sv_voiceenable", false )
+								SetConVarBool( "sv_alltalk", false )
+								
+								if ( !GetConVarBool( "sv_voiceenable" ) || !GetConVarBool( "sv_alltalk" ) )
+								{	
+									foreach ( active_player in GetPlayerArray() )
+									{	
+										Message( active_player, "VOICE CHAT DISABLED" )
 									}
-									
-									return true		
-							}
-							
-							Message( player, "INVALID SETTING" )
-							return true
-						} 
-						catch (errvc) 
-						{		
-							Message( player, "Failed", "Command failed because of: \n\n " + errvc)
-							return true		
+								}
+								else 
+								{
+									Message( player, "FAILED" )
+								}
+								
+								return true		
 						}
 						
-					break
-				
+						Message( player, "INVALID SETTING" )
+						return true
+					} 
+					catch (errvc) 
+					{		
+						Message( player, "Failed", "Command failed because of: \n\n " + errvc)
+						return true		
+					}
+						
+				break	
 				
 			case "startbr":
 			
@@ -2372,14 +2379,11 @@ int function WeaponToIdentifier( string weaponName )
 		string err = format( "#^ Unknown weaponName !DEBUG IT! -- weapon: %s", weaponName )
 		
 		#if TRACKER && HAS_TRACKER_DLL
-			if( bLog() && isLogging__internal() )
-			{
-				LogEvent__internal( err, bEnc() )
-			}
+			if( bLog() && TrackerIsLogging__internal() )
+				TrackerLogEvent__internal( err, bEnc() )
 		#endif
 		
-		sqerror(err)
-		
+		sqerror(err)	
 		return 2
 	}
 	
@@ -2475,7 +2479,7 @@ string function PrintSupportedAttachpointsForWeapon( string weaponref )
 #if TRACKER && HAS_TRACKER_DLL
 	void function PrintMatchIDtoAll()
 	{
-		string matchID = format( "\n\n Server stats enabled @ www.r5r.dev, \n round: %d - MatchID: %s \n ", GetCurrentRound(), SQMatchID__internal() )
+		string matchID = format( "\n\n Server stats enabled @ www.r5r.dev, \n round: %d - MatchID: %s \n ", GetCurrentRound(), TrackerMatchID__internal() )
 		thread
 		(
 			void function() : ( matchID )
@@ -2569,4 +2573,52 @@ array<int> function ArrayUniqueInt( array<int> arr )
 	}
 	
 	return newArr
+}
+
+void function sqprint( ... )
+{
+	if ( vargc <= 0 )
+		return
+
+	string msg
+	for ( int i = 0; i < vargc; i++ )
+		msg += format( " %s", string( vargv[ i ] ) )
+
+	#if HAS_TRACKER_DLL
+		sqprint__internal( msg )
+	#else 
+		print( msg )
+	#endif
+}
+
+void function sqerror( ... )
+{
+	if ( vargc <= 0 )
+		return
+
+	string msg
+	for ( int i = 0; i < vargc; i++ )
+		msg += format( " %s", string( vargv[ i ] ) )
+
+	#if HAS_TRACKER_DLL
+		sqerror__internal( msg )
+	#else 
+		print( msg )
+	#endif
+}
+
+void function sqwarning( ... )
+{
+	if ( vargc <= 0 )
+		return
+
+	string msg
+	for ( int i = 0; i < vargc; i++ )
+		msg += format( " %s", string( vargv[ i ] ) )
+
+	#if HAS_TRACKER_DLL
+		sqwarning__internal( msg )
+	#else
+		Warning( msg )
+	#endif
 }

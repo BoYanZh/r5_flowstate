@@ -93,11 +93,6 @@ global function Tracker_SetStartLog
 	global function Tracker_BuildAllPlayerMetrics
 	global function Tracker_GetStartUnixTime
 	
-	#if !HAS_TRACKER_DLL
-		global function sqprint
-		global function sqerror
-	#endif
-	
 	global struct DamageEvent 
 	{
 		int weaponSource
@@ -146,6 +141,7 @@ typedef SerializedData string
 global function CodeCallback_BatchStatsLoaded
 global function CodeCallback_PlayerStatsReady
 global function CodeCallback_VerifyEaAccount
+global function CodeCallback_TrackerGlobalSettingsReady
 
 global function AddCallback_OnBatchStatsLoaded
 global function RemoveCallback_OnBatchStatsLoaded
@@ -221,7 +217,8 @@ global function UpdateStartInRestSetting //move
 global function NULL_PDATA
 global function Gamemode1v1_PlayerDataCallbacks //TODO: this probably shouldn't be here, but a bit of logic needs sorted into it's gamemode file (will do soonTM)
 
-const DEBUGDMG = false
+const bool DEBUGDMG = false
+const bool DEBUG_STATS = true
 
 #if DEVELOPER
 	global function DEV_GetPlayerMetricsIndexByUID
@@ -310,6 +307,7 @@ global struct Tracker
 	array< string > settingsArr
 	array< void functionref( string ) > shipFunctions
 	table< void functionref( string ), bool > shipFunctionsWhen
+	entity signalEnt
 	
 	UpdateFunc 			update	
 	SyncFunc 			_updateSettingsPlayers
@@ -413,8 +411,7 @@ struct //Todo: move appropriate to tracker.var
 	array<void functionref() > batchStatsLoadedCallbacks = []
 	array<string> statsLocalAllowed
 	
-	string requestedStatsList = ""
-	string requestedSettingsList = ""
+	array<string> requestedStatsArray
 	bool _registerAllSettings = false
 	float maxWaitForBatchLoad
 	
@@ -513,6 +510,7 @@ void function __internals()
 	tracker.SavePlayerData			= __t_set
 	tracker.RegisterShipFunction	= __t_reg
 	tracker.RunShipFunctions		= __t_runship
+	tracker.signalEnt				= CreateEntity( "info_target" )
 }
 
 PlayerSettings function __t_settings( string uid, SettingsTable settingsData )
@@ -615,14 +613,19 @@ void function ShipFunction_OnDisconnected( entity player )
 
 void function CodeCallback_BatchStatsLoaded()
 {
-	svGlobal.levelEnt.Signal( "BatchFetchComplete" ) //Todo: This should be a flag.
+	tracker.signalEnt.Signal( "BatchFetchComplete" )
 	
 	#if DEVELOPER
-		printt( "CodeCallback_BatchStatsLoaded" )
+		print( "CodeCallback_BatchStatsLoaded" )
 	#endif
 	
 	foreach( callbackFunc in file.batchStatsLoadedCallbacks )
 		callbackFunc()
+}
+
+void function CodeCallback_TrackerGlobalSettingsReady( string data )
+{
+	tracker.signalEnt.Signal( "TrackerGlobalSettingsFetched", { data = data } )
 }
 
 bool function Tracker_IsBatchStatsLoaded()
@@ -680,7 +683,7 @@ void function DEV_ManualLogKill( bool ship )
 {
 	if( ship )
 	{
-		LogEvent__internal( Tracker_BuildAllPlayerMetrics( true ), file.LogE )
+		TrackerLogEvent__internal( Tracker_BuildAllPlayerMetrics( true ), file.LogE )
 		__UpdateMetricsNow()
 	}
 	
@@ -693,7 +696,7 @@ void function DEV_ManualLogKill( bool ship )
 	
 	file.PIN_GameState_Start = false
 	svGlobal.levelEnt.Signal( "TrackerNoLog" )
-	stopLogging__internal( ship )
+	TrackerStopLogging__internal( ship )
 }
 
 void function NULL_PDATA( entity player, string data ){}
@@ -835,41 +838,33 @@ table <string,bool> function GetAllBoolQueries()
 string function Tracker_GetQueryString( string setting, string none = "" )
 {
 	if ( setting in file.Global_R5RDEV_StringSettings )
-	{
 		return file.Global_R5RDEV_StringSettings[ setting ]
-	}
 	
-	return none;
+	return none
 }
 
 float function Tracker_GetQueryFloat( string setting, float none = 0.0 )
 {
 	if ( setting in file.Global_R5RDEV_FloatSettings )
-	{
 		return file.Global_R5RDEV_FloatSettings[ setting ]
-	}
 	
-	return none;
+	return none
 }
 
 int function Tracker_GetQueryInt( string setting, int none = 0 )
 {
 	if ( setting in file.Global_R5RDEV_IntSettings )
-	{
 		return file.Global_R5RDEV_IntSettings[ setting ]
-	}
 	
-	return none;
+	return none
 }
 
 bool function Tracker_GetQueryBool( string setting, bool none = false )
 {
 	if ( setting in file.Global_R5RDEV_BoolSettings )
-	{
 		return file.Global_R5RDEV_BoolSettings[ setting ]
-	}
 	
-	return none;
+	return none
 }
 
 void function Tracker_RegisterAllSettings()
@@ -971,13 +966,30 @@ void function INIT_Global_R5RDEV_VarTable()
 			printt( "No querydatastring was constructed. " )
 		#endif
 		
-		return 
+		return
 	}
-	
-	string settings_string = FetchGlobalSettingsFromR5RDEV__internal( QueryDataString )
 	
 	#if DEVELOPER 
 		sqprint( "QueryDataString: " + QueryDataString )
+	#endif 
+	
+	FetchGlobalTrackerSettings__internal( QueryDataString )
+	table returnData = tracker.signalEnt.WaitSignal( "TrackerGlobalSettingsFetched" )				
+	
+	string settings_string
+	if( returnData.data != null )
+		settings_string = expect string( returnData.data )
+	
+	if( empty( settings_string ) )
+	{
+		#if DEVELOPER 
+			sqprint( "settings_string was was empty." )
+		#endif 
+		
+		return
+	}
+	
+	#if DEVELOPER
 		sqprint( "settings_string: " + settings_string )
 	#endif
 	
@@ -1006,7 +1018,7 @@ void function INIT_Global_R5RDEV_VarTable()
 							string data0 = setting[0]
 							string data1 = trim( setting[1] )		
 							
-							bool val = ( data1 == "true" || data1 == "1" ) ? true : false;
+							bool val = ( data1 == "true" || data1 == "1" ) ? true : false
 							file.Global_R5RDEV_BoolSettings[data0] <- val;
 						}
 						break
@@ -1030,7 +1042,7 @@ void function INIT_Global_R5RDEV_VarTable()
 							
 							try
 							{
-								file.Global_R5RDEV_IntSettings[ trim( setting[0] ) ] <- int( trim( setting[1] ) )
+								file.Global_R5RDEV_IntSettings[ trim( setting[0] ) ] <- trim( setting[1] ).tointeger()
 							}
 							catch(errint)
 							{
@@ -1052,7 +1064,7 @@ void function INIT_Global_R5RDEV_VarTable()
 							
 							try 
 							{
-								file.Global_R5RDEV_FloatSettings[ trim( setting[0] ) ] <- float( trim( setting[1] ) )
+								file.Global_R5RDEV_FloatSettings[ trim( setting[0] ) ] <- trim( setting[1] ).tofloat()
 							}
 							catch(errfloat)
 							{
@@ -1104,9 +1116,7 @@ void function ShowPlayerOnlineMOTD( string retData )
 	AddCallback_OnClientConnected( ShowOnlineMOTD )
 	
 	foreach( player in GetPlayerArray() )
-	{
 		ShowOnlineMOTD( player )
-	}
 }
 
 void function ShowOnlineMOTD( entity player )
@@ -1118,15 +1128,15 @@ void function ShowOnlineMOTD( entity player )
 			if( !player.p.isConnected )
 				waitthread WaitSignalOrTimeout( player, 20, "OnConnected", "OnDestroy", "OnDisconnected" )
 			
-				if( IsValid( player ) )
-				{	
-					//run ui script for motd
-					SendMotdToPlayer( player, file.onlineMOTD )
-						wait 5
-						
-					if( IsValid( player ) )
-						LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
-				}
+			if( IsValid( player ) )
+			{	
+				//run ui script for motd
+				SendMotdToPlayer( player, file.onlineMOTD )
+					
+				// wait 5
+				// if( IsValid( player ) )
+					// LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
+			}
 		}
 	)()
 }
@@ -1144,9 +1154,9 @@ void function ShowPlayerLocalMOTD( entity player )
 			{
 				//run ui script for motd
 				SendMotdToPlayer( player, file.localFlowstate_MOTD ) //LineBreak( file.localFlowstate_MOTD, 80 )
-					wait 5
 					
-				LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
+				// wait 5
+				// LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
 			}
 		}
 	)()
@@ -1166,10 +1176,10 @@ void function FireRemoteMotd( entity player )
 			{
 				//run ui script for motd
 				Remote_CallFunction_UI( player, "UI_Callback_MOTD" )
-					wait 5
 					
-				if( IsValid( player ) && player.p.isConnected )
-					LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
+				// wait 5	
+				// if( IsValid( player ) && player.p.isConnected )
+					// LocalMsg( player, "#FS_WELCOME", "", eMsgUI.QUICK, 10, player.p.name )//Extra welcome message
 			}
 		}
 	)()
@@ -1209,13 +1219,11 @@ void function Tracker_QueryInit()
 ////////	Bulk stats fetch		////////
 
 
-void function INIT_BATCH_FETCH()
-{	
+void function INIT_BatchPersistenceDataFetch()
+{
 	SetServerVar( "batch_fetch_complete", false )
 	
-	array<string> oids    //Todo: send up array
-	string oid_list = ""; //Todo: send up array
-	
+	array<string> oids	
 	wait 5 //hardset 5 second wait for players to connect. 
 	
 	int timerCount = 0
@@ -1231,46 +1239,27 @@ void function INIT_BATCH_FETCH()
 	foreach ( player in GetPlayerArray() )
 	{
 		bool next_player = false
-
+		
         while ( IsDisconnected( player ) ) 
 		{
-			wait 0.01
-			//sqprint("waiting for connection")
+			WaitFrame()
 			
-            if ( !IsValid( player ) ) 
-			{
-                next_player = true
-                break
-            }
+			#if DEVELOPER
+				print("waiting for connection")
+			#endif
         }
 
-        if ( next_player )
-            continue
-	
-		oids.append( player.GetPlatformUID() )	
+		#if DEVELOPER && DEBUG_STATS
+			printf( "Appending \"%s\" to batch-PData fetch.", player.GetPlatformUID() )
+		#endif
 		
+		oids.append( player.GetPlatformUID() )		
 	}
 	
-	int list_length = oids.len()
-	
-	if( list_length > 0 ) 
-	{	
-		int noComma = list_length - 1
-		
-		foreach ( index, oid in oids ) 
-		{
-            oid_list += oid;
-			
-            if ( index < noComma ) 
-                oid_list += ",";
-        }
-	
-        LoadBatchSyncData__internal( oid_list, file.requestedStatsList, file.requestedSettingsList )	
-    }
-	else 
-	{
-		CodeCallback_BatchStatsLoaded() // Need to call manually since native wont. Todo: Send empty list, let native handle.
-	}
+	if( oids.len() > 0 ) 
+        FetchBatchPersistenceData__internal( oids, file.requestedStatsArray, tracker.settingsArr )	
+	else
+		CodeCallback_BatchStatsLoaded() //skip native processing which will call this anyway.
 	
 	SetServerVar( "batch_fetch_complete", true )
 }
@@ -1305,7 +1294,7 @@ void function Tracker_RegisterStat( string statname, void functionref( entity ) 
 
 	if( outboundCallbackFuncOrNull == null )
 		return 
-	else 
+	else
 	{
 		var functionref( string ) outboundCallbackFunc = expect var functionref( string ) ( outboundCallbackFuncOrNull )
 		Stats__RegisterStatOutboundData( statname, outboundCallbackFunc )
@@ -1315,55 +1304,31 @@ void function Tracker_RegisterStat( string statname, void functionref( entity ) 
 		file.statsLocalAllowed.append( statname )
 }
 
-string function BuildRequestedStatsString()
+array<string> function BuildRequestedStatsArray()
 {
-	string statsQuery
 	array<string> statKeysArray
 	
-	int last = file.registeredStatCallbackFuncs.len() - 1
-	int iter = 0
-	
 	foreach( statsKey, value in file.registeredStatCallbackFuncs )
-	{
-		string allButLast = iter != last ? "," : "";
-		
-		statsQuery += statsKey + allButLast
 		statKeysArray.append( statsKey )
-		
-		iter++;
-	}
 	
 	Stats__SetStatKeys( statKeysArray )
-	return statsQuery 
+	return statKeysArray
 }
 
-string function BuildRequestedSettingsString()
+array<string> function BuildRequestedSettingsArray()
 {
 	if( file._registerAllSettings )
-	{
-		return "REGISTER_ALL";
-	}
-	
-	string settingsQuery = ""
-	int last = file.PlayerSettingsMap.len() - 1
-	int iter = 0
+		return [ "REGISTER_ALL" ]
 	
 	foreach( settingsKey, value in file.PlayerSettingsMap )
-	{
-		string allButLast = iter != last ? "," : ""
-		
-		settingsQuery += settingsKey + allButLast
-	
 		tracker.appendSetting( settingsKey )
-		
-		iter++;
-	}
 	
 	#if DEVELOPER
-		printt( "\n\n ---- Player Persistence Settings Query ---- \n", settingsQuery, "\n\n" )
-	#endif 
+		print( "\n\n ---- Player Persistence Settings Query Array---- \n" )
+		print_string_array( tracker.settingsArr )
+	#endif
 	
-	return settingsQuery 
+	return tracker.settingsArr 
 }
 
 bool function Tracker_StatLocalAllowed( string statKey )
@@ -1417,7 +1382,7 @@ void function Tracker_SetPlayerAsChampion( entity player )
 
 void function __LoadPlayerSyncData( entity player )
 {
-	LoadSyncData__internal( player.GetPlatformUID(), file.requestedStatsList, file.requestedSettingsList )
+	FetchPlayerPersistenceData__internal( player.GetPlatformUID(), file.requestedStatsArray, tracker.settingsArr )
 }
 
 void function __SetPlayerSyncData( entity player )
@@ -1428,7 +1393,7 @@ void function __SetPlayerSyncData( entity player )
 			printt( player, " = Waiting for batch fetch to complete" )
 		#endif
 		
-		waitthread WaitSignalOrTimeout( svGlobal.levelEnt, 15, "BatchFetchComplete" )
+		waitthread WaitSignalOrTimeout( tracker.signalEnt, 15, "BatchFetchComplete" )
 	}
 	else
 	{
@@ -1444,7 +1409,7 @@ void function __SetPlayerSyncData( entity player )
 	table<string, var> persistenceData = GetPlayerSettingsTable( OID )
 	
 	OnThreadEnd
-	( 
+	(
 		void function() : ( OID ) 
 		{
 			thread 
@@ -1452,7 +1417,7 @@ void function __SetPlayerSyncData( entity player )
 				void function() : ( OID )
 				{
 					wait 1
-					SQ_ResetStats__internal( OID )
+					TrackerResetStats__internal( OID )
 				}
 			)()
 		}
@@ -1552,6 +1517,7 @@ void function UpdatePlayerData( entity player, table<string,var> syncData, bool 
 				continue //safety check to prevent backend from crashing servers. Todo: Allow types.
 
 			string value = ignoreSync ? Tracker_FetchPlayerData( uid, key ) : expect string( persistenceValue )
+			value = value == "NA" ? "" : value //alows server defaults to be triggered while still allowing empty data of "" otherwise.
 			
 			if( !ignoreSync )
 				Tracker_SavePlayerData( uid, key, value )
@@ -1639,6 +1605,7 @@ void function PIN_Init()
 	RegisterSignal( "SyncDataFullyLoaded" )
 	RegisterSignal( "PlayerStatsReady" )
 	RegisterSignal( "TrackerNoLog" )
+	RegisterSignal( "TrackerGlobalSettingsFetched" )
 	
 	__internals()
 	Tracker_SettingsInit()
@@ -1731,10 +1698,10 @@ void function PIN_Init()
 			Script_RegisterAllStats()
 			Script_RegisterAllShipFunctions()
 			
-			file.requestedStatsList = BuildRequestedStatsString()
-			file.requestedSettingsList = BuildRequestedSettingsString()
+			file.requestedStatsArray = BuildRequestedStatsArray()
+			BuildRequestedSettingsArray()
 			
-			thread INIT_BATCH_FETCH()
+			thread INIT_BatchPersistenceDataFetch()
 		}
 		else 
 		{
@@ -1773,7 +1740,7 @@ void function Tracker_SettingsInit()
 	//todo: cleanup mode related stuff
 	file.LogOn 										= GetCurrentPlaylistVarBool( "logging_enabled", false)
 	file.LogE 										= GetCurrentPlaylistVarBool( "logging_encryption", false)
-	file.bChatbotEnabled							= ( !IsLobby() && SQ_GetSetting__internal( "settings.ENABLE_CHATBOT" ) == "true" ? true : false )
+	file.bChatbotEnabled							= ( !IsLobby() && TrackerGetSetting__internal( "settings.ENABLE_CHATBOT" ) == "true" ? true : false )
 	file.bClientCommandAdminEnabled					= ( GetConVarInt( "sv_onlineAuthEnable" ) == 1 && GetCurrentPlaylistVarBool( "cc_administration", false ) )
 	file.flowstateRoundtime 						= GetCurrentPlaylistVarInt( "flowstateRoundtime", 1800 )
 	file.afk_to_rest_enabled 						= GetCurrentPlaylistVarBool( "afk_to_rest_bool", false )
@@ -1785,7 +1752,7 @@ void function Tracker_SettingsInit()
 	
 	if( file.bChatbotEnabled )
 	{
-		string botPrefix = SQ_GetSetting__internal( "settings.CHATBOT_PREFIX" )
+		string botPrefix = TrackerGetSetting__internal( "settings.CHATBOT_PREFIX" )
 		file.sBotName = botPrefix
 		file.messageBotPrefix = "["+ botPrefix +"]" //This is not set here.
 	}
@@ -1925,7 +1892,7 @@ void function PlayerCounts( string state, string name, string OID, string count 
 {
 	//bad check for non fsdm gamemodes
 	if ( GetGlobalNetInt( "FSDM_GameState" ) == eTDMState.IN_PROGRESS || GetNumHumanPlayers() == 1 )
-		_STATSHOOK_UpdatePlayerCount__internal( state, name, OID, count, file.DISCORD_PLAYERS_WEBHOOK )
+		TrackerUpdatePlayerCount__internal( state, name, OID, count, file.DISCORD_PLAYERS_WEBHOOK )
 }
 
 void function __EndOfMatch( string recap, string DISCORD_MATCHES_WEBHOOK )
@@ -1935,7 +1902,7 @@ void function __EndOfMatch( string recap, string DISCORD_MATCHES_WEBHOOK )
 	#endif 
 	
 	if( DiscordHook_MatchesRecapEnabled() ) //In case forgets to check before calling.
-		_STATSHOOK_EndOfMatch__internal( recap, DISCORD_MATCHES_WEBHOOK )
+		TrackerEndMatchUpdate__internal( recap, DISCORD_MATCHES_WEBHOOK )
 }
 
 bool function DiscordHook_MatchesRecapEnabled()
@@ -1984,11 +1951,11 @@ void function Init_NewGame()
 	///////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////
 	///////////////////////////////////////////////////////////
-	int waitlimit = 0;
-	while( SQ_GetLogState__internal( eLogState.BUSY ) )
+	int waitlimit = 0
+	while( TrackerGetLogState__internal( eLogState.BUSY ) )
 	{
-		wait 0.5;
-		waitlimit++;
+		wait 0.5
+		waitlimit++
 		
 		if ( waitlimit >= MAX_WAIT_FOR_LOGGING_THREAD )
 		{
@@ -2005,13 +1972,13 @@ void function Init_NewGame()
 	}
 	
 	
-	InitializeLogThread__internal( file.LogE )
+	InitializeTrackerLogThread__internal( file.LogE )
 	
-	waitlimit = 0;
-	while( !SQ_GetLogState__internal( eLogState.READY ) )
+	waitlimit = 0
+	while( !TrackerGetLogState__internal( eLogState.READY ) )
 	{
-		wait 0.5;
-		waitlimit++;
+		wait 0.5
+		waitlimit++
 		
 		if ( waitlimit >= MAX_WAIT_FOR_LOGGING_THREAD )
 		{
@@ -2022,17 +1989,17 @@ void function Init_NewGame()
 	}	
 	
 		#if DEVELOPER	
-			if( SQ_GetLogState__internal( eLogState.READY ) )
+			if( TrackerGetLogState__internal( eLogState.READY ) )
 			{
 				sqprint( "Log thread state: ready." )
 			}		
 		#endif
 	
-	waitlimit = 0;
-	while( !SQ_GetLogState__internal( eLogState.SAFE ) )
+	waitlimit = 0
+	while( !TrackerGetLogState__internal( eLogState.SAFE ) )
 	{
-		wait 0.5;
-		waitlimit++;
+		wait 0.5
+		waitlimit++
 		
 		if ( waitlimit >= MAX_WAIT_FOR_LOGGING_THREAD )
 		{
@@ -2056,7 +2023,7 @@ void function Init_NewGame()
 	///////////////////////////////////////////////////////////
 	
 	// Round started -- [you should not edit this]
-	LogEvent__internal
+	TrackerLogEvent__internal
 	(
 		format
 		( 
@@ -2092,7 +2059,7 @@ void function Init_NewGame()
 	
 	void function PlayerWhitelistInit()
 	{
-		string string_whitelist = SQ_GetSetting__internal( "settings.PLAYER_WHITELIST" )
+		string string_whitelist = TrackerGetSetting__internal( "settings.PLAYER_WHITELIST" )
 		
 		if ( !empty( string_whitelist ) )
 		{	
@@ -2191,7 +2158,7 @@ void function Init_NewGame()
 		Gamemode1v1_ForceRest( player )
 		
 		if( IsValid( player ) && !GetServerVar( "batch_fetch_complete" ) )
-			WaitSignal( svGlobal.levelEnt, "BatchFetchComplete" )
+			WaitSignal( tracker.signalEnt, "BatchFetchComplete" )
 		
 		if( IsValid( player ) && !Tracker_IsStatsReadyFor( player ) )
 			WaitSignal( player, "SyncDataFullyLoaded" )
@@ -2251,7 +2218,7 @@ bool function SendServerMessage( string _msg )
 		status = false;
 	}
 	
-	SQ_ServerMsg__internal( sanitize( _msg ), file.iBotID )
+	TrackerServerMsg__internal( sanitize( _msg ), file.iBotID )
 	
 	//if cafe's save chat log enabled
 	//ReturnChatArray().append(_msg)
@@ -2260,7 +2227,7 @@ bool function SendServerMessage( string _msg )
 
 void function INIT_IntervalMessages()
 {
-	string msg_ArrayString = trim( SQ_GetSetting__internal("settings.INTERVAL_MESSAGES") )
+	string msg_ArrayString = trim( TrackerGetSetting__internal("settings.INTERVAL_MESSAGES") )
 	bool gotoLoopMessage = false 
 	
 	if( msg_ArrayString.len() == 0 )
@@ -2340,7 +2307,7 @@ void function INIT_IntervalMessages()
 	
 	//loop messages (every x seconds)
 	
-	string loopTime = SQ_GetSetting__internal( "settings.LOOP_MESSAGES_INTERVAL" )
+	string loopTime = TrackerGetSetting__internal( "settings.LOOP_MESSAGES_INTERVAL" )
 	
 	if( !empty( loopTime ) && IsNumeric( loopTime ) )
 	{
@@ -2361,7 +2328,7 @@ void function INIT_IntervalMessages()
 		sqprint( format( "file.iLoopMessagesTime is: %d ", file.iLoopMessagesTime ) )
 	#endif
 		
-	string getLoopMessages = SQ_GetSetting__internal( "settings.LOOP_MESSAGES" )
+	string getLoopMessages = TrackerGetSetting__internal( "settings.LOOP_MESSAGES" )
 
 	if( !empty( getLoopMessages ) && getLoopMessages.find("|") )
 	{
@@ -2496,7 +2463,7 @@ void function __LoadServerBot()
 		//printt(":(pin):: loaded server bot")
 	#endif
 	
-	array<int> result = SQ_CreateServerBot__internal( file.sBotName )
+	array<int> result = TrackerCreateServerBot__internal( file.sBotName )
 	
 	if( result.len() < 1 )
 	{
@@ -3267,7 +3234,7 @@ void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Tod
 
 			if ( bReportStats && file.bSafeLog )
 			{
-				LogEvent__internal( logString, file.LogE )
+				TrackerLogEvent__internal( logString, file.LogE )
 				
 				#if DEVELOPER && DEBUGDMG
 					sqprint( logString )
@@ -3843,7 +3810,7 @@ DamageEvent function Tracker_GetCurrentEventByPlayerHandle_expensive( int player
 		playerVerifyCounts[ index ].verifyCount++
 		
 		string token = args[ 0 ]
-		EA_Verify__internal( token, OID, ea_acc )
+		TrackerEAVerify__internal( token, OID, ea_acc )
 	}
 	
 	void function CodeCallback_VerifyEaAccount( string oid, int token )
@@ -4128,7 +4095,7 @@ void function PlayerDataCallbacks_Init()
 void function Gamemode1v1_PlayerDataCallbacks()
 {
 	AddCallback_PlayerData( "wait_time", UpdateIBMMWaitTime )
-	if( FlowState_AdminTgive() ){ AddCallback_PlayerData( "saved_weapons", UpdateSavedWeapons ) }
+	if( !FlowState_AdminTgive() ){ AddCallback_PlayerData( "saved_weapons", UpdateSavedWeapons ) }
 	AddCallback_PlayerData( "lock1v1_setting", UpdateLock1v1Setting )
 	AddCallback_PlayerData( "start_in_rest_setting", UpdateStartInRestSetting )
 	AddCallback_PlayerData( "enable_input_banner", UpdateInputBannerSetting )
@@ -4298,7 +4265,7 @@ SerializedData function Tracker_BuildAllPlayerMetrics( bool trigger = false )
 		//settings 
 		json += "\"settings\": {"
 	
-		if( file.requestedSettingsList.len() == 0 )
+		if( tracker.settingsArr.len() == 0 )
 		{
 			json += "\"NOT_LOADED\": \"NA\""
 		}
@@ -4974,8 +4941,8 @@ void function DEV_WriteAllTrackerErrors()
 	foreach ( error in file.errorArray )
 		data += format( "|#error %s \n", error )
 	
-	if( file.LogOn && isLogging__internal() )
-		LogEvent__internal( data, false )
+	if( file.LogOn && TrackerIsLogging__internal() )
+		TrackerLogEvent__internal( data, false )
 }
 
 
@@ -5061,7 +5028,7 @@ void function PIN_RoundEnd( int roundnum )
 void function __UpdateLiveStats_internal( SerializedData metrics )
 {
 	if( Tracker_GetQueryBool( "verified" ) && !empty( metrics ) )
-		SQ_UpdateLiveStats__internal( metrics )
+		TrackerUpdateLiveStats__internal( metrics )
 }
 
 //Modes where winning doesn't requiring fighting. 
@@ -5076,11 +5043,11 @@ void function FinishGameStatsRound()
 	{
 		process_end_round_complete = false
 
-		if ( file.LogOn && isLogging__internal() )
+		if ( file.LogOn && TrackerIsLogging__internal() )
 		{
 			if( !file.bSafeLog )
 			{
-				stopLogging__internal( false )
+				TrackerStopLogging__internal( false )
 				return
 			}
 			
@@ -5088,7 +5055,7 @@ void function FinishGameStatsRound()
 				DEV_WriteAllTrackerErrors()
 			#endif
 			
-			LogEvent__internal
+			TrackerLogEvent__internal
 			(
 				format( "#|Season: %d\n|| Game ended at %d\n\n %s", Tracker_GetQueryInt( "season" ), GetUnixTimestamp(), Tracker_BuildAllPlayerMetrics( true ) ),
 				file.LogE
@@ -5100,7 +5067,7 @@ void function FinishGameStatsRound()
 			if( ( !IGNORE_FIRST_BLOOD_PLAYLISTS.contains( Playlist() ) && !Flag( "SurvivalCommentary_FirstBloodReached" ) ) || !file.bShouldShip )
 			{
 				sqprint( "No stats to ship...\n" )
-				stopLogging__internal( false )
+				TrackerStopLogging__internal( false )
 				
 				if( file.bForceUpdatePlayerData )
 					__UpdateMetricsNow()
@@ -5108,7 +5075,7 @@ void function FinishGameStatsRound()
 			else
 			{
 				bool ship = !file.bStatsShipped && Logging_ShipStats()
-				stopLogging__internal( ship ) //IMPORTANT
+				TrackerStopLogging__internal( ship ) //IMPORTANT
 				
 				//update live global stats for match making (verified only)
 				__UpdateMetricsNow()
@@ -5203,9 +5170,9 @@ void function PIN_AddPlayer( entity player )
 		}
 	}
 	
-	if( file.LogOn && isLogging__internal() && IsValid( player ) )
+	if( file.LogOn && TrackerIsLogging__internal() && IsValid( player ) )
 	{	
-		LogEvent__internal
+		TrackerLogEvent__internal
 		(
 			format
 			( 
@@ -5242,7 +5209,7 @@ void function PIN_PlayerLeft( entity player, string reason )
 	
 	if ( file.LogOn && file.bSafeLog )
 	{
-		if ( isLogging__internal() ) 
+		if ( TrackerIsLogging__internal() ) 
 		{
 			if ( file.update_discord_player_counts )
 			{
@@ -5250,7 +5217,7 @@ void function PIN_PlayerLeft( entity player, string reason )
 				PlayerCounts( "Left", playerName, OID, count )		
 			}
 			
-			LogEvent__internal
+			TrackerLogEvent__internal
 			(
 				format
 				(
@@ -5303,13 +5270,13 @@ void function PIN_PlayerRevived( entity injured, entity healer )
 
 void function PIN_PlayerKilled( entity victim, entity attacker, var damageInfo )
 {	
-	if ( file.LogOn && isLogging__internal() && IsValid( victim ) && victim.IsPlayer() )
+	if ( file.LogOn && TrackerIsLogging__internal() && IsValid( victim ) && victim.IsPlayer() )
 		thread __EndFight( victim, attacker, damageInfo, Time() )
 }
 
 void function Tracker_EndFight( entity victim, entity attacker, var damageInfo )
 {
-	if( !Flowstate_IsTrackerSupportedMode() || !file.LogOn || !isLogging__internal() )
+	if( !Flowstate_IsTrackerSupportedMode() || !file.LogOn || !TrackerIsLogging__internal() )
 		return
 		
 	thread __EndFight( victim, attacker, damageInfo, Time() )
@@ -5571,7 +5538,7 @@ void function PIN_Training( entity player, string status, string trainingStatus 
 
 void function Tracker_Credits()
 {
-	if( Flowstate_IsTrackerSupportedMode() && isLogging__internal() )
+	if( Flowstate_IsTrackerSupportedMode() && TrackerIsLogging__internal() )
 	{
 		foreach( player in GetPlayerArray() )
 			LocalMsg( player, "#FS_SPACE", "#FS_TRACKER_CREDIT", eMsgUI.DEFAULT, 10 )
@@ -5628,7 +5595,7 @@ string function statPrintUID( string uid )
 		if( file.LogOn )
 		{
 			int max = 0
-			while( !SQ_GetLogState__internal( eLogState.READY ) )
+			while( !TrackerGetLogState__internal( eLogState.READY ) )
 			{
 				wait 0.1
 				max++;
@@ -5763,37 +5730,34 @@ void function StatFailed( entity player )
 #if HAS_TRACKER_DLL
 //do nothing
 #else
-		array<int> function SQ_CreateServerBot__internal(){ return [-1] }
+		string function TrackerGetSetting__internal( string key ){ return "" }
+		void function TrackerReloadConfig__internal(){}
 		
-		int function EA_Verify__internal(){ return 0 }
+		void function InitializeTrackerLogThread__internal(){}
+		void function TrackerLogEvent__internal( string data, bool encrypt ){}
+		string function TrackerMatchID__internal(){ return "" }
+		void function TrackerStopLogging__internal(){}
+		bool function TrackerIsLogging__internal(){ return false }
+		bool function TrackerGetLogState__internal( int state ){ return false }
+		void function TrackerCleanupLogs__internal(){}
 		
-		bool function isLogging__internal(){ return false }
-		bool function SQ_GetLogState__internal( int state ){ return false }
-	
-		string function SQMatchID__internal(){ return "" }
-		string function GetSyncData__internal( string UID ){ return "NA" }
-		string function SQ_GetSetting__internal( string key ){ return "" }
-		string function FetchGlobalSettingsFromR5RDEV__iternal( string query ){ return "" }
-			
-		void function InitializeLogThread__internal(){}
-		void function LogEvent__internal( string data, bool encrypt ){}
-		void function stopLogging__internal(){}	
-		void function sqprint( string data ){ print(data) }
-		void function sqerror( string data ){ print(data) }	
-		void function _STATSHOOK_UpdatePlayerCount__internal(){}
-		void function _STATSHOOK_EndOfMatch__internal(){}
-		void function LoadSyncData__internal( string UID ){}
-		void function SQ_UpdateLiveStats__internal(){}
-		void function SQ_ResetStats__internal(){}
-		void function LoadBatchSyncData__internal(){}
-		void function CleanupLogs__internal(){}	
-		void function SQ_ReloadConfig__internal(){}		
-		void function SQ_ServerMsg__internal( string msg, int id ){}	
+		void function FetchGlobalTrackerSettings__internal( string query ){}
+		void function FetchBatchPersistenceData__internal( array<string> uids, array<string> requestedStats, array<string> requestedSettings ){}
+		void function FetchPlayerPersistenceData__internal( string UID, array<string> requestedStats, array<string> requestedSettings ){}
+		table function GetPlayerPersistenceData__internal{ string uid }
+		void function TrackerResetStats__internal(){}
+		void function TrackerUpdateLiveStats__internal(){}
+		void function TrackerUpdatePlayerCount__internal(){}
+		void function TrackerEndMatchUpdate__internal(){}
+		void function TrackerEAVerify__internal(){}	
+
+		array<int> function TrackerCreateServerBot__internal(){ return [-1] }
+		void function TrackerServerMsg__internal( string msg, int id ){}
 #endif
 
 #if STUB
 
-enum eLogState 
+enum eLogState
 { 
 	READY = 1,
 	BUSY = 2,

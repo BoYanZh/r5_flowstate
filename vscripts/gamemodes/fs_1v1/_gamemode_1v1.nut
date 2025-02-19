@@ -4035,9 +4035,6 @@ void function soloModeThread( LocPair waitingRoomLocation )
 		//check challenges first
 		foreach ( playerHandle, eachPlayerStruct in file.soloPlayersWaiting ) //找player1
 		{
-			if( !IsValid( eachPlayerStruct ) )
-				continue		
-			
 			entity playerSelf = eachPlayerStruct.player
 			bool player_IBMM_timeout = eachPlayerStruct.IBMM_Timeout_Reached		
 			
