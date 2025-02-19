@@ -7,6 +7,7 @@ global function GetModeSelectButton
 global function GetLobbyChatBox
 
 global function R5RPlay_SetSelectedPlaylist
+global function R5RPlay_SetSelectedServer
 
 global function Lobby_GetPlaylists
 global function Lobby_GetSelectedPlaylist
@@ -79,7 +80,14 @@ const table< int, string > playlistStateMap = {
 
 const string PLAYLIST_TRAINING = "survival_training"
 
-struct ServerListing
+global enum JoinType
+{
+    ServerJoin = 0,
+    QuickPlay = 1,
+    None = 2
+}
+
+global struct ServerListing
 {
 	int	svServerID
 	string svServerName
@@ -88,23 +96,6 @@ struct ServerListing
 	string svDescription
 	int svMaxPlayers
 	int svCurrentPlayers
-}
-
-struct SelectedServerInfo
-{
-	int svServerID = -1
-	string svServerName = ""
-	string svMapName = ""
-	string svPlaylist = ""
-	string svDescription = ""
-}
-
-global enum JoinType
-{
-    TopServerJoin = 0,
-    QuickPlay = 1,
-    QuickServerJoin = 2,
-    None = 3
 }
 
 struct
@@ -178,7 +169,7 @@ struct
 
 	string lastPlaylistDisplayed
 
-	SelectedServerInfo m_vSelectedServer
+	ServerListing &m_vSelectedServer
 	array<ServerListing> m_vServerList
 	array<ServerListing> m_vFilteredServerList
 
@@ -187,6 +178,9 @@ struct
 	bool noservers = false
 	bool searchCancelled = false
 	bool firststart = false
+
+	string g_selectedPlaylist = ""
+	string g_selectedMap = ""
 } file
 
 void function InitPlayPanel( var panel )
@@ -427,8 +421,7 @@ void function PlayPanel_OnShow( var panel )
 
 	if(!file.firststart)
 	{
-		g_SelectedPlaylist = "Random Server"
-		R5RPlay_SetSelectedPlaylist(JoinType.QuickServerJoin)
+		R5RPlay_SetSelectedPlaylist("mp_rr_desertlands_64k_x_64k_tt", GetUIMapAsset("mp_rr_desertlands_64k_x_64k_tt"), "survival_dev", "FreeRoam")
 		file.firststart = true
 	}
 }
@@ -1347,7 +1340,7 @@ void function ModeButton_OnActivate( var button )
 	if ( Hud_IsLocked( button ) || !CanActivateModeButton() )
 		return
 
-	ClientCommand( "ViewedModes" )
+	//ClientCommand( "ViewedModes" )
 
 	AdvanceMenu( GetMenu( "ModeSelectDialog" ) )
 }
@@ -1361,7 +1354,7 @@ void function GameModeSelectV2Button_OnActivate( var button )
 	Hud_SetVisible( file.gamemodeSelectV2Button, false )
 	Hud_SetVisible( file.readyButton, false )
 
-	ClientCommand( "ViewedModes" )
+	//ClientCommand( "ViewedModes" )
 
 	AdvanceMenu( GetMenu( "GamemodeSelectV4Dialog" ) )
 }
@@ -1425,11 +1418,8 @@ void function ReadyButton_OnActivate( var button )
 
 	switch( quickplay.quickPlayType )
 	{
-		case JoinType.TopServerJoin:
+		case JoinType.ServerJoin:
 			thread JoinMatch( button, "Connecting" )
-			break;
-		case JoinType.QuickServerJoin:
-			thread FindMatch( button, "Searching" )
 			break;
 		case JoinType.QuickPlay:
 			thread JoinMatch( button, "Creating" )
@@ -2511,32 +2501,27 @@ void function SetGamemodeButtonRUI(string modeNameText, string modeDescText, boo
 	RuiSetImage( Hud_GetRui( file.gamemodeSelectV2Button ), "modeImage", modeImage )
 }
 
-void function R5RPlay_SetSelectedPlaylist(int quickPlayType)
+void function R5RPlay_SetSelectedPlaylist(string map, asset mapImage, string playlist, string title)
 {
-	switch(quickPlayType)
-	{
-		case JoinType.TopServerJoin:
-				quickplay.quickPlayType = JoinType.TopServerJoin
-				string servername = g_SelectedTopServer.svServerName
-				if(g_SelectedTopServer.svServerName.len() > 30)
-					servername = g_SelectedTopServer.svServerName.slice(0, 30) + "..."
+	quickplay.quickPlayType = JoinType.QuickPlay
 
-				SetGamemodeButtonRUI(servername, "Not Ready", true, GetUIMapAsset(g_SelectedTopServer.svMapName ))
-			break;
-		case JoinType.QuickServerJoin:
-			quickplay.quickPlayType = JoinType.QuickServerJoin
+	file.g_selectedMap = map
+	file.g_selectedPlaylist = playlist
 
-			asset image = $"rui/menu/gamemode/play_apex"
-			if(g_SelectedPlaylist == "Random Server")
-				image = $"rui/menu/gamemode/ranked_1"
+	SetGamemodeButtonRUI(title, "Not Ready", true, mapImage)
+}
 
-			SetGamemodeButtonRUI(GetUIPlaylistName(g_SelectedPlaylist), "Not Ready", true, image)
-			break;
-		case JoinType.QuickPlay:
-			quickplay.quickPlayType = JoinType.QuickPlay
-			SetGamemodeButtonRUI(GetUIMapName(g_SelectedQuickPlayMap), "Not Ready", true, g_SelectedQuickPlayImage)
-			break;
-	}
+void function R5RPlay_SetSelectedServer(ServerListing server)
+{
+	quickplay.quickPlayType = JoinType.ServerJoin
+
+	file.m_vSelectedServer = server
+	string servername = server.svServerName
+
+	if(server.svServerName.len() > 30)
+		servername = server.svServerName.slice(0, 30) + "..."
+
+	SetGamemodeButtonRUI(servername, "Not Ready", true, GetUIMapAsset(server.svMapName ))
 }
 
 void function GamemodeButtonSetSearching(bool searching)
@@ -2571,17 +2556,16 @@ void function JoinMatch( var button, string v )
 		switch(quickplay.quickPlayType)
 		{
 			#if LISTEN_SERVER
-			// Amos: rework this?
 			case JoinType.QuickPlay:
 				SetSearchingText("Starting Match")
 				wait 2
-				CreateServer(GetUIMapName(g_SelectedQuickPlayMap), "", g_SelectedQuickPlayMap, g_SelectedQuickPlay, eServerVisibility.OFFLINE)
+				CreateServer(GetUIMapName(file.g_selectedMap), "", file.g_selectedMap, file.g_selectedPlaylist, eServerVisibility.OFFLINE)
 				break;
 			#endif // LISTEN_SERVER
-			case JoinType.TopServerJoin:
+			case JoinType.ServerJoin:
 				SetSearchingText("Joining Match")
 				wait 2
-				ConnectToListedServer(g_SelectedTopServer.svServerID)
+				ConnectToListedServer(file.m_vSelectedServer.svServerID)
 				break;
 		}
 	}
@@ -2595,154 +2579,6 @@ void function JoinMatch( var button, string v )
 	HudElem_SetRuiArg(button, "buttonText", Localize("#READY"))
 	SetSearchingText("")
 	GamemodeButtonSetSearching(false)
-}
-
-void function FindMatch(var button, string v)
-{
-	HudElem_SetRuiArg( button, "buttonText", Localize( "#CANCEL" ) )
-
-	thread FindServer()
-
-	int i = 0;
-	while(!file.foundserver && !file.searchCancelled)
-	{
-		wait 0.5
-
-		SetSearchingText( GetProgressText( v, i ) )
-
-		i++
-	}
-
-	if(file.searchCancelled)
-		file.noservers = true
-	
-	UpdateQuickJoinButtons(button)
-}
-
-void function UpdateQuickJoinButtons(var button)
-{
-	float waittime = 2
-
-	if(file.searchCancelled)
-	{
-		EmitUISound( "UI_Menu_Deny" )
-		file.noservers = true
-		RuiSetString( Hud_GetRui( file.gamemodeSelectV2Button ), "modeDescText", "Not Ready" )
-		waittime = 0
-	}
-	else if(file.noservers)
-	{
-		EmitUISound( "UI_Menu_Deny" )
-		RuiSetString( Hud_GetRui( file.gamemodeSelectV2Button ), "modeDescText", "No servers found" )
-	}
-	else if(!file.noservers)
-	{
-		EmitUISound( "UI_Menu_Apex_Launch" )
-		RuiSetString( Hud_GetRui( file.gamemodeSelectV2Button ), "modeDescText", "Joining Match" )
-	}
-
-	wait waittime
-
-	if(!file.noservers)
-		ConnectToListedServer(file.m_vSelectedServer.svServerID)
-
-	HudElem_SetRuiArg( button, "buttonText", Localize( "#READY" ) )
-	RuiSetBool( Hud_GetRui( Hud_GetChild( file.panel, "SelfButton" ) ), "isReady", false )
-	SetSearchingText("")
-	GamemodeButtonSetSearching(false)
-
-	file.searching = false
-	file.noservers = false
-	file.foundserver = false
-	file.searchCancelled = false
-}
-
-void function FindServer(bool refresh = false)
-{
-	wait 0.5
-
-	if(!file.searching)
-		return
-
-	file.m_vServerList.clear()
-	if(MS_GetServerCount() == 0) {
-		file.noservers = true
-		file.foundserver = true
-		return
-	}
-
-	// Add each server to the array
-	for (int i=0, j=MS_GetServerCount(); i < j; i++) {
-		ServerListing Server
-		Server.svServerID = i
-		Server.svServerName = GetServerName(i)
-		Server.svPlaylist = GetServerPlaylist(i)
-		Server.svMapName = GetServerMap(i)
-		Server.svDescription = GetServerDescription(i)
-		Server.svMaxPlayers = GetServerMaxPlayers(i)
-		Server.svCurrentPlayers = GetServerCurrentPlayers(i)
-		file.m_vServerList.append(Server)
-	}
-
-	//First try non empty or full servers
-	file.m_vFilteredServerList.clear()
-	for ( int i = 0, j = file.m_vServerList.len(); i < j; i++ )
-	{
-		// Filters
-		if ( file.m_vServerList[i].svCurrentPlayers == 0 )
-			continue;
-
-		if ( file.m_vServerList[i].svCurrentPlayers == file.m_vServerList[i].svMaxPlayers )
-			continue;
-
-		if(file.m_vServerList[i].svPlaylist != g_SelectedPlaylist && g_SelectedPlaylist != "Random Server")
-			continue;
-
-		// Server fits our requirements, add it to the list
-		file.m_vFilteredServerList.append(file.m_vServerList[i])
-	}
-
-	//if non are found, include empty servers
-	if(file.m_vFilteredServerList.len() == 0) {
-		file.m_vFilteredServerList.clear()
-		for ( int i = 0, j = file.m_vServerList.len(); i < j; i++ )
-		{
-			if ( file.m_vServerList[i].svCurrentPlayers == file.m_vServerList[i].svMaxPlayers )
-				continue;
-
-			if(file.m_vServerList[i].svPlaylist != g_SelectedPlaylist && g_SelectedPlaylist != "Random Server")
-				continue;
-
-			// Server fits our requirements, add it to the list
-			file.m_vFilteredServerList.append(file.m_vServerList[i])
-		}
-	}
-
-	if(file.m_vFilteredServerList.len() > 1)
-	{
-		int randomserver = RandomIntRange( 0, file.m_vFilteredServerList.len() - 1 )
-		file.m_vSelectedServer.svServerID = file.m_vFilteredServerList[randomserver].svServerID
-		file.m_vSelectedServer.svServerName = file.m_vFilteredServerList[randomserver].svServerName
-		file.m_vSelectedServer.svMapName = file.m_vFilteredServerList[randomserver].svMapName
-		file.m_vSelectedServer.svPlaylist = file.m_vFilteredServerList[randomserver].svPlaylist
-		file.m_vSelectedServer.svDescription = file.m_vFilteredServerList[randomserver].svDescription
-	}
-	else
-	{
-		file.noservers = true
-		file.foundserver = true
-		return
-	}
-
-	for(int i = 0; i < 4; i++)
-	{
-		wait 1
-
-		if(!file.searching)
-			return
-	}
-
-	file.foundserver = true
 }
 
 string function GetProgressText(string v, int n = 0)

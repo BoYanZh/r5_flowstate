@@ -127,7 +127,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             ruiArgs
             {
                 lockIconEnabled 0
-                modeNameText "START FREEROAM"
+                modeNameText "FREEROAM"
                 modeDescText ""
                 alwaysShowDesc 0
                 modeImage "rui/menu/gamemode/solo_iron_crown"
@@ -481,7 +481,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             tabPosition             1
             cursorVelocityModifier  0.7
             sound_accept            "UI_Menu_GameMode_Select"
-            "scriptID"					"0"
+            "scriptID"					"1"
 
             ruiArgs
             {
@@ -583,7 +583,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             tabPosition             1
             cursorVelocityModifier  0.7
             sound_accept            "UI_Menu_GameMode_Select"
-            "scriptID"					"0"
+            "scriptID"					"2"
 
             ruiArgs
             {

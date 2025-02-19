@@ -7,6 +7,10 @@ struct {
 
 	int currentServerPage = 0
 	int lastServerNameLineHeight = 0
+
+	ServerListing selectedServer
+
+	string freeRoamSelectedMap = "mp_rr_desertlands_64k_x_64k_tt"
 } file
 
 void function InitGamemodeSelectDialogV4( var newMenuArg )
@@ -23,12 +27,19 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 	AddMenuFooterOption( menu, LEFT, BUTTON_B, true, "#B_BUTTON_CLOSE", "#CLOSE" )
 	AddMenuFooterOption( menu, LEFT, BUTTON_A, true, "#A_BUTTON_SELECT" )
 
+	Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamStartButton"), UIE_CLICK, SelectFreeRoam )
+	//Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), UIE_CLICK, FreeRoamChangeMapButton )
+	Hud_AddEventHandler( Hud_GetChild(file.menu, "FiringRangeButton"), UIE_CLICK, SelectFiringRange )
+	Hud_AddEventHandler( Hud_GetChild(file.menu, "AimtrainerButton"), UIE_CLICK, SelectAimTrainer )
+
 	for(int i = 0; i < MAX_DISPLAYED_SERVERS; i++)
 	{
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerText" + i), false )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerMapName" + i), false )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlaylist" + i), false )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerButton" + i), false )
+
+		Hud_AddEventHandler( Hud_GetChild(file.menu, "ServerButton" + i), UIE_CLICK, SelectServer )
 	}
 }
 
@@ -50,6 +61,46 @@ void function Servers_PageForward( var button )
 		newPage = 0
 
 	LoadServers(newPage)
+}
+
+void function SelectFreeRoam( var button )
+{
+	R5RPlay_SetSelectedPlaylist(file.freeRoamSelectedMap, GetUIMapAsset(file.freeRoamSelectedMap), "survival_dev", "FreeRoam")
+	CloseActiveMenu()
+}
+
+void function SelectFiringRange( var button )
+{
+	string map = "mp_rr_canyonlands_staging"
+	string playlist = "survival_firingrange"
+
+	R5RPlay_SetSelectedPlaylist(map, GetUIMapAsset(map), playlist, "Firing Range")
+	CloseActiveMenu()
+}
+
+void function SelectAimTrainer( var button )
+{
+	string map = "mp_rr_desertlands_64k_x_64k"
+	string playlist = "fs_aimtrainer"
+
+	R5RPlay_SetSelectedPlaylist(map, $"rui/menu/gamemode/shotguns_and_snipers", playlist, "Aim Trainer")
+	CloseActiveMenu()
+}
+
+void function SelectServer( var button )
+{
+	int id = Hud_GetScriptID( button ).tointeger() + file.currentServerPage
+
+	file.selectedServer.svServerID = global_m_vServerList[id].svServerID
+	file.selectedServer.svServerName = global_m_vServerList[id].svServerName
+	file.selectedServer.svMapName = global_m_vServerList[id].svMapName
+	file.selectedServer.svPlaylist = global_m_vServerList[id].svPlaylist
+	file.selectedServer.svDescription = global_m_vServerList[id].svDescription
+	file.selectedServer.svMaxPlayers = global_m_vServerList[id].svMaxPlayers
+	file.selectedServer.svCurrentPlayers = global_m_vServerList[id].svCurrentPlayers
+
+	R5RPlay_SetSelectedServer(file.selectedServer)
+	CloseActiveMenu()
 }
 
 int function GetMaxPages()

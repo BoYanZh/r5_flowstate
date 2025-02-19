@@ -42,18 +42,6 @@ struct SelectedServerInfo
 	string svDescription = ""
 }
 
-//Struct for server listing
-global struct ServerListing
-{
-	int	svServerID
-	string svServerName
-	string svMapName
-	string svPlaylist
-	string svDescription
-	int svMaxPlayers
-	int svCurrentPlayers
-}
-
 struct {
 	bool hideEmpty = false
 	bool useSearch = false
