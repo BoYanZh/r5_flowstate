@@ -242,7 +242,7 @@ void function ClBloodhound_TT_Init()
 
 	RegisterSignal( SIGNAL_STORY_PROP_DIALOGUE_ABORTED )
 
-//	AddCallback_OnAbortDialogue( OnAbortDialogue )
+	AddCallback_OnAbortDialogue( OnAbortDialogue )
 
 	AddCreateCallback( "prop_dynamic", OnCreate_PropDynamic )
 	AddDestroyCallback( "prop_dynamic", OnDestroy_PropDynamic )
@@ -266,7 +266,7 @@ void function Bloodhound_TT_Init()
 	AddCallback_EntitiesDidLoad( EntitiesDidLoad )
 
 	AddSpawnCallback( "prop_dynamic", ArenaDoorSpawned )
-	PrecacheModel( SPOTLIGHT_MDL )
+	//PrecacheModel( SPOTLIGHT_MDL )
 
 	AddSpawnCallback_ScriptName( STORY_PROP_HUNT_SCRIPTNAME, SpawnStoryProps_Server )
 	AddSpawnCallback_ScriptName( STORY_PROP_SPIRITUAL_SCRIPTNAME, SpawnStoryProps_Server )
@@ -341,8 +341,8 @@ void function EntitiesDidLoad()
 	if ( !IsBloodhoundTTEnabled() )
 		return
 
-	//RegisterCSVDialogue( BLOOD_TT_CSV_DIALOGUE )
-	//RegisterCSVDialogue( BLOOD_TT_ANNOUNCER_CSV_DIALOGUE )
+	RegisterCSVDialogue( BLOOD_TT_CSV_DIALOGUE )
+	RegisterCSVDialogue( BLOOD_TT_ANNOUNCER_CSV_DIALOGUE )
 
 #if SERVER
 	//PrecacheScriptString( STORY_PROP_TECH_SCRIPTNAME )
@@ -1538,7 +1538,7 @@ void function TryPlayFirstTimeEntranceDialogueForBloodhoundPlayer( entity player
 		return
 	#endif
 
-	//PlayBattleChatterLineToSpeakerAndTeam( player, "diag_mp_bloodhound_bc_btrJoinAnnounce_1p" )
+	PlayBattleChatterLineToSpeakerAndTeam( player, "diag_mp_bloodhound_bc_btrJoinAnnounce_1p" )
 	//EmitSoundOnEntity( player, "diag_mp_bloodhound_bc_btrJoinAnnounce_3p" )
 	file.bloodhoundPlayersThatHaveEnteredArena.append( player )
 }
@@ -1880,7 +1880,7 @@ bool function IsPlayerBloodhound( entity player )
 	string characterRef  = ItemFlavor_GetHumanReadableRef( character ).tolower()
 
 	if ( characterRef != "character_bloodhound" )
-		return true
+		return false
 
 	return true
 }
@@ -2280,7 +2280,12 @@ void function Bloodhound_TT_TestSpotlight_Thread( int lightIdx, float duration =
 #if SERVER || CLIENT
 bool function IsBloodhoundTTEnabled()
 {
-	return true
+	if ( GetCurrentPlaylistVarBool( "bloodhound_tt_enabled", true ) )
+	{
+		return true
+	}
+
+	return false
 }
 
 bool function BloodHountTT_IsSmarLootEnabled()
