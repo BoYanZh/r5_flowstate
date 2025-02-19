@@ -591,9 +591,6 @@ void function SliderBarUpdate()
 
 int function MS_GetPlayerCount()
 {
-	if(file.m_vServerList.len() == 0)
-		waitthread ServerBrowser_RefreshServerListing()
-
 	int count = 0
 	for (int i=0, j=file.m_vServerList.len(); i < j; i++) {
 		count += GetServerCurrentPlayers(i)
@@ -604,9 +601,6 @@ int function MS_GetPlayerCount()
 
 int function MS_GetServerCount()
 {
-	if(file.m_vServerList.len() == 0)
-		waitthread ServerBrowser_RefreshServerListing()
-
 	return file.m_vServerList.len()
 }
 
