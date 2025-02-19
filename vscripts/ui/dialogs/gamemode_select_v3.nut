@@ -46,7 +46,7 @@ global asset g_SelectedQuickPlayImage
 
 void function InitR5RGamemodeSelectDialog( var newMenuArg ) //
 {
-	var menu = GetMenu( "R5RGamemodeSelectV2Dialog" )
+	var menu = GetMenu( "GamemodeSelectV4Dialog" )
 	file.menu = menu
 
 	HudElem_SetRuiArg( Hud_GetChild( menu, "PrevPageButton" ), "flipHorizontal", true )
@@ -136,7 +136,7 @@ void function PlaylistButton_Activated(var button)
 {
 	int id = Hud_GetScriptID( button ).tointeger()
 	g_SelectedPlaylist = file.m_vPlaylists[id + file.pageoffset]
-	R5RPlay_SetSelectedPlaylist(JoinType.QuickServerJoin)
+	//R5RPlay_SetSelectedPlaylist(JoinType.QuickServerJoin)
 	DiagCloseing()
 	CloseActiveMenu()
 }
@@ -271,7 +271,7 @@ void function TopServerButton_Activated(var button)
 	g_SelectedTopServer.svMaxPlayers = file.m_vTopServers[id].svMaxPlayers
 	g_SelectedTopServer.svCurrentPlayers = file.m_vTopServers[id].svCurrentPlayers
 
-	R5RPlay_SetSelectedPlaylist(JoinType.TopServerJoin)
+	//R5RPlay_SetSelectedPlaylist(JoinType.TopServerJoin)
 	DiagCloseing()
 	CloseActiveMenu()
 }
@@ -287,7 +287,7 @@ void function FiringRange_Activated(var button)
 	g_SelectedQuickPlay = "fs_aimtrainer"
 	g_SelectedQuickPlayMap = "mp_rr_desertlands_64k_x_64k"
 	g_SelectedQuickPlayImage = $"rui/menu/gamemode/firing_range"
-	R5RPlay_SetSelectedPlaylist(JoinType.QuickPlay)
+	//R5RPlay_SetSelectedPlaylist(JoinType.QuickPlay)
 	DiagCloseing()
 	CloseActiveMenu()
 }
@@ -357,7 +357,7 @@ void function FreeRoamButton_Activated(var button)
 	g_SelectedQuickPlayMap = file.m_vMaps[id + file.freeroamscroll]
 	g_SelectedQuickPlayImage = GetUIMapAsset( g_SelectedQuickPlayMap )
 
-	R5RPlay_SetSelectedPlaylist(JoinType.QuickPlay)
+	//R5RPlay_SetSelectedPlaylist(JoinType.QuickPlay)
 	DiagCloseing()
 	CloseActiveMenu()
 }

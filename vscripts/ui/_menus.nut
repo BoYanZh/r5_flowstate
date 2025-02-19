@@ -1633,7 +1633,7 @@ void function InitMenus()
 	AddMenu( "EliteIntroMenu", $"scripts/resource/ui/menus/elite_intro.menu", InitEliteIntroMenu )
 
 	AddMenu( "R5RNews", $"scripts/resource/ui/menus/news.menu", InitR5RNews )
-	AddMenu( "R5RGamemodeSelectV2Dialog", $"scripts/resource/ui/menus/dialogs/gamemode_select_v3.res", InitR5RGamemodeSelectDialog )
+	AddMenu( "GamemodeSelectV4Dialog", $"scripts/resource/ui/menus/dialogs/gamemode_select_v4.res", InitGamemodeSelectDialogV4 )
 
 	//Settings
 	AddMenu( "FRLGDuelsSettings", $"scripts/resource/ui/menus/FRChallenges/flowstate_lgduels_settings.menu", InitLGDuelsSettings )

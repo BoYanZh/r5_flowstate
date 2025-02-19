@@ -901,6 +901,7 @@ Scripts:
 	ui/create_panel_playlist.nut
 	ui/create_panel_visibility.nut
 	ui/dialogs/gamemode_select_v3.nut
+	ui/dialogs/gamemode_select_v4.nut
 	ui/menu_news.nut
 
 	//R5R Extra
