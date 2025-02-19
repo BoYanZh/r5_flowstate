@@ -48,7 +48,7 @@ const string REWARD_DOOR_SOUND = "Loba_Ultimate_Staff_VaultAlarm"
 
 const int PROWLER_TEAM = 104
 const string PROWLER_MDL = "mdl/Creatures/prowler/prowler_apex.rmdl"
-const string SPOTLIGHT_MDL = $"mdl/fx/prowler_hatch_tt_beam.rmdl"
+const string FXMODEL = $"mdl/weapons_r5/at_charge_rifle/w_at_charge_rifle_miningtool_holo.rmdl"
 const string SPOTLIGHT_FX = "P_prowler_hatch_light"
 
 const string SPOTLIGHT_ACTIVATE_SFX = "Desertlands_Emit_Bloodhound_TT_Spotlight"
@@ -246,8 +246,6 @@ void function ClBloodhound_TT_Init()
 
 	AddCreateCallback( "prop_dynamic", OnCreate_PropDynamic )
 	AddDestroyCallback( "prop_dynamic", OnDestroy_PropDynamic )
-
-	//PrecacheScriptString( HATCH_MDL_SCRIPTNAME )
 }
 #endif
 
@@ -266,7 +264,7 @@ void function Bloodhound_TT_Init()
 	AddCallback_EntitiesDidLoad( EntitiesDidLoad )
 
 	AddSpawnCallback( "prop_dynamic", ArenaDoorSpawned )
-	//PrecacheModel( SPOTLIGHT_MDL )
+	PrecacheModel( FXMODEL )
 
 	AddSpawnCallback_ScriptName( STORY_PROP_HUNT_SCRIPTNAME, SpawnStoryProps_Server )
 	AddSpawnCallback_ScriptName( STORY_PROP_SPIRITUAL_SCRIPTNAME, SpawnStoryProps_Server )
@@ -281,6 +279,18 @@ void function Bloodhound_TT_Init()
 	//AddCallback_OnClientConnectionRestored( Blood_TT_OnClientConnected )
 
 	//PrecacheScriptString( HATCH_MDL_SCRIPTNAME )
+	thread CreateClientSideFakeFxProps()
+}
+
+
+void function CreateClientSideFakeFxProps()
+{
+	wait 2
+	entity defenderholo = CreatePropDynamic( $"mdl/weapons_r5/at_charge_rifle/w_at_charge_rifle_miningtool_holo.rmdl", <-24867, 24666, -2826>, <0,55,0>, 0, -1 )
+	entity fx = StartParticleEffectInWorld_ReturnEntity( GetParticleSystemIndex( $"P_BT_eye_proj_holo" ), <-24867, 24666, -2868>, <270,55,0> )
+
+	defenderholo.kv.rendercolor = "4 163 154"
+	fx.kv.rendercolor = "4 163 154"
 }
 #endif // SERVER
 
