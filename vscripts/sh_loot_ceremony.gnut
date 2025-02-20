@@ -521,7 +521,7 @@ const ALLOWED_EITEMTYPES =
 
 int function GetRandomItemType()
 {
-    return ALLOWED_EITEMTYPES[ RandomIntRange( -1, allowed_eItemTypes.len() ) ]
+    return ALLOWED_EITEMTYPES[ RandomIntRange( -1, ALLOWED_EITEMTYPES.len() ) ]
 }
 
 void function UIToClient_OnGRXPackOpeningResultsAvailable()
