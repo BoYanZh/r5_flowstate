@@ -5070,6 +5070,10 @@ void function LootBoxOpenSequenceUI( bool firstTime )
 	int quality = ItemFlavor_GetQuality( pack )
 
 	RunClientScript( "UIToClient_LootCeremony_SetMenuHandles", fileForever.menu )
+	
+	//Random pack flavor
+	array<ItemFlavor> allpacks = GRX_GetAllPackFlavors()
+	pack = allpacks[RandomIntRange(0, 2)]
 
 	if ( firstTime )
 	{
