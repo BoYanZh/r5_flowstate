@@ -519,7 +519,7 @@ int function GetRandomItemType()
 	//allowed_eItemTypes.append(eItemType.gladiator_card_stat_tracker)
 	allowed_eItemTypes.append(eItemType.character_execution)
 
-    return allowed_eItemTypes[RandomIntRange(0, allowed_eItemTypes.len() - 1)];
+    return allowed_eItemTypes[RandomIntRange(0, allowed_eItemTypes.len())];
 }
 
 void function UIToClient_OnGRXPackOpeningResultsAvailable()
