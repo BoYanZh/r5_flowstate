@@ -505,21 +505,23 @@ LootBoxItems function GetLootBoxItems(int itemType)
 	return items
 }
 
+
+const ALLOWED_EITEMTYPES = 
+[ 
+	eItemType.weapon_skin,
+	eItemType.weapon_charm,
+	eItemType.character_skin,
+	eItemType.gladiator_card_stance,
+	eItemType.gladiator_card_frame,
+	eItemType.gladiator_card_intro_quip,
+	eItemType.gladiator_card_kill_quip,
+	//allowed_eItemTypes.append(eItemType.gladiator_card_stat_tracker)
+	eItemType.character_execution
+]
+
 int function GetRandomItemType()
 {
-	array<int> allowed_eItemTypes
-
-	allowed_eItemTypes.append(eItemType.weapon_skin)
-	allowed_eItemTypes.append(eItemType.weapon_charm)
-	allowed_eItemTypes.append(eItemType.character_skin)
-	allowed_eItemTypes.append(eItemType.gladiator_card_stance)
-	allowed_eItemTypes.append(eItemType.gladiator_card_frame)
-	allowed_eItemTypes.append(eItemType.gladiator_card_intro_quip)
-	allowed_eItemTypes.append(eItemType.gladiator_card_kill_quip)
-	//allowed_eItemTypes.append(eItemType.gladiator_card_stat_tracker)
-	allowed_eItemTypes.append(eItemType.character_execution)
-
-    return allowed_eItemTypes[RandomIntRange(0, allowed_eItemTypes.len())];
+    return ALLOWED_EITEMTYPES[ RandomIntRange( -1, allowed_eItemTypes.len() ) ]
 }
 
 void function UIToClient_OnGRXPackOpeningResultsAvailable()
