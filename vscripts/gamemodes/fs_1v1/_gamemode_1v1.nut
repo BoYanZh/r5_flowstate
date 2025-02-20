@@ -249,6 +249,8 @@ struct
 	bool giveCharmsWeapons
 	bool giveSkinsWeapons
 	bool enableCosmetics
+	bool bNoPrimary
+	bool bNoSecondary
 	
 } settings
 
@@ -689,6 +691,12 @@ void function INIT_1v1_sbmm()
 			{
 				string before = trim( file.custom_weapons_primary[i] )
 				
+				if( file.custom_weapons_primary[i] == "~~none~~" )
+				{
+					settings.bNoPrimary = true
+					break
+				}
+				
 				file.custom_weapons_primary[i] = ParseWeapon( trim( file.custom_weapons_primary[i] ) )
 				
 				if ( trim(file.custom_weapons_primary[i]) != before )			
@@ -719,6 +727,12 @@ void function INIT_1v1_sbmm()
 			for( int i = file.custom_weapons_secondary.len() - 1 ; i >= 0 ; --i ) 
 			{
 				string sbefore = trim( file.custom_weapons_secondary[i] )
+				
+				if( file.custom_weapons_secondary[i] == "~~none~~" )
+				{
+					settings.bNoSecondary = true
+					break
+				}
 				
 				file.custom_weapons_secondary[i] = ParseWeapon( trim( file.custom_weapons_secondary[i] ) )
 				
@@ -3193,7 +3207,7 @@ void function Gamemode1v1_Init( int eMap )
 	
 	file.Weapons = ValidateBlacklistedWeapons( file.Weapons )
 			
-	if ( file.Weapons.len() == 0 )
+	if ( file.Weapons.len() == 0 && !settings.bNoPrimary )
 	{		
 		file.Weapons = 
 		[
@@ -3221,7 +3235,7 @@ void function Gamemode1v1_Init( int eMap )
 	
 	file.WeaponsSecondary = ValidateBlacklistedWeapons( file.WeaponsSecondary )
 	
-	if ( file.WeaponsSecondary.len() <= 0 )
+	if ( file.WeaponsSecondary.len() <= 0 && !settings.bNoSecondary )
 	{
 		file.WeaponsSecondary = 
 		[	
@@ -4035,6 +4049,9 @@ void function soloModeThread( LocPair waitingRoomLocation )
 		//check challenges first
 		foreach ( playerHandle, eachPlayerStruct in file.soloPlayersWaiting ) //找player1
 		{
+			if( !IsValid( eachPlayerStruct ) )
+				continue		
+			
 			entity playerSelf = eachPlayerStruct.player
 			bool player_IBMM_timeout = eachPlayerStruct.IBMM_Timeout_Reached		
 			
@@ -4454,9 +4471,12 @@ void function GiveWeaponsToGroup( array<entity> players, soloGroupStruct groupRe
 			{
 				TakeAllWeapons( player )
 
-				GivePrimaryWeapon_1v1( player, primaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_0 )
-				GivePrimaryWeapon_1v1( player, secondaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_1 )		
-			} 
+				if( !settings.bNoPrimary )
+					GivePrimaryWeapon_1v1( player, primaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_0 )
+				
+				if( !settings.bNoSecondary )
+					GivePrimaryWeapon_1v1( player, secondaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_1 )		
+			}
 			else
 			{
 				thread LoadCustomWeapon( player ) 
