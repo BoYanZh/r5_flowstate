@@ -597,7 +597,7 @@
         wide                    308
         tall                    106
         rui                     "ui/mini_promo.rpak"
-        visible					0
+        visible					1
         cursorVelocityModifier  0.7
 
         proportionalToParent    1

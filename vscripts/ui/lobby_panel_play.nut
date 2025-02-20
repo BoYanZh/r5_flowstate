@@ -1682,7 +1682,7 @@ void function UpdateLootBoxButton( var button, array<ItemFlavor> specificPackFla
 	vector themeCol     = <1, 1, 1>
 	vector countTextCol = SrgbToLinear( <255, 78, 29> * 1.0 / 255.0 )
 
-	if ( GRX_IsInventoryReady() )
+	//if ( GRX_IsInventoryReady() )
 	{
 		if ( specificPackFlavs.len() > 0 )
 		{
@@ -1730,7 +1730,7 @@ void function UpdateLootBoxButton( var button, array<ItemFlavor> specificPackFla
 			countTextCol = SrgbToLinear( expect vector(customCountTextCol) )
 	}
 
-	HudElem_SetRuiArg( button, "bigText", string( lootBoxCount ) )
+	HudElem_SetRuiArg( button, "bigText", "∞" )
 	HudElem_SetRuiArg( button, "buttonText", buttonText )
 	HudElem_SetRuiArg( button, "descText", descText )
 	HudElem_SetRuiArg( button, "descTextRarity", nextRarity )

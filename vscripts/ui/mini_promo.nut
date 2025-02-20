@@ -64,8 +64,8 @@ void function MiniPromo_Start()
 
 	UpdatePromoData()
 
-	if ( !IsPromoDataProtocolValid() )
-		return
+	//if ( !IsPromoDataProtocolValid() )
+	//	return
 
 	file.allPages = InitPages()
 
@@ -105,8 +105,8 @@ void function MiniPromo_Stop()
 
 void function OnGRXStateChanged()
 {
-	if ( !GRX_IsInventoryReady() || !GRX_AreOffersReady() )
-		return
+	//if ( !GRX_IsInventoryReady() || !GRX_AreOffersReady() )
+	//	return
 
 	UpdateValidityOfPages( file.allPages )
 
@@ -169,12 +169,16 @@ void function UpdateValidityOfPages( array<MiniPromoPageData> pages )
 		switch ( page.linkType )
 		{
 			case "openpack":
-				page.isValid = GRX_IsInventoryReady() && GRX_GetTotalPackCount() > 0
+				page.isValid = true
+				break
+
+			case "custom":
+				page.isValid = true
 				break
 
 			case "battlepass":
 			case "storecharacter":
-				page.isValid = !GRX_IsItemOwnedByPlayer( GetItemFlavorByHumanReadableRef( page.linkData[0] ) )
+				page.isValid = true
 				break
 
 			case "storeskin":
@@ -241,8 +245,11 @@ int function GetActivePageIndexForRui()
 
 array<MiniPromoPageData> function InitPages()
 {
-	string content = "<m|m_openpack|OPEN PACK||openpack>"
-	content += GetPromoDataLayout()
+	string content = "<m|rui/promo/S3_General_1|Test Promo||custom>"
+	content += "<m|rui/promo/S3_General_2|Test Promo||custom>"
+	content += "<m|m_openpack|OPEN PACK||openpack>"
+
+	//content += GetPromoDataLayout()
 	//
 	//
 	//
@@ -271,8 +278,6 @@ array<MiniPromoPageData> function InitPages()
 		//
 		MiniPromoPageData newPage
 		newPage.imageName = vals[1]
-		if( !GetConVarBool( "assetdownloads_enabled" ) || idx == 0 )
-			newPage.image = GetPromoImage( newPage.imageName )
 		newPage.text1 = vals[2]
 		newPage.text2 = vals[3]
 
@@ -291,6 +296,8 @@ array<MiniPromoPageData> function InitPages()
 				newPage.linkData = linkVals
 			}
 		}
+
+		newPage.image = GetPromoImage( newPage.imageName, newPage.linkType == "custom" )
 
 		//
 		//
@@ -318,6 +325,8 @@ bool function IsLinkFormatValid( string linkType, array<string> linkData )
 	else if ( (linkType == "battlepass" || linkType == "storecharacter" || linkType == "storeskin" || linkType == "themedstoreskin") && linkData.len() == 1 && IsValidItemFlavorHumanReadableRef( linkData[0] ) )
 		return true
 	else if ( linkType == "url" && linkData.len() == 1 ) //
+		return true
+	else if ( linkType == "custom" )
 		return true
 
 	return false
@@ -406,10 +415,10 @@ void function SetPage( int pageIndex, bool instant = false )
 
 	RuiSetInt( rui, "activePageIndex", GetActivePageIndexForRui() )
 
-	int ownedPacks = GRX_IsInventoryReady() ? GRX_GetTotalPackCount() : 0
+	int ownedPacks = GRX_GetTotalPackCount()
 	if ( ownedPacks > 0 )
 	{
-		RuiSetInt( rui, "ownedPacks", ownedPacks )
+		RuiSetInt( rui, "ownedPacks", 999 )
 
 		ItemFlavor ornull pack = GetNextLootBox()
 		expect ItemFlavor( pack )
@@ -455,7 +464,7 @@ void function MiniPromoButton_OnActivate( var button )
 
 	if ( page.linkType == "openpack" )
 	{
-		if ( GRX_IsInventoryReady() && GRX_GetTotalPackCount() > 0 )
+		if ( GRX_GetTotalPackCount() > 0 )
 		{
 			EmitUISound( "UI_Menu_OpenLootBox" )
 			OnLobbyOpenLootBoxMenu_ButtonPress()
