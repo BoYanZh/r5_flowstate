@@ -5744,7 +5744,7 @@ void function StatFailed( entity player )
 		void function FetchGlobalTrackerSettings__internal( string query ){}
 		void function FetchBatchPersistenceData__internal( array<string> uids, array<string> requestedStats, array<string> requestedSettings ){}
 		void function FetchPlayerPersistenceData__internal( string UID, array<string> requestedStats, array<string> requestedSettings ){}
-		table function GetPlayerPersistenceData__internal( string uid )
+		table function GetPlayerPersistenceData__internal{ string uid }
 		void function TrackerResetStats__internal(){}
 		void function TrackerUpdateLiveStats__internal(){}
 		void function TrackerUpdatePlayerCount__internal(){}
