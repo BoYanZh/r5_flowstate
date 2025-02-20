@@ -242,8 +242,8 @@ void function InitPlayPanel( var panel )
 	Hud_AddEventHandler( file.friendButton1, UIE_CLICKRIGHT, FriendButton_OnRightClick )
 
 	file.allChallengesButton = Hud_GetChild( panel, "AllChallengesButton" )
-	//Hud_SetVisible( file.allChallengesButton, true )
-	//Hud_SetEnabled( file.allChallengesButton, true )
+	Hud_SetVisible( file.allChallengesButton, false )
+	Hud_SetEnabled( file.allChallengesButton, false )
 	HudElem_SetRuiArg( file.allChallengesButton, "buttonText", Localize( "#CHALLENGES_LOBBY_BUTTON" ) )
 	Hud_AddEventHandler( file.allChallengesButton, UIE_CLICK, AllChallengesButton_OnActivate )
 
@@ -1636,10 +1636,10 @@ void function OpenLootBoxButton_OnActivate( var button )
 
 void function UpdatePlayPanelGRXDependantElements()
 {
-	if ( GRX_IsInventoryReady() )
-		UpdateLobbyChallengeMenu()
+	//if ( GRX_IsInventoryReady() )
+	UpdateLobbyChallengeMenu()
 
-	UpdateMiniPromoPinning()
+	//UpdateMiniPromoPinning()
 }
 
 
@@ -1682,7 +1682,7 @@ void function UpdateLootBoxButton( var button, array<ItemFlavor> specificPackFla
 	vector themeCol     = <1, 1, 1>
 	vector countTextCol = SrgbToLinear( <255, 78, 29> * 1.0 / 255.0 )
 
-	if ( GRX_IsInventoryReady() )
+	//if ( GRX_IsInventoryReady() )
 	{
 		if ( specificPackFlavs.len() > 0 )
 		{
@@ -1730,7 +1730,7 @@ void function UpdateLootBoxButton( var button, array<ItemFlavor> specificPackFla
 			countTextCol = SrgbToLinear( expect vector(customCountTextCol) )
 	}
 
-	HudElem_SetRuiArg( button, "bigText", string( lootBoxCount ) )
+	HudElem_SetRuiArg( button, "bigText", "∞" )
 	HudElem_SetRuiArg( button, "buttonText", buttonText )
 	HudElem_SetRuiArg( button, "descText", descText )
 	HudElem_SetRuiArg( button, "descTextRarity", nextRarity )

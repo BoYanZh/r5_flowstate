@@ -49,6 +49,7 @@ global function GRX_GiveSequenceRewardEasy
 #if CLIENT
 global function GRXPack_GetTickSoundAlias
 global function GRX_GetMostRecentPackOpeningResults
+global function GRX_SetMostRecentPackOpeningResults
 #endif
 
 #if UI
@@ -947,6 +948,11 @@ void function GRX_PurchaseOffer( int opId, int queryGoal, GRXScriptOffer offer, 
 #endif
 
 #if CLIENT
+void function GRX_SetMostRecentPackOpeningResults(ItemFlavorBag bag)
+{
+	fileLevel.mostRecentPackOpeningResultsOrNull = bag
+}
+
 ItemFlavorBag function GRX_GetMostRecentPackOpeningResults()
 {
 	Assert( fileLevel.mostRecentPackOpeningResultsOrNull != null, "Tried to call GRX_GetMostRecentPackOpeningResults with no pack opening results available for use" )
@@ -969,13 +975,16 @@ array<ItemFlavor> function GRX_GetAllPackFlavors()
 #if UI
 table<ItemFlavor, int> function GRX_GetPackCounts()
 {
-	Assert( GetPlayerGRXScriptState( GetUIPlayer() ).isInventoryReady )
+	//Assert( GetPlayerGRXScriptState( GetUIPlayer() ).isInventoryReady )
 
 	table<ItemFlavor, int> packCountMap = {}
 
 	foreach ( ItemFlavor pack in GRX_GetAllPackFlavors() )
 	{
-		packCountMap[pack] <- GRX_GetPackCount( ItemFlavor_GetGRXIndex( pack ) )
+		if(GRX_GetAllPackFlavors()[0] == pack)
+			packCountMap[pack] <- 10 //GRX_GetPackCount( ItemFlavor_GetGRXIndex( pack ) )
+		else
+			packCountMap[pack] <- GRX_GetPackCount( ItemFlavor_GetGRXIndex( pack ) )
 	}
 
 	return packCountMap
@@ -988,7 +997,7 @@ int function GRX_GetTotalPackCount()
 {
 	Assert( GetPlayerGRXScriptState( GetUIPlayer() ).isInventoryReady )
 
-	int count = 0
+	int count = 10
 	foreach ( ItemFlavor pack in GRX_GetAllPackFlavors() )
 		count += GRX_GetPackCount( ItemFlavor_GetGRXIndex( pack ) )
 
