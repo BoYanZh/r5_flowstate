@@ -349,7 +349,7 @@ void function ClientToUI_ChallengeDataDidChange()
 	if ( IsLobby() && IsLocalClientEHIValid() )
 	{
 		UpdateLobbyChallengeMenu()
-		UpdateMiniPromoPinning()
+		//UpdateMiniPromoPinning()
 
 		var button = AllChallengesMenu_GetLastGroupButton()
 		AllChallengesMenu_UpdateCategories( true )

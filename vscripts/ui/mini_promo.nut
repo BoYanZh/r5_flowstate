@@ -245,8 +245,8 @@ int function GetActivePageIndexForRui()
 
 array<MiniPromoPageData> function InitPages()
 {
-	string content = "<m|rui/promo/S3_General_1|Test Promo||custom>"
-	content += "<m|rui/promo/S3_General_2|Test Promo||custom>"
+	string content = "" //"<m|rui/promo/S3_General_1|Test Promo||custom>"
+	content += "" //"<m|rui/promo/S3_General_2|Test Promo||custom>"
 	content += "<m|m_openpack|OPEN PACK||openpack>"
 
 	//content += GetPromoDataLayout()

@@ -242,8 +242,8 @@ void function InitPlayPanel( var panel )
 	Hud_AddEventHandler( file.friendButton1, UIE_CLICKRIGHT, FriendButton_OnRightClick )
 
 	file.allChallengesButton = Hud_GetChild( panel, "AllChallengesButton" )
-	//Hud_SetVisible( file.allChallengesButton, true )
-	//Hud_SetEnabled( file.allChallengesButton, true )
+	Hud_SetVisible( file.allChallengesButton, false )
+	Hud_SetEnabled( file.allChallengesButton, false )
 	HudElem_SetRuiArg( file.allChallengesButton, "buttonText", Localize( "#CHALLENGES_LOBBY_BUTTON" ) )
 	Hud_AddEventHandler( file.allChallengesButton, UIE_CLICK, AllChallengesButton_OnActivate )
 
@@ -1636,10 +1636,10 @@ void function OpenLootBoxButton_OnActivate( var button )
 
 void function UpdatePlayPanelGRXDependantElements()
 {
-	if ( GRX_IsInventoryReady() )
-		UpdateLobbyChallengeMenu()
+	//if ( GRX_IsInventoryReady() )
+	UpdateLobbyChallengeMenu()
 
-	UpdateMiniPromoPinning()
+	//UpdateMiniPromoPinning()
 }
 
 

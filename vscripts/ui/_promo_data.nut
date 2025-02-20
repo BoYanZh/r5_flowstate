@@ -45,7 +45,7 @@ void function InitPromoData()
 		string name = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "name" ) ).tolower()
 		asset image = GetDataTableAsset( dataTable, i, GetDataTableColumnByName( dataTable, "image" ) )
 
-		printf(image)
+		//printf(image)
 
 		if ( name != "" )
 			file.imageMap[name] <- image

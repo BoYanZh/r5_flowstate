@@ -312,8 +312,16 @@ void function PresentCharacter( ItemFlavor character )
 	RuiSetString( file.characterSelectInfoRui, "subtitleText", Localize( CharacterClass_GetCharacterSelectSubtitle( character ) ) )
 	RuiSetGameTime( file.characterSelectInfoRui, "initTime", Time() )
 
-	ItemFlavor characterSkin = LoadoutSlot_GetItemFlavor( LocalClientEHI(), Loadout_CharacterSkin( character ) )
-	RunClientScript( "UIToClient_PreviewCharacterSkin", ItemFlavor_GetNetworkIndex_DEPRECATED( characterSkin ), ItemFlavor_GetNetworkIndex_DEPRECATED( character ) )
+	//FIX ME, TRY CATCH TEMP UNTIL WE FIND OUT WHY THIS HAPPENS
+	try
+	{
+		ItemFlavor characterSkin = LoadoutSlot_GetItemFlavor( LocalClientEHI(), Loadout_CharacterSkin( character ) )
+		RunClientScript( "UIToClient_PreviewCharacterSkin", ItemFlavor_GetNetworkIndex_DEPRECATED( characterSkin ), ItemFlavor_GetNetworkIndex_DEPRECATED( character ) )
+	}
+	catch ( e4200 )
+	{
+		printf("" + e4200)
+	}
 
 	file.presentedCharacter = character
 }

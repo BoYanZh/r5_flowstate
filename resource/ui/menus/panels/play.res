@@ -596,6 +596,7 @@
         ControlName				RuiButton
         wide                    308
         tall                    106
+        ypos                    -310
         rui                     "ui/mini_promo.rpak"
         visible					1
         cursorVelocityModifier  0.7
@@ -604,9 +605,9 @@
 
         navLeft                 InviteFriendsButton1
 
-        pin_to_sibling          TopRightContentAnchor
-        pin_corner_to_sibling   TOP_LEFT
-        pin_to_sibling_corner   BOTTOM_LEFT
+        pin_to_sibling          PanelFrame
+        pin_corner_to_sibling   BOTTOM_RIGHT
+        pin_to_sibling_corner   BOTTOM_RIGHT
 
         sound_focus             "UI_Menu_Focus_Large"
         sound_accept            ""
