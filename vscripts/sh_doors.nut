@@ -901,6 +901,8 @@ void function SurvivalDoorThink( entity door, int doorType )
 			{
 				door.Anim_SetSafePushMode( true )
 				waitthread PlayAnimWithTimeout( door, "close", 1.3 )
+
+				ToggleNPCPathsForEntity( door, false );
 			}
 
 			if ( doorType == eDoorType.MODEL )
@@ -927,11 +929,12 @@ void function SurvivalDoorThink( entity door, int doorType )
 
 			if ( doorType == eDoorType.PLAIN )
 			{
+				door.Anim_SetSafePushMode( false )
+
 				float oldCycle = door.GetCycle()
 				if ( oldCycle < 1.0 )
 				{
 					door.Anim_ChangePlaybackRate( 0.0 )
-					door.Anim_SetSafePushMode( false )
 					wait 0.1
 				}
 				PlayAnimNoWait( door, "open" )
@@ -943,26 +946,40 @@ void function SurvivalDoorThink( entity door, int doorType )
 					door.SetCycle( 1.0 - oldCycle )
 
 				WaittillAnimDone( door )
+
+				ToggleNPCPathsForEntity( door, true );
 			}
 			else if ( doorType == eDoorType.MODEL )
 			{
-				float dot = DotProduct( door.GetOrigin() - player.GetOrigin(), doorVec )
-				lastOpenDirection = dot > 0 ? "out" : "in"
+				if ( IsValid( player ) )
+				{
+					float dot = DotProduct( door.GetOrigin() - player.GetOrigin(), doorVec )
+					lastOpenDirection = dot > 0 ? "out" : "in"
+				}
+				else if ( lastOpenDirection == "" )
+				{
+					lastOpenDirection = "out"
+				}
 				waitthread PlayAnim( door, "open_" + lastOpenDirection )
 			}
 			else if ( doorType == eDoorType.MOVER )
 			{
-				vector A   = door.GetOrigin() + doorVec
-				vector B   = door.GetOrigin()
-				vector pos = player.GetOrigin()
+				float dir = 1.0
 
-				A = <A.x, A.y, 0>
-				B = <B.x, B.y, 0>
-				pos = <pos.x, pos.y, 0>
+				if ( IsValid( player ) )
+				{
+					vector A   = door.GetOrigin() + doorVec
+					vector B   = door.GetOrigin()
+					vector pos = player.GetOrigin()
 
-				float dot = DotProduct( A - B, Normalize( pos - B ) )
+					A = <A.x, A.y, 0>
+					B = <B.x, B.y, 0>
+					pos = <pos.x, pos.y, 0>
 
-				float dir = dot > 0 ? 1.0 : -1.0
+					float dot = DotProduct( A - B, Normalize( pos - B ) )
+
+					dir = dot > 0 ? 1.0 : -1.0
+				}
 
 				vector newAngles = AnglesCompose( defaultAngles, <  0, 90 * dir, 0 > )
 				door.NonPhysicsRotateTo( newAngles, moveTime, 0, 0 )
