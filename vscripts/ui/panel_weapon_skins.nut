@@ -330,8 +330,8 @@ void function WeaponSkinsPanel_OnFocusChanged( var panel, var oldFocus, var newF
 void function PreviewWeaponCharm( ItemFlavor charmFlavor )
 {
 	ItemFlavor charmWeaponSkin = LoadoutSlot_GetItemFlavor( LocalClientEHI(), Loadout_WeaponSkin( file.currentWeapon ) )
-	int weaponSkinId           = ItemFlavor_GetNetworkIndex_DEPRECATED( charmWeaponSkin )
-	int weaponCharmId          = ItemFlavor_GetNetworkIndex_DEPRECATED( charmFlavor )
+	int weaponSkinId           = ItemFlavor_GetGUID( charmWeaponSkin )
+	int weaponCharmId          = ItemFlavor_GetGUID( charmFlavor )
 	bool shouldHighlightWeapon = file.currentWeaponSkin == charmWeaponSkin ? false : true
 	file.currentWeaponSkin = charmWeaponSkin
 
@@ -341,9 +341,9 @@ void function PreviewWeaponCharm( ItemFlavor charmFlavor )
 void function PreviewWeaponSkin( ItemFlavor weaponSkinFlavor )
 {
 	ItemFlavor charmFlavor = LoadoutSlot_GetItemFlavor( LocalClientEHI(), Loadout_WeaponCharm( WeaponSkin_GetWeaponFlavor( weaponSkinFlavor ) ) )
-	int weaponCharmId      = ItemFlavor_GetNetworkIndex_DEPRECATED( charmFlavor )
+	int weaponCharmId      = ItemFlavor_GetGUID( charmFlavor )
 
-	int weaponSkinId = ItemFlavor_GetNetworkIndex_DEPRECATED( weaponSkinFlavor )
+	int weaponSkinId = ItemFlavor_GetGUID( weaponSkinFlavor )
 	file.currentWeaponSkin = weaponSkinFlavor
 
 	RunClientScript( "UIToClient_PreviewWeaponSkin", weaponSkinId, weaponCharmId, true )

@@ -1847,11 +1847,11 @@ void function UIToClient_PreviewWeaponSkin( int skinFlavorIndex, int charmFlavor
 	if ( !file.initializedMenuModels ) //
 		return
 
-	ItemFlavor weaponSkin   = GetItemFlavorByNetworkIndex_DEPRECATED( skinFlavorIndex )
+	ItemFlavor weaponSkin   = GetItemFlavorByGUID( skinFlavorIndex )
 	ItemFlavor weaponFlavor = WeaponSkin_GetWeaponFlavor( weaponSkin )
 	ModelData_SetSkinFlavor( file.customizeWeapon, weaponSkin )
 
-	ItemFlavor charmFlavor = GetItemFlavorByNetworkIndex_DEPRECATED( charmFlavorIndex )
+	ItemFlavor charmFlavor = GetItemFlavorByGUID( charmFlavorIndex )
 
 	entity weaponModel = ModelData_GetModel( file.customizeWeapon )
 	entity weaponMover = ModelData_GetMover( file.customizeWeapon )
