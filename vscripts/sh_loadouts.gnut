@@ -1510,10 +1510,17 @@ array<ItemFlavor> function TEMP_FilterItemsForGRX( EHI playerEHI, array<ItemFlav
 	{
 		if ( ItemFlavor_GetGRXMode( itemFlavor ) == eItemFlavorGRXMode.REGULAR || ItemFlavor_GetGRXMode( itemFlavor ) == eItemFlavorGRXMode.OWNERSHIP_TARGET )
 		{
-			if ( !GRX_AreOffersReady() )
-				continue
+			//if ( !GRX_AreOffersReady() )
+				//continue
 
 			bool shouldShow = false
+
+			if(ItemFlavor_GetType( itemFlavor ) == eItemType.character_skin)
+				shouldShow = true
+
+			if(ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_skin || ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_charm)
+				shouldShow = true
+
 			if ( GRX_IsItemCraftable( itemFlavor ) )
 				shouldShow = true
 
@@ -1566,12 +1573,12 @@ array<ItemFlavor> function GetLoadoutItemsSortedForMenu( LoadoutEntry entry, int
 		equippedItem = LoadoutSlot_GetItemFlavor( playerEHI, entry )
 
 	items.sort( int function( ItemFlavor a, ItemFlavor b ) : ( playerEHI, equippedItem, sortOrdinalFunc ) {
-		//bool aIsOwned = GRX_IsItemOwnedByPlayer( a, null, true )
-		//bool bIsOwned = GRX_IsItemOwnedByPlayer( b, null, true )
-		//if ( aIsOwned && !bIsOwned )
-		//	return -1
-		//else if ( bIsOwned && !aIsOwned )
-		//	return 1
+		bool aIsOwned = GRX_IsItemOwnedByPlayer( a, null )
+		bool bIsOwned = GRX_IsItemOwnedByPlayer( b, null )
+		if ( aIsOwned && !bIsOwned )
+			return -1
+		else if ( bIsOwned && !aIsOwned )
+			return 1
 
 		bool aIsEquipped = (a == equippedItem)
 		bool bIsEquipped = (b == equippedItem)

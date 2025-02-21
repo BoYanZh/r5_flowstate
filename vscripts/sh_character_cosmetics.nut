@@ -141,6 +141,7 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 				} )
 			}
 		#endif
+
 		fileLevel.loadoutCharacterSkinSlotMap[characterClass] <- entry
 	}
 

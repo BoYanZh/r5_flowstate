@@ -1337,7 +1337,7 @@ void function UpdateMenuCharacterModelInternal( int overrideCharacterFlavorNetwo
 	if ( overrideCharacterFlavorNetworkIndex == -1 )
 		character = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterClass() )
 	else
-		character = GetItemFlavorByNetworkIndex_DEPRECATED( overrideCharacterFlavorNetworkIndex )
+		character = GetItemFlavorByGUID( overrideCharacterFlavorNetworkIndex )
 	LoadoutSlot_WaitForItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
 
 	clGlobal.currentMenuPilotModels.characterSkin = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
@@ -1361,9 +1361,9 @@ void function UpdateMenuCharacterModelInternal( int overrideCharacterFlavorNetwo
 	UpdateCharacterModelDisplay( file.customizeCharacter, doTransitionFX )
 }
 
-void function UIToClient_PreviewCharacterSkin( int index, int overrideCharacterFlavorNetworkIndex )
+void function UIToClient_PreviewCharacterSkin( int guid, int overrideCharacterFlavorNetworkIndex )
 {
-	clGlobal.previewMenuPilotModels.characterSkin = GetItemFlavorByNetworkIndex_DEPRECATED( index )
+	clGlobal.previewMenuPilotModels.characterSkin = GetItemFlavorByGUID( guid )
 
 	if ( clGlobal.previewMenuPilotModels.characterSkin != null )
 		ModelData_SetSkinFlavor( file.customizeCharacter, expect ItemFlavor( clGlobal.previewMenuPilotModels.characterSkin ) )

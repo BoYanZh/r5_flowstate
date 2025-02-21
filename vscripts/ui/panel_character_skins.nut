@@ -131,7 +131,7 @@ void function CharacterSkinsPanel_OnFocusChanged( var panel, var oldFocus, var n
 
 void function PreviewCharacterSkin( ItemFlavor flav )
 {
-	RunClientScript( "UIToClient_PreviewCharacterSkinFromCharacterSkinPanel", ItemFlavor_GetNetworkIndex_DEPRECATED( flav ), ItemFlavor_GetNetworkIndex_DEPRECATED( GetTopLevelCustomizeContext() ) )
+	RunClientScript( "UIToClient_PreviewCharacterSkinFromCharacterSkinPanel", ItemFlavor_GetGUID( flav ), ItemFlavor_GetGUID( GetTopLevelCustomizeContext() ) )
 	if ( CharacterSkin_HasStoryBlurb( flav ) )
 	{
 		Hud_SetVisible( file.blurbPanel, true )
@@ -238,6 +238,9 @@ ItemFlavor ornull function GetMeleeHeirloom( ItemFlavor character )
 
 void function CustomizeCharacterMenu_UpdateHeirloomButton()
 {
+	Hud_Hide( file.heirloomButton )
+	return
+	
 	LoadoutEntry entry = Loadout_MeleeSkin( GetTopLevelCustomizeContext() )
 	ItemFlavor ornull meleeHeirloom = GetMeleeHeirloom( GetTopLevelCustomizeContext() )
 	if ( meleeHeirloom != null )
