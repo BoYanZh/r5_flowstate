@@ -34,7 +34,6 @@ Scripts:
 When: "SERVER || CLIENT"
 Scripts:
 [
-	mp/levels/sh_pathfinder_tt_common.nut
 	flowstate_globals.gnut
 	sh_damage_history.gnut // needs to come before _entitystructs
 ]
@@ -371,6 +370,9 @@ Scripts:
 	conversation/sh_grunt_chatter_mp.gnut
 	conversation/sh_spectre_chatter_mp.gnut
 	conversation/sh_survival_commentary.gnut
+
+	mp/levels/sh_pathfinder_tt_common.nut
+	npc/npc_assets.nut
 
 	mp/sh_game_state_dialog.nut
 	mp/sh_comms_menu.nut

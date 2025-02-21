@@ -1330,6 +1330,12 @@ global struct ServerAIStruct
 	
 	//nextbots
 	float screamSoundDebounce
+	
+	// pve:
+	bool isMarkedForGarbageCollection = false
+	int  aiPriority = -1
+	int  skitId = -1
+	int  npcType = -1    // eNPC.*
 }
 
 

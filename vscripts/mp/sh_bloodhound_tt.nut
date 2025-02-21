@@ -1315,7 +1315,7 @@ void function SpawnProwlerAndAnimate( int hatchIdx, int prowlerSkinIdx )
 	//spawn prowler
 	entity prowler = CreateNPCFromAISettings( "npc_prowler", PROWLER_TEAM, data.ref.GetOrigin(), data.ref.GetAngles() )
 	DispatchSpawn( prowler )
-	//prowler.ai.npcType = eNPC.PROWLER
+	prowler.ai.npcType = eNPC.PROWLER
 
 	prowler.SetSkin( prowlerSkinIdx )
 	prowler.SetNPCFlag( NPC_NO_MOVING_PLATFORM_DEATH, true )
