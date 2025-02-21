@@ -701,7 +701,14 @@ void function UpdateCustomizeItemButton( CustomizeButtonContext cbc, bool justAd
 	{
 		foreach ( loadoutEntry in cbc.loadoutEntries )
 		{
-			isOwned = isOwned || IsItemFlavorUnlockedForLoadoutSlot( LocalClientEHI(), loadoutEntry, cbc.itemFlavor, false )
+			if(ItemFlavor_GetType(cbc.itemFlavor) == eItemType.character_skin)
+			{
+				int itemQuality = ItemFlavor_GetQuality(cbc.itemFlavor)
+				if(itemQuality == eQuality.COMMON || itemQuality == eQuality.FANMADE)
+					isOwned = true
+			}
+			else
+				isOwned = isOwned || IsItemFlavorUnlockedForLoadoutSlot( LocalClientEHI(), loadoutEntry, cbc.itemFlavor, false )
 		}
 	}
 	else // GRX item
@@ -746,19 +753,7 @@ void function UpdateCustomizeItemButton( CustomizeButtonContext cbc, bool justAd
 		}
 	}
 
-
-	try
-	{
-		int itemQuality = ItemFlavor_GetQuality(cbc.itemFlavor)
-		if(itemQuality == eQuality.COMMON || itemQuality == eQuality.FANMADE)
-			Hud_SetLocked( cbc.button, false )
-		else
-			Hud_SetLocked( cbc.button, true )
-	}
-	catch (e1000)
-	{
-		Hud_SetLocked( cbc.button, !isOwned )
-	}
+	Hud_SetLocked( cbc.button, !isOwned )
 	//RuiSetBool( rui, "isOwned", isOwned )
 
 	if ( cbc.customButtonUpdateFunc != null )
