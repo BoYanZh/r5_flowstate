@@ -1573,12 +1573,12 @@ array<ItemFlavor> function GetLoadoutItemsSortedForMenu( LoadoutEntry entry, int
 		equippedItem = LoadoutSlot_GetItemFlavor( playerEHI, entry )
 
 	items.sort( int function( ItemFlavor a, ItemFlavor b ) : ( playerEHI, equippedItem, sortOrdinalFunc ) {
-		bool aIsOwned = GRX_IsItemOwnedByPlayer( a, null )
-		bool bIsOwned = GRX_IsItemOwnedByPlayer( b, null )
-		if ( aIsOwned && !bIsOwned )
-			return -1
-		else if ( bIsOwned && !aIsOwned )
-			return 1
+		//bool aIsOwned = GRX_IsItemOwnedByPlayer( a, null )
+		//bool bIsOwned = GRX_IsItemOwnedByPlayer( b, null )
+		//if ( aIsOwned && !bIsOwned )
+		//	return -1
+		//else if ( bIsOwned && !aIsOwned )
+		//	return 1
 
 		bool aIsEquipped = (a == equippedItem)
 		bool bIsEquipped = (b == equippedItem)

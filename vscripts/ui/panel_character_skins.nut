@@ -99,7 +99,7 @@ void function CharacterSkinsPanel_Update( var panel )
 	{
 		LoadoutEntry entry = Loadout_CharacterSkin( GetTopLevelCustomizeContext() )
 		file.characterSkinList = GetLoadoutItemsSortedForMenu( entry, CharacterSkin_GetSortOrdinal )
-		FilterCharacterSkinList( file.characterSkinList )
+		//FilterCharacterSkinList( file.characterSkinList )
 
 		Hud_InitGridButtons( file.listPanel, file.characterSkinList.len() )
 		foreach ( int flavIdx, ItemFlavor flav in file.characterSkinList )
