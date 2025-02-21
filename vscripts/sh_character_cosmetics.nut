@@ -441,7 +441,7 @@ void function CharacterSkin_Apply( entity ent, ItemFlavor skin )
 	}
 
 	ent.SetSkin( skinIndex )
-	if (camoIndex <= 212)
+	if (camoIndex <= 210)
 		ent.SetCamo( camoIndex )
 	else
 	{
