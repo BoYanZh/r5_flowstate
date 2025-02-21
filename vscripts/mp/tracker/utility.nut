@@ -2424,24 +2424,23 @@ string function ParseWeapon( string weaponString )
 	if( mods.len() < 1 )
 		return ""
 	
-	if( !IsWeaponValid( mods[0] ) || !( SURVIVAL_Loot_IsRefValid( mods[0] ) ) )
+	if( !IsWeaponValid( mods[ 0 ] ) || !( SURVIVAL_Loot_IsRefValid( mods[ 0 ] ) ) )
 		return ""
 	
 	bool removed = false
-	
 	for ( int i = mods.len() - 1 ; i >= 1; i-- )
 	{
-		if ( !SURVIVAL_Loot_IsRefValid( mods[i] ) 
-		|| !IsModValidForWeapon( mods[0], mods[i] ) )
+		if ( !SURVIVAL_Loot_IsRefValid( mods[ i ] ) 
+		|| !IsModValidForWeapon( mods[ 0 ], mods[ i ] ) )
 		{
 			removed = true
-			sqprint( "removed:", mods[i] )		
-			mods.remove(i)
+			sqprint( "removed:", mods[ i ] )		
+			mods.remove( i )
 		}
 	}
 	
 	if ( removed )
-		sqprint( PrintSupportedAttachpointsForWeapon( mods[0] ) )
+		PrintSupportedAttachpointsForWeapon( mods[ 0 ] )
 	
 	return mods.join( " " )
 }
@@ -2451,24 +2450,23 @@ bool function IsModValidForWeapon( string weaponref, string mod )
 	array<string> attachPoint = GetAttachPointsForAttachment( mod )
 	LootData wData = SURVIVAL_Loot_GetLootDataByRef( weaponref )	
 	
-	return ( wData.supportedAttachments.contains( attachPoint[0] ) 
-	&& !wData.disabledAttachments.contains( attachPoint[0] ) )
+	return ( wData.supportedAttachments.contains( attachPoint[ 0 ] ) 
+	&& !wData.disabledAttachments.contains( attachPoint[ 0 ] ) )
 }
 
-string function PrintSupportedAttachpointsForWeapon( string weaponref )
+void function PrintSupportedAttachpointsForWeapon( string weaponref )
 {
-	LootData wData = SURVIVAL_Loot_GetLootDataByRef( weaponref )
+	LootData wData = SURVIVAL_Loot_GetLootDataByRef( weaponref )	
+	string debug = format( "\n --- Attachment List for %s --- \n", weaponref )
 	
-	string debug = format("\n --- Attachment List for %s --- \n", weaponref)
-	int i = 1
-	
+	int i = 1	
 	foreach( supported in wData.supportedAttachments )
 	{
 		debug += format( "%d. %s \n", i, supported )
-		i++;
+		i++
 	}
 	
-	return debug
+	sqprint( debug )
 }
 
 #if TRACKER && HAS_TRACKER_DLL
