@@ -1324,41 +1324,50 @@ void function UpdateMenuCharacterModel( entity player, int overrideCharacterFlav
 // TODO: Should have a single flag that we're ready rather than sprinkle waits around with LoadoutSlot_WaitForItemFlavor()
 void function UpdateMenuCharacterModelInternal( int overrideCharacterFlavorNetworkIndex )
 {
-	Signal( file.signalDummy, "UpdateMenuCharacterModelInternal" )
-	EndSignal( file.signalDummy, "UpdateMenuCharacterModelInternal" )
-
-	while ( !file.initializedMenuModels ) // Handle early calls that UI script can trigger before client is ready
-		WaitFrame()
-
-	EHI playerEHI = LocalClientEHI()
-	LoadoutSlot_WaitForItemFlavor( playerEHI, Loadout_CharacterClass() )
-
-	ItemFlavor character
-	if ( overrideCharacterFlavorNetworkIndex == -1 )
-		character = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterClass() )
-	else
-		character = GetItemFlavorByNetworkIndex_DEPRECATED( overrideCharacterFlavorNetworkIndex )
-	LoadoutSlot_WaitForItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
-
-	clGlobal.currentMenuPilotModels.characterSkin = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
-	//clGlobal.currentMenuPilotModels.idleAnim = "NOTUSED"
-
-	if ( file.presentationData[ file.currentPresentationType ].useCharacterOffsets && file.presentationData[ file.currentPresentationType ].modelData != null )
+	try
 	{
-		entity refEnt = ModelData_GetPoseEntity( expect MenuModelData( file.presentationData[ file.currentPresentationType ].modelData ) )
-		vector base   = refEnt.GetOrigin()
-		vector offset = CharacterClass_GetGalleryModelOffset( character )
-		#if DEVELOPER
-			if ( ItemFlavor_GetHumanReadableRef( character ) == file.DEV_characterOffsetCharacter )
-				offset = file.DEV_characterOffset
-		#endif //
+		Signal( file.signalDummy, "UpdateMenuCharacterModelInternal" )
+		EndSignal( file.signalDummy, "UpdateMenuCharacterModelInternal" )
 
-		ModelData_GetMover( expect MenuModelData( file.presentationData[ file.currentPresentationType ].modelData ) ).SetOrigin( base + offset )
+		while ( !file.initializedMenuModels ) // Handle early calls that UI script can trigger before client is ready
+			WaitFrame()
+
+		EHI playerEHI = LocalClientEHI()
+		LoadoutSlot_WaitForItemFlavor( playerEHI, Loadout_CharacterClass() )
+
+		ItemFlavor character
+		if ( overrideCharacterFlavorNetworkIndex == -1 )
+			character = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterClass() )
+		else
+			character = GetItemFlavorByNetworkIndex_DEPRECATED( overrideCharacterFlavorNetworkIndex )
+
+		LoadoutSlot_WaitForItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
+
+		clGlobal.currentMenuPilotModels.characterSkin = LoadoutSlot_GetItemFlavor( playerEHI, Loadout_CharacterSkin( character ) )
+
+		//clGlobal.currentMenuPilotModels.idleAnim = "NOTUSED"
+
+		if ( file.presentationData[ file.currentPresentationType ].useCharacterOffsets && file.presentationData[ file.currentPresentationType ].modelData != null )
+		{
+			entity refEnt = ModelData_GetPoseEntity( expect MenuModelData( file.presentationData[ file.currentPresentationType ].modelData ) )
+			vector base   = refEnt.GetOrigin()
+			vector offset = CharacterClass_GetGalleryModelOffset( character )
+			#if DEVELOPER
+				if ( ItemFlavor_GetHumanReadableRef( character ) == file.DEV_characterOffsetCharacter )
+					offset = file.DEV_characterOffset
+			#endif //
+
+			ModelData_GetMover( expect MenuModelData( file.presentationData[ file.currentPresentationType ].modelData ) ).SetOrigin( base + offset )
+		}
+
+		bool doTransitionFX = (file.currentPresentationType == ePresentationType.CHARACTER_SKIN)
+		UpdateCharacterModelDisplay( file.playCharacter, doTransitionFX )
+		UpdateCharacterModelDisplay( file.customizeCharacter, doTransitionFX )
 	}
-
-	bool doTransitionFX = (file.currentPresentationType == ePresentationType.CHARACTER_SKIN)
-	UpdateCharacterModelDisplay( file.playCharacter, doTransitionFX )
-	UpdateCharacterModelDisplay( file.customizeCharacter, doTransitionFX )
+	catch (e2021)
+	{
+		printt("ERROR TEMP FIX: " + e2021)
+	}
 }
 
 void function UIToClient_PreviewCharacterSkin( int index, int overrideCharacterFlavorNetworkIndex )
@@ -1395,7 +1404,15 @@ void function UpdateCharacterModelDisplay( MenuModelData modelData, bool doTrans
 	ItemFlavor ornull characterSkin = clGlobal.previewMenuPilotModels.characterSkin
 	if ( characterSkin == null )
 		characterSkin = clGlobal.currentMenuPilotModels.characterSkin
-	CharacterSkin_Apply( model, expect ItemFlavor( characterSkin ) )
+	
+	try
+	{
+		CharacterSkin_Apply( model, expect ItemFlavor( characterSkin ) )
+	}
+	catch(e2020)
+	{
+		printt("ERROR TEMP FIX: " + e2020)
+	}
 
 	//asset bodyModel = CharacterSkin_GetBodyModel( expect ItemFlavor( characterSkin ) )
 	//string idleAnim = clGlobal.previewMenuPilotModels.idleAnim
