@@ -700,17 +700,19 @@ void function UpdateCustomizeItemButton( CustomizeButtonContext cbc, bool justAd
 	if ( ItemFlavor_GetGRXMode( cbc.itemFlavor ) == GRX_ITEMFLAVORMODE_NONE )
 	{
 		foreach ( loadoutEntry in cbc.loadoutEntries )
+		{
 			isOwned = isOwned || IsItemFlavorUnlockedForLoadoutSlot( LocalClientEHI(), loadoutEntry, cbc.itemFlavor, false )
+		}
 	}
 	else // GRX item
 	{
-		if ( !GRX_AreOffersReady() || !GRX_IsInventoryReady() )
-		{
-			// GRX is loading
-			Hud_SetEnabled( cbc.button, false )
-			RuiSetBool( rui, "isLoading", true )
-			return // don't update until loading is done
-		}
+		//if ( !GRX_AreOffersReady() || !GRX_IsInventoryReady() )
+		//{
+		//	// GRX is loading
+		//	Hud_SetEnabled( cbc.button, false )
+		//	RuiSetBool( rui, "isLoading", true )
+		//	return // don't update until loading is done
+		//}
 
 		// GRX has loaded
 		Hud_SetEnabled( cbc.button, true )
@@ -744,7 +746,19 @@ void function UpdateCustomizeItemButton( CustomizeButtonContext cbc, bool justAd
 		}
 	}
 
-	Hud_SetLocked( cbc.button, !isOwned )
+
+	try
+	{
+		int itemQuality = ItemFlavor_GetQuality(cbc.itemFlavor)
+		if(itemQuality == eQuality.COMMON || itemQuality == eQuality.FANMADE)
+			Hud_SetLocked( cbc.button, false )
+		else
+			Hud_SetLocked( cbc.button, true )
+	}
+	catch (e1000)
+	{
+		Hud_SetLocked( cbc.button, !isOwned )
+	}
 	//RuiSetBool( rui, "isOwned", isOwned )
 
 	if ( cbc.customButtonUpdateFunc != null )
