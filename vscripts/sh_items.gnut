@@ -965,7 +965,7 @@ string function ItemQuality_GetQualityName( int quality )
 {
 	switch ( quality )
 	{
-		case 5:
+		case 6:
 			return "#QUALITY_FANMADE"
 			
 		case 4:
