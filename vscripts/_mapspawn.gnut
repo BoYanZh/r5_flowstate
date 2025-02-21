@@ -233,6 +233,11 @@ void function CodeCallback_MapSpawn() // original script entry point
 	PrecacheParticleSystem( $"P_loba_staff_holo_end_menu" )
 	PrecacheParticleSystem( $"P_lob_menu_hand_glow" )
 	PrecacheParticleSystem( $"P_lob_menu_staff_grab" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear_3" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear_2" )
+	PrecacheParticleSystem( $"P_warp_brac_toss_arm" )
+	PrecacheParticleSystem( $"P_warp_brac_ring_hld" )
 
 	_cc = CreateEntity( "point_clientcommand" )
 	_sc = CreateEntity( "point_servercommand" )

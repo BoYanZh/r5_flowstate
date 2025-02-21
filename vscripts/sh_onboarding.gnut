@@ -226,7 +226,7 @@ void function Sequence_WaitingForPlayers()
 	
 	#if TRACKER
 		if( bLog() && !Tracker_IsBatchStatsLoaded() && Flowstate_IsTrackerSupportedMode() )
-			waitthread WaitSignalOrTimeout( svGlobal.levelEnt, Tracker_GetMaxWaitForBatchLoad(), "BatchFetchComplete" )
+			waitthread WaitSignalOrTimeout( tracker.signalEnt, Tracker_GetMaxWaitForBatchLoad(), "BatchFetchComplete" )
 	
 		WaitFrame()
 	#endif

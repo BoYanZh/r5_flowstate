@@ -159,7 +159,7 @@ function __RawSetStat( UIDString uid, string statKey, var value, bool online = t
 
 array<string> function Stats__AddPlayerStatsTable( UIDString player_oid ) 
 {
-	var rawStatsTable = GetPlayerStats__internal( player_oid )
+	var rawStatsTable = GetPlayerPersistenceData__internal( player_oid )
 	array<string> statKeys = []
 	
 	if ( typeof rawStatsTable == "table" && rawStatsTable.len() > 0 ) 

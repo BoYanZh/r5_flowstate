@@ -25,6 +25,8 @@ global function TogglePlayerWaypointMute
 global function AddLocationPingToMinimapNoClamp
 global function AddLocationPingToFullmap
 global function ShouldWaypointRuiBeVisible
+global function SetCommsWaypointSoundsEnabled
+global function GetCommsWaypointSoundsEnabled
 #endif //
 global function Waypoint_IsPOI
 global function GetPingedEntForLocWaypoint
@@ -1772,6 +1774,16 @@ void function InstanceLocationPing_Thread( entity wp )
 		RuiSetString( rui, "pingPrompt", "" )
 		RuiSetString( rui, "pingPromptForOwner", "" )
 	}
+}
+
+void function SetCommsWaypointSoundsEnabled( bool value )
+{
+	file.commsWaypointSoundsEnabled = value
+}
+
+bool function GetCommsWaypointSoundsEnabled()
+{
+	return file.commsWaypointSoundsEnabled
 }
 
 void function InstanceLootPing( entity wp )

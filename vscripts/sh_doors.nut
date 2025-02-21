@@ -60,6 +60,10 @@ struct
 
 	#if SERVER
 		int propDoorArrayIndex
+		table< int, array< DoorData > > recreateDoorDataByRealm
+		table< entity, DoorData > rebuiltDoorToData
+		table< vector, vector > doorBaseAnglesByDoorLoc // base Angles referenced by location of door.
+		array<void functionref(entity,entity,vector,var)> callbacks_onCodeDoorBroken
 	#endif //SERVER
 
 	#if CLIENT
@@ -2256,11 +2260,12 @@ void function CodeCallback_OnDoorInteraction( entity door, entity user, entity o
 	#endif
 }
 
+#if SERVER
 void function OpenDoor( entity door, entity player )
 {
 	if ( IsCodeDoor( door ) )
 	{
-		//door.OpenDoor( null )
+		door.OpenDoor( null )
 		return
 	}
 
@@ -2277,7 +2282,7 @@ void function CloseDoor( entity door, entity player )
 	if ( IsCodeDoor( door ) )
 	{
 		//printf( "Is Code Door: true" )
-		//door.CloseDoor( null )
+		door.CloseDoor( null )
 		return
 	}
 
@@ -2317,6 +2322,24 @@ void function OpenAndLockAllScriptDoors()
 		door.UnsetUsable() //interferes with reload prompt
 	}*/
 }
+
+entity function GetClosestScriptDoorToPos( vector pos, float maxDist = 256 )
+{
+	return GetClosest( GetAllNonCodeDoorEnts(), pos, maxDist )
+}
+
+
+entity function GetClosestCodeDoorToPos( vector pos, float maxDist = 256 )
+{
+	return GetClosest( GetAllCodeDoorEnts(), pos, maxDist )
+}
+
+void function AddCallback_OnCodeDoorBroken( void functionref(entity,entity,vector,var) func )
+{
+	Assert( file.callbacks_onCodeDoorBroken.contains( func ) == false, "Callback (" + string( func ) + ") already registered for onCodeDoorBroken" )
+	file.callbacks_onCodeDoorBroken.append( func )
+}
+#endif //SERVER
 bool function IsDoorLocked( entity door )
 {
 	if ( IsCodeDoor( door ) )
