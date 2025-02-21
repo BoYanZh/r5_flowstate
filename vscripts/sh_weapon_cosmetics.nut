@@ -716,7 +716,7 @@ void function WeaponCosmetics_ApplyModelAndSkin( entity ent, ItemFlavor skin )
 		camoIndex = 0
 	}
 
-	if ( camoIndex >= 3 ) //CAMO_SKIN_COUNT 
+	if ( camoIndex >= 210 ) //CAMO_SKIN_COUNT 
 	{
 		Assert ( false, "Tried to set camoIndex of " + string(camoIndex) + " but the maximum index is " + string(CAMO_SKIN_COUNT) )
 		camoIndex = 0

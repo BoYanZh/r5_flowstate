@@ -322,10 +322,10 @@ void function FilterCharacterSkinList( array<ItemFlavor> characterSkinList )
 
 bool function ShouldDisplayCharacterSkin( ItemFlavor characterSkin )
 {
-	if ( GladiatorCardCharacterSkin_ShouldHideIfLocked( characterSkin ) )
+	//if ( GladiatorCardCharacterSkin_ShouldHideIfLocked( characterSkin ) )
 	{
-		if ( ItemFlavor_GetQuality( characterSkin ) != eQuality.COMMON && ItemFlavor_GetQuality( characterSkin ) != eQuality.FANMADE )
-			return false
+		//if ( ItemFlavor_GetQuality( characterSkin ) != eQuality.COMMON && ItemFlavor_GetQuality( characterSkin ) != eQuality.FANMADE )
+			//return false
 	}
 
 	return true
