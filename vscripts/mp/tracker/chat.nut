@@ -111,7 +111,7 @@ void function RegisterAllChatCommands() //if chat commands enabled.
 	if( settings.bLockableServer )
 	{
 		Commands_Register( "!lock", cmd_lock, [ "/lock", "\\lock" ] )
-		Commands_Register( "!unlock", cmd_unlock, [ "/unlock", "//unlock" ] )
+		Commands_Register( "!unlock", cmd_unlock, [ "/unlock", "\\unlock" ] )
 	}
 	
 	//game varient

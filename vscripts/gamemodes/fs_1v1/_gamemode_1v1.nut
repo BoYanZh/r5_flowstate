@@ -197,13 +197,8 @@ struct
 	
 	bool bRestEnabled = false
 	
-	array< string > custom_weapons_primary
-	array< string > custom_weapons_secondary
-	array< string > custom_longrange_primary
-	array< string > custom_longrange_secondary
 	array< bool > realmSlots
 	
-	//needs reworked for modular modding xD
 	array< string > Weapons
 	array< string > WeaponsSecondary
 	array< string > LongRangeWeapons
@@ -251,6 +246,8 @@ struct
 	bool enableCosmetics
 	bool bNoPrimary
 	bool bNoSecondary
+	bool bNoPrimaryLongrange
+	bool bNoSecondaryLongrange
 	
 } settings
 
@@ -631,7 +628,7 @@ void function ResetIBMM( entity player )
         file.soloPlayersWaiting[ handle ].IBMM_Timeout_Reached = false
 	#if DEVELOPER
 	else
-		printw( "player was not in waiting list:", player ) //will show for msgbot during rest induction.
+		printw( "player was not in waiting list:", player )
 	#endif
 }
 
@@ -660,7 +657,7 @@ string function GetScore( entity player )
 	float lt_kd = getkd( (player.GetPlayerNetInt( "kills" ) + player.p.season_kills) , (player.GetPlayerNetInt( "deaths" ) + player.p.season_deaths) )
 	float cur_kd = getkd( player.GetPlayerNetInt( "kills" ) , player.GetPlayerNetInt( "deaths" )  )
 	float score = (  ( lt_kd * file.season_kd_weight ) + ( cur_kd * file.current_kd_weight ) )
-	return format("Player: %s, season KD: %.2f, Current KD: %.2f, Round Score: %.2f ", player.p.name, lt_kd, cur_kd, score )
+	return format( "Player: %s, season KD: %.2f, Current KD: %.2f, Round Score: %.2f ", player.p.name, lt_kd, cur_kd, score )
 }
 
 void function INIT_1v1_sbmm()
@@ -671,150 +668,6 @@ void function INIT_1v1_sbmm()
 		else 
 			AddCallback_OnClientConnected( INIT_playerChallengesStruct )
 	#endif
-	
-	//(mk):convert strings from playlist into array and add to script
-	//todo: modularize into one func based on one piece of data: "the_list_string". Lookup with "_continue" etc.. 
-	
-	if ( Playlist_1v1_Primary_Array() != "" )
-	{		
-		string concatenate = Concatenate( Playlist_1v1_Primary_Array(), Playlist_1v1_Primary_Array_continue() )
-	
-		try 
-		{	
-			#if DEVELOPER 
-				sqprint("Checking: file.custom_weapons_primary")
-			#endif
-			
-			file.custom_weapons_primary = StringToArray( concatenate )
-			
-			for( int i = file.custom_weapons_primary.len() - 1 ; i >= 0 ; --i ) 
-			{
-				string before = trim( file.custom_weapons_primary[i] )
-				
-				if( file.custom_weapons_primary[i] == "~~none~~" )
-				{
-					settings.bNoPrimary = true
-					break
-				}
-				
-				file.custom_weapons_primary[i] = ParseWeapon( trim( file.custom_weapons_primary[i] ) )
-				
-				if ( trim(file.custom_weapons_primary[i]) != before )			
-					sqerror(format("Weapon %d was invalid and corrected. \n Old:\n \"%s\" \n New: \n \"%s\" \n\n", i, before, trim( file.custom_weapons_primary[i] ) ))
-				
-				if ( file.custom_weapons_primary[i] == "" )
-					file.custom_weapons_primary.remove(i)
-			}
-		} 
-		catch ( error ) 
-		{
-			sqerror( "" + error )
-		}
-	
-	}
-		
-	if ( Playlist_1v1_Secondary_Array() != "" )
-	{
-		string concatenate = Concatenate( Playlist_1v1_Secondary_Array(), Playlist_1v1_Secondary_Array_continue() )
-	
-		try 
-		{	
-			#if DEVELOPER 
-				sqprint("Checking: file.custom_weapons_secondary")
-			#endif
-			file.custom_weapons_secondary = StringToArray( concatenate )
-			
-			for( int i = file.custom_weapons_secondary.len() - 1 ; i >= 0 ; --i ) 
-			{
-				string sbefore = trim( file.custom_weapons_secondary[i] )
-				
-				if( file.custom_weapons_secondary[i] == "~~none~~" )
-				{
-					settings.bNoSecondary = true
-					break
-				}
-				
-				file.custom_weapons_secondary[i] = ParseWeapon( trim( file.custom_weapons_secondary[i] ) )
-				
-				if ( trim(file.custom_weapons_secondary[i]) != sbefore )				
-					sqerror(format("Weapon %d was invalid and corrected. \n Old:\n \"%s\" \n New: \n \"%s\"\n\n", i, sbefore, trim( file.custom_weapons_secondary[i] ) ))
-				
-				if ( file.custom_weapons_secondary[i] == "" )
-					file.custom_weapons_secondary.remove(i)
-			}
-		} 
-		catch ( error ) 
-		{
-			sqerror( "" + error )
-		}	
-	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	string custom_longrange_primary = GetCurrentPlaylistVarString( "custom_longrange_primary", "" )
-	if ( custom_longrange_primary != "" )
-	{		
-		string concatenate = Concatenate( custom_longrange_primary, GetCurrentPlaylistVarString( "custom_longrange_primary_continue", "" ) )
-	
-		try 
-		{	
-			#if DEVELOPER 
-				sqprint("Checking: file.custom_longrange_primary")
-			#endif
-			
-			file.custom_longrange_primary = StringToArray( concatenate )
-			
-			for( int i = file.custom_longrange_primary.len() - 1 ; i >= 0 ; --i ) 
-			{
-				string before = trim( file.custom_longrange_primary[i] )
-				
-				file.custom_longrange_primary[i] = ParseWeapon( trim( file.custom_longrange_primary[i] ) )
-				
-				if ( trim(file.custom_longrange_primary[i]) != before )			
-					sqerror(format("Weapon %d was invalid and corrected. \n Old:\n \"%s\" \n New: \n \"%s\" \n\n", i, before, trim( file.custom_longrange_primary[i] ) ))
-				
-				if ( file.custom_longrange_primary[i] == "" )
-					file.custom_longrange_primary.remove(i)
-			}
-		} 
-		catch ( error ) 
-		{
-			sqerror( "" + error )
-		}
-	
-	}
-	
-	string custom_longrange_secondary = GetCurrentPlaylistVarString( "custom_longrange_secondary", "" )
-	if( custom_longrange_secondary != "" )
-	{
-		string concatenate = Concatenate( custom_longrange_secondary, GetCurrentPlaylistVarString( "custom_longrange_secondary_continue", "" ) )
-	
-		try
-		{	
-			#if DEVELOPER 
-				sqprint("Checking: file.custom_longrange_secondary")
-			#endif
-			file.custom_longrange_secondary = StringToArray( concatenate )
-			
-			for( int i = file.custom_longrange_secondary.len() - 1 ; i >= 0 ; --i ) 
-			{
-				string sbefore = trim( file.custom_longrange_secondary[i] )
-				
-				file.custom_longrange_secondary[i] = ParseWeapon( trim( file.custom_longrange_secondary[i] ) )
-				
-				if ( trim(file.custom_longrange_secondary[i]) != sbefore )				
-					sqerror(format("Weapon %d was invalid and corrected. \n Old:\n \"%s\" \n New: \n \"%s\"\n\n", i, sbefore, trim( file.custom_longrange_secondary[i] ) ))
-				
-				if ( file.custom_longrange_secondary[i] == "" )
-					file.custom_longrange_secondary.remove(i)
-			}
-		}
-		catch ( error ) 
-		{
-			sqerror( "" + error )
-		}	
-	}
-	
 	
 	//initialize defaults for SBMM
 	if ( bGlobalStats() )
@@ -830,7 +683,103 @@ void function INIT_1v1_sbmm()
 		file.current_kd_weight = 1
 		file.SBMM_kd_difference = 3	
 	}
+}
 
+//(mk): Do not remove the sqerror variants, they are used in Tracker servers to print to console for malconfigurations.
+void function ValidateWeaponList( string weaponList, string weaponListContinue, array<string> outputArrayByRef, string slotClass )
+{
+	if ( weaponList != "" )
+	{
+		string concatenated = Concatenate( weaponList, weaponListContinue )
+
+        try
+        {
+			StringToArrayAppend( concatenated, outputArrayByRef )
+			
+			if( outputArrayByRef[ 0 ] == "~~none~~" )
+			{
+				switch( slotClass )
+				{
+					case "primary":
+						settings.bNoPrimary = true
+						break
+					
+					case "secondary":
+						settings.bNoSecondary = true
+						break
+					
+					case "primaryLongrange":
+						settings.bNoPrimaryLongrange = true
+						break
+					
+					case "secondaryLongrange":
+						settings.bNoSecondaryLongrange = true
+						break
+				}
+				
+				return //exit parsing entire slotClass.
+			}
+			
+			int listLen = outputArrayByRef.len() - 1
+			for ( int i = listLen; i >= 0; --i )
+			{
+				string before = trim( outputArrayByRef[ i ] )
+				
+				outputArrayByRef[ i ] = ParseWeapon( trim( outputArrayByRef[ i ] ) )
+				
+				if ( trim( outputArrayByRef[ i ] ) != before )
+					sqerror( format( "Weapon %d was invalid and corrected. \n Old:\n \"%s\" \n New: \n \"%s\" \n\n", i, before, trim( outputArrayByRef[ i ] ) ) )
+					
+				if ( outputArrayByRef[ i ] == "" )
+					outputArrayByRef.remove( i )
+			}
+		}
+		catch ( error )
+		{
+			sqerror( "" + error )
+		}
+	}
+}
+
+void function INIT_HostCustomWeapons()
+{	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Regular weapons pool	
+	
+	ValidateWeaponList
+	( 
+		GetCurrentPlaylistVarString( "custom_1v1_weapons_primary", "" ),
+		GetCurrentPlaylistVarString( "custom_1v1_weapons_primary_continue", "" ), 
+		file.Weapons,
+		"primary"
+	)
+		
+	ValidateWeaponList
+	(
+		GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary", "" ), 
+		GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary_continue", "" ),
+		file.WeaponsSecondary,
+		"secondary"
+	)
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Longrange weapons pool
+	
+	ValidateWeaponList
+	( 
+		GetCurrentPlaylistVarString( "custom_longrange_primary", "" ),
+		GetCurrentPlaylistVarString( "custom_longrange_primary_continue", "" ),
+		file.LongRangeWeapons,
+		"primaryLongrange"
+	)
+	
+	ValidateWeaponList
+	(
+		GetCurrentPlaylistVarString( "custom_longrange_secondary", "" ),
+		GetCurrentPlaylistVarString( "custom_longrange_secondary_continue", "" ),
+		file.LongRangeWeaponsSecondary,
+		"secondaryLongrange"
+	)
 }
 
 bool function IsLockable( entity player1, entity player2 )
@@ -839,16 +788,6 @@ bool function IsLockable( entity player1, entity player2 )
 		return false
 	
 	return true
-}
-
-string function LockSetting( entity player ) //not used?
-{
-	return player.p.lock1v1_setting == true ? "Enabled" : "Disabled";
-}
-
-bool function Lock1v1Enabled() //not used?
-{
-	return GetCurrentPlaylistVarBool( "enable_lock1v1", true )
 }
 
 int function getTimeOutPlayerAmount() 
@@ -3159,11 +3098,12 @@ void function Gamemode1v1_Init( int eMap )
 	
 	#if DEVELOPER 
 		DEV_1v1Init()
-	#endif 
+	#endif
 	
 	INIT_PlaylistSettings() // Always first
 	INIT_PregameCallbacks()
 	INIT_1v1_sbmm()
+	INIT_HostCustomWeapons()
 	
 	if( !isScenariosMode() ) //intertwined D:
 	{
@@ -3202,16 +3142,11 @@ void function Gamemode1v1_Init( int eMap )
 	//INIT PRIMARY WEAPON SELECTION
 	if ( Flowstate_IsLGDuels() ) //todo fire a SetCallback to set
 		file.Weapons = [ "mp_weapon_lightninggun" ]	
-	else 
-		file.Weapons = file.custom_weapons_primary
 	
-	file.Weapons = ValidateBlacklistedWeapons( file.Weapons )
-			
 	if ( file.Weapons.len() == 0 && !settings.bNoPrimary )
-	{		
+	{
 		file.Weapons = 
 		[
-			//default R5R.DEV selection
 			"mp_weapon_r97 optic_cq_hcog_classic stock_tactical_l1 bullets_mag_l2",	
 			"mp_weapon_rspn101 optic_cq_hcog_classic stock_tactical_l1 bullets_mag_l2",
 			"mp_weapon_vinson optic_cq_hcog_classic stock_tactical_l1 highcal_mag_l3",
@@ -3220,26 +3155,19 @@ void function Gamemode1v1_Init( int eMap )
 		]
 	}
 	
-	//longrange
-	file.LongRangeWeapons = ValidateBlacklistedWeapons( file.custom_longrange_primary )	
-	if( file.LongRangeWeapons.len() == 0 )
-		file.LongRangeWeapons = [ "mp_weapon_g2 optic_cq_hcog_bruiser" ]
-	
-	
+	//longrange class primary
+	if( file.LongRangeWeapons.len() == 0 && !settings.bNoPrimaryLongrange )
+		file.LongRangeWeapons = [ "mp_weapon_g2 optic_cq_hcog_bruiser" ]		
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//INIT SECONDARY WEAPON SELECTION	
 	if ( Flowstate_IsLGDuels() ) 
 		file.WeaponsSecondary = [ "mp_weapon_lightninggun" ] //Lg_Duel beta		
-	else	
-		file.WeaponsSecondary = file.custom_weapons_secondary
 	
-	file.WeaponsSecondary = ValidateBlacklistedWeapons( file.WeaponsSecondary )
-	
-	if ( file.WeaponsSecondary.len() <= 0 && !settings.bNoSecondary )
+	if ( file.WeaponsSecondary.len() == 0 && !settings.bNoSecondary )
 	{
-		file.WeaponsSecondary = 
-		[	
-			//default R5R.DEV selection
+		file.WeaponsSecondary =
+		[
 			"mp_weapon_wingman optic_cq_hcog_classic sniper_mag_l1",
 			"mp_weapon_energy_shotgun shotgun_bolt_l1",
 			"mp_weapon_mastiff shotgun_bolt_l2",
@@ -3247,13 +3175,21 @@ void function Gamemode1v1_Init( int eMap )
 		]
 	}
 	
-	//longrange
-	file.LongRangeWeaponsSecondary = ValidateBlacklistedWeapons( file.custom_longrange_secondary )
-	if( file.LongRangeWeaponsSecondary.len() == 0 )
+	//longrange class secondary
+	if( file.LongRangeWeaponsSecondary.len() == 0 && !settings.bNoSecondaryLongrange )
 		file.LongRangeWeaponsSecondary = [ "mp_weapon_sniper" ]
 	
+	
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Validate final selection to host settings 
+	
+	ValidateBlacklistedWeapons( file.Weapons )
+	ValidateBlacklistedWeapons( file.LongRangeWeapons )	
+	ValidateBlacklistedWeapons( file.WeaponsSecondary )
+	ValidateBlacklistedWeapons( file.LongRangeWeaponsSecondary )
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//FlagWait( "EntitiesDidLoad" ) //creates timing issues to wait here
 	
 	if( Playlist() == ePlaylists.fs_vamp_1v1 ) //Todo(mk): This should be handled by the mode's script file using AddCallback_FlowstateSpawnsSettings
 		SpawnSystem_SetCustomPlaylist( "fs_1v1" )
@@ -3277,7 +3213,7 @@ void function Gamemode1v1_Init( int eMap )
 				WaitFrame()
 				
 			wait 8
-			printw( "No valid spawns defined" )
+			sqwarning( "No valid spawns defined" )
 			
 			foreach( player in GetPlayerArray() )
 				Message( player, "Map Config Error", "No valid spawns defined." )
@@ -4420,13 +4356,21 @@ void function GiveWeaponsToGroup( array<entity> players, soloGroupStruct groupRe
 		switch( spawnClass )
 		{
 			case "longrange":
-				primaryWeaponWithAttachments = file.LongRangeWeapons.getrandom()
-				secondaryWeaponWithAttachments = file.LongRangeWeaponsSecondary.getrandom() 		
+			
+				if( !settings.bNoPrimaryLongrange )
+					primaryWeaponWithAttachments = file.LongRangeWeapons.getrandom()
+					
+				if( !settings.bNoSecondaryLongrange )
+					secondaryWeaponWithAttachments = file.LongRangeWeaponsSecondary.getrandom() 		
 			break
 			
 			default:
-				primaryWeaponWithAttachments = ReturnRandomPrimaryMetagame_1v1()
-				secondaryWeaponWithAttachments = ReturnRandomSecondaryMetagame_1v1()
+			
+				if( !settings.bNoPrimary )
+					primaryWeaponWithAttachments = ReturnRandomPrimaryMetagame_1v1()
+					
+				if( !settings.bNoSecondary )
+					secondaryWeaponWithAttachments = ReturnRandomSecondaryMetagame_1v1()
 			break
 		}
 		
@@ -4471,10 +4415,10 @@ void function GiveWeaponsToGroup( array<entity> players, soloGroupStruct groupRe
 			{
 				TakeAllWeapons( player )
 
-				if( !settings.bNoPrimary )
+				if( !empty( primaryWeaponWithAttachments ) )
 					GivePrimaryWeapon_1v1( player, primaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_0 )
 				
-				if( !settings.bNoSecondary )
+				if( !empty( secondaryWeaponWithAttachments ) )
 					GivePrimaryWeapon_1v1( player, secondaryWeaponWithAttachments, WEAPON_INVENTORY_SLOT_PRIMARY_1 )		
 			}
 			else
@@ -5458,14 +5402,13 @@ void function Gamemode1v1_OnSpawned( entity player )
 	player.UnfreezeControlsOnServer()
 }
 
-array<string> function ValidateBlacklistedWeapons( array<string> Weapons )
+void function ValidateBlacklistedWeapons( array<string> Weapons )
 {
 	int maxIter = Weapons.len() - 1
 	
 	for( int i = maxIter; i >= 0; i-- )
 	{
-		int sliceIndex = Weapons[ i ].find( " " )
-		
+		int sliceIndex = Weapons[ i ].find( " " )		
 		if( sliceIndex > -1 )
 		{	
 			string weaponName = Weapons[ i ].slice( 0, sliceIndex )
@@ -5479,8 +5422,6 @@ array<string> function ValidateBlacklistedWeapons( array<string> Weapons )
 				Weapons.remove( i )
 		}
 	}
-	
-	return Weapons
 }
 
 void function DisablePlayerCollision( entity player )

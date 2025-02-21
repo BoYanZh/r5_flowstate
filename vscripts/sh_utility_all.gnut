@@ -2781,16 +2781,14 @@ bool function VectorInWorldBounds( vector vec )
 // CALLING FUNCTION responsible for error catch //
 //////////////////////////////////////////////////
 
-array<string> function StringToArray( string str, int arrayStringMaxLength = 128 ) 
+array<string> function StringToArray( string str, int arrayStringMaxLength = 128, bool forceCommaFormat = false ) 
 {		
-	string t_str = strip( str )
-	int length_check
-	
+	string t_str = strip( str )	
     if ( t_str == "" )
         throw "Cannot convert empty string to array in " + FUNC_NAME( 1 ) + "()"
 	
 	bool convertBySpaceOrComma = ( t_str.find( " " ) != -1 ) && ( t_str.find( "," ) == -1 ) ? true : false
-	string splitStr = convertBySpaceOrComma ? " " : ","
+	string splitStr = convertBySpaceOrComma && !forceCommaFormat ? " " : ","
 	
     array<string> arr = split( str, splitStr )
 	array<string> valid = []
@@ -2802,7 +2800,8 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
 	}
 	*/
 	
-	int item_index = 0
+	int length_check
+	int item_index
     foreach ( item in arr ) 
 	{	
 		item_index++
@@ -2810,10 +2809,10 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
 		item = strip( item )
 		length_check = item.len()
 	
-        if ( item == "" ) 
-            Warning( "Empty item in the list for item # " + ( item_index ) + " removed. " )			
+        if ( item == "" )
+            printw( "Empty item in the list for item #", item_index, "removed." )			
 		else if ( length_check >= arrayStringMaxLength )
-			Warning( "item # " + ( item_index ) + " is too long and was removed. Length: " + length_check + " ; Max: " + arrayStringMaxLength + " chars" )	
+			printw( "item #", item_index, "is too long and was removed. Length:", length_check, "; Max:", arrayStringMaxLength, "chars" )	
 		else	
 			valid.append( item )		
     }
@@ -2822,6 +2821,32 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
         throw "Array empty after conversion";
 
     return valid
+}
+
+void function StringToArrayAppend( string str, array<string> refArray, int arrayStringMaxLength = 128 ) 
+{		
+	string t_str = strip( str )	
+    if ( t_str == "" )
+        throw "Cannot convert empty string to array in " + FUNC_NAME( 1 ) + "()"
+	
+    array<string> arr = split( str, "," )
+	
+	int length_check
+	int item_index
+    foreach ( item in arr ) 
+	{
+		item_index++
+		
+		item = strip( item )
+		length_check = item.len()
+	
+        if ( item == "" )
+            printw( "Empty item in the list for item #", item_index, "removed." )			
+		else if ( length_check >= arrayStringMaxLength )
+			printw( "item #", item_index, "is too long and was removed. Length:", length_check, "; Max:", arrayStringMaxLength, "chars" )	
+		else	
+			refArray.append( item )		
+    }
 }
 
 string function truncate( string str, int limit ) 

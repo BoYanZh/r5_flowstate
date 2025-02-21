@@ -1587,7 +1587,8 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 		if( !isScenariosMode() && !g_is1v1GameType() )
 			PlayerRestoreHP(player, 100, Equipment_GetDefaultShieldHP())
 
-		try{
+		try
+		{
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
 			player.TakeOffhandWeapon( OFFHAND_MELEE )
 			
@@ -1610,9 +1611,10 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 		}
 	}
 
-	if( flowstateSettings.is_halo_gamemode && IsValid( player ))
+	if( flowstateSettings.is_halo_gamemode && IsValid( player ) )
 	{
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 
@@ -1620,9 +1622,10 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 			GiveRandomSecondaryWeaponHalo(player)
 		} catch (e420) {}
 	} 
-	else if (FlowState_RandomGuns() && !FlowState_Gungame() && IsValid( player ))
+	else if ( FlowState_RandomGuns() && !FlowState_Gungame() && IsValid( player ) )
     {
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1636,7 +1639,8 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
     }
 	else if(FlowState_RandomGunsMetagame() && !FlowState_Gungame() && IsValid( player ) && !Flowstate_IsFastInstaGib() )
 	{
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1647,9 +1651,11 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
             player.GiveWeapon( "mp_weapon_melee_survival", WEAPON_INVENTORY_SLOT_PRIMARY_2, [] )
             player.GiveOffhandWeapon( "melee_pilot_emptyhandede", OFFHAND_MELEE, [] )
 		} catch (e420) {}
-	} else if( Flowstate_IsFastInstaGib() )
+	} 
+	else if( Flowstate_IsFastInstaGib() )
 	{
-		try{
+		try
+		{
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1659,9 +1665,6 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 		} catch (e420) {}
 	}
 
-	//(mk): wtf is this expression
-	//if( IsValid( player ) || FlowState_GungameRandomAbilities() && IsValid( player ))
-	
 	if( IsValid( player ) && FlowState_GungameRandomAbilities() )
 	{
 		if( FlowState_RandomTactical() )
@@ -1695,7 +1698,8 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
         player.GiveWeapon( "mp_weapon_melee_survival", WEAPON_INVENTORY_SLOT_PRIMARY_2, [] )
         player.GiveOffhandWeapon( "melee_pilot_emptyhanded", OFFHAND_MELEE, [] )
 		}catch(e420){}
-    } else if(FlowState_Gungame() && IsValid( player ))
+    } 
+	else if(FlowState_Gungame() && IsValid( player ))
 		GiveGungameWeapon(player)
 
 	if( flowstateSettings.hackersVsPros  )
@@ -1807,6 +1811,9 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 
 	if( Flowstate_IsFastInstaGib() )
 		FS_Instagib_PlayerSpawn( player )
+		
+	if( is1v1EnabledAndAllowed() ) //(mk): handle respawn is only fired for newjoins in 1v1 type gamemodes.
+		Gamemode1v1_TakeAll( player )
 		
 	#if DEVELOPER
 		printt( "End of _HandleRespawn function" )//Cafe debugging halo mod stuff
@@ -2127,8 +2134,7 @@ void function GiveRandomPrimaryWeaponHalo(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( 0, Weapons.len() ) )
 }
 
@@ -2152,8 +2158,7 @@ void function GiveRandomSecondaryWeaponHalo(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( 0, Weapons.len() ) )
 }
 
@@ -2222,8 +2227,7 @@ void function PrimaryWeaponMetagame_Init()
 			]
 	}
 
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-	
+	ValidateBlacklistedWeapons( Weapons )
 	if( Weapons.len() == 0 )
 		mAssert( false, "No valid weapons remain in secondary list. If this is intentional, comment this assert" )
 		
@@ -2263,8 +2267,7 @@ void function SecondaryWeaponMetagame_Init()
 			]
 	}
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-	
+	ValidateBlacklistedWeapons( Weapons )	
 	if( Weapons.len() == 0 )
 		mAssert( false, "No valid weapons remain in secondary list. If this is intentional, comment this assert" )
 	
@@ -2302,8 +2305,7 @@ void function GiveRandomPrimaryWeapon(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( -1, Weapons.len() ) )
 }
 
@@ -2329,8 +2331,7 @@ void function GiveRandomSecondaryWeapon( entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( -1, Weapons.len() ) )
 }
 
@@ -2382,8 +2383,7 @@ void function GiveActualGungameWeapon(int index, entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, index, true)
 }
 

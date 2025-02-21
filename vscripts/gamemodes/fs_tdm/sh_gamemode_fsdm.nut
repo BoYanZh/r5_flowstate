@@ -1873,11 +1873,7 @@ void function RegisterLocationSURF(LocationSettings locationSettings)
 
 }
 
-#if SERVER   
-string function Playlist_1v1_Primary_Array()						{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_primary", "" ) }
-string function Playlist_1v1_Primary_Array_continue()				{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_primary_continue", "" ) }
-string function Playlist_1v1_Secondary_Array()						{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary", "" ) }
-string function Playlist_1v1_Secondary_Array_continue()				{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary_continue", "" ) }
+#if SERVER
 
 StoredWeapon function Equipment_GetRespawnKit_PrimaryWeapon()
 {

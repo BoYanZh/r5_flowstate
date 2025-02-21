@@ -2424,7 +2424,7 @@ string function ParseWeapon( string weaponString )
 	if( mods.len() < 1 )
 		return ""
 	
-	if( !IsWeaponValid( mods[0] ) || !(SURVIVAL_Loot_IsRefValid( mods[0] )) )
+	if( !IsWeaponValid( mods[0] ) || !( SURVIVAL_Loot_IsRefValid( mods[0] ) ) )
 		return ""
 	
 	bool removed = false
@@ -2435,7 +2435,7 @@ string function ParseWeapon( string weaponString )
 		|| !IsModValidForWeapon( mods[0], mods[i] ) )
 		{
 			removed = true
-			sqprint("removed: " + mods[i] )		
+			sqprint( "removed:", mods[i] )		
 			mods.remove(i)
 		}
 	}
@@ -2443,12 +2443,7 @@ string function ParseWeapon( string weaponString )
 	if ( removed )
 		sqprint( PrintSupportedAttachpointsForWeapon( mods[0] ) )
 	
-	string return_string = ""
-	
-	foreach( mod in mods )
-		return_string += mod + " "
-	
-	return trim( return_string )
+	return mods.join( " " )
 }
 
 bool function IsModValidForWeapon( string weaponref, string mod )

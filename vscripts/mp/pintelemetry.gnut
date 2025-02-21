@@ -486,6 +486,7 @@ struct //Todo: move appropriate to tracker.var
 	string restricted_join_message = "You are able to play on this restricted server."
 	string restricted_whitelist_message = "You are whitelisted to play on this restricted server."
 	string restricted_admin_message = "You are an admin."
+	bool restricted_whitelist_only
 	
 	table<int,float> DamagePerBullet = {}
 	table<int,int> SpecialWeaponsBulletsPerShot = {}
@@ -1773,6 +1774,7 @@ void function Tracker_SettingsInit()
 	file.restricted_join_message 			= GetCurrentPlaylistVarString( "restricted_join_message", "You are able to play on this restricted server." )
 	file.restricted_whitelist_message 		= GetCurrentPlaylistVarString( "restricted_whitelist_message", "You are whitelisted to play on this restricted server." )
 	file.restricted_admin_message 			= GetCurrentPlaylistVarString( "restricted_admin_message", "You are an admin." )
+	file.restricted_whitelist_only			= GetCurrentPlaylistVarBool( "restricted_whitelist_only", false )
 
 	//motd
 	file.bUseOnlineMOTD 					= GetCurrentPlaylistVarBool( "use_online_motd", false )
@@ -2059,13 +2061,12 @@ void function Init_NewGame()
 	
 	void function PlayerWhitelistInit()
 	{
-		string string_whitelist = TrackerGetSetting__internal( "settings.PLAYER_WHITELIST" )
-		
-		if ( !empty( string_whitelist ) )
-		{	
+		string whitelistString = TrackerGetSetting__internal( "settings.PLAYER_WHITELIST" )	
+		if ( !empty( whitelistString ) )
+		{
 			try
 			{
-				file.whitelist = StringToArray( string_whitelist, 2000 )	
+				file.whitelist = StringToArray( whitelistString, 2000 )	
 			}
 			catch(err)
 			{
@@ -2078,11 +2079,14 @@ void function Init_NewGame()
 	{	
 		string player_UID = player.GetPlatformUID()
 		
-		if ( file.whitelist.contains( player_UID ) )
-			return 8
-		
 		if ( GetAdminList().contains( player_UID ) )
 			return 7
+		
+		if ( file.whitelist.contains( player_UID ) )
+			return 8
+			
+		if( file.restricted_whitelist_only )
+			return -1
 		
 		if ( player.p.season_score < Tracker_GetQueryInt( "restricted_rank" ) )
 			return 6
@@ -2102,7 +2106,7 @@ void function Init_NewGame()
 		return 9
 	}
 	
-	string function Player_Access_Message( entity player, int result )
+	string function GetPlayerAccessMessage( entity player, int result )
 	{
 		switch( result )
 		{
@@ -2130,6 +2134,9 @@ void function Init_NewGame()
 			case 1:
 				return "Your play time does not meet this server's required minimum play time of: " + PlayTime( file.restricted_playtime ) + "\n Your playtime: " + PlayTime( player.p.season_playtime ) + "\n\n You need to play for at least: " + PlayTime(( file.restricted_playtime - player.p.season_playtime)) + " more time.";
 			
+			case -1:
+				return "This server has Private mode enabled. Please contact the admin to be added to the whitelist."
+				
 			default:
 				return "Error 404";
 		}
@@ -2174,7 +2181,7 @@ void function Init_NewGame()
 		if ( IsValid( player ) && access_status >= RESTRICTED_ACCESS_STATUS_REQUIRED )//Todo: Revisit for more modularity from a single defined source and remove CONST adjustments
 		{	
 			Gamemode1v1_ForceRest( player )
-			Message( player, "Welcome " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
+			Message( player, "Welcome " + player.GetPlayerName(),  GetPlayerAccessMessage( player, access_status ), 30 )
 			CommandsEnabled( player, true )
 		}
 		else 
@@ -2183,17 +2190,17 @@ void function Init_NewGame()
 			{
 				thread force_rest( player )
 				
-				Message( player, "Sorry " + player.GetPlayerName(),  Player_Access_Message( player, access_status ), 30 )
+				Message( player, "Sorry " + player.GetPlayerName(),  GetPlayerAccessMessage( player, access_status ), 30 )
 				wait 7	
 				
 				if( IsValid( player ) )
 				{
-					KickPlayerById( player.GetPlatformUID(), Player_Access_Message( player, access_status ) )
+					KickPlayerById( player.GetPlatformUID(), GetPlayerAccessMessage( player, access_status ) )
 					UpdatePlayerCounts()
 					
 					if( GetCurrentPlaylistVarBool( "restricted_kick_log", false ) )
 					{
-						sqprint( format( "\n\n Player: %s, Kick msg: %s", player.GetPlayerName(), Player_Access_Message( player, access_status ) ) )
+						sqprint( format( "\n\n Player: %s, Kick msg: %s", player.GetPlayerName(), GetPlayerAccessMessage( player, access_status ) ) )
 					}
 				}
 			}
