@@ -352,17 +352,11 @@ void function WeaponReactiveKillEffects_AddActiveFXGroup( ItemFlavor weaponSkin,
 #if CLIENT
 void function MenuWeaponModel_StartReactiveEffects( entity weaponModel, ItemFlavor weaponSkin )
 {
-	#if(true)
-		return
-	#endif
-
 	int reactiveKillLevel = WeaponSkin_GetReactToKillsLevelCount( weaponSkin ) - 1 //
 	WeaponReactiveKillsData rtked = WeaponSkin_GetReactToKillsDataForLevel( weaponSkin, reactiveKillLevel )
 
 	foreach ( int persistentFXIdx, string attachmentName in rtked.persistentFXAttachmentList )
 	{
-		//
-		//
 		asset fx = rtked.persistentFX3PList[persistentFXIdx] //
 
 		if ( fx != "" )
