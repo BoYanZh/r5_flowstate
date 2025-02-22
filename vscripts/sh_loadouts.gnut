@@ -1511,7 +1511,11 @@ array<int> shouldShowTypes = [
 	eItemType.gladiator_card_intro_quip,
 	eItemType.gladiator_card_kill_quip,
 	eItemType.gladiator_card_stat_tracker,
-	eItemType.gladiator_card_badge
+	eItemType.gladiator_card_badge,
+	eItemType.music_pack,
+	eItemType.loadscreen,
+	eItemType.skydive_emote,
+	eItemType.skydive_trail
 ]
 
 array<ItemFlavor> function TEMP_FilterItemsForGRX( EHI playerEHI, array<ItemFlavor> items )
