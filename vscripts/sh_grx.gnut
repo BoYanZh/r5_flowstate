@@ -777,7 +777,7 @@ bool function IsItemOwnedByPlayerInternal( ItemFlavor flav, entity player = null
 	if ( grxMode == GRX_ITEMFLAVORMODE_NONE )
 		return true
 
-	if ( ItemFlavor_GetType( flav ) == eItemType.character )
+	if ( ItemFlavor_GetType( flav ) == eItemType.character || ItemFlavor_GetType( flav ) == eItemType.skydive_trail )
 		return true
 
 	return false

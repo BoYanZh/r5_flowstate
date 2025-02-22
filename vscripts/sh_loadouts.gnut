@@ -1540,9 +1540,6 @@ array<ItemFlavor> function TEMP_FilterItemsForGRX( EHI playerEHI, array<ItemFlav
 				}
 			}
 
-			if(ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_skin || ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_charm)
-				shouldShow = true
-
 			if ( GRX_IsItemCraftable( itemFlavor ) )
 				shouldShow = true
 
