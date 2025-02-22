@@ -364,7 +364,7 @@ bool function ShouldDisplayWeaponSkin( ItemFlavor weaponSkin )
 {
 	if ( GladiatorCardWeaponSkin_ShouldHideIfLocked( weaponSkin ) )
 	{
-		if ( !IsItemFlavorUnlockedForLoadoutSlot( LocalClientEHI(), Loadout_CharacterClass(), weaponSkin ) )
+		if ( ItemFlavor_GetQuality( weaponSkin ) != eQuality.FANMADE  )
 			return false
 	}
 
