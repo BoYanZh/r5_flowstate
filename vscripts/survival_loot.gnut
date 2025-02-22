@@ -177,6 +177,7 @@ struct {
 	table< string, void functionref(entity, string, int) > specialCaseRefDecrementFunctions
 
 	array< void functionref(entity, entity, string, int, bool, entity, int) >       Callbacks_OnPlayerLootPickup
+	array< void functionref(entity, LootData, int) >                                Callbacks_OnLootSpawn
 	table< entity, array<void functionref( entity parentEnt, entity childEnt ) > >  Callbacks_OnLootPhysicsParented
 	table< string, array<void functionref( entity parentEnt, entity childEnt ) > >  Callbacks_OnLootSpawnParented
 	array< void functionref(entity, entity, entity) >								Callbacks_OnGiveMainWeapon
@@ -2992,7 +2993,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector overrideAngl
 	ent.kv.CollisionGroup = collisionGroup
 	Assert( lootData.model != $"" )
 	ent.SetValueForModelKey( lootData.model )
-	ent.kv.fadedist = 18000
+	ent.kv.fadedist = 6000
 	ent.kv.renderamt = 255
 	ent.kv.rendercolor = "255 255 255"
 	ent.kv.solid = 0 // 0 = no collision, 2 = bounding box, 6 = use vPhysics, 8 = hitboxes only
@@ -3024,7 +3025,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector overrideAngl
 	int lootType = lootData.lootType
 
 	SetForceDrawWhileParented( ent, true )
-	// ent.SetSurvivalPropFadeDist( GetFadeDistForLoot( lootData ) )
+	ent.SetFadeDistance( GetFadeDistForLoot( lootData ) )
 
 	ent.SetUsable()
 	ent.SetUsableByGroup( "pilot" )
@@ -3087,7 +3088,7 @@ entity function SpawnGenericLoot( string ref, vector origin, vector overrideAngl
 		ShowDefaultBodygroupsOnFakeWeapon( ent, baseWeapon )
 	}
 
-	if ( settings.sur_dev_disable_hibernation )
+	if ( GetCurrentPlaylistVarInt( "sur_dev_disable_hibernation", 0 ) == 1 )
 	{
 		ent.DisableHibernation()
 	}
@@ -3095,8 +3096,8 @@ entity function SpawnGenericLoot( string ref, vector origin, vector overrideAngl
 	ent.e.spawnTime = Time()
 	SetItemSpawnSource( ent, eSpawnSource.GAME )
 
-	// foreach ( callbackFunc in file.Callbacks_OnLootSpawn )
-		// thread callbackFunc( ent, lootData, clipCount )
+	foreach ( callbackFunc in file.Callbacks_OnLootSpawn )
+		thread callbackFunc( ent, lootData, clipCount )
 
 	return ent
 }
@@ -3736,20 +3737,20 @@ void function FakePhysicsThrow_Retail( entity player, entity drop, vector vel, b
 	if ( !IsValid( drop ) )
 		return
 
+	drop.kv.solid = 0
+	drop.kv.CollideWithOwner = false
+	drop.kv.fadedist = 10000
 	asset model       = drop.GetModelName()
 	entity physicsEnt = CreatePropPhysics( model, drop.GetOrigin(), drop.GetAngles(), 0 )
 	physicsEnt.kv.CollideWithOwner = false
 	physicsEnt.kv.solid = 0
 	physicsEnt.SetBlocksRadiusDamage( false )
 	drop.SetParent( physicsEnt )
-	drop.kv.solid = 0
-	drop.kv.CollideWithOwner = false
 
 	// PutEntityInSafeSpot( physicsEnt, null, null, physicsEnt.GetOrigin(), physicsEnt.GetOrigin() )
 
 	// set the owner so the physics object doesn't collide with the thrower
 	physicsEnt.Hide()
-	physicsEnt.AllowMantle()
 	physicsEnt.SetTakeDamageType( DAMAGE_NO )
 
 	vector baseVel
