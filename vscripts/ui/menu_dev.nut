@@ -290,7 +290,6 @@ void function SetupDefaultDevCommandsMP()
 	}
 
 	if(GetCheatsState()){
-
 		SetupDevMenu( "Equip Legend Abilities", SetDevMenu_Abilities )
 		SetupDevMenu( "Equip Weapons", SetDevMenu_Weapons )
 		SetupDevMenu( "Equip Titanfall Weapons", SetDevMenu_R2Weapons )
