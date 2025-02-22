@@ -6,13 +6,16 @@ global function CodeCallback_PlayerFreefallAnticipateBegin
 global function CodeCallback_PlayerFreefallAnticipateEnd
 global function GetSkyDiveTrailPackageForPlayerWithOverrides
 
+
 #if SERVER
 	global function isFreefallEnabled
 #endif
 
-#if(CLIENT)
+#if CLIENT
 global function Freefall_SetDisplaySeaHeightForLevel
 global function Freefall_SetPlaneHeight
+global function CleanupFriendlyEnemySkydiveTrailFXForPlayer
+global function StartFriendlyEnemySkydiveTrailFXForPlayer
 #endif //
 
 #if(false)
@@ -232,6 +235,8 @@ void function SurvivalFreefall_Init()
 		PrecacheParticleSystem( JUMPJET_ENEMY_SKYDIVE )
 		PrecacheParticleSystem( JUMPJET_LAND_FX )
 		PrecacheParticleSystem( $"P_skydive_jumpjet_team_rank_AP" )
+		PrecacheParticleSystem( $"P_skydive_jumpjet_team_rank" )
+
 		PrecacheModel( CLOUD_MODEL )
 		PrecacheImpactEffectTable( "human_land_jetwash" )
 
@@ -247,8 +252,8 @@ void function SurvivalFreefall_Init()
 		AddCallback_OnClientDisconnected( OnPlayerDisconnected )
 		AddClientCommandCallback( "StopFreefallFollowMode", ClientCommand_StopFreefallFollowMode )
 
-		// AddClientCommandCallback( "SkydiveEmote", ClientCommand_SkydiveEmote )
-		// AddClientCommandCallback( "SkydiveEmoteNext", ClientCommand_SkydiveEmoteNext )
+		AddClientCommandCallback( "SkydiveEmote", ClientCommand_SkydiveEmote )
+		AddClientCommandCallback( "SkydiveEmoteNext", ClientCommand_SkydiveEmoteNext )
 		file.skydiveSmokeColors.randomize()
 		file.freefall_enabled = true
 	
@@ -2204,7 +2209,7 @@ void function UpdatePlayerSkydiveTrailFriendlyEnemyFX( entity player )
 	if ( !IsValid( player ) )
 		return
 
-	CleanupFriendlyEnemySkydiveTrailFXForPlayer( player )
+	CleanupFriendlyEnemySkydiveTrailFXForPlayer( player, "" )
 
 	if ( !player.Player_IsFreefalling()  )
 		return
@@ -2212,10 +2217,10 @@ void function UpdatePlayerSkydiveTrailFriendlyEnemyFX( entity player )
 	if ( player.Player_IsFreefallAnticipating() )
 		return
 
-	thread StartFriendlyEnemySkydiveTrailFXForPlayer( player )
+	thread StartFriendlyEnemySkydiveTrailFXForPlayer( player, "" )
 }
 
-void function StartFriendlyEnemySkydiveTrailFXForPlayer( entity skyDivingPlayer )
+void function StartFriendlyEnemySkydiveTrailFXForPlayer( entity skyDivingPlayer, string parameter   )
 {
 	EHI skyDivingPlayerEHI = ToEHI( skyDivingPlayer  )
 	if ( !( skyDivingPlayerEHI in file.EHIToFriendlyJumpJetFXHandlesTable  )  )
@@ -2272,7 +2277,7 @@ void function StartFriendlyEnemySkydiveTrailFXForPlayer( entity skyDivingPlayer 
 	}
 }
 
-void function CleanupFriendlyEnemySkydiveTrailFXForPlayer( entity skyDivingPlayer )
+void function CleanupFriendlyEnemySkydiveTrailFXForPlayer( entity skyDivingPlayer, string parameter )
 {
 	EHI skyDivingPlayerEHI = ToEHI( skyDivingPlayer  )
 

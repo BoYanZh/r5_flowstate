@@ -1,6 +1,8 @@
 global function ShItems_LevelInit_Begin
 global function ShItems_LevelInit_Finish
 
+global function GetBaseItemFlavorsFromArray
+
 global function AddCallback_RegisterRootItemFlavors
 global function AddCallback_OnItemFlavorRegistered
 global function AddCallbackOrMaybeCallNow_OnAllItemFlavorsRegistered
@@ -447,6 +449,22 @@ void function RegisterTags()
 {
 	foreach ( sourceTag, icon in sourceTagToIcon )
 		RegisterItemFlavorFromSettingsAsset( sourceTag )
+}
+
+array<asset> function GetBaseItemFlavorsFromArray( string arrayFieldName )
+{
+	var parentBlock = GetSettingsBlockForAsset( $"settings/base_itemflavors.rpak" )
+	var arrField    = GetSettingsBlockArray( parentBlock, arrayFieldName )
+	array<asset> validAssets
+
+	foreach ( var entryBlock in IterateSettingsArray( arrField ) )
+	{
+		asset entryAsset = GetSettingsBlockAsset( entryBlock, "flavor" )
+		if ( entryAsset != $"" )
+			validAssets.append( entryAsset )
+	}
+
+	return validAssets
 }
 
 
