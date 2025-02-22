@@ -56,7 +56,7 @@ npc_frag_drone_treasure_tick
 	aimassist_adspull_headshotAttachmentName	""
 	aimassist_adspull_headshotRadius			0.0
 
-	meleeable						0
+	meleeable						1
 
 	MinStartMoveDist				100
 	MaxArrivalDist					150
@@ -74,8 +74,8 @@ npc_frag_drone_treasure_tick
 	ui_targetinfo					"" [$mp]
 	ui_targetinfo					"" [$sp]
 
-	minSpeedScale					1.0
-	maxSpeedScale					1.0
+	minSpeedScale					1
+	maxSpeedScale					1
 
 	magneticRange					125
 
