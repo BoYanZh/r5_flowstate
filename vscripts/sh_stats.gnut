@@ -231,6 +231,11 @@ global struct CareerStats
 	StatTemplate& lifeline_ultimate_droppod_items_grabbed_by_allies
 	StatTemplate& lifeline_passive_enemy_damage_absorbed
 
+	// Loba
+	StatTemplate& loba_tactical_meters_teleported
+	StatTemplate& loba_ultimate_loot_taken_by_allies
+	StatTemplate& loba_passive_loot_pinged_through_walls
+
 	// Mirage
 	StatTemplate& mirage_decoys_created
 	StatTemplate& mirage_successful_bamboozles
@@ -403,6 +408,7 @@ global const array<string> ZONE_STAT_REFS =
 	"can_octanett", "des_wastelands",
 	"des_uncharted",
 	"des_snipe",
+	"des_blood",
 	"des_drill_site",
 	"des_cap_city",
 	"des_tunnel_z2",
@@ -412,6 +418,10 @@ global const array<string> ZONE_STAT_REFS =
 	"des_lava_fissure",
 	"des_pass",
 	"des_trainyard",
+	"des_harvester",
+	"des_fragment_west",
+	"des_fragment_east",
+	"des_survey",
 	"des_tunnel_z5",
 	"des_new_springfield",
 	"des_snow_field",
@@ -723,6 +733,9 @@ void function RegisterAllStats()
 	CAREER_STATS.lifeline_tactical_drone_healing_given = RegisterAccumulatedStat_Int( null, "lifeline_tactical_drone_healing_given", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.lifeline_ultimate_droppod_items_grabbed_by_allies = RegisterAccumulatedStat_Int( null, "lifeline_ultimate_droppod_items_grabbed_by_allies", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.lifeline_passive_enemy_damage_absorbed = RegisterAccumulatedStat_Int( null, "lifeline_passive_enemy_damage_absorbed", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.loba_tactical_meters_teleported = RegisterAccumulatedStat_Float( null, "loba_tactical_meters_teleported", TRACKERS_NEED | CHALLENGES_NEED ) //
+	CAREER_STATS.loba_ultimate_loot_taken_by_allies = RegisterAccumulatedStat_Int( null, "loba_ultimate_loot_taken_by_allies", TRACKERS_NEED | CHALLENGES_NEED ) //
+	CAREER_STATS.loba_passive_loot_pinged_through_walls = RegisterAccumulatedStat_Int( null, "loba_passive_loot_pinged_through_walls", TRACKERS_NEED | CHALLENGES_NEED ) //
 	CAREER_STATS.mirage_decoys_created = RegisterAccumulatedStat_Int( null, "mirage_decoys_created", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.mirage_successful_bamboozles = RegisterAccumulatedStat_Int( null, "mirage_successful_bamboozles", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.mirage_successful_revives = RegisterAccumulatedStat_Int( null, "mirage_successful_revives", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
@@ -741,9 +754,12 @@ void function RegisterAllStats()
 	CAREER_STATS.bangalore_passive_distance = RegisterAccumulatedStat_Int( null, "bangalore_passive_distance", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.bangalore_tactical_smoke_hits = RegisterAccumulatedStat_Int( null, "bangalore_tactical_smoke_hits", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.bangalore_ultimate_damage_done = RegisterAccumulatedStat_Int( null, "bangalore_ultimate_damage_done", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
-	CAREER_STATS.revenant_silenced_target = RegisterAccumulatedStat_Int( null, "revenant_silenced_target", TRACKERS_NEED | CHALLENGES_NEED ) //
-	CAREER_STATS.revenant_silenced_target_knockdowns = RegisterAccumulatedStat_Int( null, "revenant_silenced_target_knockdowns", TRACKERS_NEED | CHALLENGES_NEED ) //
-	CAREER_STATS.revenant_death_totem_activates = RegisterAccumulatedStat_Int( null, "revenant_death_totem_activates", TRACKERS_NEED | CHALLENGES_NEED ) //
+	CAREER_STATS.revenant_silenced_target = RegisterAccumulatedStat_Int( null, "revenant_silenced_target", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_silenced_target_knockdowns = RegisterAccumulatedStat_Int( null, "revenant_silenced_target_knockdowns", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_death_totem_activates = RegisterAccumulatedStat_Int( null, "revenant_death_totem_activates", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_silenced_target = RegisterAccumulatedStat_Int( null, "revenant_silenced_target", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_silenced_target_knockdowns = RegisterAccumulatedStat_Int( null, "revenant_silenced_target_knockdowns", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.revenant_death_totem_activates = RegisterAccumulatedStat_Int( null, "revenant_death_totem_activates", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 
 	StatEnumStruct season_SES = RegisterStatEnumStruct( null, "seasons", "eSeasonFlavor", allSeasonRefs )
 	CAREER_STATS.season_battlepass_level = RegisterCachedCalculatedStat_Int( season_SES, "battlepass_level", BADGES_NEED, SetupGetSeasonBattlePassLevelForStat, [] ) // ✓

@@ -528,6 +528,9 @@ $STRUCT_START sStatsData
 	int revenant_silenced_target
 	int revenant_silenced_target_knockdowns
 	int revenant_death_totem_activates
+	int loba_passive_loot_pinged_through_walls
+	int loba_ultimate_loot_taken_by_allies
+	float loba_tactical_meters_teleported
 	int season01_event_placements_top_5
 	int season01_event_elite_placements_top_5
 	int season01_event_placements_win
