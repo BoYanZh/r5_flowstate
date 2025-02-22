@@ -371,19 +371,6 @@ scripts/resource/ui/menus/lobby.menu
             pin_to_sibling_corner	BOTTOM
         }
 
-		"R5RConnectingPanel"
-		{
-			"ControlName"				"CNestedPanel"
-			"ypos"						"0"
-			"zpos"						"45"
-			"wide"						"f0"
-			"tall"						"f0"
-			"visible"					"0"
-			"controlSettingsFile"		"scripts/resource/ui/menus/panels/connecting.res"
-			"proportionalToParent"    	"1"
-			"zpos"                      "10"
-		}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		ButtonTooltip

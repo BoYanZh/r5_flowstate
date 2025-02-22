@@ -2,7 +2,6 @@ untyped
 // Only way to get Hud_GetPos(sliderButton) working was to use untyped
 
 global function InitServerBrowserPanel
-global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
 global function UICodeCallback_OnServerListRequestCompleted
@@ -54,7 +53,6 @@ struct
 {
 	var menu
 	var panel
-	var connectingpanel
 
 	int m_vAllPlayers
 	int m_vAllServers
@@ -66,11 +64,6 @@ struct
 
 global array<ServerListing> global_m_vServerList
 global bool ServerListFetching = false
-
-void function InitR5RConnectingPanel( var panel )
-{
-	file.connectingpanel = panel
-}
 
 void function InitServerBrowserPanel( var panel )
 {
@@ -178,12 +171,6 @@ void function ServerBrowser_ServerBtnDoubleClicked(var button)
 
 void function ServerBrowser_StartConnection(int id)
 {
-	Hud_SetVisible(Hud_GetChild( file.menu, "R5RConnectingPanel"), true)
-	Hud_SetText(Hud_GetChild( GetPanel( "R5RConnectingPanel" ), "ServerName" ), file.m_vServerList[id].svServerName )
-
-	wait 2
-
-	Hud_SetVisible(Hud_GetChild( file.menu, "R5RConnectingPanel"), false)
 	ConnectToListedServer(id)
 }
 
