@@ -1953,6 +1953,12 @@ asset function GetGladCardReplacementImageForDamageSourceID( int damageSourceID 
 
 		case eDamageSourceId.fall:
 			return $"rui/death_recap/icon_deathrecap_specialcase_fall"
+			
+		case eDamageSourceId.prowler_melee:
+			return $"rui/death_recap/icon_deathrecap_specialcase_prowler"
+			
+		case eDamageSourceId.spider_melee:
+			return $"rui/death_recap/icon_deathrecap_specialcase_spider_melee"
 
 		case eDamageSourceId.damagedef_crush:
 		case eDamageSourceId.crushed:

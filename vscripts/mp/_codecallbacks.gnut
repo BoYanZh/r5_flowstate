@@ -145,6 +145,10 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 			{
 				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.prowler_melee )
 			}
+			else if ( IsSpider( attacker ) )
+			{
+				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.spider_melee )
+			}
 			else if ( IsSuperSpectre( attacker ) )
 			{
 				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.super_spectre_melee )

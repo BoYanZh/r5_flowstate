@@ -4200,6 +4200,11 @@ bool function IsProwler( entity ent )
 	return ent.GetNetworkedClassName() == "npc_prowler"
 }
 
+bool function IsSpider( entity ent )
+{
+	return ent.GetNetworkedClassName() == "npc_spider"
+}
+
 bool function IsAirDrone( entity ent )
 {
 	return ent.GetNetworkedClassName() == "npc_drone"

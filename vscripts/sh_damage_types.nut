@@ -215,6 +215,7 @@ global enum eDamageSourceId
 	grunt_melee
 	spectre_melee
 	prowler_melee
+	spider_melee
 	super_spectre_melee
 	titan_execution
 	human_execution
@@ -596,6 +597,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.auto_titan_melee ] 						= "#DEATH_AUTO_TITAN_MELEE",
 
 		[ eDamageSourceId.prowler_melee ] 							= "#DEATH_PROWLER_MELEE",
+		[ eDamageSourceId.spider_melee ] 							= "#DEATH_SPIDER_MELEE",
 		[ eDamageSourceId.super_spectre_melee ] 					= "#DEATH_SUPER_SPECTRE",
 		[ eDamageSourceId.grunt_melee ] 							= "#DEATH_GRUNT_MELEE",
 		[ eDamageSourceId.spectre_melee ] 							= "#DEATH_SPECTRE_MELEE",
