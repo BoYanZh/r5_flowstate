@@ -191,7 +191,7 @@ void function OnItemFlavorRegistered_LootMainWeapon( ItemFlavor weaponFlavor )
 			return (flavorCurrentWeaponEquippedTo == null || flavorCurrentWeaponEquippedTo == weaponFlavor)
 		}
 
-		#if SERVER && DEV
+		#if SERVER && DEVELOPER
 			charmEntry.isCurrentlyRelevant = bool function( EHI playerEHI ) : ( weaponFlavor ) {
 				entity player          = FromEHI( playerEHI )
 				string weaponClassName = WeaponItemFlavor_GetClassname( weaponFlavor )
