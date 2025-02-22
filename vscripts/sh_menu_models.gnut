@@ -318,7 +318,6 @@ const STICK_ROTATE_SPEED = 2.0
 
 #if UI
 const MOUSE_ROTATE_SPEED = 1.0
-const MOUSE_ROTATE_MULTIPLIER = 25.0
 
 global function ShMenuModels_UIInit
 
@@ -2919,18 +2918,12 @@ void function RunMouseMovementCallbacks( var capturePanelOrMenu, int deltaX, int
 
 void function UICodeCallback_MouseMovementCapture( var capturePanel, int deltaX, int deltaY )
 {
-	// run callbacks for the capturePanel
-    RunMouseMovementCallbacks( capturePanel, deltaX, deltaY )
+	float screenScaleXModifier = 1920.0 / GetScreenSize().width                             
+	float mouseXRotateDelta    = deltaX * screenScaleXModifier * MOUSE_ROTATE_SPEED
+	                                                                                                                     
 
-	// get the current menu and run callbacks, this preserves backwards compatibility
-    RunMouseMovementCallbacks( GetActiveMenu(), deltaX, deltaY )
-
-	float screenScaleXModifier = 1920.0 / GetScreenSize().width // 1920 is base screen width
-	float mouseXRotateDelta    = deltaX * screenScaleXModifier * MOUSE_ROTATE_MULTIPLIER
-	//printt( "deltaX:", deltaX, "screenScaleXModifier:", screenScaleXModifier, "mouseXRotateDelta:", mouseXRotateDelta )
-
-	float screenScaleYModifier = 1080.0 / GetScreenSize().height // 1920 is base screen width
-	float mouseYRotationDelta  = deltaY * screenScaleYModifier * MOUSE_ROTATE_MULTIPLIER
+	float screenScaleYModifier = 1080.0 / GetScreenSize().height                             
+	float mouseYRotationDelta  = deltaY * screenScaleYModifier * MOUSE_ROTATE_SPEED
 
 	RunMenuClientFunction( "UpdateMouseRotateDelta", mouseXRotateDelta, mouseYRotationDelta )
 }
