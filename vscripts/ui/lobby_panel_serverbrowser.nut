@@ -111,7 +111,7 @@ void function InitServerBrowserPanel( var panel )
 
 void function ServerBrowser_OnShow( var panel )
 {
-	UI_SetPresentationType( ePresentationType.COLLECTION_EVENT )
+	UI_SetPresentationType( ePresentationType.SERVER_BROWSER )
 	RegisterButtonPressedCallback( MOUSE_WHEEL_UP , OnScrollUp )
 	RegisterButtonPressedCallback( MOUSE_WHEEL_DOWN , OnScrollDown )
 }
