@@ -17,11 +17,11 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 	{
 		"ControlName"			"ImagePanel"
 		"xpos"					"-245"
-		"ypos"					"-40"
+		"ypos"					"-70"
 		"tall"					"50"
 		"wide" 					"1395"
-		fillColor		"195 29 38 200"
-        drawColor		"195 29 38 200"
+		fillColor		"50 50 50 255"
+        drawColor		"50 50 50 255"
 		"wrap"					"1"
 		"visible"				"1"
 		"zpos"					"3"
@@ -33,16 +33,23 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 
 	"ServersBG"
 	{
-		"ControlName"			"ImagePanel"
+		ControlName				RuiPanel
+		rui                     "ui/basic_image.rpak"
 		"xpos"					"0"
-		"ypos"					"0"
-		"tall"					"600"
+		"ypos"					"-20"
+		"tall"					"622"
 		"wide" 					"1395"
 		"fillColor"				"30 30 30 120"
         "drawColor"				"30 30 30 120"
 		"wrap"					"1"
 		"visible"				"1"
 		"zpos"					"0"
+		scaleImage              1
+
+        ruiArgs
+        {
+            basicImage "rui/menu/character_skills/background"
+        }
 
 		"pin_to_sibling"		"ServerBrowserBG"
 		"pin_corner_to_sibling"	"TOP_LEFT"
@@ -56,8 +63,8 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"ypos"					"10"
 		"tall"					"240"
 		"wide" 					"1395"
-		"fillColor"				"30 30 30 200"
-        "drawColor"				"30 30 30 200"
+		fillColor		"50 50 50 255"
+        drawColor		"50 50 50 255"
 		"wrap"					"1"
 		"visible"				"1"
 		"zpos"					"0"
@@ -209,7 +216,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"wide"						"200"
 		"tall"						"35"
 		"xpos"						"-5"
-		"ypos"						"0"
+		"ypos"						"-5"
 		"visible"					"1"
 		"enabled"					"1"
 		"zpos" 						"10"
@@ -294,9 +301,9 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		wide 32
 		tall 649
 		xpos 2
-		ypos 50
+		ypos 30
 		zpos 0
-        "fillColor"				"195 29 38 150"
+        "fillColor"				"195 29 38 255"
 		scaleImage				1
 		"visible"				"0"
 
@@ -443,8 +450,8 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"auto_wide_tocontents"	"1"
 		"zpos" 					"7"
 		"fontHeight"			"25"
-		"xpos"					"-5"
-		"ypos"					"0"
+		"xpos"					"-25"
+		"ypos"					"-10"
 		"fgcolor_override"		"255 255 255 255"
 
 		"pin_to_sibling"		"ServerBrowserBGBottom"
@@ -631,71 +638,47 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"pin_to_sibling_corner"	"BOTTOM_RIGHT"
 	}
 
-	"BottomLine"
-	{
-		"ControlName"			"ImagePanel"
-		"xpos"					"0"
-		"ypos"					"0"
-		"tall"					"2"
-		"wide" 					"1395"
-		"fillColor"				"155 155 155 200"
-        "drawColor"				"155 155 155 200"
-		"wrap"					"1"
-		"visible"				"1"
-		"zpos"					"3"
-
-		"pin_to_sibling"		"ServersBG"
-		"pin_corner_to_sibling"	"BOTTOM_LEFT"
-		"pin_to_sibling_corner"	"BOTTOM_LEFT"
-	}
-
-	"TopLine"
-	{
-		"ControlName"			"ImagePanel"
-		"xpos"					"0"
-		"ypos"					"0"
-		"tall"					"2"
-		"wide" 					"1395"
-		"fillColor"				"155 155 155 200"
-        "drawColor"				"155 155 155 200"
-		"wrap"					"1"
-		"visible"				"1"
-		"zpos"					"3"
-
-		"pin_to_sibling"		"ServersBG"
-		"pin_corner_to_sibling"	"TOP_LEFT"
-		"pin_to_sibling_corner"	"TOP_LEFT"
-	}
-
 	"ServerMapImg"
 	{
 		"ControlName"			"RuiPanel"
 		"wide"					"450"
 		"tall"            		"250"
 		"visible"				"1"
-		"rui"           		"ui/custom_loadscreen_image.rpak"
-		"ypos" 					"0"
+		rui                     "ui/gamemode_select_v2_button.rpak"
 		"xpos"					"40"
 		"zpos" 					"4"
+		polyShape               "5.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0"
+
+        ruiArgs
+        {
+            lockIconEnabled 0
+            modeNameText ""
+            modeDescText ""
+            alwaysShowDesc 0
+        }
 
 		"pin_to_sibling"		"ServerBrowserBG"
 		"pin_corner_to_sibling"	"TOP_LEFT"
 		"pin_to_sibling_corner"	"TOP_RIGHT"
+		
 	}
 
 	"ServerInfoBG"
 	{
-		"ControlName"			"ImagePanel"
-		"xpos" 					"0"
-		"ypos" 					"0"
-		"tall"					"560"
+		ControlName				RuiPanel
+		rui                     "ui/basic_image.rpak"
+		ypos					15
+        "tall"					"508"
 		"wide" 					"450"
-		"fillColor"				"30 30 30 200"
-        "drawColor"				"30 30 30 200"
-		"wrap"					"1"
-		"visible"				"1"
-		"zpos"					"3"
-		"pin_to_sibling"		"ServerMapImg"
+		visible					1
+		scaleImage              1
+
+        ruiArgs
+        {
+            basicImage "rui/flowstate_custom/scoreboard_bg"
+        }
+
+        "pin_to_sibling"		"ServerMapImg"
 		"pin_corner_to_sibling"	"TOP_LEFT"
 		"pin_to_sibling_corner"	"BOTTOM_LEFT"
 	}
@@ -710,7 +693,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"25"
 		"xpos"					"0"
-		"ypos"					"-5"
+		"ypos"					"-15"
 		"textAlignment"			"center"
 		fgcolor_override		"240 240 240 255"
 		"bgcolor_override"		"0 0 0 255"
@@ -730,7 +713,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"20"
 		"xpos"					"-15"
-		"ypos"					"-35"
+		"ypos"					"-45"
 		"textAlignment"			"left"
 		fgcolor_override		"240 240 240 255"
 		"bgcolor_override"		"0 0 0 255"
@@ -751,7 +734,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"20"
 		"xpos"					"-15"
-		"ypos"					"-35"
+		"ypos"					"-45"
 		fgcolor_override		"240 240 240 255"
 		"bgcolor_override"		"0 0 0 255"
 
@@ -770,7 +753,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"20"
 		"xpos"					"-15"
-		"ypos"					"-65"
+		"ypos"					"-75"
 		"textAlignment"			"left"
 		fgcolor_override		"240 240 240 255"
 		"bgcolor_override"		"0 0 0 255"
@@ -790,7 +773,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"20"
 		"xpos"					"-15"
-		"ypos"					"-65"
+		"ypos"					"-75"
 		"textAlignment"			"east"
 		"fgcolor_override"		"240 240 240 255"
 		"bgcolor_override"		"0 0 0 255"
@@ -810,7 +793,7 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"zpos" 					"7"
 		"fontHeight"			"25"
 		"xpos"					"-15"
-		"ypos"					"-105"
+		"ypos"					"-115"
 		"textAlignment"			"north-west"
 		"fgcolor_override"		"255 255 255 255"
 
@@ -819,58 +802,25 @@ scripts/resource/ui/menus/panels/serverbrowser.res
 		"pin_to_sibling_corner"	"TOP_LEFT"
 	}
 
-	"ConnectButtonBG"
+	"ConnectButton"
 	{
-		"ControlName"			"ImagePanel"
-		"xpos" 					"0"
-		"ypos" 					"0"
-		"tall"					"90"
-		"wide" 					"450"
-		"fillColor"				"195 29 38 200"
-        "drawColor"				"195 29 38 200"
-		"visible"				"1"
-		"zpos"					"1"
+		ControlName				RuiButton
+		wide					450
+        tall					112
+        rui                     "ui/generic_ready_button.rpak"
+		xpos 0
+		ypos 15
+		zpos 6
+
+		ruiArgs
+		{
+			buttonText "CONNECT"
+		}
+
 
 		"pin_to_sibling"		"ServerInfoBG"
 		"pin_corner_to_sibling"	"TOP"
 		"pin_to_sibling_corner"	"BOTTOM"
-	}
-
-	"ConnectButtonText"
-	{
-		"ControlName"			"Label"
-		"labelText"				"#FS_CONNECT"
-		"font"					"Default_27_Outline"
-		"allcaps"				"1"
-		"wide"					"200"
-		"zpos" 					"3"
-		"fontHeight"			"50"
-		"tall"					"50"
-		"xpos"					"0"
-		"ypos"					"0"
-		"textAlignment"			"center"
-		fgcolor_override		"240 240 240 255"
-		"bgcolor_override"		"0 0 0 255"
-
-		"pin_to_sibling"		"ConnectButtonBG"
-		"pin_corner_to_sibling"	"CENTER"
-		"pin_to_sibling_corner"	"CENTER"
-	}
-
-	"ConnectButton"
-	{
-		ControlName RuiButton
-		InheritProperties RuiSmallButton
-		wide 450
-		tall 90
-		xpos 0
-		ypos 0
-		zpos 6
-
-
-		pin_to_sibling ConnectButtonBG
-		pin_corner_to_sibling CENTER
-		pin_to_sibling_corner CENTER
 	}
 
 	"ServerButton0"

@@ -6,8 +6,6 @@ global function InitR5RConnectingPanel
 
 global function ServerBrowser_RefreshServerListing
 global function UICodeCallback_OnServerListRequestCompleted
-global function RegisterServerBrowserButtonPressedCallbacks
-global function UnRegisterServerBrowserButtonPressedCallbacks
 global function ServerBrowser_UpdateFilterLists
 
 global function MS_GetPlayerCount
@@ -89,6 +87,7 @@ void function InitServerBrowserPanel( var panel )
 	AddButtonEventHandler( Hud_GetChild( file.panel, "BtnServerSearch"), UIE_CHANGE, FilterServer_Activate )
 
 	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, ServerBrowser_OnShow )
+	AddPanelEventHandler( panel, eUIEvent.PANEL_HIDE, ServerBrowser_OnHide )
 
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "LeftButton" ), UIE_CLICK, FilterServer_Activate )
 	Hud_AddEventHandler( Hud_GetChild( Hud_GetChild( file.panel, "SwtBtnHideEmpty" ), "RightButton" ), UIE_CLICK, FilterServer_Activate )
@@ -113,15 +112,11 @@ void function InitServerBrowserPanel( var panel )
 void function ServerBrowser_OnShow( var panel )
 {
 	UI_SetPresentationType( ePresentationType.COLLECTION_EVENT )
-}
-
-void function RegisterServerBrowserButtonPressedCallbacks()
-{
 	RegisterButtonPressedCallback( MOUSE_WHEEL_UP , OnScrollUp )
 	RegisterButtonPressedCallback( MOUSE_WHEEL_DOWN , OnScrollDown )
 }
 
-void function UnRegisterServerBrowserButtonPressedCallbacks()
+void function ServerBrowser_OnHide( var panel )
 {
 	DeregisterButtonPressedCallback( MOUSE_WHEEL_UP , OnScrollUp )
 	DeregisterButtonPressedCallback( MOUSE_WHEEL_DOWN , OnScrollDown )
@@ -200,7 +195,7 @@ void function ServerBrowser_UpdateSelectedServerUI()
 	Hud_SetText(Hud_GetChild( file.panel, "ServerCurrentMapEdit" ), GetUIMapName(file.m_vSelectedServer.svMapName) )
 	Hud_SetText(Hud_GetChild( file.panel, "PlaylistInfoEdit" ), GetUIPlaylistName(file.m_vSelectedServer.svPlaylist) )
 	Hud_SetText(Hud_GetChild( file.panel, "ServerDesc" ), file.m_vSelectedServer.svDescription )
-	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "ServerMapImg" ) ), "loadscreenImage", GetUIMapAsset(file.m_vSelectedServer.svMapName) )
+	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "ServerMapImg" ) ), "modeImage", GetUIMapAsset(file.m_vSelectedServer.svMapName) )
 }
 
 void function ServerBrowser_NoServersLabel(bool show)
@@ -506,7 +501,7 @@ void function UpdateListSliderPosition( int servers )
 	var sliderPanel = Hud_GetChild( file.panel , "BtnServerListSliderPanel" )
 	var movementCapture = Hud_GetChild( file.panel , "MouseMovementCapture" )
 
-	float minYPos = 0.0 * ( GetScreenSize().height / 1080.0 )
+	float minYPos = -20.0 * ( GetScreenSize().height / 1080.0 )
 	float useableSpace = (550.0 * ( GetScreenSize().height / 1080.0 ) - Hud_GetHeight( sliderPanel ) )
 
 	float jump = minYPos - ( useableSpace / ( float( servers ) - SB_MAX_SERVER_PER_PAGE ) * m_vScroll.Offset )
@@ -566,7 +561,7 @@ void function SliderBarUpdate()
 
 	Hud_SetFocused( sliderButton )
 
-	float minYPos = 0.0 * ( GetScreenSize().height / 1080.0 )
+	float minYPos = -20.0 * ( GetScreenSize().height / 1080.0 )
 	float maxHeight = 550.0  * ( GetScreenSize().height / 1080.0 )
 	float maxYPos = minYPos - ( maxHeight - Hud_GetHeight( sliderPanel ) )
 	float useableSpace = ( maxHeight - Hud_GetHeight( sliderPanel ) )
