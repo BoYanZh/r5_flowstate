@@ -1501,6 +1501,18 @@ void function ClientToUI_RefreshLoadoutSlot( EHI playerEHI, int entryIndex, int 
 	RefreshLoadoutSlotInternal( playerEHI, entry, null )
 }
 
+array<int> shouldShowTypes = [
+	eItemType.character_skin,
+	eItemType.weapon_skin,
+	eItemType.weapon_charm,
+	eItemType.character_execution,
+	eItemType.gladiator_card_stance,
+	eItemType.gladiator_card_frame,
+	eItemType.gladiator_card_intro_quip,
+	eItemType.gladiator_card_kill_quip,
+	eItemType.gladiator_card_stat_tracker,
+	eItemType.gladiator_card_badge
+]
 
 array<ItemFlavor> function TEMP_FilterItemsForGRX( EHI playerEHI, array<ItemFlavor> items )
 {
@@ -1515,8 +1527,14 @@ array<ItemFlavor> function TEMP_FilterItemsForGRX( EHI playerEHI, array<ItemFlav
 
 			bool shouldShow = false
 
-			if(ItemFlavor_GetType( itemFlavor ) == eItemType.character_skin)
-				shouldShow = true
+			foreach(int type in shouldShowTypes)
+			{
+				if(ItemFlavor_GetType( itemFlavor ) == type)
+				{
+					shouldShow = true
+					break
+				}
+			}
 
 			if(ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_skin || ItemFlavor_GetType( itemFlavor ) == eItemType.weapon_charm)
 				shouldShow = true
