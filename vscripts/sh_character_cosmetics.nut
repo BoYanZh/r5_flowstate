@@ -319,7 +319,7 @@ string function CharacterSkin_GetStoryBlurbBodyText( ItemFlavor flavor )
 {
 	Assert( ItemFlavor_GetType( flavor ) == eItemType.character_skin )
 
-	return GetGlobalSettingsString( ItemFlavor_GetAsset( flavor ), "skinName" )
+	return GetGlobalSettingsString( ItemFlavor_GetAsset( flavor ), "unlockFuncKey" )
 }
 
 
