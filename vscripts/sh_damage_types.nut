@@ -102,6 +102,7 @@ global enum eDamageSourceId
 	mp_weapon_energy_ar
 	mp_weapon_volt_smg
 	mp_weapon_defender
+	mp_ability_mobile_respawn_beacon
 	// End S3 Defaults
 
 	mp_weapon_melee_survival
@@ -558,6 +559,7 @@ void function DamageTypes_Init()
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_smart_pistol]		<- $"rui/weapon_icons/r5/weapon_smart_pistol"
 	file.damageSourceIDToImage[eDamageSourceId.mp_titanweapon_flightcore_rockets] <- $"rui/weapon_icons/kral/custom/flamethrower"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_flamethrower] 		<- $"rui/weapon_icons/kral/custom/flamethrower"
+	file.damageSourceIDToImage[eDamageSourceId.mp_ability_mobile_respawn_beacon] 		<- $"rui/weapon_icons/kral/custom/flamethrower"//remove this later
 
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_titan_sword]		<- $"rui/gamemodes/shadow_squad/legend_icon_sdk"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_titan_sword_slam]	<- $"rui/gamemodes/shadow_squad/legend_icon_sdk"
@@ -692,6 +694,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.mp_weapon_lifeline_baton_primary ]		= "#DEATH_MELEE_LIFELINE_BATON",
 		[ eDamageSourceId.melee_shadowsquad_hands ] 				= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
 		[ eDamageSourceId.mp_weapon_shadow_squad_hands_primary ] 	= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
+		[ eDamageSourceId.mp_ability_mobile_respawn_beacon ] 	= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
 		
 		//r5r
 		[ eDamageSourceId.melee_bolo_sword ] 						= "Bolo Sword Melee",

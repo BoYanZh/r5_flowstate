@@ -372,7 +372,6 @@ bool function IsNewLootEnabled( string ref )
 		//case "hopup_selectfire":
 		case "hopup_double_tap":
 		case "mp_ability_void_ring":
-		case "mp_ability_mobile_respawn_beacon":
 		case "mp_ability_redeploy_balloon":
 		case "hopup_smart_reload":
 		case "hopup_dual_loader":

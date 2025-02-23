@@ -1560,6 +1560,21 @@ entity function CreatePhysExplosion( vector org, float radius, int magnitude = 1
 	return env_physexplosion
 }
 
+entity function CreateThreatIndicator( vector origin, int threadIndicatorID = eThreatIndicatorID.GRENADE_INDICATOR_GENERIC, float radius = 128.0, vector visualOffset = <0,0,0>, int threatIndicatorVisibilityType = eThreatIndicatorVisibility.INDICATOR_SHOW_TO_ALL , entity owner = null )
+{
+	entity wp = CreateWaypoint_Custom( WAYPOINTTYPE_THREAT_INDICATOR )
+	wp.SetOrigin( origin )
+	wp.SetWaypointInt( 0, threadIndicatorID )
+	wp.SetWaypointFloat( 0, radius )
+	wp.SetWaypointVector( 0, visualOffset )
+	wp.SetWaypointEntity( 0, owner )
+	wp.SetWaypointInt( 2, threatIndicatorVisibilityType )
+	if ( IsValid( owner ) )
+		wp.SetWaypointInt( 1, owner.GetTeam() )
+
+	return wp
+}
+
 //-----------------------------------------------------------
 // CreatePropDynamic( model ) - create a generic prop_dynamic with default properties
 //------------------------------------------------------------
@@ -5770,6 +5785,44 @@ void function ForceAutoSprintOff( entity player )
 	{
 		player.UnforceAutoSprint()
 	}
+}
+
+entity function FindScriptNameInChildren ( entity ent, string scriptName )
+{
+	if (!IsValid(ent))
+		return null
+	else if ( ent.GetScriptName() == scriptName )
+		return ent
+
+	array<entity> children = GetChildren( ent )
+	for ( int i = 0; i < children.len(); i++ )
+	{
+		entity result = FindScriptNameInChildren( children[i], scriptName )
+		if ( result != null )
+		{
+			return result
+		}
+	}
+	return null
+}
+
+entity function FindTargetNameInChildren ( entity ent, string targetName )
+{
+	if (!IsValid(ent))
+		return null
+	else if ( ent.GetTargetName() == targetName )
+		return ent
+
+	array<entity> children = GetChildren( ent )
+	for ( int i = 0; i < children.len(); i++ )
+	{
+		entity result = FindTargetNameInChildren( children[i], targetName )
+		if ( result != null )
+		{
+			return result
+		}
+	}
+	return null
 }
 
 void function ChargeTactical_ForceEnd( entity player )

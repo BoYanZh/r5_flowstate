@@ -238,6 +238,7 @@ void function CodeCallback_MapSpawn() // original script entry point
 	PrecacheParticleSystem( $"P_warp_brac_loop_gear_2" )
 	PrecacheParticleSystem( $"P_warp_brac_toss_arm" )
 	PrecacheParticleSystem( $"P_warp_brac_ring_hld" )
+	PrecacheParticleSystem( $"P_mrb_destruction" )
 
 	_cc = CreateEntity( "point_clientcommand" )
 	_sc = CreateEntity( "point_servercommand" )
@@ -401,6 +402,8 @@ void function PrecacheSDKWeapons()
 {
 	PrecacheWeapon( $"mp_weapon_droneplasma" )//remove these from here later!!! -kral
 	PrecacheWeapon( $"mp_weapon_dronerocket" )
+
+	PrecacheWeapon( $"mp_ability_mobile_respawn_beacon" )
 
 	PrecacheWeapon( $"mp_weapon_melee_boxing_ring" )
 	PrecacheWeapon( $"melee_boxing_ring" ) // Olympus ring
