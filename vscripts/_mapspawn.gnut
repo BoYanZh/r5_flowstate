@@ -457,6 +457,7 @@ void function PrecacheSDKEntities()
 	PrecacheModel( $"mdl/props/revenant_jar/revenant_jar.rmdl" )
 	PrecacheModel( $"mdl/props/loot_bin/loot_bin_01_loba_gladcard.rmdl" )
 	PrecacheModel( $"mdl/props/loba_treasure/loba_treasure.rmdl" )
+	PrecacheModel( $"mdl/Humans/class/medium/pilot_medium_loba.rmdl" )// TEMPORARILY PRECACHE LOBA WORLD MODEL
 
 	///////////////////////npcs///////////////////////
 	PrecacheModel( $"mdl/Humans/grunts/imc_grunt_lmg_corpse.rmdl" )
