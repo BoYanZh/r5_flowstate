@@ -251,6 +251,11 @@ global struct CareerStats
 	StatTemplate& pathfinder_ultimate_ziplines_used_by_allies
 	StatTemplate& pathfinder_passive_beacons_scanned
 
+	// Rampart
+	StatTemplate& rampart_tactical_bullets_amped
+	StatTemplate& rampart_tactical_damage_blocked
+	StatTemplate& rampart_ultimate_bullets_fired
+
 	// Revenant
 	StatTemplate& revenant_silenced_target
 	StatTemplate& revenant_silenced_target_knockdowns
@@ -745,6 +750,9 @@ void function RegisterAllStats()
 	CAREER_STATS.pathfinder_tactical_meters_moved_by_grapple = RegisterAccumulatedStat_Float( null, "pathfinder_tactical_meters_moved_by_grapple", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.pathfinder_ultimate_ziplines_used_by_allies = RegisterAccumulatedStat_Int( null, "pathfinder_ultimate_ziplines_used_by_allies", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.pathfinder_passive_beacons_scanned = RegisterAccumulatedStat_Int( null, "pathfinder_passive_beacons_scanned", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.rampart_tactical_bullets_amped = RegisterAccumulatedStat_Int( null, "rampart_tactical_bullets_amped", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.rampart_tactical_damage_blocked = RegisterAccumulatedStat_Float( null, "rampart_tactical_damage_blocked", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
+	CAREER_STATS.rampart_ultimate_bullets_fired = RegisterAccumulatedStat_Int( null, "rampart_ultimate_bullets_fired", TRACKERS_NEED | CHALLENGES_NEED ) // ✓
 	CAREER_STATS.wattson_breaches_detected = RegisterAccumulatedStat_Int( null, "wattson_breaches_detected", TRACKERS_NEED ) // ✓
 	CAREER_STATS.wattson_friendly_shields_charged = RegisterAccumulatedStat_Int( null, "wattson_friendly_shields_charged", TRACKERS_NEED ) // ✓
 	CAREER_STATS.wattson_enemy_ordnance_intercepted = RegisterAccumulatedStat_Int( null, "wattson_enemy_ordnance_intercepted", TRACKERS_NEED ) // ✓
