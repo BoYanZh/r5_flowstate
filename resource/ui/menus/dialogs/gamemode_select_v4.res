@@ -773,13 +773,13 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             ruiArgs
             {
                 currentPage 0
-                levelRangeText ""
+                levelRangeText "Scroll for more servers"
                 numPages 20
             }
 
             pin_to_sibling			ServerButton1
-            pin_corner_to_sibling	BOTTOM
-            pin_to_sibling_corner	TOP
+            pin_corner_to_sibling	TOP
+            pin_to_sibling_corner	BOTTOM
         }
 
         ServersPrevButton
@@ -802,8 +802,8 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             }
 
             pin_to_sibling			ServerButton0
-            pin_corner_to_sibling	BOTTOM_LEFT
-            pin_to_sibling_corner	TOP_LEFT
+            pin_corner_to_sibling	TOP_LEFT
+            pin_to_sibling_corner	BOTTOM_LEFT
         }
 
         ServersNextButton
@@ -820,8 +820,8 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             sound_focus             "UI_Menu_BattlePass_Level_Focus"
             sound_accept            ""
             pin_to_sibling			ServerButton2
-            pin_corner_to_sibling	BOTTOM_RIGHT
-            pin_to_sibling_corner	TOP_RIGHT
+            pin_corner_to_sibling	TOP_RIGHT
+            pin_to_sibling_corner	BOTTOM_RIGHT
         }
 
         "HeaderModes0Text"
@@ -870,11 +870,29 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             pin_to_sibling_corner	TOP
 		}
 
+		"ServersLine"
+		{
+			"ControlName"			"ImagePanel"
+			"xpos"					"15"
+			"ypos"					"10"
+			"tall"					"2"
+			"wide" 					"1030"
+			"fillColor"				"255 255 255 255"
+			"drawColor"				"255 255 255 255"
+			"wrap"					"1"
+			"visible"				"1"
+			"zpos"					"3"
+
+			"pin_to_sibling"		"ServerButton1"
+			"pin_corner_to_sibling"	"BOTTOM"
+			"pin_to_sibling_corner"	"TOP"
+		}
+
         "HeaderModes2Text"
 		{
 			"ControlName"			"Label"
-			"xpos"                  "0"
-			"ypos"					"-15"
+			"xpos"                  "-15"
+			"ypos"					"0"
             zpos                    20
 			"auto_wide_tocontents"	"1"
 			"tall"					"40"
@@ -888,7 +906,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 			"allcaps"				"1"
 			"fgcolor_override"		"255 255 255 255"
 
-			pin_to_sibling			ServersFooter
+			pin_to_sibling			ServersLine
             pin_corner_to_sibling	BOTTOM
             pin_to_sibling_corner	TOP
 		}
@@ -897,11 +915,11 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
 		{
 			"ControlName"			"Label"
 			"xpos"                  "0"
-			"ypos"					"10"
+			"ypos"					"0"
             zpos                    20
 			"auto_wide_tocontents"	"1"
 			"tall"					"60"
-			"visible"				"0"
+			"visible"				"1"
 			"wrap"					"0"
 			"fontHeight"			"50"
 			"zpos"					"5"

@@ -178,17 +178,18 @@ void function OnOpenModeSelectDialog()
 void function SetupGameSelectV4()
 {
 	waitthread Servers_GetCurrentServerListing()
-
-	SetServerHeaderVis(GetMaxPages() > 1)
-
 	thread LoadServers(0)
 }
 
 void function SetServerHeaderVis(bool show)
 {
 	Hud_SetVisible( Hud_GetChild(file.menu, "ServersFooter"), show )
+	Hud_SetVisible( Hud_GetChild(file.menu, "ServersLine"), show )
+	Hud_SetVisible( Hud_GetChild(file.menu, "HeaderModes2Text"), show )
 	Hud_SetVisible( Hud_GetChild(file.menu, "ServersPrevButton"), show )
 	Hud_SetVisible( Hud_GetChild(file.menu, "ServersNextButton"), show )
+
+	Hud_SetVisible( Hud_GetChild(file.menu, "NoServersText"), !show )
 }
 
 void function OnCloseModeSelectDialog()
@@ -205,7 +206,8 @@ void function LoadServers(int page)
 
 	file.currentServerPage = page
 
-	Hud_SetVisible( Hud_GetChild(file.menu, "NoServersText"), global_m_vServerList.len() == 0 )
+	SetServerHeaderVis(GetMaxPages() > 1)
+
 	HudElem_SetRuiArg( Hud_GetChild(file.menu, "ServersFooter"), "currentPage", file.currentServerPage )
 	HudElem_SetRuiArg( Hud_GetChild(file.menu, "ServersFooter"), "numPages", GetMaxPages() )
 
