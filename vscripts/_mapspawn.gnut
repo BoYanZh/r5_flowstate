@@ -434,6 +434,15 @@ void function PrecacheSDKEntities()
 	PrecacheModel( $"mdl/weapons_r5/lmg_devotion/w_lmg_devotion_legendary_03.rmdl") // not a skin! used for revenant gcard
 	PrecacheModel( $"mdl/props/tablet/tablet_mini.rmdl" ) // s4 mirage animset needs this model? game crashes if not precached, remove when rseq dependency support added?
 
+	///////////////////////character_RAMPART///////////////////////
+	PrecacheModel( $"mdl/props/rampart_gum/rampart_gum.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_gum/rampart_bubblegum.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_turret/rampart_turret_lobby.rmdl" )
+	PrecacheModel( $"mdl/props/welder/welder.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_cover_wall/rampart_cover_wall.rmdl" )
+	PrecacheModel( $"mdl/props/wrench/wrench.rmdl" )
+	PrecacheModel( $"mdl/props/bullets/bullets_v02_all.rmdl" )
+
 	///////////////////////character_loba///////////////////////
 	PrecacheModel( $"mdl/fx/loba_staff_holo_stand.rmdl" )
 	PrecacheModel( $"mdl/Weapons/loba_rings/ptpov_loba_rings.rmdl" )
