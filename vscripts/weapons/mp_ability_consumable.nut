@@ -258,6 +258,7 @@ void function Consumable_Init()
 			healthSmall.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_health_small" )
 			healthSmall.healAmount = 25
 			healthSmall.shieldAmount = 0
+			healthSmall.chargeSoundName = "Health_Syringe_Charge_Short"
 			healthSmall.cancelSoundName = "Health_Syringe_Failure"
 			healthSmall.modName = "health_small"
 		}
