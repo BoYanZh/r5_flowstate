@@ -1,45 +1,24 @@
 global function InitCreditPanel
-global function ShowCreditPanel
 
-struct CreditDialogPageData
+struct CreditsItem
 {
-	asset  image = $""
-	string imageName = ""
-	string title = ""
-	string desc = ""
-	string link = ""
-}
-
-enum eTransType
-{
-	// must match TRANSTYPE_* in promo.rui
-	NONE = 0,
-	SLIDE_LEFT = 1,
-	SLIDE_RIGHT = 2,
-
-	_count,
+	asset imageAsset
+	string name
+	string description
+	string github
 }
 
 struct
 {
-	var  					  menu
-	var                       panel
-	var  					  prevPageButton
-	var  					  nextPageButton
-	bool pageChangeInputsRegistered
-	array<var>                buttons
-	table<var, ItemFlavor>    buttonToCategory
-	
-	string ornull      hijackContent = null
-	void functionref() hijackCloseCallback = null
+	var panel
+	var listPanel
 
-	array<CreditDialogPageData> pages
-	int                        activePageIndex = 0
-	var                        lastPageRui
-	var                        activePageRui
-	int                        updateID = -1
+	bool hasLoaded = false
+	int selectedIndex
+
+	array<CreditsItem> creditItems
+	table<var, int> buttonIndexTable
 } file
-
 
 void function InitCreditPanel( var panel )
 {
@@ -47,186 +26,97 @@ void function InitCreditPanel( var panel )
 
 	SetPanelTabTitle( panel, "CREDITS" )
 
+	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, CreditsPanel_OnShow )
+
 	AddPanelFooterOption( panel, LEFT, BUTTON_B, true, "#B_BUTTON_BACK", "#B_BUTTON_BACK" )
-	
-	//var menu = GetMenu( "credits" )
-	//file.menu = menu
-	
-	//AddMenuEventHandler( menu, eUIEvent.MENU_OPEN, CreditDialog_OnOpen )
-	//AddMenuEventHandler( menu, eUIEvent.MENU_CLOSE, CreditDialog_OnClose )
 
-	//file.prevPageButton = Hud_GetChild( menu, "PrevPageButton" )
-	//HudElem_SetRuiArg( file.prevPageButton, "flipHorizontal", true )
-	//Hud_AddEventHandler( file.prevPageButton, UIE_CLICK, Page_NavLeft )
-
-	//file.nextPageButton = Hud_GetChild( menu, "NextPageButton" )
-	//Hud_AddEventHandler( file.nextPageButton, UIE_CLICK, Page_NavRight )
-
-	//file.lastPageRui = Hud_GetRui( Hud_GetChild( menu, "LastPage" ) )
-	//file.activePageRui = Hud_GetRui( Hud_GetChild( menu, "ActivePage" ) )
+	file.listPanel = Hud_GetChild(panel, "CreditsList")
 }
 
-void function Page_NavLeft( var button )
+void function CreditsPanel_OnShow( var panel )
 {
-	ChangePage( -1 )
-}
+	UI_SetPresentationType( ePresentationType.CREDITS )
 
-
-void function Page_NavRight( var button )
-{
-	ChangePage( 1 )
-}
-
-
-void function ChangePage( int delta )
-{
-	Assert( delta == -1 || delta == 1 )
-
-	int newPageIndex = file.activePageIndex + delta
-	if ( newPageIndex < 0 || newPageIndex >= file.pages.len() )
-		return
-
-	int lastPageIndex = file.activePageIndex
-	file.activePageIndex = newPageIndex
-	int transType = delta == 1 ? eTransType.SLIDE_LEFT : eTransType.SLIDE_RIGHT
-
-	UpdatePageRui( file.lastPageRui, lastPageIndex )
-	UpdatePageRui( file.activePageRui, file.activePageIndex )
-	TransitionPage( file.activePageRui, transType )
-	EmitUISound( "UI_Menu_MOTD_Tab" )
-
-	UpdatePromoButtons()
-}
-
-
-void function UpdatePageRui( var rui, int pageIndex )
-{
-	CreditDialogPageData page = file.pages[pageIndex]
-}
-
-
-void function TransitionPage( var rui, int transType )
-{
-	file.updateID++
-	RuiSetInt( rui, "transType", transType )
-	RuiSetInt( rui, "updateID", file.updateID )
-}
-
-
-void function UpdatePromoButtons()
-{
-	if ( file.activePageIndex == 0 )
-		Hud_Hide( file.prevPageButton )
-	else
-		Hud_Show( file.prevPageButton )
-
-	if ( file.activePageIndex == file.pages.len() - 1 )
-		Hud_Hide( file.nextPageButton )
-	else
-		Hud_Show( file.nextPageButton )
-
-	UpdateFooterOptions()
-}
-
-
-
-bool function IsButtonFocused()
-{
-	if ( file.buttons.contains( GetFocus() ) )
-		return true
-
-	return false
-}
-void function ShowCreditPanel()
-{
-    file.buttonToCategory.clear()
-}
-
-void function ArmoryPanel_OnHide( var panel )
-{
-	file.buttonToCategory.clear()
-}
-
-
-void function ArmoryPanel_OnFocusChanged( var panel, var oldFocus, var newFocus )
-{
-	if ( !IsValid( panel ) ) // uiscript_reset
-		return
-
-	if ( !newFocus || GetParentMenu( panel ) != GetActiveMenu() )
-		return
-
-	UpdateFooterOptions()
-}
-
-void function RegisterPageChangeInput()
-{
-	if ( file.pageChangeInputsRegistered )
-		return
-
-	RegisterButtonPressedCallback( BUTTON_SHOULDER_LEFT, Page_NavLeft )
-	RegisterButtonPressedCallback( BUTTON_DPAD_LEFT, Page_NavLeft )
-	RegisterButtonPressedCallback( KEY_LEFT, Page_NavLeft )
-
-	RegisterButtonPressedCallback( BUTTON_SHOULDER_RIGHT, Page_NavRight )
-	RegisterButtonPressedCallback( BUTTON_DPAD_RIGHT, Page_NavRight )
-	RegisterButtonPressedCallback( KEY_RIGHT, Page_NavRight )
-
-
-	file.pageChangeInputsRegistered = true
-
-	//thread TrackDpadInput()
-}
-
-
-void function DeregisterPageChangeInput()
-{
-	if ( !file.pageChangeInputsRegistered )
-		return
-
-	DeregisterButtonPressedCallback( BUTTON_SHOULDER_LEFT, Page_NavLeft )
-	DeregisterButtonPressedCallback( BUTTON_DPAD_LEFT, Page_NavLeft )
-	DeregisterButtonPressedCallback( KEY_LEFT, Page_NavLeft )
-
-	DeregisterButtonPressedCallback( BUTTON_SHOULDER_RIGHT, Page_NavRight )
-	DeregisterButtonPressedCallback( BUTTON_DPAD_RIGHT, Page_NavRight )
-	DeregisterButtonPressedCallback( KEY_RIGHT, Page_NavRight )
-
-	file.pageChangeInputsRegistered = false
-}
-
-void function CreditDialog_OnOpen()
-{
-	file.pages = InitPages()
-	file.activePageIndex = 0
-
-	//UpdatePageRui( file.activePageRui, 0 )
-	UpdatePromoButtons()
-	RegisterPageChangeInput()
-}
-
-array<CreditDialogPageData> function InitPages()
-{
-	array<CreditDialogPageData> pages
-
-	// Temp
-	CreditDialogPageData newPage
-	pages.append( newPage )
-
-	return pages
-}
-
-void function CreditDialog_OnClose()
-{
-	DeregisterPageChangeInput()
-
-	if ( file.hijackContent != null )
+	if(IsLobby() && !file.hasLoaded)
 	{
-		file.hijackContent = null
-		if ( file.hijackCloseCallback != null )
-		{
-			file.hijackCloseCallback()
-			file.hijackCloseCallback = null
-		}
+		LoadCredits()
+		file.hasLoaded = true
 	}
+}
+
+void function LoadCredits()
+{
+	file.creditItems.clear()
+
+	file.selectedIndex = 0
+
+	var dataTable = GetDataTable( $"datatable/custom/sdk_contributors.rpak" )
+	int numRows = GetDatatableRowCount( dataTable )
+
+	Hud_InitGridButtons( file.listPanel, numRows )
+
+	var scrollPanel = Hud_GetChild( file.listPanel, "ScrollPanel" )
+
+	for(int i = 0; i < numRows; i++)
+	{
+		asset imageAsset = GetDataTableAsset( dataTable, i, GetDataTableColumnByName( dataTable, "imageAsset" ) )
+		string name = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "name" ) )
+		string description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
+		string github = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "github" ) )
+
+		CreditsItem newitem
+		newitem.imageAsset = imageAsset
+		newitem.name = name
+		newitem.description = description
+		newitem.github = github
+
+		file.creditItems.append(newitem)
+
+		var button = Hud_GetChild( scrollPanel, "GridButton" + i )
+
+		file.buttonIndexTable[button] <- i
+
+		var rui = Hud_GetRui( button )
+		RuiSetString( rui, "buttonText", name )
+		RuiSetImage( rui, "buttonImage", imageAsset )
+		RuiSetInt( rui, "quality", 4 )
+		Hud_SetEnabled( button, true )
+
+		AddButtonEventHandler( button, UIE_CLICK, SelectCredits )
+		AddButtonEventHandler( button, UIE_GET_FOCUS, OnCreditsHover )
+		AddButtonEventHandler( button, UIE_LOSE_FOCUS, OnCreditsUnHover )
+	}
+
+	SelectCreditsItem(0, true)
+}
+
+void function SelectCredits ( var button )
+{
+	int index = file.buttonIndexTable[button]
+	SelectCreditsItem(index, false)
+}
+
+void function OnCreditsHover ( var button )
+{
+	int index = file.buttonIndexTable[button]
+	SelectCreditsItem(index, true)
+}
+
+void function OnCreditsUnHover ( var button )
+{
+	SelectCreditsItem(file.selectedIndex, true)
+}
+
+void function SelectCreditsItem(int index, bool preview)
+{
+	if(!preview)
+	{
+		file.selectedIndex = index
+		EmitUISound( "UI_Menu_BattlePass_LevelTab" )
+	}
+
+	RuiSetImage( Hud_GetRui( Hud_GetChild(file.panel, "ProfilePicture") ), "basicImage", file.creditItems[index].imageAsset )
+	Hud_SetText(Hud_GetChild(file.panel, "Name"), file.creditItems[index].name)
+	Hud_SetText(Hud_GetChild(file.panel, "Github"), "github.com/" + file.creditItems[index].github)
+	Hud_SetText(Hud_GetChild(file.panel, "Description"), file.creditItems[index].description)
 }
