@@ -1537,6 +1537,9 @@ string function GetCanUseResultString( int consumableUseActionResult )
 
 		case eUseConsumableResult.DENY_FULL:
 			return "#DENY_FULL"
+
+		case eUseConsumableResult.DENY_DEATH_TOTEM:
+			return "#DENY_DEATH_TOTEM"
 		default:
 			return ""
 	}
@@ -2356,6 +2359,9 @@ int function TryUseConsumable( entity player, int consumableType )
 	{
 		return eUseConsumableResult.ALLOW
 	}
+	
+	if ( DeathTotem_PlayerCanRecall( player ) )
+		return eUseConsumableResult.DENY_DEATH_TOTEM
 	
 	if ( consumableType == eConsumableType.ULTIMATE )
 	{
