@@ -5,6 +5,7 @@ struct CreditsItem
 	asset imageAsset
 	string name
 	string description
+	string description2
 	string github
 	string description_short
 	string twitter
@@ -67,6 +68,7 @@ void function LoadCredits()
 		string github = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "github" ) )
 		string twitter = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "twitter" ) )
 		string description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
+		string description2 = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description2" ) )
 
 		CreditsItem newitem
 		newitem.imageAsset = imageAsset
@@ -75,6 +77,7 @@ void function LoadCredits()
 		newitem.github = github
 		newitem.twitter = twitter
 		newitem.description = description
+		newitem.description2 = description2
 
 		file.creditItems.append(newitem)
 
@@ -126,5 +129,5 @@ void function SelectCreditsItem(int index, bool preview)
 	Hud_SetText(Hud_GetChild(file.panel, "Github"), Localize(file.creditItems[index].github))
 	Hud_SetText(Hud_GetChild(file.panel, "Twitter"), Localize(file.creditItems[index].twitter))
 	Hud_SetText(Hud_GetChild(file.panel, "DescriptionShort"), Localize(file.creditItems[index].description_short))
-	Hud_SetText(Hud_GetChild( file.panel, "Description" ), Localize(file.creditItems[index].description))
+	Hud_SetText(Hud_GetChild(file.panel, "Description"), Localize(file.creditItems[index].description) + Localize(file.creditItems[index].description2))
 }
