@@ -1,9 +1,12 @@
 global function InitGamemodeSelectDialogV4
+global function SetFreeRoamMap
 
 const int MAX_DISPLAYED_SERVERS = 3
 
 //RUI Element breaks after 21 pages so im limiting it
 const int MAX_SERVER_PAGES = 21
+
+global bool FreeRoamMapSelectionOpen = false
 
 struct {
 	var menu
@@ -13,7 +16,7 @@ struct {
 
 	ServerListing selectedServer
 
-	string freeRoamSelectedMap = "mp_rr_desertlands_64k_x_64k_tt"
+	string freeRoamSelectedMap = "mp_rr_canyonlands_64k_x_64k"
 } file
 
 void function InitGamemodeSelectDialogV4( var newMenuArg )
@@ -24,6 +27,8 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 	AddMenuEventHandler( menu, eUIEvent.MENU_OPEN, OnOpenModeSelectDialog )
 	AddMenuEventHandler( menu, eUIEvent.MENU_CLOSE, OnCloseModeSelectDialog )
 
+	AddMenuEventHandler( menu, eUIEvent.MENU_NAVIGATE_BACK, OnModeSelectMenu_NavigateBack )
+
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "ServersPrevButton"), UIE_CLICK, Servers_PageBackward )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "ServersNextButton"), UIE_CLICK, Servers_PageForward )
 
@@ -31,7 +36,7 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 	AddMenuFooterOption( menu, LEFT, BUTTON_A, true, "#A_BUTTON_SELECT" )
 
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamStartButton"), UIE_CLICK, SelectFreeRoam )
-	//Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), UIE_CLICK, FreeRoamChangeMapButton )
+	Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), UIE_CLICK, FreeRoamChangeMapButton )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "FiringRangeButton"), UIE_CLICK, SelectFiringRange )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "AimtrainerButton"), UIE_CLICK, SelectAimTrainer )
 
@@ -45,16 +50,42 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 
 		Hud_AddEventHandler( Hud_GetChild(file.menu, "ServerButton" + i), UIE_CLICK, SelectServer )
 	}
+
+	SetFreeRoamMap("mp_rr_canyonlands_64k_x_64k")
+}
+
+void function OnModeSelectMenu_NavigateBack()
+{
+	if(FreeRoamMapSelectionOpen)
+	{
+		FreeRoamMapSelectionOpen = false
+		HidePanel( Hud_GetChild(file.menu, "MapSelectPanel" ) )
+		return
+	}
+
+	CloseActiveMenu()
+}
+
+void function FreeRoamChangeMapButton( var button )
+{
+	FreeRoamMapSelectionOpen = true
+	ShowPanel( Hud_GetChild(file.menu, "MapSelectPanel" ) )
 }
 
 void function Servers_PageBackward( var button )
 {
+	if(FreeRoamMapSelectionOpen)
+	{
+		FreeRoamPageBackwards(button)
+		return
+	}
+	
 	if(GetMaxPages() == 0)
 		return
 
 	int newPage = file.currentServerPage - 1
 
-	if( newPage - 1 < 0)
+	if( newPage - 1 < -1)
 		newPage = GetMaxPages() - 1
 
 	LoadServers(newPage)
@@ -62,6 +93,12 @@ void function Servers_PageBackward( var button )
 
 void function Servers_PageForward( var button )
 {
+	if(FreeRoamMapSelectionOpen)
+	{
+		FreeRoamPageForward(button)
+		return
+	}
+
 	if(GetMaxPages() == 0)
 		return
 
@@ -71,6 +108,13 @@ void function Servers_PageForward( var button )
 		newPage = 0
 
 	LoadServers(newPage)
+}
+
+void function SetFreeRoamMap(string map)
+{
+	FreeRoamMapSelectionOpen = false
+	file.freeRoamSelectedMap = map
+	RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamBackground") ), "modeImage", GetUIMapAsset(map ) )
 }
 
 void function SelectFreeRoam( var button )

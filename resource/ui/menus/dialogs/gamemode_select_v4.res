@@ -916,6 +916,22 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             pin_to_sibling_corner	CENTER
 		}
 
+		MapSelectPanel
+	    {
+		    ControlName				CNestedPanel
+		    xpos					0
+		    ypos					0
+			wide					%100
+			tall					%100
+			zpos					200
+		    visible					0
+		    controlSettingsFile		"scripts/resource/ui/menus/panels/freeroam_map_select.res"
+
+			pin_to_sibling			ScreenFrame
+			pin_corner_to_sibling	TOP
+			pin_to_sibling_corner	TOP
+	    }
+
         FooterButtons
 		{
 			ControlName				CNestedPanel
