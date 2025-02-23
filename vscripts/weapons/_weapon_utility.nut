@@ -5056,10 +5056,10 @@ bool function AreAbilitiesSilenced( entity player )
 	if ( !IsValid( player ) )
 		return true
 
-	if ( StatusEffect_HasSeverity( player, eStatusEffect.silenced ) )
+	/*if ( StatusEffect_HasSeverity( player, eStatusEffect.silenced ) )
 		return true
 	if ( StatusEffect_HasSeverity( player, eStatusEffect.is_boxing ) )
-		return true
+		return true*/
 
 	return false
 }
