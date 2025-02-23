@@ -141,6 +141,7 @@ $ENUM_START eCharacterFlavor
 	SAID00996325304//character_dummie
 	SAID01897196488//character_random
 	SAID00996325301//character_pilot
+	SAID02105222312//character_rampart
 $ENUM_END
 
 // All the weapon item flavors from Bakery that are registered in the game.
