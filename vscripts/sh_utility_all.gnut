@@ -2034,6 +2034,13 @@ int function Shuffle_GetCount( ShuffleData sd )
 //////
 
 #if SERVER || CLIENT
+void function DestroyEntities( array<entity> ents )
+{
+	foreach ( entity ent in ents )
+		if ( IsValid( ent ) )
+			ent.Destroy()
+}
+
 vector function LocalPosToWorldPos( vector pos, entity ent )
 {
 	return ent.GetOrigin() + RotateVector( pos, ent.GetAngles() )

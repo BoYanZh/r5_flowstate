@@ -32,6 +32,7 @@ global function Consumable_IsCurrentSelectedConsumableTypeUseful
 global function Consumable_SetClientTypeOnly
 global function AddModAndFireWeapon_Thread
 global function Consumable_DoHealScreenFx
+global function ServerToClient_DoUltAccelScreenFx
 #endif // CLIENT
 
 #if SERVER
@@ -168,6 +169,7 @@ struct
 		bool healCompletedSuccessfully
 		int  clientSelectedConsumableType
 		int  healScreenFxHandle
+		int  ultAccelScreenFxHandle
 	#endif // CLIENT
 
 } file
@@ -175,11 +177,13 @@ struct
 global const int OFFHAND_SLOT_FOR_CONSUMABLES = OFFHAND_ANTIRODEO
 global const string CONSUMABLE_WEAPON_NAME = "mp_ability_consumable"
 
+const string SHOW_ULT_ACCEL_FX_PLAYLIST_VAR = "ult_accel_vfx_enable"
 const float HEAL_CHATTER_DEBOUNCE = 10.0
 const RESTORE_HEALTH_COCKPIT_FX = $"P_heal_loop_screen"
+const asset VFX_ULT_ACCEL_POP = $"P_UltAcc_screenSpace"
 global const vector HEALTH_RGB = < 114, 245, 250 >
 
-//Wattson
+// (dp): this is gross, but I will revisit it if we add more character/consumable specific sfx
 const string WATTSON_EXTRA_ULT_ACCEL_SFX = "Wattson_Xtra_A"
 
 // This init isn't with the rest of the weapon init functions in _utility_shared.gnut, because it has to run
@@ -188,6 +192,8 @@ void function Consumable_Init()
 {
 	RegisterWeaponForUse( CONSUMABLE_WEAPON_NAME )
 	RegisterSignal( "ConsumableDestroyRui" ) // idk really, from S7 or so...
+	
+	PrecacheParticleSystem( VFX_ULT_ACCEL_POP )
 		RegisterSignal( "VCTBlueFX" )
 
 	{ // Phoenix Kit - Full health and shields
@@ -1062,6 +1068,11 @@ var function OnWeaponPrimaryAttack_Consumable( entity weapon, WeaponPrimaryAttac
 		{
 			Consumable_DoHealScreenFx( player )
 		}
+		else if ( info.ultimateAmount > 0 )
+		{
+			Consumable_DoUltAccelScreenFx( player )
+		}
+
 		Chroma_ConsumableSucceeded( info )
 	#endif
 
@@ -1398,6 +1409,41 @@ void function DoHealScreenFx( entity player )
 	WaitFrame()
 }
 
+void function Consumable_DoUltAccelScreenFx( entity player )
+{
+	if ( GetCurrentPlaylistVarBool( SHOW_ULT_ACCEL_FX_PLAYLIST_VAR, true ) )
+	{
+		thread DoUltAccelScreenFx( player )
+	}
+}
+
+void function DoUltAccelScreenFx( entity player )
+{
+	EndSignal( player, "OnDeath", "OnDestroy" )
+
+	if ( player != GetLocalViewPlayer() )
+		return
+
+	entity cockpit = player.GetCockpit()
+	if ( !IsValid( cockpit ) )
+		return
+
+	if ( EffectDoesExist( file.ultAccelScreenFxHandle ) )
+		return
+
+	int fxID = GetParticleSystemIndex( VFX_ULT_ACCEL_POP )
+	file.ultAccelScreenFxHandle = StartParticleEffectOnEntity( cockpit, fxID, FX_PATTACH_ABSORIGIN_FOLLOW, -1 )
+	EffectSetIsWithCockpit( file.ultAccelScreenFxHandle, true )
+	EffectSetControlPointVector( file.ultAccelScreenFxHandle, 1, <255, 208, 56> )
+
+	OnThreadEnd( function() {
+		if ( EffectDoesExist( file.ultAccelScreenFxHandle ) )
+			EffectStop( file.ultAccelScreenFxHandle, false, true )
+	} )
+
+	wait 2
+}
+
 void function PlayConsumableUseChroma( entity weapon, ConsumableInfo info )
 {
 	EndSignal( weapon.GetOwner(), "EndChroma" )
@@ -1500,6 +1546,10 @@ string function GetCanUseResultString( int consumableUseActionResult )
 	}
 
 	unreachable
+}
+void function ServerToClient_DoUltAccelScreenFx()
+{
+	Consumable_DoUltAccelScreenFx( GetLocalViewPlayer() )
 }
 #endif // CLIENT
 

@@ -771,6 +771,7 @@ Ability_Shadow_Zombie_RegisterNetworking()
 
 	//Player Name Obscurance
 	RegisterNetworkedVariable( "anonymizePlayerName", SNDC_PLAYER_GLOBAL, SNVT_BOOL, false )
+	Remote_RegisterClientFunction( "ServerToClient_DoUltAccelScreenFx" )
 
 	RegisterNetworkedVariable( "inventoryEnabled", SNDC_PLAYER_EXCLUSIVE, SNVT_BOOL, true )
 
