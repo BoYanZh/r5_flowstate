@@ -194,7 +194,7 @@
 		pin_to_sibling_corner	BOTTOM_LEFT
     }
 
-    Description
+    DescriptionShort
     {
         "ControlName"			"Label"
 		"xpos"                  "0"
@@ -215,26 +215,23 @@
 		pin_to_sibling_corner	BOTTOM_LEFT
     }
 
-    StuffDone
-    {
-        "ControlName"			"Label"
-		"xpos"                  "230"
-		"ypos"					"-10"
-        zpos                    20
-        wide                    415
-        tall                    630
-        wrap                    1
-		"visible"				"1"
-		"fontHeight"			"20"
-		"zpos"					"5"
-		"textAlignment"			"north-west"
-		"labelText"				"LIST OF STUFF DONE HERE"
-		"font"					"TitleBoldFont"
-		"allcaps"				"1"
-		"fgcolor_override"		"255 255 255 255"
+    Description
+	{
+		ControlName				RichText
+		ypos                    -14
+        xpos                    220
+		wide					415
+		tall					630
+        font 					DefaultRegularFont
+		fontHeight				22
+		bgcolor_override		"0 0 0 192"
+		paintbackground			1
+		text					"TEXT OF WHAT THEY HAVE DONE HERE"
+		maxchars				-1
 
-        pin_to_sibling			CreditsBlurb
+		pin_to_sibling			CreditsBlurb
 		pin_corner_to_sibling	TOP
 		pin_to_sibling_corner	TOP
-    }
+	}
+
 }

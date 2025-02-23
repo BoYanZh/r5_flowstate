@@ -6,6 +6,7 @@ struct CreditsItem
 	string name
 	string description
 	string github
+	string description_short
 }
 
 struct
@@ -61,14 +62,16 @@ void function LoadCredits()
 	{
 		asset imageAsset = GetDataTableAsset( dataTable, i, GetDataTableColumnByName( dataTable, "imageAsset" ) )
 		string name = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "name" ) )
-		string description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
+		string description_short = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description_short" ) )
 		string github = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "github" ) )
+		string description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
 
 		CreditsItem newitem
 		newitem.imageAsset = imageAsset
 		newitem.name = name
-		newitem.description = description
+		newitem.description_short = description_short
 		newitem.github = github
+		newitem.description = description
 
 		file.creditItems.append(newitem)
 
@@ -118,5 +121,6 @@ void function SelectCreditsItem(int index, bool preview)
 	RuiSetImage( Hud_GetRui( Hud_GetChild(file.panel, "ProfilePicture") ), "basicImage", file.creditItems[index].imageAsset )
 	Hud_SetText(Hud_GetChild(file.panel, "Name"), file.creditItems[index].name)
 	Hud_SetText(Hud_GetChild(file.panel, "Github"), "github.com/" + file.creditItems[index].github)
-	Hud_SetText(Hud_GetChild(file.panel, "Description"), file.creditItems[index].description)
+	Hud_SetText(Hud_GetChild(file.panel, "DescriptionShort"), Localize(file.creditItems[index].description_short))
+	Hud_SetText(Hud_GetChild( file.panel, "Description" ), Localize(file.creditItems[index].description))
 }
