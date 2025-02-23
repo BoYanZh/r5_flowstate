@@ -171,20 +171,18 @@
 		pin_to_sibling_corner	BOTTOM_LEFT
     }
 
-    Github
+    DescriptionShort
     {
         "ControlName"			"Label"
 		"xpos"                  "0"
-		"ypos"					"15"
+		"ypos"					"5"
         zpos                    20
-		"auto_wide_tocontents"	"1"
-		"tall"					"30"
+        auto_wide_tocontents    1
 		"visible"				"1"
-		"wrap"					"0"
 		"fontHeight"			"25"
 		"zpos"					"5"
-		"textAlignment"			"north-west"
-		"labelText"				"Github"
+		"textAlignment"			"left"
+		"labelText"				"Desc"
 		"font"					"TitleBoldFont"
 		"allcaps"				"1"
 		"fgcolor_override"		"255 255 255 255"
@@ -194,19 +192,44 @@
 		pin_to_sibling_corner	BOTTOM_LEFT
     }
 
-    DescriptionShort
+    Github
     {
         "ControlName"			"Label"
 		"xpos"                  "0"
-		"ypos"					"15"
+		"ypos"					"20"
         zpos                    20
-        auto_wide_tocontents    1
+		"auto_wide_tocontents"	"1"
+		"tall"					"30"
 		"visible"				"1"
-		"fontHeight"			"20"
+		"wrap"					"0"
+		"fontHeight"			"25"
 		"zpos"					"5"
-		"textAlignment"			"left"
-		"labelText"				"Desc"
-		"font"					"TitleBoldFont"
+		"textAlignment"			"north-west"
+		"labelText"				"Github"
+		"font"					"TitleFont"
+		"allcaps"				"1"
+		"fgcolor_override"		"255 255 255 255"
+
+        pin_to_sibling			DescriptionShort
+		pin_corner_to_sibling	TOP_LEFT
+		pin_to_sibling_corner	BOTTOM_LEFT
+    }
+
+    Twitter
+    {
+        "ControlName"			"Label"
+		"xpos"                  "0"
+		"ypos"					"5"
+        zpos                    20
+		"auto_wide_tocontents"	"1"
+		"tall"					"30"
+		"visible"				"1"
+		"wrap"					"0"
+		"fontHeight"			"25"
+		"zpos"					"5"
+		"textAlignment"			"north-west"
+		"labelText"				"Twitter"
+		"font"					"TitleFont"
 		"allcaps"				"1"
 		"fgcolor_override"		"255 255 255 255"
 
