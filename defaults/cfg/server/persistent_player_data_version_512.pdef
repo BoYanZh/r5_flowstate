@@ -532,6 +532,9 @@ $STRUCT_START sStatsData
 	int loba_passive_loot_pinged_through_walls
 	int loba_ultimate_loot_taken_by_allies
 	float loba_tactical_meters_teleported
+	float rampart_tactical_damage_blocked
+	int rampart_ultimate_bullets_fired
+	int rampart_tactical_bullets_amped
 	int season01_event_placements_top_5
 	int season01_event_elite_placements_top_5
 	int season01_event_placements_win
