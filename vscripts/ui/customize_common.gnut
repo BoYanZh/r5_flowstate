@@ -707,6 +707,8 @@ void function UpdateCustomizeItemButton( CustomizeButtonContext cbc, bool justAd
 				if(itemQuality == eQuality.COMMON || itemQuality == eQuality.FANMADE)
 					isOwned = true
 			}
+			else if(ItemFlavor_GetType(cbc.itemFlavor) == eItemType.gladiator_card_badge || ItemFlavor_GetType( cbc.itemFlavor ) == eItemType.character_execution)
+				isOwned = true
 			else
 				isOwned = isOwned || IsItemFlavorUnlockedForLoadoutSlot( LocalClientEHI(), loadoutEntry, cbc.itemFlavor, false )
 		}

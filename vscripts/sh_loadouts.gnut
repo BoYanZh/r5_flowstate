@@ -923,6 +923,9 @@ bool function IsItemFlavorUnlockedForLoadoutSlot( EHI playerEHI, LoadoutEntry en
 
 	Assert( entry.type == eLoadoutEntryType.ITEM_FLAVOR )
 
+	if(ItemFlavor_GetType( itemFlavor ) == eItemType.gladiator_card_badge)
+		return true
+
 	if ( !ItemFlavor_IsAvailableInPlaylist( itemFlavor ) )
 		return false
 
