@@ -347,8 +347,6 @@ bool function IsNewLootEnabled( string ref )
 		//disabled until proper porting and fix
 		case "mp_weapon_grenade_gravity":
 		
-		// case "mp_weapon_sentinel":
-		case "mp_titanweapon_flightcore_rockets":
 		case "mp_weapon_bow":
 		case "mp_weapon_3030":
 		case "mp_weapon_nemesis":

@@ -116,6 +116,7 @@ enum eUseConsumableResult
 	DENY_NO_KITS,
 	DENY_NO_SHIELDS,
 	DENY_FULL,
+	DENY_DEATH_TOTEM,
 	COUNT,
 }
 
@@ -202,7 +203,6 @@ void function Consumable_Init()
 			phoenixKit.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_combo_full" )
 			phoenixKit.healAmount = 100
 			phoenixKit.shieldAmount = 999
-			phoenixKit.chargeSoundName = "PhoenixKit_Charge"
 			phoenixKit.cancelSoundName = "shield_battery_failure"
 			phoenixKit.modName = "phoenix_kit"
 		}
@@ -232,7 +232,6 @@ void function Consumable_Init()
 			shieldSmall.healAmount = 0
 			shieldSmall.shieldAmount = 25
 			shieldSmall.healCap = 0.0
-			shieldSmall.chargeSoundName = "Shield_Battery_Charge_Short"
 			shieldSmall.cancelSoundName = "shield_battery_failure"
 			shieldSmall.modName = "shield_small"
 		}
@@ -246,7 +245,6 @@ void function Consumable_Init()
 			healthLarge.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_health_large" )
 			healthLarge.healAmount = 100
 			healthLarge.shieldAmount = 0
-			healthLarge.chargeSoundName = "Health_Syringe_Charge"
 			healthLarge.cancelSoundName = "Health_Syringe_Failure"
 			healthLarge.modName = "health_large"
 		}
@@ -260,7 +258,6 @@ void function Consumable_Init()
 			healthSmall.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_health_small" )
 			healthSmall.healAmount = 25
 			healthSmall.shieldAmount = 0
-			healthSmall.chargeSoundName = "Health_Syringe_Charge_Short"
 			healthSmall.cancelSoundName = "Health_Syringe_Failure"
 			healthSmall.modName = "health_small"
 		}
@@ -275,7 +272,6 @@ void function Consumable_Init()
 			ultimateBattery.healAmount = 0
 			ultimateBattery.healTime = 0.0
 			ultimateBattery.lootData = SURVIVAL_Loot_GetLootDataByRef( "health_pickup_ultimate" )
-			ultimateBattery.chargeSoundName = "Ult_Acc_Charge"
 			ultimateBattery.cancelSoundName = ""
 			ultimateBattery.modName = "ultimate_battery"
 		}
