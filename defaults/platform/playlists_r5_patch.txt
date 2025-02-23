@@ -373,6 +373,8 @@ playlists
 				
 				//Do not delete/edit these
 				
+				season01_start_unixtime							1626656230
+				season02_start_unixtime							1626656230
 				season03_reveal_unixtime						1626656230
 				season03_start_unixtime							1626656230
 				season03_finish_unixtime						2145916800

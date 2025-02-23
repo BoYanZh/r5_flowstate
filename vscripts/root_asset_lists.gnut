@@ -24,15 +24,15 @@ global const array<asset> CHARACTER_ASSETS =
 	$"settings/itemflav/character/loba.rpak",
 	$"settings/itemflav/character/dummie.rpak",
 	$"settings/itemflav/character/random.rpak",
-	//$"settings/itemflav/character/rampart.rpak",
+	$"settings/itemflav/character/rampart.rpak",
 ]
 
 global const array<asset> CAL_EVENT_ASSET_LIST =
 [
-	//$"settings/itemflav/calevent/season01.rpak",
-	//$"settings/itemflav/calevent/season02.rpak",
+	$"settings/itemflav/calevent/season01.rpak",
+	$"settings/itemflav/calevent/season02.rpak",
 	$"settings/itemflav/calevent/season03.rpak",
-	//$"settings/itemflav/calevent/rankedperiod01.rpak",
+	$"settings/itemflav/calevent/rankedperiod01.rpak",
 	$"settings/itemflav/calevent/rankedperiod02.rpak",
 
 	$"settings/itemflav/calevent/s03e01.rpak",
