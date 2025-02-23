@@ -179,7 +179,7 @@
         zpos                    20
         auto_wide_tocontents    1
 		"visible"				"1"
-		"fontHeight"			"25"
+		"fontHeight"			"20"
 		"zpos"					"5"
 		"textAlignment"			"left"
 		"labelText"				"Desc"
@@ -196,7 +196,7 @@
     {
         "ControlName"			"Label"
 		"xpos"                  "0"
-		"ypos"					"20"
+		"ypos"					"10"
         zpos                    20
 		"auto_wide_tocontents"	"1"
 		"tall"					"30"
