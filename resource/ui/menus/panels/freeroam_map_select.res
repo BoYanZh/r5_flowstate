@@ -119,7 +119,7 @@
 	{
 		ControlName				RuiButton
         wide					350
-        tall					220
+        tall					197
         ypos                    0
         xpos                    0
         zpos                    10
@@ -147,7 +147,7 @@
 	{
 		ControlName				RuiButton
         wide					350
-        tall					220
+        tall					197
         ypos                    0
         xpos                    15
         zpos                    10
@@ -175,7 +175,7 @@
 	{
 		ControlName				RuiButton
         wide					350
-        tall					220
+        tall					197
         ypos                    0
         xpos                    15
         zpos                    10
@@ -203,7 +203,7 @@
 	{
 		ControlName				RuiButton
         wide					350
-        tall					220
+        tall					197
         ypos                    0
         xpos                    15
         zpos                    10
@@ -231,7 +231,7 @@
 	{
 		ControlName				RuiButton
         wide					350
-        tall					220
+        tall					197
         ypos                    0
         xpos                    15
         zpos                    10
