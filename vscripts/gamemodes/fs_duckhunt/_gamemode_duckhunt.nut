@@ -34,7 +34,7 @@ void function _GamemodeDuckhunt_Init()
 {
 	switch( MapName() )
 	{
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
 		case eMaps.mp_rr_aqueduct:
 			FS_DUCKHUNT.lobbyLocation = <-323.799377, -16008.7832, 11485.8652>
 			FS_DUCKHUNT.lobbyAngles = <0, 24.2251167, 0>

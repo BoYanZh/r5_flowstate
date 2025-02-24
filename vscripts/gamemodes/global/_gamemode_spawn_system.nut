@@ -951,8 +951,8 @@ int function SpawnSystem_FindBaseMapForPak( int eMap )
 		case eMaps.mp_rr_canyonlands_mu1_night:
 			return eMaps.mp_rr_canyonlands_64k_x_64k
 			
-		case eMaps.mp_rr_aqueduct_night:
-			return eMaps.mp_rr_aqueduct
+		//case eMaps.mp_rr_aqueduct_night:
+			//return eMaps.mp_rr_aqueduct
 		
 		default:
 			return eMap

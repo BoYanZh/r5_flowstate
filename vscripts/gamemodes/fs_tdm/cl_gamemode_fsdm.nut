@@ -876,7 +876,7 @@ void function CoolCamera()
 		break
 		
 		case eMaps.mp_rr_aqueduct:
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
 		cutsceneSpawns.append(NewCameraPair(<1593.85205, -3274.99365, 1044.39099>, <0, -126.270805, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<1489.99255, -6570.93262, 741.996887>, <0, 133.833832, 0>))
 		break 

@@ -172,7 +172,7 @@ void function Sh_CustomTDM_Init()
         )
 	break
    case eMaps.mp_rr_aqueduct:
-   case eMaps.mp_rr_aqueduct_night:
+   //case eMaps.mp_rr_aqueduct_night:
         Shared_RegisterLocation(
             NewLocationSettings(
                "Overflow",

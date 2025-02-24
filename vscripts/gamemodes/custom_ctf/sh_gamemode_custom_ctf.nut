@@ -280,7 +280,7 @@ void function Sh_CustomCTF_Init()
 			break
 
 		case eMaps.mp_rr_aqueduct:
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
 			Shared_RegisterLocationCTF(
 				NewCTFLocationSettings(
 					"Overflow",
