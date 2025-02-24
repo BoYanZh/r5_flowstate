@@ -127,42 +127,12 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             pin_to_sibling_corner	LEFT
         }
 
-        FreeRoamStartButton
-        {
-            ControlName				RuiButton
-            wide					340
-            tall					130
-            ypos                    -75
-            xpos                    0
-            zpos                    10
-            rui                     "ui/gamemode_select_v2_lobby_button.rpak"
-            labelText               ""
-            visible					1
-            tabPosition             1
-            cursorVelocityModifier  0.7
-            sound_accept            "UI_Menu_GameMode_Select"
-            "scriptID"					"0"
-
-            ruiArgs
-            {
-                lockIconEnabled 0
-                modeNameText "FREEROAM"
-                modeDescText ""
-                alwaysShowDesc 0
-                modeImage "rui/menu/gamemode/solo_iron_crown"
-            }
-
-            pin_to_sibling			FreeRoamBackground
-            pin_corner_to_sibling	CENTER
-            pin_to_sibling_corner	CENTER
-        }
-
         FreeRoamChangeMapButton
         {
             ControlName				RuiButton
             wide					340
-            tall					130
-            ypos                    75
+            tall					150
+            ypos                    0
             xpos                    0
             zpos                    10
             rui                     "ui/gamemode_select_v2_lobby_button.rpak"
@@ -176,7 +146,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
             ruiArgs
             {
                 lockIconEnabled 0
-                modeNameText "CHANGE MAP"
+                modeNameText "CHOOSE MAP"
                 modeDescText ""
                 alwaysShowDesc 0
                 modeImage "rui/menu/gamemode/worlds_edge"

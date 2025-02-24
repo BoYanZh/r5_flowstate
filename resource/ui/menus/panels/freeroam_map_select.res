@@ -18,7 +18,7 @@
     {
         ControlName				RuiPanel
         wide					%100
-        tall					600
+        tall					500
         visible				    1
         rui                     "ui/dialog_content.rpak"
 
@@ -54,8 +54,8 @@
     {
         ControlName				RuiPanel
         xpos					0
-        ypos					200
-        wide					500
+        ypos					-50
+        wide					480
         tall					48
         visible					1
         rui					    "ui/battle_pass_footer_bar_v2.rpak"
@@ -68,8 +68,8 @@
         }
 
         pin_to_sibling			ContentRui
-        pin_corner_to_sibling	CENTER
-        pin_to_sibling_corner	CENTER
+        pin_corner_to_sibling	BOTTOM
+        pin_to_sibling_corner	BOTTOM
     }
 
     PrevButton
@@ -128,6 +128,7 @@
         visible					1
         sound_accept            "UI_Menu_GameMode_Select"
 		"scriptID"					"2"
+        scaleImage              1
 
         ruiArgs
         {
@@ -156,6 +157,7 @@
         visible					1
         sound_accept            "UI_Menu_GameMode_Select"
 		"scriptID"					"0"
+        scaleImage              1
 
         ruiArgs
         {
@@ -184,6 +186,7 @@
         visible					1
         sound_accept            "UI_Menu_GameMode_Select"
 		"scriptID"					"1"
+        scaleImage              1
 
         ruiArgs
         {
@@ -210,6 +213,7 @@
         rui                     "ui/gamemode_select_v2_lobby_button.rpak"
         labelText               ""
         visible					1
+        scaleImage              1
         sound_accept            "UI_Menu_GameMode_Select"
 		"scriptID"					"3"
 
@@ -238,6 +242,7 @@
         rui                     "ui/gamemode_select_v2_lobby_button.rpak"
         labelText               ""
         visible					1
+        scaleImage              1
         sound_accept            "UI_Menu_GameMode_Select"
 		"scriptID"					"4"
 

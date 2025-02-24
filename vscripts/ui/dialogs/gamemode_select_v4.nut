@@ -17,6 +17,9 @@ struct {
 	ServerListing selectedServer
 
 	string freeRoamSelectedMap = "mp_rr_canyonlands_64k_x_64k"
+
+	int freeRoamVideoChannel = -1
+	int changeMapVideoChannel = -1
 } file
 
 void function InitGamemodeSelectDialogV4( var newMenuArg )
@@ -35,7 +38,6 @@ void function InitGamemodeSelectDialogV4( var newMenuArg )
 	AddMenuFooterOption( menu, LEFT, BUTTON_B, true, "#B_BUTTON_CLOSE", "#CLOSE" )
 	AddMenuFooterOption( menu, LEFT, BUTTON_A, true, "#A_BUTTON_SELECT" )
 
-	Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamStartButton"), UIE_CLICK, SelectFreeRoam )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), UIE_CLICK, FreeRoamChangeMapButton )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "FiringRangeButton"), UIE_CLICK, SelectFiringRange )
 	Hud_AddEventHandler( Hud_GetChild(file.menu, "AimtrainerButton"), UIE_CLICK, SelectAimTrainer )
@@ -115,12 +117,7 @@ void function SetFreeRoamMap(string map)
 	FreeRoamMapSelectionOpen = false
 	file.freeRoamSelectedMap = map
 	RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamBackground") ), "modeImage", GetUIMapAsset(map ) )
-}
-
-void function SelectFreeRoam( var button )
-{
-	R5RPlay_SetSelectedPlaylist(file.freeRoamSelectedMap, GetUIMapAsset(file.freeRoamSelectedMap), "survival_dev", "FreeRoam")
-	CloseActiveMenu()
+	Hud_SetText( Hud_GetChild(file.menu, "FreeRoamTextMapName"), GetUIMapName(map) )
 }
 
 void function SelectFiringRange( var button )
@@ -179,6 +176,21 @@ void function SetupGameSelectV4()
 {
 	waitthread Servers_GetCurrentServerListing()
 	thread LoadServers(0)
+
+	PlayFreeRoamVideo()
+}
+
+void function PlayFreeRoamVideo()
+{
+	if ( file.changeMapVideoChannel == -1 )
+		file.changeMapVideoChannel = ReserveVideoChannel()
+
+	asset desiredVideoAsset2 = $"media/gamemodes/play_apex.bik"
+
+	StartVideoOnChannel( file.changeMapVideoChannel, desiredVideoAsset2, true, 0.0 )
+
+	RuiSetBool( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamChangeMapButton") ), "hasVideo", true )
+	RuiSetInt( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamChangeMapButton") ), "channel", file.changeMapVideoChannel )
 }
 
 void function SetServerHeaderVis(bool show)
