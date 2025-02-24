@@ -1529,7 +1529,7 @@ void function CreateCharacterSelectClientEnts()
 			Chroma_BeginCharacterSelect()
 			vector r5reloadedOrigin
 			
-			if ( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx  || MapName() == eMaps.mp_rr_olympus_mu1 || MapName() == eMaps.mp_rr_desertlands_holiday )
+			if ( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx  || MapName() == eMaps.mp_rr_desertlands_holiday )
 			{
 			r5reloadedOrigin = fileLevel.camera.GetOrigin() + fileLevel.camera.GetForwardVector() * 120 + fileLevel.camera.GetRightVector() * 40
 			}
@@ -3103,7 +3103,7 @@ void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
 		EndSignal( fileLevel.signalDummy, "UpdatingAnim" )
 		EndSignal( fileLevel.signalDummy, "CharacterSelectClosing" )
 
-		if ( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx || MapName() == eMaps.mp_rr_olympus_mu1 || MapName() == eMaps.mp_rr_desertlands_holiday )
+		if ( MapName() == eMaps.mp_rr_desertlands_64k_x_64k || MapName() == eMaps.mp_rr_desertlands_64k_x_64k_nx || MapName() == eMaps.mp_rr_desertlands_holiday )
 				{
 					fileLevel.characterModel.SetLocalOrigin( <-70, 0, 0> )
 				}
@@ -3128,7 +3128,7 @@ void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
 			fileLevel.camera.SetParent( fileLevel.characterModel, "VDU", false )
 			fileLevel.camera.SetLocalOrigin(fileLevel.characterModel.GetLocalOrigin() + <60, -10, 10>)
 		}
-		else if( MapName() == eMaps.mp_rr_canyonlands_mu1 || MapName() == eMaps.mp_rr_canyonlands_mu1_night || MapName() == eMaps.mp_rr_canyonlands_64k_x_64k || MapName() == eMaps.mp_rr_canyonlands_staging || MapName() == eMaps.mp_rr_olympus_mu1 )
+		else if( MapName() == eMaps.mp_rr_canyonlands_mu1 || MapName() == eMaps.mp_rr_canyonlands_mu1_night || MapName() == eMaps.mp_rr_canyonlands_64k_x_64k || MapName() == eMaps.mp_rr_canyonlands_staging )
 		{
 			if( MapName() == eMaps.mp_rr_canyonlands_staging )
 				fileLevel.backgroundModelGeo = CreateClientSidePropDynamic( fileLevel.characterModel.GetLocalOrigin() - <0, 0, 5>, fileLevel.characterModel.GetAngles(), BACKGROUND_GEO_MODEL_KC )

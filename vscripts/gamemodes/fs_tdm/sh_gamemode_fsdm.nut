@@ -136,7 +136,7 @@ void function Sh_CustomTDM_Init()
 			)
 		}
 		break
-	case eMaps.mp_rr_olympus_mu1:
+	case eMaps.mp_rr_olympus:
         Shared_RegisterLocation(
             NewLocationSettings(
                "Olympus Test Location",
@@ -172,7 +172,7 @@ void function Sh_CustomTDM_Init()
         )
 	break
    case eMaps.mp_rr_aqueduct:
-   case eMaps.mp_rr_aqueduct_night:
+   //case eMaps.mp_rr_aqueduct_night:
         Shared_RegisterLocation(
             NewLocationSettings(
                "Overflow",
@@ -281,7 +281,7 @@ void function Sh_CustomTDM_Init()
 		)
 		break
 		
-	case eMaps.mp_rr_arena_skygarden:
+	/*case eMaps.mp_rr_arena_skygarden:
 	//This location sucks, disable until map is fixed.. Cafe
 	if(FlowState_EnableEncore()){
 	Shared_RegisterLocation(
@@ -307,7 +307,7 @@ void function Sh_CustomTDM_Init()
 				<0, 0, 1000>
 			)
 		)
-	}
+	}*/
 	
 	///////////////////////////////////////
 	//////////////DEAFPS Maps//////////////

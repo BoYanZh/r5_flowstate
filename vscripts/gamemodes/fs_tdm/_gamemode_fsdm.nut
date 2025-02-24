@@ -593,11 +593,11 @@ void function DM__OnEntitiesDidLoad()
 				Patch_Partycrasher_Restarea()
 		break
 		
-		case eMaps.mp_rr_arena_skygarden:
+		/*case eMaps.mp_rr_arena_skygarden:
 			
 			if( flowstateSettings.patch_waiting_area )
 				Patch_SkyGardenRest()
-		break
+		break*/
     }
 }
 
@@ -641,7 +641,7 @@ LocPair function _GetVotingLocation()
 {
     switch( MapName() )
     {
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
         case eMaps.mp_rr_aqueduct:
              return NewLocPair(<4885, -4076, 400>, <0, -157, 0>)
         //case "mp_rr_canyonlands_staging":
@@ -660,14 +660,14 @@ LocPair function _GetVotingLocation()
             return NewLocPair(<0, 4780, 220>, <0, -90, 0>)
 		case eMaps.mp_rr_desertlands_64k_x_64k_tt:
             return NewLocPair(<-25197, -4278, -2138>, <0, -34, 0>)
-		case eMaps.mp_rr_arena_skygarden:
-			return NewLocPair(<4284.88037, -102.993355, 2671.03125>, <0, -179.447098, 0>)
+		/*case eMaps.mp_rr_arena_skygarden:
+			return NewLocPair(<4284.88037, -102.993355, 2671.03125>, <0, -179.447098, 0>)*/
 		case eMaps.mp_rr_party_crasher:
 			return NewLocPair(<1729.17407, -3585.65137, 581.736206>, <0, 103.168709, 0>)
 		case eMaps.mp_flowstate:
 		case eMaps.mp_rr_arena_empty:
 			return NewLocPair(<0,0,0>, <0, -179.447098, 0>)
-		case eMaps.mp_rr_olympus_mu1:
+		case eMaps.mp_rr_olympus:
 			return NewLocPair( <7008.73047, 7627.40234, -4623.99805>, <0,63,0> )
         default:
 			mAssert(false, "No voting location for the map!")
