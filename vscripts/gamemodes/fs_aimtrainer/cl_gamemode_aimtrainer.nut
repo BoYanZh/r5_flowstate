@@ -413,7 +413,6 @@ void function CoolCameraOnMenu()
 			cutsceneSpawns.append(NewCameraPair(<-25250.0391, -723.554199, 3427.51831>, <0, -55.5126762, 0>))
 		break
 
-		case eMaps.mp_rr_olympus_mu1:
 		case eMaps.mp_rr_olympus:
 		case eMaps.mp_rr_olympus_tt:
 			cutsceneSpawns.append(NewCameraPair(<-34747.9766, 16697.9922, -3418.06567>, <0, -25, 0>))

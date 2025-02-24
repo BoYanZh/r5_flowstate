@@ -31,43 +31,32 @@ global function Flowstate_ModeDisablesRagdolls
 
 global enum eMaps
 {
-	mp_rr_arena_composite, //0
-	mp_rr_aqueduct, //1
-	mp_rr_canyonlands_staging, //2
-	mp_rr_canyonlands_64k_x_64k, //3
-	mp_rr_canyonlands_mu1, //4
-	mp_rr_canyonlands_mu1_night, //5
-	mp_rr_desertlands_64k_x_64k, //6
-	mp_rr_desertlands_64k_x_64k_nx, //7
-	mp_rr_desertlands_64k_x_64k_tt, //8
-	mp_rr_party_crasher, //9
-	mp_rr_arena_skygarden, //10
-	mp_rr_ashs_redemption, //11
-	mp_rr_aqueduct_night, //12
-	mp_rr_party_crasher_new, //13
-	mp_rr_arena_empty, //14
-	mp_flowstate, //15
-	mp_rr_olympus_mu1, //16
-	mp_rr_thepit, //17
-	mp_rr_construct_night, //18
-	mp_lobby, //19
-	mp_rr_habitat, //20
-	mp_rr_arena_phase_runner, //21
-	mp_rr_construct, //22
-
-	mp_rr_desertlands_holiday, //23
-	mp_rr_desertlands_mu1, //24
-	mp_rr_desertlands_mu1_tt, //25
-	mp_rr_desertlands_mu2, //26
-	mp_rr_desertlands_night, //27
-	mp_rr_canyonlands_mu2, //28
-	mp_rr_canyonlands_mu2_tt, //29
-	mp_rr_canyonlands_mu2_mv, //30
-	mp_rr_canyonlands_mu2_ufo, //31
-	mp_rr_desertlands_mu3, //32
-	mp_rr_olympus, //33
-	mp_rr_olympus_tt, //34
-	mp_rr_canyonlands_mu3, //34
+	mp_rr_box, //0
+	mp_rr_canyonlands_staging, //1
+	mp_rr_canyonlands_64k_x_64k, //2
+	mp_rr_canyonlands_mu1, //3
+	mp_rr_canyonlands_mu1_night, //4
+	mp_rr_canyonlands_mu2, //5
+	mp_rr_canyonlands_mu2_tt, //6
+	mp_rr_canyonlands_mu2_mv, //7
+	mp_rr_canyonlands_mu2_ufo, //8
+	mp_rr_desertlands_64k_x_64k, //9
+	mp_rr_desertlands_64k_x_64k_nx, //10
+	mp_rr_desertlands_64k_x_64k_tt, //11
+	mp_rr_desertlands_holiday, //12
+	mp_rr_desertlands_mu1, //13
+	mp_rr_desertlands_mu1_tt, //14
+	mp_rr_desertlands_mu2, //15
+	mp_rr_olympus, //16
+	mp_rr_olympus_tt, //17
+	mp_rr_party_crasher, //18
+	mp_rr_arena_phase_runner, //19
+	mp_rr_arena_composite, //20
+	mp_rr_aqueduct, //21
+	mp_rr_arena_empty, //22
+	mp_lobby, //23
+	mp_rr_construct, //24
+	mp_flowstate, //25
 	
 	
 	_MAP_COUNT //LAST

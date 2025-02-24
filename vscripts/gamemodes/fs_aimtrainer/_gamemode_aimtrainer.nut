@@ -142,7 +142,6 @@ void function _ChallengesByColombia_Init()
 			AimTrainer_startAngs = <0, 144.184357, 0>
 		break
 
-		case eMaps.mp_rr_olympus_mu1:
 		case eMaps.mp_rr_olympus:
 		case eMaps.mp_rr_olympus_tt:
 			floorLocation = <9857.08496, -7948.96631, -1000>

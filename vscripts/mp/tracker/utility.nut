@@ -83,10 +83,7 @@ struct {
 			["worldsedge", "mp_rr_desertlands_64k_x_64k"],
 			["worldsedgeafterdark", "mp_rr_desertlands_64k_x_64k_nx"],
 			["miragevoyage", "mp_rr_desertlands_64k_x_64k_tt"],
-			["partycrasher", "mp_rr_party_crasher"],
-			["skygarden", "mp_rr_arena_skygarden"],
-			["ashsredemption", "mp_rr_ashs_redemption"],
-			["overflownight", "mp_rr_aqueduct_night"]
+			["partycrasher", "mp_rr_party_crasher"]
 		];	
 	}
 	
