@@ -274,7 +274,7 @@ void function RemoteFunctions_Init_Begin()
 	
 	//Dynamic client side lights spawn from server
 	if( MapName() == eMaps.mp_rr_arena_composite ) //TEMP. To free up buffer space. Currently only used in composite. Cafe
-		Remote_RegisterClientFunction( "ServerCallback_SpawnClientSideDynamicLight", "vector", -32000.0, 32000.0, 32, "vector", -32000.0, 32000.0, 32, "int", 0, 255, "float", 0.0, 32000.0, 8, "float", 0.0, 32000.0, 8 )
+		Remote_RegisterClientFunction( "ServerCallback_SpawnClientSideDynamicLight", "vector", -32000.0, 32000.0, 32, "vector", -32000.0, 32000.0, 32, "int", 0, 9, "float", 0.0, 32000.0, 12, "float", 0.0, 32000.0, 12 )
 
 	if( MapName() == eMaps.mp_rr_olympus_tt )
 		PathTT_OnNetworkRegistration()
@@ -290,7 +290,7 @@ void function RemoteFunctions_Init_Begin()
 	
 	// Falling Forever Custom Timer
 	if( Playlist() == ePlaylists.fs_fallingforever )
-		Remote_RegisterClientFunction("ServerCallback_SetTimer", "int", 0, INT_MAX)
+		Remote_RegisterClientFunction( "ServerCallback_SetTimer", "int", 0, INT_MAX )
 
 	if( Playlist() == ePlaylists.fs_movementrecorder )
 	{
@@ -310,7 +310,7 @@ void function RemoteFunctions_Init_Begin()
 	Remote_RegisterClientFunction( "ServerCallback_CreatesLaserFXFromServer", "entity", "vector", -1.0, 66000.0, 32, "vector", -32000.0, 32000.0, 32 )
 	
 	//Sentinel
-	Remote_RegisterClientFunction( "Flowstate_SentinelChargeHUD", "float", 0.0, 4000.0, 8 ) //Audit 2-22-2025 (mk): 66 mins server time, charge end max
+	Remote_RegisterClientFunction( "Flowstate_SentinelChargeHUD", "float", 0.0, 4000.0, 16 ) //Audit 2-22-2025 (mk): 66 mins server time, charge end max
 	
 	Remote_RegisterClientFunction( "ServerCallback_ShouldExitDrone" ) //meh
 	Remote_RegisterClientFunction( "Gamemode1v1_ForceLegendSelector_Deprecated" ) //Todo clientsided ui activation
@@ -982,7 +982,7 @@ void function RemoteFunctions_Init_Begin()
 	Remote_RegisterClientFunction( "ServerCallback_PlayerChangedTeams", "entity", "int", TEAM_INVALID, 127, "int", TEAM_INVALID, 127 ) 
 
 	//Remote_RegisterUntypedFunction_deprecated( "ServerCallback_PlayerTookDamage" ) //Audit 2-22-2025 moved to typed 
-	Remote_RegisterClientFunction( "ServerCallback_PlayerTookDamage", "float", 0.0, 50000.0, 8, "vector", -32000.0, 32000.0, 32, "int", 0, INT_MAX, "int", EDAMAGESOURCE_MIN, RT_EDAMAGESOURCE_MAX, "int", EHANDLE_MIN, EHANDLE_MAX ) //Audit 2-22-2025; Todo(mk): damage does not need to be allocated for 50000.0, however many mods call an arbituary number and these need audited in order to lower this value to a reasonable number. Note: Damage gets normalized, which used to be int. Therefore we can get away with using 8 bits on the float which should return n.xyz 
+	Remote_RegisterClientFunction( "ServerCallback_PlayerTookDamage", "float", 0.0, 50000.0, 16, "vector", -32000.0, 32000.0, 32, "int", 0, INT_MAX, "int", EDAMAGESOURCE_MIN, RT_EDAMAGESOURCE_MAX, "int", EHANDLE_MIN, EHANDLE_MAX ) //Audit 2-22-2025; Todo(mk): damage does not need to be allocated for 50000.0, however many mods call an arbituary number and these need audited in order to lower this value to a reasonable number. Note: Damage gets normalized, which used to be int. Therefore we can get away with using 16 bits on the float which should return n.xyz 
 	
 	//Remote_RegisterUntypedFunction_deprecated( "ServerCallback_ScreenShake" ) //Audit 2-22-2025 moved to typed.
 	//Remote_RegisterClientFunction( "ServerCallback_ScreenShake", "float", 0.0, 20.0, "float", 0.001, 255.0, 8, "vector", -32000.0, 32000, 32 )  //Audit 2-22-2025 , not currently called.
