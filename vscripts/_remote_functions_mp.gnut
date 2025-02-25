@@ -1091,7 +1091,7 @@ void function RemoteFunctions_Init_Begin()
 
 	// Localized TextPanel
 	Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedVariable_InfoPanel" )
-	Remote_RegisterClientFunction( "FS_CreateTextInfoPanelWithID_Localized", "int", 0, localizedStringsCount, "int", 0, localizedStringsCount, "vector", -32000.0, 32000.0, 32, "vector", -32000.0, 32000.0, 32, "float", 0.0, 100.0, 8, "int", -1, 999 ) //Audit 2-22-2025
+	//Remote_RegisterClientFunction( "FS_CreateTextInfoPanelWithID_Localized", "int", 0, localizedStringsCount, "int", 0, localizedStringsCount, "vector", -32000.0, 32000.0, 32, "vector", -32000.0, 32000.0, 32, "float", 0.0, 100.0, 8, "int", -1, 999 ) //Audit 2-22-2025
 
 	// Experiment -- This will be moved to code.
 	Remote_RegisterClientFunction( "FS_Toggle_Mute", "bool" )
