@@ -18,8 +18,7 @@ struct {
 
 	string freeRoamSelectedMap = "mp_rr_canyonlands_64k_x_64k"
 
-	int freeRoamVideoChannel = -1
-	int changeMapVideoChannel = -1
+	table <var, int> buttonVideoChannels
 } file
 
 void function InitGamemodeSelectDialogV4( var newMenuArg )
@@ -170,27 +169,45 @@ void function OnOpenModeSelectDialog()
 	RegisterButtonPressedCallback( MOUSE_WHEEL_UP, Servers_PageBackward )
 	
 	thread SetupGameSelectV4()
+
+	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), $"media/gamemodes/play_apex.bik")
+	PlayFreeRoamVideo(Hud_GetChild(file.menu, "AimtrainerButton"), $"media/gamemodes/training.bik")
+	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FiringRangeButton"), $"media/gamemodes/generic_01.bik")
 }
 
 void function SetupGameSelectV4()
 {
 	waitthread Servers_GetCurrentServerListing()
 	thread LoadServers(0)
-
-	PlayFreeRoamVideo()
 }
 
-void function PlayFreeRoamVideo()
+void function PlayFreeRoamVideo(var button, asset videoAsset)
 {
-	if ( file.changeMapVideoChannel == -1 )
-		file.changeMapVideoChannel = ReserveVideoChannel()
+	if(button in file.buttonVideoChannels)
+	{
+		StartVideoOnChannel( file.buttonVideoChannels[button], videoAsset, true, 0.0 )
+		return
+	}
 
-	asset desiredVideoAsset2 = $"media/gamemodes/play_apex.bik"
+	int channel = ReserveVideoChannel()
+	file.buttonVideoChannels[button] <- channel
 
-	StartVideoOnChannel( file.changeMapVideoChannel, desiredVideoAsset2, true, 0.0 )
+	StartVideoOnChannel( channel, videoAsset, true, 0.0 )
 
-	RuiSetBool( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamChangeMapButton") ), "hasVideo", true )
-	RuiSetInt( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamChangeMapButton") ), "channel", file.changeMapVideoChannel )
+	RuiSetBool( Hud_GetRui( button ), "hasVideo", true )
+	RuiSetInt( Hud_GetRui( button ), "channel", channel )
+}
+
+void function ReleaseAllVideoChannels()
+{
+	foreach( button, channel in file.buttonVideoChannels )
+	{
+		ReleaseVideoChannel( channel )
+		RuiSetBool( Hud_GetRui( button ), "hasVideo", false )
+		RuiSetInt( Hud_GetRui( button ), "channel", -1 )
+	}
+
+	file.buttonVideoChannels.clear()
 }
 
 void function SetServerHeaderVis(bool show)
@@ -210,6 +227,7 @@ void function OnCloseModeSelectDialog()
 	DeregisterButtonPressedCallback( MOUSE_WHEEL_UP, Servers_PageBackward )
 	
 	Lobby_OnGamemodeSelectV2Close()
+	ReleaseAllVideoChannels()
 }
 
 void function LoadServers(int page)
@@ -242,16 +260,15 @@ void function LoadServers(int page)
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerButton" + i), !invalidIndex )
 		Hud_SetVisible( Hud_GetChild(file.menu, "ServerPlayerCount" + i), !invalidIndex )
 
-		if(invalidIndex)
-			break
-
-		Hud_SetText( Hud_GetChild(file.menu, "ServerText" + i), WrapText(global_m_vServerList[adjustedPageIndex].svServerName, 30) )
-		Hud_SetText( Hud_GetChild(file.menu, "ServerMapName" + i), GetUIMapName(global_m_vServerList[adjustedPageIndex].svMapName) )
-		Hud_SetText( Hud_GetChild(file.menu, "ServerPlaylist" + i), GetUIPlaylistName(global_m_vServerList[adjustedPageIndex].svPlaylist) )
-		Hud_SetText( Hud_GetChild(file.menu, "ServerPlayerCount" + i), global_m_vServerList[adjustedPageIndex].svCurrentPlayers + "/" + global_m_vServerList[adjustedPageIndex].svMaxPlayers + " PLAYERS" )
-		RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName ) )
-
-		Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)
+		if(!invalidIndex)
+		{
+			Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)
+			Hud_SetText( Hud_GetChild(file.menu, "ServerText" + i), WrapText(global_m_vServerList[adjustedPageIndex].svServerName, 30) )
+			Hud_SetText( Hud_GetChild(file.menu, "ServerMapName" + i), GetUIMapName(global_m_vServerList[adjustedPageIndex].svMapName) )
+			Hud_SetText( Hud_GetChild(file.menu, "ServerPlaylist" + i), GetUIPlaylistName(global_m_vServerList[adjustedPageIndex].svPlaylist) )
+			Hud_SetText( Hud_GetChild(file.menu, "ServerPlayerCount" + i), global_m_vServerList[adjustedPageIndex].svCurrentPlayers + "/" + global_m_vServerList[adjustedPageIndex].svMaxPlayers + " PLAYERS" )
+			RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName ) )
+		}
 	}
 }
 
