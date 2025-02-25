@@ -642,7 +642,7 @@ void function RemoteFunctions_Init_Begin()
 	Remote_RegisterClientFunction( "SCB_AddGrenadeIndicatorForEntity", "int", -1, 127, "int", EHANDLE_MIN, EHANDLE_MAX, "int", EHANDLE_MIN, EHANDLE_MAX, "float", 0.0, 99999.0, 32 )//Audit 2-22-2025
 	
 	//Remote_RegisterUntypedFunction_deprecated( "ScriptCallback_UnlockAchievement" ) //Audit 2-22-2025 switched to typed
-	Remote_RegisterUIFunction( "ScriptCallback_UnlockAchievement", "int", 0, 20 ) //Audit 2-22-2025
+	Remote_RegisterUIFunction( "ScriptCallback_UnlockAchievement", "int", 0, achievements.len() ) //Audit 2-22-2025
 	
 	//Remote_RegisterUntypedFunction_deprecated( "ServerCallback_SonarPulseFromPosition" ) //Audit 2-22-2025 switched to typed
 	Remote_RegisterClientFunction( "ServerCallback_SonarPulseFromPosition", "vector", -32000.0, 32000.0, 32, "float", 0.0, 3000.0, 8, "float", 0.0, 10.0, 8, "bool" ) //Audit 2-22-2025
