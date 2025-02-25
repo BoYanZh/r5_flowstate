@@ -262,12 +262,14 @@ void function LoadServers(int page)
 
 		if(!invalidIndex)
 		{
-			Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)
 			Hud_SetText( Hud_GetChild(file.menu, "ServerText" + i), WrapText(global_m_vServerList[adjustedPageIndex].svServerName, 30) )
 			Hud_SetText( Hud_GetChild(file.menu, "ServerMapName" + i), GetUIMapName(global_m_vServerList[adjustedPageIndex].svMapName) )
 			Hud_SetText( Hud_GetChild(file.menu, "ServerPlaylist" + i), GetUIPlaylistName(global_m_vServerList[adjustedPageIndex].svPlaylist) )
 			Hud_SetText( Hud_GetChild(file.menu, "ServerPlayerCount" + i), global_m_vServerList[adjustedPageIndex].svCurrentPlayers + "/" + global_m_vServerList[adjustedPageIndex].svMaxPlayers + " PLAYERS" )
 			RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName ) )
+
+			//This has to be below ServerText, as it requires WrapText to be called first
+			Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)
 		}
 	}
 }
