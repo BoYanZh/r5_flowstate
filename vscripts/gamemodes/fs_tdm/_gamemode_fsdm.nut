@@ -164,6 +164,8 @@ struct
 	array< string > metagameWeaponsPrimary
 	array< string > metagameWeaponsSecondary
 	
+	bool is1v1GameType
+	
 } file
 
 struct
@@ -322,6 +324,7 @@ void function _CustomTDM_Init()
 {
 	InitializePlaylistSettings() //must be executed first
 	file.scriptversion = FLOWSTATE_VERSION
+	file.is1v1GameType = g_is1v1GameType()
 	
 	RegisterSignal( "EndScriptedPropsThread" )
 	RegisterSignal( "FS_WaitForBlackScreen" )
@@ -1584,7 +1587,7 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 			PlayerRestoreHPFIESTA(player, 100)
 		}
 		
-		if( !isScenariosMode() && !g_is1v1GameType() )
+		if( !isScenariosMode() && !file.is1v1GameType )
 			PlayerRestoreHP(player, 100, Equipment_GetDefaultShieldHP())
 
 		try

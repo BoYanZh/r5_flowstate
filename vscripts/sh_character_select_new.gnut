@@ -2987,12 +2987,13 @@ void function UpdatePlayerModel( ItemFlavor character )
 	}
 }
 
-array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter(ItemFlavor character)
+array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter( ItemFlavor character )
 //Don't try this at home
 {
 	array<ItemFlavor> actualGoodAnimsForThisCharacter
 	
-	switch(ItemFlavor_GetHumanReadableRef( character )){
+	switch( ItemFlavor_GetHumanReadableRef( character ) )
+	{
 			case "character_pathfinder":
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID00267302733" ) ) )
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID00543164026" ) ) )
@@ -3073,32 +3074,37 @@ array<ItemFlavor> function GetAllGoodAnimsFromGladcardStancesForCharacter(ItemFl
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01198897745" ) ) )
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01638491567" ) ) )
 		if( MapName() != eMaps.mp_rr_canyonlands_mu2 && MapName() != eMaps.mp_rr_canyonlands_mu1 && MapName() != eMaps.mp_rr_canyonlands_mu1_night && MapName() != eMaps.mp_rr_canyonlands_64k_x_64k ) 
-		{actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01313080345" ) ) )}
+			actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01313080345" ) ) )
+		
 		return actualGoodAnimsForThisCharacter
 		
 			case "character_crypto":
 		if( MapName() != eMaps.mp_rr_canyonlands_mu2 && MapName() != eMaps.mp_rr_canyonlands_mu1 && MapName() != eMaps.mp_rr_canyonlands_mu1_night && MapName() != eMaps.mp_rr_canyonlands_64k_x_64k ) 
-		{actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID00269538572" ) ) )}
+			actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID00269538572" ) ) )
+		
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID00814728196" ) ) )
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01157264561" ) ) )
 		actualGoodAnimsForThisCharacter.append( GetItemFlavorByGUID( ConvertItemFlavorGUIDStringToGUID( "SAID01574566414" ) ) )
+		
+		//(mk): @kral, please select anims for new legends
+		
 		return actualGoodAnimsForThisCharacter
 	}
+	
 	return actualGoodAnimsForThisCharacter
 }
 
 void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
 {
-	if (FS_ShouldShowCustomCharacterSelect())
+	if ( FS_ShouldShowCustomCharacterSelect() )
 	{
-	
 		if ( !fileLevel.menuEntsExist )
 			return
 
 		entity player = GetLocalClientPlayer()
 		
-		int ThisRoundAnim = RandomIntRangeInclusive(0,GetAllGoodAnimsFromGladcardStancesForCharacter(character).len()-1)
-		array<ItemFlavor> animsforthischaracter = GetAllGoodAnimsFromGladcardStancesForCharacter(character)		
+		int ThisRoundAnim = RandomIntRangeInclusive( 0, GetAllGoodAnimsFromGladcardStancesForCharacter( character ).len() - 1 )
+		array<ItemFlavor> animsforthischaracter = GetAllGoodAnimsFromGladcardStancesForCharacter( character )		
 		Signal( fileLevel.signalDummy, "UpdatingAnim" )
 		EndSignal( fileLevel.signalDummy, "UpdatingAnim" )
 		EndSignal( fileLevel.signalDummy, "CharacterSelectClosing" )
@@ -3204,8 +3210,9 @@ void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
 			RuiSetString( fileLevel.backgroundRui, "footnoteString", Localize( CharacterClass_GetCharacterSelectSubtitle( character ) ) )
 			RuiSetFloat( fileLevel.backgroundRui, "startTime", Time() )
 		}
-	} else {
-	
+	} 
+	else 
+	{
 		if ( !fileLevel.menuEntsExist )
 			return
 
@@ -3215,13 +3222,19 @@ void function UpdatePlayerAnim( ItemFlavor character, int currentMenuState )
 
 		if ( currentMenuState == eNewCharacterSelectMenuState.PICKING )
 		{
-			printt( "| PICKING ANIM", fileLevel.characterModel.GetModelName() )
+			#if DEVELOPER
+				printt( "| PICKING ANIM", fileLevel.characterModel.GetModelName() )
+			#endif 
+			
 			PlayAnim( fileLevel.characterModel, "ACT_MP_MENU_MAIN_INTRO", fileLevel.characterNode )
 			PlayAnim( fileLevel.characterModel, "ACT_MP_MENU_MAIN_IDLE", fileLevel.characterNode )
 		}
 		else if ( currentMenuState == eNewCharacterSelectMenuState.LOCKED )
 		{
-			printt( "| LOCKED ANIM", string(fileLevel.characterModel.GetModelName()) )
+			#if DEVELOPER
+				printt( "| LOCKED ANIM", string(fileLevel.characterModel.GetModelName()) )
+			#endif
+			
 			Chroma_AddOverlay( CHROMALOOP_SMOKE, CHROMAWAVE_FLASH, {[0.0] = <1, 1, 1>}, 2.0 )
 			thread PlayCharacterReadyUpLine( character )
 			fileLevel.lockSequenceAnimTime = Time()
@@ -3250,7 +3263,7 @@ void function PlayCharacterReadyUpLine( ItemFlavor character )
 void function DebugMenuThink()
 {
 	EndSignal( fileLevel.signalDummy, "CharacterSelectClosing" )
-	while( true )
+	for( ; ; )
 	{
 		string desiredCharacter = "null"
 		if ( fileLevel.desiredCharacterOrNull != null )

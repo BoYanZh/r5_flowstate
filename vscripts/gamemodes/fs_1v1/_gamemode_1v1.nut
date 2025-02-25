@@ -66,7 +66,8 @@ global function IsCurrentState
 global function ValidateBlacklistedWeapons
 
 global typedef PanelTable table<string, entity>
-const bool TEST_WORLDDRAW = false
+const bool TEST_WORLDDRAW	= false
+const bool DEBUG_STATE		= false
 
 //DEV 
 #if DEVELOPER
@@ -421,7 +422,7 @@ void function Gamemode1v1_SetPlayerGamestate( entity player, int state = 0 )
 		foreach( callbackFunc in player.e.onPlayerGamestateChangedCallbacks )
 			callbackFunc( player, state )
 	}
-	#if DEVELOPER
+	#if DEVELOPER && DEBUG_STATE
 		else if( !IsCurrentState( player, e1v1State.SEQUENCE ) )
 		{
 			DumpStack()

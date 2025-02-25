@@ -370,7 +370,7 @@ void function Script_RegisterAllPlayerDataCallbacks()
 	
 	Chat_RegisterPlayerData()
 	
-	if( file.bStatsIs1v1Type )
+	if( file.bStatsIs1v1Type && Playlist() != ePlaylists.fs_scenarios ) //todo clean up intertwinedness.. 
 		Gamemode1v1_PlayerDataCallbacks()
 		
 	switch( Playlist() )
