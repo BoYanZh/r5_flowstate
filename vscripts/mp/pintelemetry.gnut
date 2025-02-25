@@ -2157,28 +2157,28 @@ void function Init_NewGame()
 		}
 	}
 	
-	void function Alert_Player_Access( entity player )
+	void function CheckForPlayerAccess( entity player )
 	{	
 		EndSignal( player, "OnDisconnected", "OnDestroy" )
 		CommandsEnabled( player, false )
 		
+		if( Gamemode() == eGamemodes.SURVIVAL || Playlist() == ePlaylists.fs_scenarios )
+			wait 1 //allow setup callbacks to run
+		
 		Gamemode1v1_ForceRest( player )
 		
-		if( IsValid( player ) && !GetServerVar( "batch_fetch_complete" ) )
+		if( !GetServerVar( "batch_fetch_complete" ) )
 			WaitSignal( tracker.signalEnt, "BatchFetchComplete" )
 		
-		if( IsValid( player ) && !Tracker_IsStatsReadyFor( player ) )
+		if( !Tracker_IsStatsReadyFor( player ) )
 			WaitSignal( player, "SyncDataFullyLoaded" )
-		
-		if( !IsValid( player) )
-			return
-
+			
 		//this int must be set after stats have loaded
 		int access_status = CheckIfPlayerHasAccess( player )
 		
 		wait 2
 		
-		if ( IsValid( player ) && access_status >= RESTRICTED_ACCESS_STATUS_REQUIRED )//Todo: Revisit for more modularity from a single defined source and remove CONST adjustments
+		if ( access_status >= RESTRICTED_ACCESS_STATUS_REQUIRED )//Todo: Revisit for more modularity from a single defined source and remove CONST adjustments
 		{	
 			Gamemode1v1_ForceRest( player )
 			Message( player, "Welcome " + player.GetPlayerName(),  GetPlayerAccessMessage( player, access_status ), 30 )
@@ -2186,26 +2186,17 @@ void function Init_NewGame()
 		}
 		else 
 		{	
-			if( IsValid( player ) )
-			{
-				thread force_rest( player )
-				
-				Message( player, "Sorry " + player.GetPlayerName(),  GetPlayerAccessMessage( player, access_status ), 30 )
-				wait 7	
-				
-				if( IsValid( player ) )
-				{
-					KickPlayerById( player.GetPlatformUID(), GetPlayerAccessMessage( player, access_status ) )
-					UpdatePlayerCounts()
-					
-					if( GetCurrentPlaylistVarBool( "restricted_kick_log", false ) )
-					{
-						sqprint( format( "\n\n Player: %s, Kick msg: %s", player.GetPlayerName(), GetPlayerAccessMessage( player, access_status ) ) )
-					}
-				}
-			}
+			thread force_rest( player )
+			
+			Message( player, "Sorry " + player.GetPlayerName(),  GetPlayerAccessMessage( player, access_status ), 30 )
+			wait 7	
+			
+			KickPlayerById( player.GetPlatformUID(), GetPlayerAccessMessage( player, access_status ) )
+			UpdatePlayerCounts()
+			
+			if( GetCurrentPlaylistVarBool( "restricted_kick_log", false ) )
+				sqprint( format( "\n\n Player: %s, Kick msg: %s", player.GetPlayerName(), GetPlayerAccessMessage( player, access_status ) ) )
 		}
-		
 	}
 	
 
@@ -2244,7 +2235,7 @@ void function INIT_IntervalMessages()
 	
 	if( !gotoLoopMessage )
 	{
-		array<string> interval_settings = split( msg_ArrayString , "|")
+		array<string> interval_settings = split( msg_ArrayString , "|" )
 		
 		int iMessageNum = 0
 		
@@ -2444,14 +2435,12 @@ bool function isIntervalThreadRunning()
 int function SendLoopMessage( int threadCycleCount, int loopMsgCount  )
 {
 	if( loopMsgCount > file.arrayLoopMessages.len() )
-	{
 		loopMsgCount = 1
-	}
 	
 	if( loopMsgCount > 0 && threadCycleCount > 0 && threadCycleCount % file.iLoopMessagesTime == 0  )
 	{
 		SendServerMessage( file.arrayLoopMessages[( loopMsgCount - 1 )] )
-		loopMsgCount++;
+		loopMsgCount++
 	}
 	
 	return loopMsgCount
@@ -2536,21 +2525,20 @@ bool function IsClientCommandAdminEnabled()
 
 int function GetUniqueFightId() 
 {
-    return file.fightIdCounter++;
+    return file.fightIdCounter++
 }
 
 //endfight function to count from global metrics struct
 int function CountEventsWithinTimeframe( array< float > timestamps, float startTime, float endTime ) 
 {
-    int count = 0;
+    int count
     foreach ( timestamp in timestamps ) 
 	{
         if ( timestamp >= startTime && timestamp <= endTime ) 
-		{
-            count++;
-        }
+            count++
     }
-    return count;
+	
+    return count
 }
 
 
@@ -2603,7 +2591,7 @@ DamageEvent function Tracker_CreateDamageEvent( int weaponSource, float damage, 
     event.hitCount = 0 //int
     event.bulletsHit = 0.0 //float
 	event.headshots = 0 //int
-	event.actionTimestamp = (actionTimestamp - .0900); //float
+	event.actionTimestamp = ( actionTimestamp - .0900 ) //float
 	event.lastWeaponSource = weaponSource //int
 	event.lastHitTimestamp = 0 //float
 	event.shotIdentifier = shotIdentifier //int
@@ -2621,24 +2609,21 @@ DamageEvent function Tracker_CreateDamageEvent( int weaponSource, float damage, 
 
 void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Todo possibly a queue
 {
-	DeleteEvents event
-	event.attacker_handle = attacker_handle 
-	event.victim_handle = victim_handle
-	event.fightEndTime = Time()
+	// DeleteEvents event
+	// event.attacker_handle = attacker_handle 
+	// event.victim_handle = victim_handle
+	// event.fightEndTime = Time()
 	
 	RemoveEvents
 	(
-		event.victim_handle, 
-		event.attacker_handle, 
-		event.fightEndTime
+		victim_handle, 
+		attacker_handle, 
+		Time()
 	)
 }
 
 	void function __EndFight( entity victim, entity attacker, var damageInfo, float deathtime )
 	{
-		if( Flowstate_IsFastInstaGib() )
-			WaitEndFrame() //all data this function needs may not be wrote by it's coroutine yet.
-		
 		if( !damageInfo )
 		{
 			#if DEVELOPER
@@ -2646,6 +2631,11 @@ void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Tod
 			#endif 
 			return
 		}
+		
+		int damageSourceID = DamageInfo_GetDamageSourceIdentifier( damageInfo )
+		
+		if( Flowstate_IsFastInstaGib() )
+			WaitEndFrame() //all data this function needs may not be wrote by it's coroutine yet.
 		
 		if ( !IsValid( victim ) || ( !victim.IsPlayer() && !victim.IsNPC() ) || !IsValid( attacker ) )
 		{
@@ -2657,7 +2647,6 @@ void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Tod
 		}
 		
 		bool victimIsPlayer = victim.IsPlayer()
-		int damageSourceID = DamageInfo_GetDamageSourceIdentifier( damageInfo )
 		
 		//Increment fightid
 		int id = GetUniqueFightId()
@@ -2705,7 +2694,7 @@ void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Tod
 		}
 			
 		int victim_handle = victim.GetEncodedEHandle()
-		int attacker_handle = attacker.IsPlayer() ? attacker.p.handle : DamageInfo_GetDamageSourceIdentifier( damageInfo )
+		int attacker_handle = attacker.IsPlayer() ? attacker.p.handle : damageSourceID
 
 		if( attacker_handle == eDamageSourceId.bleedout )
 		{
@@ -3181,7 +3170,7 @@ void function RemoveDamageEvents( int attacker_handle, int victim_handle ) //Tod
 			}
 			else 
 			{
-				int attackerID = DamageInfo_GetDamageSourceIdentifier( damageInfo )
+				int attackerID = damageSourceID
 				
 				a_OID = GetWorldSpawnRef( attackerID )
 				
@@ -3332,7 +3321,7 @@ void function WeaponSettings_Init()
 			file.SpecialWeaponsBulletsPerShot[ id ] <- projectiles_per_shot
 			
 			#if DEVELOPER
-				printt( "Added multiple projectile eDamageSourceId: '", id, "' for weapon:'", weapon, "'" )
+				printf( "Added multiple projectile eDamageSourceId: '%d' for weapon '%s'", id, weapon )
 			#endif
 		}
 	}
@@ -3400,7 +3389,7 @@ void function Tracker_HandleDamage( DamageEvent event, entity attacker, int weap
 			printt("Tracker: CapDmg - Damageamount:", damageAmount, ";currenthealth:", currentHealth )
 		#endif
 		
-		damageAmount = currentHealth;
+		damageAmount = currentHealth
 	}
 
 	// for calculating total projectiles from constants
@@ -3639,7 +3628,7 @@ void function Tracker_OnPlayerDamaged( entity victim, var damageInfo )
 		{
             // update existing damage event
             existingEvent.isNew = false
-            existingEvent.weaponOrder.append(weaponSource)
+            existingEvent.weaponOrder.append( weaponSource )
             Tracker_HandleDamage( existingEvent, attacker, weaponSource, damageAmount, damageInfo, victim )
         }
     } 
@@ -3648,7 +3637,7 @@ void function Tracker_OnPlayerDamaged( entity victim, var damageInfo )
         //create new one
         DamageEvent newEvent = Tracker_CreateDamageEvent( weaponSource, damageAmount, actionTimestamp, shotIdentifier, attackerHandle, victimHandle )
         newEvent.weaponOrder.append( weaponSource )
-        newEvent.shotIdentifier = shotIdentifier;
+        newEvent.shotIdentifier = shotIdentifier
         Tracker_HandleDamage( newEvent, attacker, weaponSource, damageAmount, damageInfo, victim )
         allDamageEvents.append( newEvent )
     }
@@ -3806,7 +3795,9 @@ DamageEvent function Tracker_GetCurrentEventByPlayerHandle_expensive( int player
 	void function __PlayerEA_Verify( entity player, array<string> args, int index, string ea_acc, string OID ) 
 	{
 		if ( !IsValid( player ) || !player.p.isConnected )
-				return
+			return
+				
+		player.EndSignal( "OnDisconnected", "OnDestroy" )
 		
 		if ( file.gamemode_type_1v1 ) 
 		{
@@ -3994,40 +3985,31 @@ int function InitializePlayerMetricsStructForPlayerByUID( string playerID )
 
 void function RecordPlayerJump( entity player ) 
 {
-	float time = Time()
- 
     int index = GetPlayerMetricsIndex( player )	
-    PlayerMetricsArray[ index ].JumpTimestamps.append(time)
+    PlayerMetricsArray[ index ].JumpTimestamps.append( Time() )
 }
 
 
 void function RecordPlayerSuperglides( entity player ) 
 {
-	float time = Time()
- 
     int index = GetPlayerMetricsIndex( player )
-    PlayerMetricsArray[ index ].SuperglideTimestamps.append( time )
+    PlayerMetricsArray[ index ].SuperglideTimestamps.append( Time() )
 }
 
 
 void function RecordPlayerShot( entity player, int weaponSource ) 
 {
     int index = GetPlayerMetricsIndex( player )
-	float time = Time()
-
-	if ( !(weaponSource in PlayerMetricsArray[ index ].WeaponShotsTimestamps) ) 
-	{
-		PlayerMetricsArray[ index ].WeaponShotsTimestamps[ weaponSource ] <- [ time ]
-	} 
+	
+	if ( !( weaponSource in PlayerMetricsArray[ index ].WeaponShotsTimestamps ) ) 
+		PlayerMetricsArray[ index ].WeaponShotsTimestamps[ weaponSource ] <- [ Time() ]
 	else 
-	{
-		PlayerMetricsArray[ index ].WeaponShotsTimestamps[ weaponSource ].append( time )
-	}
+		PlayerMetricsArray[ index ].WeaponShotsTimestamps[ weaponSource ].append( Time() )
 }
 
 
 void function AddToPlayerKills( string playerID )
-{
+{	
 	int index = GetPlayerMetricsIndexByUID( playerID )	
 	PlayerMetricsArray[ index ].kills += 1		
 }
@@ -4035,8 +4017,8 @@ void function AddToPlayerKills( string playerID )
 
 void function AddToPlayerDeaths( entity player )
 {
-	if( !player.IsPlayer() )
-		return 
+	// if( !player.IsPlayer() )
+		// return 
 		
 	int index = GetPlayerMetricsIndex( player )	
 	PlayerMetricsArray[ index ].deaths += 1		
@@ -4125,13 +4107,13 @@ void function Tracker_SavePlayerData( string uid, string setting, ... )
 	ThrowValidSaveType( vargv[0] )
 
 	string value = "";
-	string type = typeof( vargv[0] );
+	string type = typeof( vargv[0] )
 	
 	if ( type != "string" )
 	{
 		if( type == "bool" )
 		{
-			value = vargv[0] == true ? "1" : "0";
+			value = vargv[0] == true ? "1" : "0"
 		}
 		else 
 		{	
@@ -4313,9 +4295,7 @@ SerializedData function Tracker_BuildAllPlayerMetrics( bool trigger = false )
 				continue
 			
             if ( !wep_first ) 
-			{
                 json += ", "
-            }
 			
 			if( !exclude( weaponSource ) )
 			{
@@ -4338,9 +4318,7 @@ SerializedData function Tracker_BuildAllPlayerMetrics( bool trigger = false )
     json += "]"
 	
 	if ( trigger )
-	{	
 		return json		
-	} 
 	else 
 	{	
 		sqprint( "^|," + json + "\n" )
@@ -4419,7 +4397,7 @@ void function SetIgnoreSyncFlag( entity player )
 
 	try
 	{
-		PlayerMetricsArray[ index ].ignore_sync_flag = true;
+		PlayerMetricsArray[ index ].ignore_sync_flag = true
 	}
 	catch(e){}
 }
@@ -4434,7 +4412,7 @@ bool function GetIgnoreSyncFlag( entity player )
 	int index = GetPlayerMetricsIndex( player )
 	
 	if( index != -1 )
-		return PlayerMetricsArray[index].ignore_sync_flag;
+		return PlayerMetricsArray[index].ignore_sync_flag
 	
 	return false
 }
@@ -4445,11 +4423,10 @@ void function SetPlayerLeftFlag( entity player )
 	//we double set/check this function 
 	//to make sure leaving player has flag set
 	int index = GetPlayerMetricsIndex( player )
-
-	index = GetPlayerMetricsIndex( player )
+	index = GetPlayerMetricsIndex( player ) //todo revisit..
 	
 	if ( index != -1 ) 
-		PlayerMetricsArray[ index ].playerleft = true;
+		PlayerMetricsArray[ index ].playerleft = true
 }
 
 
@@ -4699,11 +4676,11 @@ void function Flowstate_TrackingVision_SuperglideDetection_Stats(entity player)
 		return
 	
 	thread Flowstate_TrackingVision_TryToTrackSuperglide_Stats( player )
-	AddPlayerMovementEventCallback( player , ePlayerMovementEvents.JUMP, DidJump)
+	AddPlayerMovementEventCallback( player , ePlayerMovementEvents.JUMP, SetDidJump )
 }
 
 
-void function DidJump( entity player )
+void function SetDidJump( entity player )
 {	
 	PlayerDidJump[ player.p.UID ] = true
 }
@@ -4742,28 +4719,28 @@ int function GetGlides( entity player )
 // todo: move to code function?
 void function Flowstate_TrackingVision_TryToTrackSuperglide_Stats( entity player )
 {	
-	
 	if ( !IsValid( player ) ) 
 		return
 	
 	Signal( player, "SuperglideDetectionResetStats" )
-	EndSignal( player, "SuperglideDetectionResetStats" )
+	EndSignal( player, "SuperglideDetectionResetStats", "OnDestroy" )
 	//sqprint("Superglide reset signal");
 	
 		
 	bool AttemptingSuperGlide = true
 	string playerID = player.GetPlatformUID() 
-	ResetJump(playerID);
+	
+	ResetJump( playerID )
 			
 	float playerVel
 	vector playerVelV
-	float airtime = 0;
-	bool hadair = false;
-	bool didmantle = false;
-	bool didslide = false;
+	float airtime = 0
+	bool hadair = false
+	bool didmantle = false
+	bool didslide = false
 	vector start = player.GetOrigin()
 	
-	while( IsValid( player ) && !player.IsObserver() && AttemptingSuperGlide == true)
+	while( !player.IsObserver() && AttemptingSuperGlide == true )
 	{
 		//sqprint(format("Time: %d, on ground? %s , mantling? %s, Did jump? %s", Time(), player.IsOnGround().tostring(), player.IsMantling().tostring(), pDidJump(playerID).tostring()))
 		
@@ -4771,26 +4748,29 @@ void function Flowstate_TrackingVision_TryToTrackSuperglide_Stats( entity player
 		playerVel = playerVelV.Length()
 		vector current = player.GetOrigin();
 		vector difference = current - start;
-		float distance = sqrt(difference.x * difference.x + difference.y * difference.y + difference.z * difference.z);
+		float distance = sqrt( difference.x * difference.x + difference.y * difference.y + difference.z * difference.z )
 			
-		if( player.IsOnGround() || player.IsMantling())
+		if( player.IsOnGround() || player.IsMantling() )
 		{	
 			airtime = 0.0
 			//sqprint(format("Air time reset: %d", airtime ))
-			if (player.IsMantling()){ didmantle = true; }
+			if ( player.IsMantling() )
+				didmantle = true
 			
 		} 
 		else if( !player.IsOnGround() && !player.ContextAction_IsZipline() && !player.IsMantling() )
 		{
 			airtime += 0.025
-			hadair = true;
-			if ( player.IsSliding() ){ didslide = true }
+			hadair = true
+			if ( player.IsSliding() )
+				didslide = true
 			//sqprint(format("Air time increasing: %d", airtime ))
 		}
 		
-		if ( player.IsSliding() ){ didslide = true }
+		if ( player.IsSliding() )
+			didslide = true
 		
-		if( pDidJump(playerID) == true && didmantle == true && didslide == true && playerVel > 445 && airtime <= 0.6 )
+		if( pDidJump( playerID ) == true && didmantle == true && didslide == true && playerVel > 445 && airtime <= 0.6 )
 		{	
 			//sqprint(format("hitsuperglide airtime: %d, velocity: %d", airtime, playerVel));
 			AttemptingSuperGlide = false;
@@ -4801,30 +4781,33 @@ void function Flowstate_TrackingVision_TryToTrackSuperglide_Stats( entity player
 				Message( player, format("%s: %d", file.superglidetitle, ( GetGlides(player) + player.p.season_glides ) ), file.superglide_msg )
 			}
 			
-			break;	
+			break	
 		} 			
-		if (distance > 115 && player.IsOnGround())
+		if ( distance > 115 && player.IsOnGround() )
 		{
 			//sqprint(format("breaking due to moving from mantle. Distance: %d", distance))
-			AttemptingSuperGlide = false;
-			break;		
+			AttemptingSuperGlide = false
+			break		
 		}
-		if (!player.IsMantling() && player.IsOnGround() && hadair == true)
+		if ( !player.IsMantling() && player.IsOnGround() && hadair == true )
 		{
 			//sqprint("Breaking due to mantle time and ground")
-			AttemptingSuperGlide = false;
-			break;	
+			AttemptingSuperGlide = false
+			break
 		}
-		if (player.IsMantling()){ didmantle = true; }
-		if ( player.IsSliding()){ didslide = false }
-		ResetJump(playerID);	
+		if ( player.IsMantling() )
+			didmantle = true
+			
+		if ( player.IsSliding() )
+			didslide = false
 		
+		ResetJump( playerID )		
 		wait 0.01
 	}
 	
 	//sqprint("End of loop");
 	ResetJump( playerID )
-	RemovePlayerMovementEventCallback( player , ePlayerMovementEvents.JUMP, DidJump )
+	RemovePlayerMovementEventCallback( player , ePlayerMovementEvents.JUMP, SetDidJump )
 }
 
 
@@ -4886,7 +4869,7 @@ void function WeaponAttack( entity player, entity weapon, string weaponRef, int 
 
 bool function RegisterDamageDef( string weaponName, entity weapon )
 {
-	string nameFromClass = "";
+	string nameFromClass = ""
 	
 	if( IsValid( weapon ) )
 		nameFromClass = weapon.GetWeaponClassName()
@@ -5164,7 +5147,7 @@ void function PIN_AddPlayer( entity player )
 	
 	if( file.restricted_server )
 	{	
-		thread Alert_Player_Access( player )
+		thread CheckForPlayerAccess( player )
 	}
 	else 
 	{

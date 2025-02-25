@@ -1205,7 +1205,7 @@ void function Sequence_Epilogue()
 			)
 		}
 
-		Remote_CallFunction_NonReplay( player, "ServerCallback_ShowWinningSquadSequence" )
+		Remote_CallFunction_ByRef( player, "ServerCallback_ShowWinningSquadSequence" )
 	}
 	
 	if( GetCurrentPlaylistVarBool( "survival_server_restart_after_end", false ) )
@@ -1833,7 +1833,7 @@ void function OnClientConnected( entity player )
 	switch ( GetGameState() )
 	{
 		case eGameState.Epilogue:
-			Remote_CallFunction_NonReplay( player, "ServerCallback_ShowWinningSquadSequence" )
+			Remote_CallFunction_ByRef( player, "ServerCallback_ShowWinningSquadSequence" )
 			break
 	}
 	

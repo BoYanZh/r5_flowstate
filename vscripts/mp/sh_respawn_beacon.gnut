@@ -215,7 +215,7 @@ void function RespawnBeacons_RegisterNetworking()
 	RegisterNetworkedVariable( "respawnBannerPickedUpTime", SNDC_PLAYER_GLOBAL, SNVT_TIME, -1 )
 
 	#if CLIENT
-	RegisterNetworkedVariableChangeCallback_int( "respawnStatus", RespawnStatusChanged )
+		RegisterNetworkedVariableChangeCallback_int( "respawnStatus", RespawnStatusChanged )
 	#endif
 }
 

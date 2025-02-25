@@ -936,7 +936,7 @@ void function ResetZiplineUseCountOnMantle( entity player )
 	//printt("Mantling, zipline use count reset.")
 	
 	player.p.ziplineUsages = 0
-	Remote_CallFunction_NonReplay( player, "ServerCallback_NessyMessage", 40 )
+	Remote_CallFunction_NonReplay( player, "ServerCallback_NessyMessage", 40 ) //why
 }
 
 void function OnClientDisconnected( entity player )

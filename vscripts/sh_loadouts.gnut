@@ -1504,7 +1504,8 @@ void function ClientToUI_RefreshLoadoutSlot( EHI playerEHI, int entryIndex, int 
 	RefreshLoadoutSlotInternal( playerEHI, entry, null )
 }
 
-array<int> shouldShowTypes = [
+const array<int> shouldShowTypes = 
+[
 	eItemType.character_skin,
 	eItemType.weapon_skin,
 	eItemType.weapon_charm,

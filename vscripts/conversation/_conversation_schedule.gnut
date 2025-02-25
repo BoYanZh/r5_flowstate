@@ -429,7 +429,7 @@ function GetSquadEHandles( ai )
 {
 	expect entity( ai )
 
-	local aiHandles = [ null, null, null, null ]
+	local aiHandles = [ 0, 0, 0, 0 ]
 
 	string squadName = expect string( ai.Get( "squadname" ) )
 

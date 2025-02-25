@@ -3857,7 +3857,7 @@ void function soloModeThread( LocPair waitingRoomLocation )
 
 					if( Distance2D( eachPlayer.GetOrigin(), Center ) > settings.playerMaxFightDistance ) //检测乱跑的脑残
 					{
-						Remote_CallFunction_Replay( eachPlayer, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+						Remote_CallFunction_Replay( eachPlayer, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 						eachPlayer.TakeDamage( 1, null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 					}
 				}

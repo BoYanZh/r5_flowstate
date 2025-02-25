@@ -648,8 +648,8 @@ LocPair function _GetVotingLocation()
         //     return NewLocPair(<26794, -6241, -27479>, <0, 0, 0>)
         case eMaps.mp_rr_canyonlands_64k_x_64k:
 			return NewLocPair(<-19459, 2127, 18404>, <0, 180, 0>)
-		case eMaps.mp_rr_ashs_redemption:
-            return NewLocPair(<-20917, 5852, -26741>, <0, -90, 0>)
+		// case eMaps.mp_rr_ashs_redemption:
+            // return NewLocPair(<-20917, 5852, -26741>, <0, -90, 0>)
         case eMaps.mp_rr_canyonlands_mu1:
         case eMaps.mp_rr_canyonlands_mu1_night:
 		    return NewLocPair(<-19459, 2127, 18404>, <0, 180, 0>)
@@ -4493,7 +4493,7 @@ void function RingDamage( entity circle, float currentRadius)
 			float playerDist = Distance2D( player.GetOrigin(), circle.GetOrigin() )
 			if ( playerDist > currentRadius )
 			{
-				Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+				Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 				player.TakeDamage( int( Deathmatch_GetOOBDamagePercent() / 100 * float( player.GetMaxHealth() ) ), null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 			}
 		}
