@@ -171,9 +171,9 @@ void function OnOpenModeSelectDialog()
 	thread SetupGameSelectV4()
 
 	//TODO: Create new videos for these
-	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), $"media/gamemodes/play_apex.bik")
-	PlayFreeRoamVideo(Hud_GetChild(file.menu, "AimtrainerButton"), $"media/gamemodes/training.bik")
-	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FiringRangeButton"), $"media/gamemodes/generic_01.bik")
+	PlayVideoOnGamemodeButton(Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), $"media/gamemodes/play_apex.bik")
+	PlayVideoOnGamemodeButton(Hud_GetChild(file.menu, "AimtrainerButton"), $"media/gamemodes/training.bik")
+	PlayVideoOnGamemodeButton(Hud_GetChild(file.menu, "FiringRangeButton"), $"media/gamemodes/generic_01.bik")
 }
 
 void function SetupGameSelectV4()
@@ -182,7 +182,7 @@ void function SetupGameSelectV4()
 	thread LoadServers(0)
 }
 
-void function PlayFreeRoamVideo(var button, asset videoAsset)
+void function PlayVideoOnGamemodeButton(var button, asset videoAsset)
 {
 	if(button in file.buttonVideoChannels)
 	{
