@@ -929,7 +929,7 @@ global const int DOOMED_MIN_HEALTH 			= 1
 
 global const float AREA_SONAR_SCAN_PULSE_DURATION 	= 6.0
 
-global const float SONAR_GRENADE_RADIUS 			= 1250.0
+global const float SONAR_GRENADE_RADIUS 			= 1250.0 //(mk): max in ServerCallback_SonarPulseFromPosition set to 3000.0 with 8 bits.
 global const float SONAR_GRENADE_PULSE_DURATION 	= 6.0
 // these numbers should be kept in sync with bakery assets: inside_sonar, outline_sonar
 global const float SONAR_PULSE_SPACE = 400.0

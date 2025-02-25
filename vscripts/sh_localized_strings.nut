@@ -4,6 +4,7 @@ global function INIT_Flowstate_Localization_Strings
 global function Flowstate_FetchToken
 global function ClientLocalizedTokenExists
 global function StringReplaceLimited
+global function GetLocalizedStringsCount
 
 #if SERVER
 	global function Flowstate_FetchTokenID
@@ -82,7 +83,7 @@ struct
 	bool bConsistencyCheckComplete = false
 #endif
 
-	//these must match the same order on client.
+	//these must match the same order on client. Always add to tail.
 	array<string> allTokens = 
 	[
 		"#FS_NULL",
@@ -319,7 +320,7 @@ struct
 		"#FS_REMOVED_PORTAL",
 		"#FS_REMOVED_PORTAL_DESC"
 	]
-
+	
 } file
 
 //local script vars
@@ -831,16 +832,12 @@ void function FS_BuildLocalizedVariable_InfoPanel( int Type, ... )
 	if ( Type == 0 )
 	{
 		for ( int i = 0; i < vargc; i++ )
-		{
 			file.fs_variableString_InfoPanel += format( "%c", vargv[i] )
-		}
 	}
 	else 
 	{
 		for ( int i = 0; i < vargc; i++ )
-		{
 			file.fs_variableSubString_InfoPanel += format( "%c", vargv[i] )
-		}
 	}
 }
 
@@ -1132,11 +1129,11 @@ void function FS_BuildLocalizedMultiVarString( int varNum, ... )
 	{ 
 		if( !( varNum in file.variableVars ) )
 		{
-			file.variableVars[varNum] <- format( "%c", vargv[i] )
+			file.variableVars[ varNum ] <- format( "%c", vargv[i] )
 		} 
 		else 
 		{
-			file.variableVars[varNum] += format( "%c", vargv[i] )
+			file.variableVars[ varNum ] += format( "%c", vargv[i] )
 		} 
 	} 
 }
@@ -1155,9 +1152,7 @@ void function FS_ShowLocalizedMultiVarMessage( int token, int uiType, float dura
 		for( int k = varCount; k >= 11; k-- )
 		{
 			if( k in file.variableVars )
-			{
-				delete file.variableVars[k]
-			}
+				delete file.variableVars[ k ]
 		}
 		
 		#if DEVELOPER && ASSERT_LOCALIZATION
@@ -1236,6 +1231,15 @@ void function FS_ShowLocalizedMultiVarMessage( int token, int uiType, float dura
 }
 #endif //CLIENT
 
+
+#if SERVER || CLIENT 
+
+	int function GetLocalizedStringsCount()
+	{
+		return file.iConsistencyCheck
+	}
+
+#endif //SERVER || CLIENT 
 
 //########################################################
 //					DEV FUNCTIONS						//

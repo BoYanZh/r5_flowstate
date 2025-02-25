@@ -10,7 +10,7 @@ global function Debug_RisingWalls
 
 #if CLIENT
 global function ClRisingWalls_Init
-global function ServerToClient_SetRisingWallAmbientGenericState
+global function ServerCallback_SetRisingWallAmbientGenericState
 #endif
 
 
@@ -440,7 +440,7 @@ void function OnRisableWallPanelActivate( RisableWallData data, entity helper, e
 		RisingWalls_RotateMover( data.moverFlap, WALL_FLAP_END_ANGLE_OFFSET )
 
 		foreach ( entity player in GetPlayerArray() )
-			Remote_CallFunction_NonReplay( player, "ServerToClient_SetRisingWallAmbientGenericState", helper, true )
+			Remote_CallFunction_NonReplay( player, "ServerCallback_SetRisingWallAmbientGenericState", helper, true )
 
 		foreach ( Point point in data.FXTransition )
 			data.fxEnts.append( StartParticleEffectInWorld_ReturnEntity( GetParticleSystemIndex( FX_WALL_TRANSITION ), point.origin, point.angles ) )
@@ -483,7 +483,7 @@ void function OnRisableWallPanelActivate( RisableWallData data, entity helper, e
 
 	#if SERVER
 		foreach ( entity player in GetPlayerArray() )
-			Remote_CallFunction_NonReplay( player, "ServerToClient_SetRisingWallAmbientGenericState", helper, false )
+			Remote_CallFunction_NonReplay( player, "ServerCallback_SetRisingWallAmbientGenericState", helper, false )
 	#endif // SERVER
 }
 #endif // SERVER || CLIENT
@@ -499,7 +499,7 @@ void function RisingWalls_RotateMover( entity mover, vector angleOffset )
 
 
 #if CLIENT
-void function ServerToClient_SetRisingWallAmbientGenericState( entity helper, bool shouldEnable )
+void function ServerCallback_SetRisingWallAmbientGenericState( entity helper, bool shouldEnable )
 {
 	if ( !IsValid( helper ) )
 		return

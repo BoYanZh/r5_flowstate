@@ -154,15 +154,17 @@ struct
 } SH_globals
 
 //this is the global location for defining a mode that is 1v1 based
-const array<int> playlist1v1Types = [
-	
+const array<int> playlist1v1Types = 
+[	
 	ePlaylists.fs_1v1,
 	ePlaylists.fs_lgduels_1v1,
 	ePlaylists.fs_vamp_1v1,
-	ePlaylists.fs_1v1_coaching
+	ePlaylists.fs_1v1_coaching,
+	ePlaylists.fs_scenarios
 ]
 
-const array<int> gamemode1v1Types = [
+const array<int> gamemode1v1Types = 
+[
 
 ]
 

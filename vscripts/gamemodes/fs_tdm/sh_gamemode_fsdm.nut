@@ -214,7 +214,7 @@ void function Sh_CustomTDM_Init()
             )
         )
         break
-    case eMaps.mp_rr_ashs_redemption:
+/*     case eMaps.mp_rr_ashs_redemption:
         Shared_RegisterLocation(
             NewLocationSettings(
                 "Ash's Redemption",
@@ -228,7 +228,7 @@ void function Sh_CustomTDM_Init()
             )
         )
 
-        break
+        break */
     case eMaps.mp_rr_arena_composite:
         Shared_RegisterLocation(
             NewLocationSettings(

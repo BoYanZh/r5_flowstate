@@ -187,14 +187,13 @@ void function DoDamageFlashForDamageRecieved( entity player, float damage, int d
 	ScreenFlash( 2, 2, 2, holdTime, 0.2 )
 }
 
-void function ServerCallback_PlayerTookDamage( float damage, float x, float y, float z, int damageType, int damageSourceId, attackerEHandle )
+void function ServerCallback_PlayerTookDamage( float damage, vector damageOrigin, int damageType, int damageSourceId, int attackerEHandle )
 {
 	if ( IsWatchingThirdPersonKillReplay() )
 		return
 
-	entity attacker = attackerEHandle ? GetHeavyWeightEntityFromEncodedEHandle( attackerEHandle ) : null
+	entity attacker = attackerEHandle != 0 ? GetHeavyWeightEntityFromEncodedEHandle( attackerEHandle ) : null
 	entity localViewPlayer = GetLocalViewPlayer()
-	vector damageOrigin = <x,y,z>
 
 	bool isHeadShot = (damageType & DF_HEADSHOT) ? true : false
 	bool isKillShot = (damageType & DF_KILLSHOT) ? true : false
@@ -216,7 +215,6 @@ void function ServerCallback_PlayerTookDamage( float damage, float x, float y, f
 	if ( DebugVictimClientDamageFeedbackIsEnabled() && !IsWatchingReplay() )
 	{
 		bool isCritical = (damageType & DF_CRITICAL) ? true : false
-
 		DebugTookDamagePrint( localViewPlayer, attacker, damage, damageSourceId, isHeadShot, isKillShot, isCritical )
 	}
 

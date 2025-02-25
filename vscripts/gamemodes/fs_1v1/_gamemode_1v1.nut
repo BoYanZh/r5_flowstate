@@ -66,7 +66,8 @@ global function IsCurrentState
 global function ValidateBlacklistedWeapons
 
 global typedef PanelTable table<string, entity>
-const bool TEST_WORLDDRAW = false
+const bool TEST_WORLDDRAW	= false
+const bool DEBUG_STATE		= false
 
 //DEV 
 #if DEVELOPER
@@ -421,7 +422,7 @@ void function Gamemode1v1_SetPlayerGamestate( entity player, int state = 0 )
 		foreach( callbackFunc in player.e.onPlayerGamestateChangedCallbacks )
 			callbackFunc( player, state )
 	}
-	#if DEVELOPER
+	#if DEVELOPER && DEBUG_STATE
 		else if( !IsCurrentState( player, e1v1State.SEQUENCE ) )
 		{
 			DumpStack()
@@ -3857,7 +3858,7 @@ void function soloModeThread( LocPair waitingRoomLocation )
 
 					if( Distance2D( eachPlayer.GetOrigin(), Center ) > settings.playerMaxFightDistance ) //检测乱跑的脑残
 					{
-						Remote_CallFunction_Replay( eachPlayer, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+						Remote_CallFunction_Replay( eachPlayer, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 						eachPlayer.TakeDamage( 1, null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 					}
 				}
