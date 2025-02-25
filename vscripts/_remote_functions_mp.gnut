@@ -1081,11 +1081,13 @@ void function RemoteFunctions_Init_Begin()
 	Remote_RegisterClientFunction( "ServerCallback_SetWeaponPreviewState", "bool" )
 	
 	// Localized Msg functions
-	int localizedStringsCount = GetLocalizedStringsCount()
-	Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedMultiVarString" )
-	Remote_RegisterClientFunction( "FS_ShowLocalizedMultiVarMessage", "int", 0, localizedStringsCount, "int", 0, eMsgUI.len(), "float", 0.0, 5000.0, 8 ) //Audit 2-22-2025
-	Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedTokenWithVariableString" ) //only for variable string
-	Remote_RegisterClientFunction( "FS_DisplayLocalizedToken", "int", 0, localizedStringsCount, "int", 0, localizedStringsCount, "int", 0, eMsgUI.len(), "float", 0.0, 5000.0, 8 ) //Audit 2-22-2025
+
+	//Mkos fix these please
+	//int localizedStringsCount = GetLocalizedStringsCount()
+	//Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedMultiVarString" )
+	//Remote_RegisterClientFunction( "FS_ShowLocalizedMultiVarMessage", "int", 0, localizedStringsCount, "int", 0, eMsgUI.len(), "float", 0.0, 5000.0, 8 ) //Audit 2-22-2025
+	//Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedTokenWithVariableString" ) //only for variable string
+	//Remote_RegisterClientFunction( "FS_DisplayLocalizedToken", "int", 0, localizedStringsCount, "int", 0, localizedStringsCount, "int", 0, eMsgUI.len(), "float", 0.0, 5000.0, 8 ) //Audit 2-22-2025
 
 	// Localized TextPanel
 	Remote_RegisterUntypedFunction_deprecated( "FS_BuildLocalizedVariable_InfoPanel" )
