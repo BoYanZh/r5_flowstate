@@ -5,9 +5,10 @@ struct CreditsItem
 	asset imageAsset
 	string name
 	string description
-	string github
 	string description_short
+	string github
 	string twitter
+	int rarityLevel
 }
 
 struct
@@ -61,20 +62,14 @@ void function LoadCredits()
 
 	for(int i = 0; i < numRows; i++)
 	{
-		asset imageAsset = GetDataTableAsset( dataTable, i, GetDataTableColumnByName( dataTable, "imageAsset" ) )
-		string name = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "name" ) )
-		string description_short = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description_short" ) )
-		string github = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "github" ) )
-		string twitter = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "twitter" ) )
-		string description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
-
 		CreditsItem newitem
-		newitem.imageAsset = imageAsset
-		newitem.name = name
-		newitem.description_short = description_short
-		newitem.github = github
-		newitem.twitter = twitter
-		newitem.description = description
+		newitem.imageAsset = GetDataTableAsset( dataTable, i, GetDataTableColumnByName( dataTable, "imageAsset" ) )
+		newitem.name = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "name" ) )
+		newitem.description = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description" ) )
+		newitem.description_short = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "description_short" ) )
+		newitem.github = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "github" ) )
+		newitem.twitter = GetDataTableString( dataTable, i, GetDataTableColumnByName( dataTable, "twitter" ) )
+		newitem.rarityLevel = 4
 
 		file.creditItems.append(newitem)
 
@@ -83,9 +78,9 @@ void function LoadCredits()
 		file.buttonIndexTable[button] <- i
 
 		var rui = Hud_GetRui( button )
-		RuiSetString( rui, "buttonText", name )
-		RuiSetImage( rui, "buttonImage", imageAsset )
-		RuiSetInt( rui, "quality", 4 )
+		RuiSetString( rui, "buttonText", newitem.name )
+		RuiSetImage( rui, "buttonImage", newitem.imageAsset )
+		RuiSetInt( rui, "quality", newitem.rarityLevel )
 		Hud_SetEnabled( button, true )
 
 		AddButtonEventHandler( button, UIE_CLICK, SelectCredits )

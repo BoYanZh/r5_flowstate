@@ -1,6 +1,6 @@
 global function InitFreeRoamMapPanel
-global function FreeRoamPageForward
-global function FreeRoamPageBackwards
+global function Maps_PageForward
+global function Maps_PageBackwards
 
 const int MAX_SHOWN_MAPS = 5
 
@@ -15,16 +15,16 @@ void function InitFreeRoamMapPanel( var panel )
 	file.panel = panel
 	AddPanelEventHandler( panel, eUIEvent.PANEL_SHOW, OnShow )
 
-	Hud_AddEventHandler( Hud_GetChild(panel, "PrevButton"), UIE_CLICK, FreeRoamPageBackwards )
-	Hud_AddEventHandler( Hud_GetChild(panel, "NextButton"), UIE_CLICK, FreeRoamPageForward )
+	Hud_AddEventHandler( Hud_GetChild(panel, "PrevButton"), UIE_CLICK, Maps_PageBackwards )
+	Hud_AddEventHandler( Hud_GetChild(panel, "NextButton"), UIE_CLICK, Maps_PageForward )
 
 	for(int i = 0; i < MAX_SHOWN_MAPS; i++)
 	{
-		Hud_AddEventHandler( Hud_GetChild(panel, "MapButton" + i), UIE_CLICK, SelectMap )
+		Hud_AddEventHandler( Hud_GetChild(panel, "MapButton" + i), UIE_CLICK, Select_Map )
 	}
 }
 
-void function SelectMap(var button)
+void function Select_Map(var button)
 {
 	int index = Hud_GetScriptID( button ).tointeger() + (file.currentPage * 5 )
 
@@ -42,7 +42,7 @@ void function OnShow(var panel)
 	LoadMaps(0)
 }
 
-void function FreeRoamPageForward(var button)
+void function Maps_PageForward(var button)
 {
 	if(GetMaxPages() == 0)
 		return
@@ -55,7 +55,7 @@ void function FreeRoamPageForward(var button)
 	LoadMaps(newPage)
 }
 
-void function FreeRoamPageBackwards(var button)
+void function Maps_PageBackwards(var button)
 {
 	if(GetMaxPages() == 0)
 		return
@@ -90,7 +90,6 @@ void function LoadMaps(int page)
 	for(int i = 0; i < MAX_SHOWN_MAPS; i++)
 	{
 		int adjustedPageIndex = i + (file.currentPage * 5 )
-
 		bool invalidIndex = adjustedPageIndex >= file.m_vMaps.len()
 
 		Hud_SetVisible( Hud_GetChild(file.panel, "MapButton" + i), !invalidIndex )

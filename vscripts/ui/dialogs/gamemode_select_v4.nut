@@ -77,7 +77,7 @@ void function Servers_PageBackward( var button )
 {
 	if(FreeRoamMapSelectionOpen)
 	{
-		FreeRoamPageBackwards(button)
+		Maps_PageBackwards(button)
 		return
 	}
 	
@@ -96,7 +96,7 @@ void function Servers_PageForward( var button )
 {
 	if(FreeRoamMapSelectionOpen)
 	{
-		FreeRoamPageForward(button)
+		Maps_PageForward(button)
 		return
 	}
 
@@ -169,7 +169,6 @@ void function OnOpenModeSelectDialog()
 	RegisterButtonPressedCallback( MOUSE_WHEEL_UP, Servers_PageBackward )
 	
 	thread SetupGameSelectV4()
-
 
 	//TODO: Create new videos for these
 	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), $"media/gamemodes/play_apex.bik")
