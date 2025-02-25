@@ -170,6 +170,8 @@ void function OnOpenModeSelectDialog()
 	
 	thread SetupGameSelectV4()
 
+
+	//TODO: Create new videos for these
 	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FreeRoamChangeMapButton"), $"media/gamemodes/play_apex.bik")
 	PlayFreeRoamVideo(Hud_GetChild(file.menu, "AimtrainerButton"), $"media/gamemodes/training.bik")
 	PlayFreeRoamVideo(Hud_GetChild(file.menu, "FiringRangeButton"), $"media/gamemodes/generic_01.bik")
