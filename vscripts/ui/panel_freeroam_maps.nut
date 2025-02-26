@@ -32,7 +32,7 @@ void function Select_Map(var button)
 
 	HidePanel(file.panel)
 
-	R5RPlay_SetSelectedPlaylist(file.m_vMaps[index], GetUIMapAsset(file.m_vMaps[index], true), "survival_dev", "FreeRoam")
+	R5RPlay_SetSelectedPlaylist(file.m_vMaps[index], GetUIMapAsset(file.m_vMaps[index], true), "survival_dev", "FreeRoam - " + GetUIMapName(file.m_vMaps[index]) )
 	CloseActiveMenu()
 }
 
