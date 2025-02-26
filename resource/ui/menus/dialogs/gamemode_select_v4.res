@@ -149,7 +149,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
                 modeNameText "CHOOSE MAP"
                 modeDescText ""
                 alwaysShowDesc 0
-                modeImage "rui/menu/gamemode/worlds_edge"
+                modeImage "rui/menu/gamemodes_menu/select_map"
             }
 
             pin_to_sibling			FreeRoamBackground
@@ -224,7 +224,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
                 modeNameText ""
                 modeDescText ""
                 alwaysShowDesc 0
-                modeImage "rui/menu/maps/mp_rr_canyonlands_staging"
+                modeImage "rui/menu/gamemodes_menu/mp_rr_canyonlands_staging"
             }
 
             pin_to_sibling			FreeRoamBackground
@@ -299,7 +299,7 @@ scripts/resource/ui/menus/dialog_gamemode_select_v2.menu
                 modeNameText ""
                 modeDescText ""
                 alwaysShowDesc 0
-                modeImage "rui/menu/gamemode/shotguns_and_snipers"
+                modeImage "rui/menu/gamemodes_menu/aim_trainer"
             }
 
             pin_to_sibling			FreeRoamBackground

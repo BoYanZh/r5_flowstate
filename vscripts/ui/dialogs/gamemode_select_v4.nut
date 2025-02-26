@@ -115,7 +115,7 @@ void function SetFreeRoamMap(string map)
 {
 	FreeRoamMapSelectionOpen = false
 	file.freeRoamSelectedMap = map
-	RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamBackground") ), "modeImage", GetUIMapAsset(map ) )
+	RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "FreeRoamBackground") ), "modeImage", GetUIMapAsset( map, true ) )
 	Hud_SetText( Hud_GetChild(file.menu, "FreeRoamTextMapName"), GetUIMapName(map) )
 }
 
@@ -267,7 +267,7 @@ void function LoadServers(int page)
 			Hud_SetText( Hud_GetChild(file.menu, "ServerMapName" + i), GetUIMapName(global_m_vServerList[adjustedPageIndex].svMapName) )
 			Hud_SetText( Hud_GetChild(file.menu, "ServerPlaylist" + i), GetUIPlaylistName(global_m_vServerList[adjustedPageIndex].svPlaylist) )
 			Hud_SetText( Hud_GetChild(file.menu, "ServerPlayerCount" + i), global_m_vServerList[adjustedPageIndex].svCurrentPlayers + "/" + global_m_vServerList[adjustedPageIndex].svMaxPlayers + " PLAYERS" )
-			RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName ) )
+			RuiSetImage( Hud_GetRui( Hud_GetChild(file.menu, "ServerButton" + i) ), "modeImage", GetUIMapAsset(global_m_vServerList[adjustedPageIndex].svMapName, true ) )
 
 			//This has to be below ServerText, as it requires WrapText to be called first
 			Hud_SetHeight( Hud_GetChild(file.menu, "ServerText" + i), file.lastServerNameLineHeight * 25 + 8)

@@ -32,7 +32,7 @@ void function Select_Map(var button)
 
 	HidePanel(file.panel)
 
-	R5RPlay_SetSelectedPlaylist(file.m_vMaps[index], GetUIMapAsset(file.m_vMaps[index]), "survival_dev", "FreeRoam")
+	R5RPlay_SetSelectedPlaylist(file.m_vMaps[index], GetUIMapAsset(file.m_vMaps[index], true), "survival_dev", "FreeRoam")
 	CloseActiveMenu()
 }
 
@@ -97,7 +97,7 @@ void function LoadMaps(int page)
 		if(!invalidIndex)
 		{
 			RuiSetString( Hud_GetRui( Hud_GetChild( file.panel, "MapButton" + i ) ), "modeNameText", GetUIMapName(file.m_vMaps[adjustedPageIndex]) )
-			RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "MapButton" + i ) ), "modeImage", GetUIMapAsset(file.m_vMaps[adjustedPageIndex]) )
+			RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "MapButton" + i ) ), "modeImage", GetUIMapAsset(file.m_vMaps[adjustedPageIndex], true) )
 		}
 	}
 }

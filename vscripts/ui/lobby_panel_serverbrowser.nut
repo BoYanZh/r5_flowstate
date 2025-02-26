@@ -182,7 +182,7 @@ void function ServerBrowser_UpdateSelectedServerUI()
 	Hud_SetText(Hud_GetChild( file.panel, "ServerCurrentMapEdit" ), GetUIMapName(file.m_vSelectedServer.svMapName) )
 	Hud_SetText(Hud_GetChild( file.panel, "PlaylistInfoEdit" ), GetUIPlaylistName(file.m_vSelectedServer.svPlaylist) )
 	Hud_SetText(Hud_GetChild( file.panel, "ServerDesc" ), file.m_vSelectedServer.svDescription )
-	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "ServerMapImg" ) ), "modeImage", GetUIMapAsset(file.m_vSelectedServer.svMapName) )
+	RuiSetImage( Hud_GetRui( Hud_GetChild( file.panel, "ServerMapImg" ) ), "modeImage", GetUIMapAsset(file.m_vSelectedServer.svMapName, true) )
 }
 
 void function ServerBrowser_NoServersLabel(bool show)

@@ -421,7 +421,7 @@ void function PlayPanel_OnShow( var panel )
 
 	if(!file.firststart)
 	{
-		R5RPlay_SetSelectedPlaylist("mp_rr_canyonlands_64k_x_64k", GetUIMapAsset("mp_rr_canyonlands_64k_x_64k"), "survival_dev", "FreeRoam")
+		R5RPlay_SetSelectedPlaylist("mp_rr_canyonlands_64k_x_64k", GetUIMapAsset("mp_rr_canyonlands_64k_x_64k", true), "survival_dev", "FreeRoam")
 		file.firststart = true
 	}
 }
