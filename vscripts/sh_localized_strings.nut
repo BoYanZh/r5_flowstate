@@ -1258,7 +1258,6 @@ void function ParseFSTokens( string path )
 	if( !DevDoesFileExist( path ) )
 	{
 		printt("file not found.")
-		return
 	}
 	
     string fileData = DevReadFile( path )
@@ -1270,7 +1269,9 @@ void function ParseFSTokens( string path )
 	string buildPrint = ""
 	
 	foreach( match in found )
+	{
 		buildPrint += format( "\"#" + match + "\", \n")
+	}	
 	
 	printt( buildPrint )
 	printt("FS_Tokens Count: ", found.len() )

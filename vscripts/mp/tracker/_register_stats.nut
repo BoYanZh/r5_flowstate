@@ -18,7 +18,7 @@ void function SetRegisterCoreStats( bool b )
 
 void function Tracker_Init()
 {
-	file.bStatsIs1v1Type = g_bIs1v1GameType()
+	file.bStatsIs1v1Type = g_is1v1GameType()
 	
 	bool bRegisterCoreStats = !GetCurrentPlaylistVarBool( "disable_core_stats", false )
 	SetRegisterCoreStats( bRegisterCoreStats )

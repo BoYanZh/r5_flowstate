@@ -864,7 +864,7 @@ void function CoolCamera()
 		break
 		
 		case eMaps.mp_rr_party_crasher:
-		// case eMaps.mp_rr_party_crasher_new:
+		case eMaps.mp_rr_party_crasher_new:
 		cutsceneSpawns.append(NewCameraPair(<-1363.75867, -2183.58081, 1354.65466>, <0, 72.5054092, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<2378.75439, 1177.52783, 1309.69019>, <0, 146.118546, 0>))
 		break

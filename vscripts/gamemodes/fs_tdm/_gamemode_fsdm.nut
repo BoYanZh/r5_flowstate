@@ -324,7 +324,7 @@ void function _CustomTDM_Init()
 {
 	InitializePlaylistSettings() //must be executed first
 	file.scriptversion = FLOWSTATE_VERSION
-	file.is1v1GameType = g_bIs1v1GameType()
+	file.is1v1GameType = g_is1v1GameType()
 	
 	RegisterSignal( "EndScriptedPropsThread" )
 	RegisterSignal( "FS_WaitForBlackScreen" )

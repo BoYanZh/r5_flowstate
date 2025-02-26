@@ -1748,7 +1748,7 @@ void function Tracker_SettingsInit()
 	file.update_discord_player_counts 				= GetCurrentPlaylistVarBool( "stats_discord_webhook_player_count", false )
 	file.ibmm_wait_limit 							= GetCurrentPlaylistVarInt( "ibmm_wait_limit", 999 )
 	file.bBotAllowed 								= file.BotAllowedModes.contains( GetCurrentPlaylistName() ) //TODO: rework 
-	file.gamemode_type_1v1 							= g_bIs1v1GameType() //returns true if mode is confifugred as 1v1 type
+	file.gamemode_type_1v1 							= g_is1v1GameType() //returns true if mode is confifugred as 1v1 type
 	file.stats_discord_webhook_matches_enabled		= GetCurrentPlaylistVarBool( "stats_discord_webhook_matches_enabled", false )
 	
 	if( file.bChatbotEnabled )

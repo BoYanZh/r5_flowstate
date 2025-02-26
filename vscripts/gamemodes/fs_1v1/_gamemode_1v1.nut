@@ -3662,7 +3662,7 @@ bool function ValidateSpawns( array<SpawnData> allSoloLocations )
 		return false
 	}
 	
-	if( g_bIs1v1GameType() && !IsEven( allSoloLocations.len() ) )
+	if( g_is1v1GameType() && !IsEven( allSoloLocations.len() ) )
 	{
 		Warning( warningmsg + " ( locpair must be an even amount )" )
 		allSoloLocations.resize(0)
