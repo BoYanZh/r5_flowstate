@@ -224,7 +224,7 @@ string function FindFuncName_ByID( int funcID )
 #endif
 
 
-//(mk): NOTICE: Param ranges are NON-INCLUSIVE
+//(mk): Param ranges are INCLUSIVE
 void function RemoteFunctions_Init_Begin()
 {
 	Remote_BeginRegisteringFunctions()
@@ -312,8 +312,8 @@ void function RemoteFunctions_Init_Begin()
 	//Sentinel
 	Remote_RegisterClientFunction( "Flowstate_SentinelChargeHUD", "float", 0.0, 4000.0, 16 ) //Audit 2-22-2025 (mk): 66 mins server time, charge end max
 	
-	Remote_RegisterClientFunction( "ServerCallback_ShouldExitDrone" ) //meh
-	Remote_RegisterClientFunction( "Gamemode1v1_ForceLegendSelector_Deprecated" ) //Todo clientsided ui activation
+	Remote_RegisterClientFunction( "ServerCallback_ShouldExitDrone" )
+	Remote_RegisterClientFunction( "Gamemode1v1_ForceLegendSelector_Deprecated" ) //(mk): Todo clientsided ui activation
 	
 	#if DEVELOPER
 		Remote_RegisterUIFunction( "UICallback_ForceCloseDeathScreenMenu" ) //Audit 2-22-2025
