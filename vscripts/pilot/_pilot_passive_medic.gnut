@@ -56,7 +56,7 @@ struct
 
 void function PassiveMedic_Init()
 {
-	Remote_RegisterClientFunction( "ServerToClient_NumSelfRevivesUsed", "entity", "int", 0, INT_MAX )
+	Remote_RegisterClientFunction( "ServerToClient_NumSelfRevivesUsed", "entity", "int", 0, 9999 )
 	// Remote_RegisterClientFunction( "ServerToClient_DisplaySelfResRuiForPlayer", "entity" )
 	// Remote_RegisterClientFunction( "ServerToClient_RemoveDisplaySelfResRuiForlayer", "entity" )
 
