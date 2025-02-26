@@ -56,8 +56,8 @@ global table<string, asset> MapAssets = {
 	[ "mp_rr_arena_composite" ] = $"rui/menu/maps/mp_rr_arena_composite",
 	[ "mp_rr_party_crasher" ] = $"rui/menu/maps/mp_rr_party_crasher",
 	[ "mp_rr_olympus" ] = $"rui/menu/maps/mp_rr_olympus",
-	[ "mp_rr_olympus_tt" ] = $"rui/menu/maps/map_not_found",
-	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/maps/map_not_found",
+	[ "mp_rr_olympus_tt" ] = $"rui/menu/maps/mp_rr_olympus_tt",
+	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/maps/mp_rr_arena_phase_runner",
 	[ "mp_lobby" ] = $"rui/menu/maps/mp_lobby"
 }
 
@@ -83,7 +83,7 @@ global table<string, asset> MapAssetsSquare = {
 	[ "mp_rr_party_crasher" ] = $"rui/menu/gamemodes_menu/mp_rr_party_crasher",
 	[ "mp_rr_olympus" ] = $"rui/menu/gamemodes_menu/mp_rr_olympus",
 	[ "mp_rr_olympus_tt" ] = $"rui/menu/gamemodes_menu/mp_rr_olympus_tt",
-	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/gamemodes_menu/map_not_found",
+	[ "mp_rr_arena_phase_runner" ] = $"rui/menu/gamemodes_menu/mp_rr_arena_phase_runner",
 	[ "mp_lobby" ] = $"rui/menu/gamemodes_menu/mp_lobby"
 }
 
