@@ -124,7 +124,7 @@ void function SelectFiringRange( var button )
 	string map = "mp_rr_canyonlands_staging"
 	string playlist = "survival_firingrange"
 
-	R5RPlay_SetSelectedPlaylist(map, GetUIMapAsset(map), playlist, "Firing Range")
+	R5RPlay_SetSelectedPlaylist(map, GetUIMapAsset(map, true), playlist, "Firing Range")
 	CloseActiveMenu()
 }
 
@@ -133,7 +133,7 @@ void function SelectAimTrainer( var button )
 	string map = "mp_rr_desertlands_64k_x_64k"
 	string playlist = "fs_aimtrainer"
 
-	R5RPlay_SetSelectedPlaylist(map, $"rui/menu/gamemode/shotguns_and_snipers", playlist, "Aim Trainer")
+	R5RPlay_SetSelectedPlaylist(map, $"rui/menu/gamemodes_menu/aim_trainer", playlist, "Aim Trainer")
 	CloseActiveMenu()
 }
 
