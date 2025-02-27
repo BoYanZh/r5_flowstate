@@ -280,6 +280,10 @@ void function SURVIVAL_Loot_All_InitShared()
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod_survival_groundloot.rpak" ) )
 	} 
+	else if( Playlist() == ePlaylists.survival_firingrange ) 
+	{
+		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk_firingrange.rpak" ) )
+	} 
 	else
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk.rpak" ) )
@@ -1130,39 +1134,14 @@ int function SURVIVAL_Loot_GetLootTypeFromString( string lootTypeString )
 		case "helmet":
 			return eLootType.HELMET
 
-#if SERVER
-
-
-
-#endif
-
 		case "data_knife":
 			return eLootType.DATAKNIFE
-
 
 		case "blank":
 			return eLootType.BLANK
 
 		case "resource":
 			return eLootType.RESOURCE
-
-#if SERVER
-
-
-
-#endif
-
-#if SERVER
-
-
-
-#endif
-
-#if SERVER
-
-
-
-#endif
 
 		default:
 			//
