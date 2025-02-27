@@ -417,7 +417,7 @@ playlists
 				///////////////////////////////////////////////////////////////////////////////////
 				
 				logging_enabled 								1		// Enabling this will run the tracker system ( TODO: rename to tracker_enabled )
-				logging_encryption								0
+				logging_encryption								1
 				logging_shipstats 								1		// Enabling this will transfer data at end of match ( TODO: rename to tracker_shipstats )
 				use_global_stats								1		// Enabling this will use API data ( which only transfers at the start/end of a match or when a non batched player connects for stat queries )
 				use_online_motd 								0		// Still indev ( don't enable )
