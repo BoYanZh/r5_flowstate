@@ -90,7 +90,6 @@ global enum eDamageSourceId
 	mp_weapon_sniper
 	mp_weapon_sentinel
 	mp_weapon_shotgun
-	mp_weapon_energy_shotgun_crate
 	mp_weapon_mastiff
 	mp_weapon_frag_grenade
 	mp_weapon_grenade_emp
@@ -101,7 +100,6 @@ global enum eDamageSourceId
 	mp_weapon_esaw
 	mp_weapon_pdw
 	mp_weapon_energy_ar
-	mp_weapon_energy_ar_crate
 	mp_weapon_volt_smg
 	mp_weapon_defender
 	mp_ability_mobile_respawn_beacon
