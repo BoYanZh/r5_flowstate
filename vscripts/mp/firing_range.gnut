@@ -123,6 +123,7 @@ void function OnEntitiesDidLoad()
 	#if SERVER
 
 	// Init
+	CreateLegendaryRack()//Create 6th weapon rack to support sniper ammo
 	array<entity> lootbins = GetEntArrayByScriptName("staging_loot_bin")
 	array<entity> movers = GetEntArrayByScriptName("script_mover_lightweight")
 
@@ -170,6 +171,16 @@ void function OnEntitiesDidLoad()
 }
 
 #if SERVER
+entity function CreateLegendaryRack()
+{
+	entity Rack_Index_Six = CreateEntity( "info_target" )
+	Rack_Index_Six.SetOrigin( <30655, -6680, -29164> )
+	Rack_Index_Six.SetAngles( <0,0,0> )
+	Rack_Index_Six.SetScriptName( "weapon_racks" )
+	DispatchSpawn( Rack_Index_Six )
+	return Rack_Index_Six
+}
+
 bool function ClientCommand_ToggleFriendlyFire( entity player, array<string> args )
 {
 	toggledFriendlyFire = !toggledFriendlyFire
@@ -188,8 +199,8 @@ void function SpawnDummy(vector origin, vector angles)
     dummy.SetOrigin( origin )
     dummy.SetAngles( angles )
 	DispatchSpawn( dummy )
-	dummy.SetShieldHealthMax( 125 )
-	dummy.SetShieldHealth( 125 )
+	dummy.SetShieldHealthMax( 100 )
+	dummy.SetShieldHealth( 100 )
 	dummy.SetMaxHealth( 100 )
 	dummy.SetHealth( 100 )
 	dummy.SetTakeDamageType( DAMAGE_YES )
@@ -199,6 +210,7 @@ void function SpawnDummy(vector origin, vector angles)
 	SetObjectCanBeMeleed( dummy, true )
 	dummy.SetSkin(RandomInt(6))
 	dummy.DisableHibernation()
+	dummy.GiveWeapon("mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY)
     SetTeam(dummy, 99)
 
 	thread OnDummyKilled(dummy)
@@ -235,30 +247,30 @@ void function WaitForPlayerSpawn_Thread(entity player)
 	while(IsValid(player) && !IsAlive(player))
 		wait 0.5
 
-	OnPlayerRespawned(player)
+	thread OnPlayerRespawned(player)
 }
 
 void function OnPlayerRespawned(entity player)
 {
 	array<entity> weapons = player.GetMainWeapons()
-	foreach(entity weapon in weapons)
+	/*foreach(entity weapon in weapons)
 	{
 		if(GetSlotForWeapon(player, weapon) == WEAPON_INVENTORY_SLOT_PRIMARY_0 ||
 		GetSlotForWeapon(player, weapon) == WEAPON_INVENTORY_SLOT_PRIMARY_1)
 			return
-	}
+	}*/
 
-	entity primary = player.GiveWeapon("mp_weapon_vinson", WEAPON_INVENTORY_SLOT_PRIMARY_0, ["highcal_mag_l3", "optic_cq_hcog_classic", "stock_tactical_l3"])
-	entity secondary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_1, ["bullets_mag_l3","optic_cq_threat"])
-	player.SetActiveWeaponByName( eActiveInventorySlot.mainHand, "mp_weapon_vinson" )
+	entity primary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_0, [])
+	//entity secondary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_1, ["bullets_mag_l3","optic_cq_threat"])
+	player.SetActiveWeaponByName( eActiveInventorySlot.mainHand, "mp_weapon_semipistol" )
 
 	FixWeapon(primary)
-	FixWeapon(secondary)
+	//FixWeapon(secondary)
 
-	foreach(string ammo in ["highcal","bullet"])
+	foreach(string ammo in ["bullet"])
 	{
 		entity loot = SpawnGenericLoot( ammo, player.GetOrigin(), player.GetAngles(),
-			60-SURVIVAL_CountItemsInInventory( player, ammo ) )
+			20-SURVIVAL_CountItemsInInventory( player, ammo ) )
 
 		if(!Survival_PickupItem(loot, player))
 			loot.Destroy()
@@ -267,6 +279,9 @@ void function OnPlayerRespawned(entity player)
 	player.SetShieldHealth( player.GetShieldHealthMax() )
 	
 	player.UnfreezeControlsOnServer()
+	wait 0.4
+	entity weapon = player.GetActiveWeapon( eActiveInventorySlot.mainHand )
+	weapon.SetWeaponPrimaryClipCount(weapon.GetWeaponPrimaryClipCountMax())
 }
 
 void function OnTeammateLoadoutSelectionChanged( EHI playerEHI, ItemFlavor unused )
@@ -387,6 +402,9 @@ void function SpawnOrdnance()
 	const float itemOffsetZ = 4.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -462,6 +480,9 @@ void function SpawnItems()
 	const float itemOffsetY = 24.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -498,6 +519,9 @@ void function SpawnEquipments()
 	const float itemOffsetY = 24.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+		
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -530,7 +554,7 @@ void function SpawnAttachments()
 	{
 		foreach(string ammoType2, array<string> refs in file.attachmentsPerAmmoType)
 		{
-			if( ammoType != ammoType2 || ammoType == "sniper" || ammoType == "explosive")
+			if( ammoType != ammoType2 || ammoType == "" )
 				continue
 
 			entity r = file.rackSpawns[ammoIndex].point
