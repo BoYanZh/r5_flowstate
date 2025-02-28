@@ -226,7 +226,7 @@ void function Sequence_WaitingForPlayers()
 	
 	#if TRACKER
 		if( bLog() && !Tracker_IsBatchStatsLoaded() && Flowstate_IsTrackerSupportedMode() )
-			waitthread WaitSignalOrTimeout( svGlobal.levelEnt, Tracker_GetMaxWaitForBatchLoad(), "BatchFetchComplete" )
+			waitthread WaitSignalOrTimeout( tracker.signalEnt, Tracker_GetMaxWaitForBatchLoad(), "BatchFetchComplete" )
 	
 		WaitFrame()
 	#endif
@@ -911,7 +911,7 @@ void function OnPlayerKilled( entity victim, entity attacker, var damageInfo )
 
 	victim.SetPlayerGameStat( PGS_DEATHS, victim.GetPlayerGameStat( PGS_DEATHS ) + 1 )
 	if( Gamemode() != eGamemodes.CUSTOM_CTF && Gamemode() != eGamemodes.fs_snd )
-		victim.SetPlayerNetInt( "deaths", victim.GetPlayerNetInt( "deaths" ) + 1 )
+		__IncrementPlayerNetInt( victim, "deaths" )
 	
 	victim.FreezeControlsOnServer()
 	
@@ -936,7 +936,7 @@ void function ResetZiplineUseCountOnMantle( entity player )
 	//printt("Mantling, zipline use count reset.")
 	
 	player.p.ziplineUsages = 0
-	Remote_CallFunction_NonReplay( player, "ServerCallback_NessyMessage", 40 )
+	Remote_CallFunction_NonReplay( player, "ServerCallback_NessyMessage", 40 ) //why
 }
 
 void function OnClientDisconnected( entity player )
@@ -1066,7 +1066,7 @@ void function OnClientConnected( entity player )
 	{
 		switch( MapName() )
 		{
-			case eMaps.mp_rr_olympus_mu1:
+			case eMaps.mp_rr_olympus:
 				player.SetOrigin( <833.014587, -19103.7949, -4947.88916> )
 				player.SetAngles( <0, -5.91907549, 0> )
 			break

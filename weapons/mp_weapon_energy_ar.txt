@@ -13,7 +13,6 @@ WeaponData
 	"longdesc"										"#WPN_ENERGY_AR_LONGDESC"
 
 	"weapon_type_flags"								"WPT_PRIMARY"
-	"ammo_pool_type"								"special"
 
 	"menu_icon"										"rui/weapon_icons/r5/weapon_energy_ar"
 	"hud_icon"										"rui/weapon_icons/r5/weapon_energy_ar"
@@ -100,10 +99,10 @@ WeaponData
 	"ammo_min_to_fire"								"1"
     "low_ammo_fraction" 							"0.4"
 
-	"ammo_default_total"							"0"
-	"ammo_stockpile_max"							"25"
+	"ammo_default_total"							"160"
+	"ammo_stockpile_max"							"160"
 	"ammo_no_remove_from_stockpile"					"0"
-    "uses_ammo_pool"								"1"
+    "uses_ammo_pool"								"0"
 
 
 	// Damage - When Used by Players
@@ -287,6 +286,10 @@ WeaponData
 			"bolt_bounce_frac" 								"1"
 			"projectile_damages_owner"						"1"
 		}
+
+		crate
+	    {
+	    }
 		
 		gold
         {

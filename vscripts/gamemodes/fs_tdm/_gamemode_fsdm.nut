@@ -164,6 +164,8 @@ struct
 	array< string > metagameWeaponsPrimary
 	array< string > metagameWeaponsSecondary
 	
+	bool is1v1GameType
+	
 } file
 
 struct
@@ -322,6 +324,7 @@ void function _CustomTDM_Init()
 {
 	InitializePlaylistSettings() //must be executed first
 	file.scriptversion = FLOWSTATE_VERSION
+	file.is1v1GameType = g_bIs1v1GameType()
 	
 	RegisterSignal( "EndScriptedPropsThread" )
 	RegisterSignal( "FS_WaitForBlackScreen" )
@@ -593,11 +596,11 @@ void function DM__OnEntitiesDidLoad()
 				Patch_Partycrasher_Restarea()
 		break
 		
-		case eMaps.mp_rr_arena_skygarden:
+		/*case eMaps.mp_rr_arena_skygarden:
 			
 			if( flowstateSettings.patch_waiting_area )
 				Patch_SkyGardenRest()
-		break
+		break*/
     }
 }
 
@@ -641,15 +644,15 @@ LocPair function _GetVotingLocation()
 {
     switch( MapName() )
     {
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
         case eMaps.mp_rr_aqueduct:
              return NewLocPair(<4885, -4076, 400>, <0, -157, 0>)
         //case "mp_rr_canyonlands_staging":
         //     return NewLocPair(<26794, -6241, -27479>, <0, 0, 0>)
         case eMaps.mp_rr_canyonlands_64k_x_64k:
 			return NewLocPair(<-19459, 2127, 18404>, <0, 180, 0>)
-		case eMaps.mp_rr_ashs_redemption:
-            return NewLocPair(<-20917, 5852, -26741>, <0, -90, 0>)
+		// case eMaps.mp_rr_ashs_redemption:
+            // return NewLocPair(<-20917, 5852, -26741>, <0, -90, 0>)
         case eMaps.mp_rr_canyonlands_mu1:
         case eMaps.mp_rr_canyonlands_mu1_night:
 		    return NewLocPair(<-19459, 2127, 18404>, <0, 180, 0>)
@@ -660,14 +663,14 @@ LocPair function _GetVotingLocation()
             return NewLocPair(<0, 4780, 220>, <0, -90, 0>)
 		case eMaps.mp_rr_desertlands_64k_x_64k_tt:
             return NewLocPair(<-25197, -4278, -2138>, <0, -34, 0>)
-		case eMaps.mp_rr_arena_skygarden:
-			return NewLocPair(<4284.88037, -102.993355, 2671.03125>, <0, -179.447098, 0>)
+		/*case eMaps.mp_rr_arena_skygarden:
+			return NewLocPair(<4284.88037, -102.993355, 2671.03125>, <0, -179.447098, 0>)*/
 		case eMaps.mp_rr_party_crasher:
 			return NewLocPair(<1729.17407, -3585.65137, 581.736206>, <0, 103.168709, 0>)
 		case eMaps.mp_flowstate:
 		case eMaps.mp_rr_arena_empty:
 			return NewLocPair(<0,0,0>, <0, -179.447098, 0>)
-		case eMaps.mp_rr_olympus_mu1:
+		case eMaps.mp_rr_olympus:
 			return NewLocPair( <7008.73047, 7627.40234, -4623.99805>, <0,63,0> )
         default:
 			mAssert(false, "No voting location for the map!")
@@ -1584,10 +1587,11 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 			PlayerRestoreHPFIESTA(player, 100)
 		}
 		
-		if( !isScenariosMode() && !g_is1v1GameType() )
+		if( !isScenariosMode() && !file.is1v1GameType )
 			PlayerRestoreHP(player, 100, Equipment_GetDefaultShieldHP())
 
-		try{
+		try
+		{
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
 			player.TakeOffhandWeapon( OFFHAND_MELEE )
 			
@@ -1610,9 +1614,10 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 		}
 	}
 
-	if( flowstateSettings.is_halo_gamemode && IsValid( player ))
+	if( flowstateSettings.is_halo_gamemode && IsValid( player ) )
 	{
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 
@@ -1620,9 +1625,10 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 			GiveRandomSecondaryWeaponHalo(player)
 		} catch (e420) {}
 	} 
-	else if (FlowState_RandomGuns() && !FlowState_Gungame() && IsValid( player ))
+	else if ( FlowState_RandomGuns() && !FlowState_Gungame() && IsValid( player ) )
     {
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1636,7 +1642,8 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
     }
 	else if(FlowState_RandomGunsMetagame() && !FlowState_Gungame() && IsValid( player ) && !Flowstate_IsFastInstaGib() )
 	{
-		try{
+		try
+		{
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
             player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 		    player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1647,9 +1654,11 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
             player.GiveWeapon( "mp_weapon_melee_survival", WEAPON_INVENTORY_SLOT_PRIMARY_2, [] )
             player.GiveOffhandWeapon( "melee_pilot_emptyhandede", OFFHAND_MELEE, [] )
 		} catch (e420) {}
-	} else if( Flowstate_IsFastInstaGib() )
+	} 
+	else if( Flowstate_IsFastInstaGib() )
 	{
-		try{
+		try
+		{
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_0 )
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_1 )
 			player.TakeNormalWeaponByIndexNow( WEAPON_INVENTORY_SLOT_PRIMARY_2 )
@@ -1659,9 +1668,6 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 		} catch (e420) {}
 	}
 
-	//(mk): wtf is this expression
-	//if( IsValid( player ) || FlowState_GungameRandomAbilities() && IsValid( player ))
-	
 	if( IsValid( player ) && FlowState_GungameRandomAbilities() )
 	{
 		if( FlowState_RandomTactical() )
@@ -1695,7 +1701,8 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
         player.GiveWeapon( "mp_weapon_melee_survival", WEAPON_INVENTORY_SLOT_PRIMARY_2, [] )
         player.GiveOffhandWeapon( "melee_pilot_emptyhanded", OFFHAND_MELEE, [] )
 		}catch(e420){}
-    } else if(FlowState_Gungame() && IsValid( player ))
+    } 
+	else if(FlowState_Gungame() && IsValid( player ))
 		GiveGungameWeapon(player)
 
 	if( flowstateSettings.hackersVsPros  )
@@ -1807,6 +1814,9 @@ void function _HandleRespawn( entity player, bool isDroppodSpawn = false )
 
 	if( Flowstate_IsFastInstaGib() )
 		FS_Instagib_PlayerSpawn( player )
+		
+	if( is1v1EnabledAndAllowed() ) //(mk): handle respawn is only fired for newjoins in 1v1 type gamemodes.
+		Gamemode1v1_TakeAll( player )
 		
 	#if DEVELOPER
 		printt( "End of _HandleRespawn function" )//Cafe debugging halo mod stuff
@@ -2127,8 +2137,7 @@ void function GiveRandomPrimaryWeaponHalo(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( 0, Weapons.len() ) )
 }
 
@@ -2152,8 +2161,7 @@ void function GiveRandomSecondaryWeaponHalo(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( 0, Weapons.len() ) )
 }
 
@@ -2222,8 +2230,7 @@ void function PrimaryWeaponMetagame_Init()
 			]
 	}
 
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-	
+	ValidateBlacklistedWeapons( Weapons )
 	if( Weapons.len() == 0 )
 		mAssert( false, "No valid weapons remain in secondary list. If this is intentional, comment this assert" )
 		
@@ -2263,8 +2270,7 @@ void function SecondaryWeaponMetagame_Init()
 			]
 	}
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-	
+	ValidateBlacklistedWeapons( Weapons )	
 	if( Weapons.len() == 0 )
 		mAssert( false, "No valid weapons remain in secondary list. If this is intentional, comment this assert" )
 	
@@ -2302,8 +2308,7 @@ void function GiveRandomPrimaryWeapon(entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( -1, Weapons.len() ) )
 }
 
@@ -2329,8 +2334,7 @@ void function GiveRandomSecondaryWeapon( entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, RandomIntRange( -1, Weapons.len() ) )
 }
 
@@ -2382,8 +2386,7 @@ void function GiveActualGungameWeapon(int index, entity player)
 				// Weapons.removebyvalue(weapon)
 	// }
 	
-	Weapons = ValidateBlacklistedWeapons( Weapons )
-
+	ValidateBlacklistedWeapons( Weapons )
 	__GiveWeapon( player, Weapons, slot, index, true)
 }
 
@@ -4493,7 +4496,7 @@ void function RingDamage( entity circle, float currentRadius)
 			float playerDist = Distance2D( player.GetOrigin(), circle.GetOrigin() )
 			if ( playerDist > currentRadius )
 			{
-				Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+				Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 				player.TakeDamage( int( Deathmatch_GetOOBDamagePercent() / 100 * float( player.GetMaxHealth() ) ), null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 			}
 		}

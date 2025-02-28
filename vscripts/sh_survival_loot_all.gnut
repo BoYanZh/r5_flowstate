@@ -279,9 +279,15 @@ void function SURVIVAL_Loot_All_InitShared()
 	if( Playlist() == ePlaylists.fs_haloMod_survival ) 
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod_survival_groundloot.rpak" ) )
-	} else
+	} 
+	else if( Playlist() == ePlaylists.survival_firingrange ) 
+	{
+		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk_firingrange.rpak" ) )
+	} 
+	else
 	{
 		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/survival_loot_sdk.rpak" ) )
+		SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new.rpak" ) ) //(mk): Pak was fixed, still needs confirmed completely.
 		
 		if( GetCurrentPlaylistVarBool( "is_halo_gamemode", false ) )
 			SURVIVAL_Loot_RegFromDataTable( GetDataTable( $"datatable/flowstate_all_new_halomod.rpak" ) )
@@ -345,8 +351,6 @@ bool function IsNewLootEnabled( string ref )
 		//disabled until proper porting and fix
 		case "mp_weapon_grenade_gravity":
 		
-		// case "mp_weapon_sentinel":
-		case "mp_titanweapon_flightcore_rockets":
 		case "mp_weapon_bow":
 		case "mp_weapon_3030":
 		case "mp_weapon_nemesis":
@@ -372,7 +376,6 @@ bool function IsNewLootEnabled( string ref )
 		//case "hopup_selectfire":
 		case "hopup_double_tap":
 		case "mp_ability_void_ring":
-		case "mp_ability_mobile_respawn_beacon":
 		case "mp_ability_redeploy_balloon":
 		case "hopup_smart_reload":
 		case "hopup_dual_loader":
@@ -1131,39 +1134,14 @@ int function SURVIVAL_Loot_GetLootTypeFromString( string lootTypeString )
 		case "helmet":
 			return eLootType.HELMET
 
-#if SERVER
-
-
-
-#endif
-
 		case "data_knife":
 			return eLootType.DATAKNIFE
-
 
 		case "blank":
 			return eLootType.BLANK
 
 		case "resource":
 			return eLootType.RESOURCE
-
-#if SERVER
-
-
-
-#endif
-
-#if SERVER
-
-
-
-#endif
-
-#if SERVER
-
-
-
-#endif
 
 		default:
 			//

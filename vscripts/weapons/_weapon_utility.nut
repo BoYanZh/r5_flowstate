@@ -5050,6 +5050,21 @@ void function PlayDelayedShellEject( entity weapon, float time, int count = 1, b
 	}
 }
 
+#if SERVER || CLIENT
+bool function AreAbilitiesSilenced( entity player )
+{
+	if ( !IsValid( player ) )
+		return true
+
+	/*if ( StatusEffect_HasSeverity( player, eStatusEffect.silenced ) )
+		return true
+	if ( StatusEffect_HasSeverity( player, eStatusEffect.is_boxing ) )
+		return true*/
+
+	return false
+}
+#endif
+
 bool function IsABaseGrenade( entity ent )
 {
 	#if CLIENT

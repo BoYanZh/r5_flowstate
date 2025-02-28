@@ -142,7 +142,6 @@ void function _ChallengesByColombia_Init()
 			AimTrainer_startAngs = <0, 144.184357, 0>
 		break
 
-		case eMaps.mp_rr_olympus_mu1:
 		case eMaps.mp_rr_olympus:
 		case eMaps.mp_rr_olympus_tt:
 			floorLocation = <9857.08496, -7948.96631, -1000>
@@ -3139,7 +3138,7 @@ bool function CC_MenuGiveAimTrainerWeapon( entity player, array<string> args )
 	
 	string weapon = args[0]
 	
-	bool bIs1v1 = g_is1v1GameType() //idc, conditional.	
+	bool bIs1v1 = g_bIs1v1GameType() //idc, conditional.	
 	if( Gamemode() != eGamemodes.fs_aimtrainer && !ValidateWeaponTgiveSettings( player, args[0] ) || Gamemode() == eGamemodes.WINTEREXPRESS && !player.GetPlayerNetBool( "WinterExpress_IsPlayerAllowedLegendChange" ) )
 		return true
 	

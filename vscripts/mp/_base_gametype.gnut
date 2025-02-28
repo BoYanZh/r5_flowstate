@@ -115,7 +115,7 @@ void function Flowstate_CheckForMapTriggers()
 	file.allTriggers.extend( GetEntArrayByScriptName( "WallTrigger_Killzone" ) )
 	file.allTriggers.extend( GetEntArrayByScriptName( "WallTrigger_oob_timer" ) )
 
-	if( Flowstate_DisableAllMapTriggers() || MapName() == eMaps.mp_rr_arena_skygarden && Gamemode() == eGamemodes.fs_dm )
+	if( Flowstate_DisableAllMapTriggers() && Gamemode() == eGamemodes.fs_dm )
 	{
 		int i = 0
 		foreach( trigger in file.allTriggers )
@@ -1593,6 +1593,7 @@ bool function IsValidNPCTarget( entity ent )
 		case "npc_stalker":
 		case "npc_super_spectre":
 		case "npc_prowler":
+		case "npc_spider":
 		case "npc_drone":
 		case "npc_titan":
 		case "npc_turret_sentry":
@@ -1899,7 +1900,7 @@ void function EntityOutOfBounds( entity trigger, entity ent, entity caller, var 
 
 		dataStruct.timeLeftBeforeDyingFromOutOfBounds = deadTime
 
-		if ( MapName() == eMaps.mp_rr_aqueduct || MapName() == eMaps.mp_rr_aqueduct_night || MapName() == eMaps.mp_rr_arena_skygarden )
+		if ( MapName() == eMaps.mp_rr_aqueduct || MapName() == eMaps.mp_rr_party_crasher || MapName() == eMaps.mp_rr_arena_phase_runner  )
 		{
 			ent.SetOutOfBoundsDeadTime( Time() + 5 )
 		}

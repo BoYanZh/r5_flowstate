@@ -26,6 +26,8 @@ global function CharacterSkin_GetCustomCharSelectIntroAnim
 global function CharacterSkin_GetCustomCharSelectIdleAnim
 global function CharacterSkin_GetCustomCharSelectReadyIntroAnim
 global function CharacterSkin_GetCustomCharSelectReadyIdleAnim
+global function CharacterSkin_HasStoryBlurb
+global function CharacterSkin_GetStoryBlurbBodyText
 global function CharacterKillQuip_GetCharacterFlavor
 global function CharacterKillQuip_GetAttackerConversationName
 global function CharacterKillQuip_GetAttackerStingSoundEvent
@@ -139,6 +141,7 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 				} )
 			}
 		#endif
+
 		fileLevel.loadoutCharacterSkinSlotMap[characterClass] <- entry
 	}
 
@@ -304,6 +307,21 @@ LoadoutEntry function Loadout_CharacterKillQuip( ItemFlavor characterClass )
 	return fileLevel.loadoutCharacterKillQuipSlotMap[characterClass]
 }
 
+bool function CharacterSkin_HasStoryBlurb( ItemFlavor flavor )
+{
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.character_skin )
+
+	return ( CharacterSkin_GetStoryBlurbBodyText( flavor ) != "" )
+}
+
+
+string function CharacterSkin_GetStoryBlurbBodyText( ItemFlavor flavor )
+{
+	Assert( ItemFlavor_GetType( flavor ) == eItemType.character_skin )
+
+	return GetGlobalSettingsString( ItemFlavor_GetAsset( flavor ), "unlockFuncKey" )
+}
+
 
 #if SERVER || CLIENT
 void function PlayIntroQuipThread( entity emitter, EHI playerEHI, entity exceptionPlayer = null )
@@ -423,8 +441,13 @@ void function CharacterSkin_Apply( entity ent, ItemFlavor skin )
 	}
 
 	ent.SetSkin( skinIndex )
-	ent.SetCamo( camoIndex )
-
+	if (camoIndex <= 210)
+		ent.SetCamo( camoIndex )
+	else
+	{
+		printt("Tried to set a camo index thats higher than season 3 supports")//TODO: REMOVE THIS ONCE WE FIGURE OUT CUSTOM CAMO TEXTURES -kral
+		camoIndex = 0
+	}
 	#if SERVER
 		if ( ent.IsPlayer() )
 		{

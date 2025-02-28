@@ -8,6 +8,7 @@ struct
 	var               headerRui
 	var               listPanel
 	array<ItemFlavor> characterSkinList
+	var blurbPanel
 	var heirloomButton
 } file
 
@@ -43,7 +44,9 @@ void function InitCharacterSkinsPanel( var panel )
 
 	Hud_SetVisible(file.heirloomButton, false)
 	//Hud_SetVisible(Hud_GetChild( panel, "ActionButton" ), false)
+	file.blurbPanel = Hud_GetChild( panel, "SkinBlurb" )
 	//RegisterSignal( "PROTO_StopButtonThumbnailsThink" )
+	Hud_SetVisible( file.blurbPanel, false )
 }
 
 
@@ -91,11 +94,12 @@ void function CharacterSkinsPanel_Update( var panel )
 	RunMenuClientFunction( "ClearAllCharacterPreview" )
 
 	// setup, but only if we're active
+	Hud_SetVisible( file.blurbPanel, false )
 	if ( IsPanelActive( file.panel ) && IsTopLevelCustomizeContextValid() )
 	{
 		LoadoutEntry entry = Loadout_CharacterSkin( GetTopLevelCustomizeContext() )
 		file.characterSkinList = GetLoadoutItemsSortedForMenu( entry, CharacterSkin_GetSortOrdinal )
-		FilterCharacterSkinList( file.characterSkinList )
+		//FilterCharacterSkinList( file.characterSkinList )
 
 		Hud_InitGridButtons( file.listPanel, file.characterSkinList.len() )
 		foreach ( int flavIdx, ItemFlavor flav in file.characterSkinList )
@@ -127,7 +131,27 @@ void function CharacterSkinsPanel_OnFocusChanged( var panel, var oldFocus, var n
 
 void function PreviewCharacterSkin( ItemFlavor flav )
 {
-	RunClientScript( "UIToClient_PreviewCharacterSkinFromCharacterSkinPanel", ItemFlavor_GetNetworkIndex_DEPRECATED( flav ), ItemFlavor_GetNetworkIndex_DEPRECATED( GetTopLevelCustomizeContext() ) )
+	RunClientScript( "UIToClient_PreviewCharacterSkinFromCharacterSkinPanel", ItemFlavor_GetGUID( flav ), ItemFlavor_GetGUID( GetTopLevelCustomizeContext() ) )
+	if ( CharacterSkin_HasStoryBlurb( flav ) )
+	{
+		Hud_SetVisible( file.blurbPanel, true )
+		ItemFlavor characterFlav = CharacterSkin_GetCharacterFlavor( flav )
+
+		asset portraitImage = ItemFlavor_GetIcon( characterFlav )
+		CharacterHudUltimateColorData colorData = CharacterClass_GetHudUltimateColorData( characterFlav )
+
+		var rui = Hud_GetRui( file.blurbPanel )
+		RuiSetString( rui, "buttonText", CharacterSkin_GetStoryBlurbBodyText( flav ) )
+		//RuiSetString( rui, "skinNameText", ItemFlavor_GetLongName( flav ) )
+		//RuiSetString( rui, "bodyText", CharacterSkin_GetStoryBlurbBodyText( flav ) )
+		//RuiSetImage( rui, "portraitIcon", portraitImage )
+		//RuiSetFloat3( rui, "characterColor", SrgbToLinear( colorData.ultimateColor ) )
+		//RuiSetGameTime( rui, "startTime", ClientTime() )
+	}
+	else
+	{
+		Hud_SetVisible( file.blurbPanel, false )
+	}
 }
 
 
@@ -214,6 +238,9 @@ ItemFlavor ornull function GetMeleeHeirloom( ItemFlavor character )
 
 void function CustomizeCharacterMenu_UpdateHeirloomButton()
 {
+	Hud_Hide( file.heirloomButton )
+	return
+	
 	LoadoutEntry entry = Loadout_MeleeSkin( GetTopLevelCustomizeContext() )
 	ItemFlavor ornull meleeHeirloom = GetMeleeHeirloom( GetTopLevelCustomizeContext() )
 	if ( meleeHeirloom != null )
@@ -297,7 +324,7 @@ bool function ShouldDisplayCharacterSkin( ItemFlavor characterSkin )
 {
 	if ( GladiatorCardCharacterSkin_ShouldHideIfLocked( characterSkin ) )
 	{
-		if ( ItemFlavor_GetQuality( characterSkin ) != eQuality.COMMON )
+		if ( ItemFlavor_GetQuality( characterSkin ) != eQuality.FANMADE )
 			return false
 	}
 

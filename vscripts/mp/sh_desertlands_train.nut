@@ -247,7 +247,7 @@ struct
 #if CLIENT
 void function DesertlandsTrainAnnouncer_Init()
 {
-	RegisterCSVDialogue( $"datatable/dialogue/train_dialogue.rpak" )
+	//RegisterCSVDialogue( $"datatable/dialogue/train_dialogue.rpak" )
 	AddCallback_EntitiesDidLoad( InitTrainClientEnts )
 	AddCallback_FullUpdate( TrainOnFullUpdate )
 }
@@ -330,7 +330,7 @@ void function TrainOnFullUpdate()
 #if SERVER
 void function DesertlandsTrain_Precaches()
 {
-	RegisterCSVDialogue( $"datatable/dialogue/train_dialogue.rpak" )
+	//RegisterCSVDialogue( $"datatable/dialogue/train_dialogue.rpak" )
 
 	PrecacheParticleSystem( FX_TRAIN_MAIN_SPOTLIGHT )
 	PrecacheParticleSystem( FX_TRAIN_SPOTLIGHT_BLINK )

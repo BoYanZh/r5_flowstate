@@ -6,6 +6,7 @@ global function CreateDropPod
 global function LaunchAnimDropPod
 global function GetDropPodAnimDuration
 global function CreateDropPodSmokeTrail
+global function DropPod_ClearLandingZone
 
 global function DropPod_OnUse
 //const droppod_fireteam_collision = $"models/vehicle/droppod_fireteam/droppod_fireteam_collision.mdl"
@@ -847,6 +848,34 @@ entity function CreateMobileBeaconForVisualDrop( vector ornull origin = null, ve
 	DispatchSpawn( prop_dynamic )
 
 	return prop_dynamic
+}
+
+void function DropPod_ClearLandingZone( vector pos, entity inflictor, float innerRadius, float outerRadius, bool debugDraw = false )
+{
+	RadiusDamage(
+		pos,									// origin
+		svGlobal.worldspawn,					// owner
+		inflictor,		 						// inflictor
+		1000,									// pilot damage
+		1000,									// heavy armor damage
+		innerRadius,							// inner radius
+		outerRadius,							// outer radius
+		SF_ENVEXPLOSION_NO_NPC_SOUND_EVENT,		// explosion flags
+		0, 										// distanceFromAttacker
+		0, 										// explosionForce
+		DF_SKIPS_DOOMED_STATE,					// damage flags
+		eDamageSourceId.mp_ability_mobile_respawn_beacon					// damage source id
+	)
+
+	//HoverVehicle_WakeVehiclesIntersectingEntity( inflictor )
+
+	#if DEVELOPER
+		if ( debugDraw )
+		{
+			 //DebugDrawCylinder( pos, <270.0, 0.0, 0.0>, innerRadius, 20.0, COLOR_RED, true, 5.0 )
+			 //DebugDrawCylinder( pos, <270.0, 0.0, 0.0>, outerRadius, 20.0, COLOR_RED, true, 5.0 )
+		}
+	#endif
 }
 
 void function PushPlayerAndCreateDropPodCollision( entity pod, vector targetOrigin )

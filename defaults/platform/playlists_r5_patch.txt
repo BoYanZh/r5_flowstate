@@ -114,7 +114,7 @@ playlists
 				survival_enable_gladiator_intros				1
 				character_select_time_max						6
 				character_select_time_min						6
-				
+
 				
 				///////////////////////////////////////////////////////////////////////////////////
 				//////////Modded Weapons - JANU's Framework 		 			 		///////////
@@ -182,15 +182,14 @@ playlists
 				incendiary_rounds_low_chance                0
 				incendiary_rounds_med_chance                0
 				incendiary_rounds_high_chance               0
+				
 				///////////////////////////////////////////////////////////////////////////////////
 				//// Character (a.k.a. Legend) Configuration								///////
 				///////////////////////////////////////////////////////////////////////////////////
 				
 				character_dummie								hide
-				//character_wattson								lock
-				//character_crypto								lock
-				character_random								lock
-
+				character_random								hide
+				character_loba									hide
 
 				///////////////////////////////////////////////////////////////////////////////////
 				//// Character (a.k.a. Legend) Damage Balancing								///////
@@ -370,15 +369,14 @@ playlists
 				
 				//Do not delete/edit these
 				
+				season01_start_unixtime							1549256569
+				season02_start_unixtime							1562043769
 				season03_reveal_unixtime						1626656230
 				season03_start_unixtime							1626656230
-				season03_finish_unixtime						1637272618
-				season03_hide_unixtime							1637272618
-				season01_start_unixtime							1626656230
-				season02_start_unixtime							1626656230
+				season03_finish_unixtime						2145916800
+				season03_hide_unixtime							2145916800
 				ranked_period_02_start_unixtime					1630749435
 				s03e01_start_unixtime							1630749435
-				season01_start_unixtime							1626656230
 				
 				
 				///////////////////////////////////////////////////////////////////////////////////
@@ -487,7 +485,7 @@ playlists
 				///////////////////////////////////////////////////////////////////////////////////
 				
 				logging_enabled 								1		// Enabling this will run the tracker system ( TODO: rename to tracker_enabled )
-				logging_encryption								0
+				logging_encryption								1
 				logging_shipstats 								1		// Enabling this will transfer data at end of match ( TODO: rename to tracker_shipstats )
 				use_global_stats								1		// Enabling this will use API data ( which only transfers at the start/end of a match or when a non batched player connects for stat queries )
 				use_online_motd 								0		// Still indev ( don't enable )
@@ -647,9 +645,6 @@ playlists
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_mu1						  	1
 				mp_rr_desertlands_mu1_tt						1
-				mp_rr_desertlands_mu2						  	1
-				mp_rr_desertlands_mu3						  	0
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -707,17 +702,12 @@ playlists
 			gamemodes { survival { maps {
 				mp_rr_party_crasher								1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1							1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx					1
 				mp_rr_desertlands_64k_x_64k_tt					1
-				mp_rr_arena_skygarden							1
-				mp_rr_aqueduct_night							1
-				mp_rr_ashs_redemption							1
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -778,7 +768,6 @@ playlists
 			}
 			gamemodes { fs_snd { maps {
 				mp_rr_arena_empty								1
-				mp_rr_arena_composite							1
 			} } }
 		}
 
@@ -1461,14 +1450,10 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
 				mp_rr_party_crasher					  			1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_canyonlands_staging					  	1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -1906,17 +1891,13 @@ playlists
 			gamemodes { fs_dm { maps {
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_canyonlands_staging					  	1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -2034,17 +2015,13 @@ playlists
 			gamemodes { fs_dm { maps {
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
-				mp_rr_canyonlands_mu2						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 		
@@ -2212,9 +2189,7 @@ playlists
 				spawnsets_mp_rr_canyonlands_64k_x_64k			"1"
 				spawnsets_mp_rr_desertlands_64k_x_64k			"1,2"
 				spawnsets_mp_rr_aqueduct 						"1"
-				spawnsets_mp_rr_arena_composite 				"1"
 				spawnsets_mp_rr_arena_phase_runner				"1"
-				spawnsets_mp_rr_olympus_mu1						"1"
 				
 				spawnpaks_use_sets 								1	// bool, enables using other than stock spawn paks
 				spawnpaks_use_random							0	// bool, loads random configured pak on mapstart
@@ -2223,7 +2198,6 @@ playlists
 			}
 			gamemodes { fs_dm { maps {
 				mp_rr_desertlands_64k_x_64k 					1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -2379,10 +2353,7 @@ playlists
 				
 				spawnsets_mp_rr_desertlands_64k_x_64k			"1"
 				spawnsets_mp_rr_canyonlands_64k_x_64k			"1"
-				spawnsets_mp_rr_arena_composite 				"1"
 				spawnsets_mp_rr_arena_phase_runner				"1"
-				spawnsets_mp_rr_olympus_mu1						"1"
-				spawnsets_mp_rr_arena_skygarden					"1"
 				
 				spawnpaks_use_sets 								0	// bool, enables using other than stock spawn paks
 				spawnpaks_use_random							0	// bool, loads random configured pak on mapstart
@@ -2394,14 +2365,10 @@ playlists
 				custom_playlist_spawnpak						""  // string, custom playlist override (fs_1v1, fs_scenarios, etc. )  loads spawns for this gametype instead of game loaded gametype
 			}
 			gamemodes { fs_dm { maps {
-				mp_rr_ashs_redemption							1
 				mp_rr_canyonlands_64k_x_64k 					1
 				mp_rr_aqueduct 									1
-				mp_rr_aqueduct_night 							1
 				mp_rr_arena_composite 							1
 				mp_rr_arena_phase_runner 						1
-				mp_rr_olympus_mu1 								1
-				mp_rr_arena_skygarden 							1
 				mp_rr_party_crasher 							1
 			} } }
 		}
@@ -2661,9 +2628,7 @@ playlists
 			gamemodes { fs_dm { maps {
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
 				mp_rr_arena_phase_runner						1
-				mp_rr_olympus_mu1								1
 			} } }
 		}
 
@@ -2793,19 +2758,15 @@ playlists
 				//has its own spawn pak hardcoded
 			}
 			gamemodes { fs_dm { maps {
-				mp_rr_canyonlands_staging 						1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						 	1
+				mp_rr_canyonlands_mu1_night						1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
+				mp_rr_arena_phase_runner			  			1
 				mp_rr_party_crasher					  			1
-				mp_rr_canyonlands_mu1_night						1
-				mp_rr_ashs_redemption						  	1
 				mp_rr_aqueduct									1
-				mp_rr_arena_composite							1
-				mp_rr_aqueduct_night							1
 			} } }
 		}
 
@@ -3013,9 +2974,7 @@ playlists
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
-				mp_rr_canyonlands_mu2						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_desertlands_mu2						  	1
 			} } }
 		}
 		fs_haloMod_oddball
@@ -3399,7 +3358,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_desertlands_mu2						  	1
 			} } }
 		}
 		
@@ -3460,7 +3418,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 		
@@ -3523,7 +3480,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -3584,7 +3540,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -3642,7 +3597,6 @@ playlists
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_olympus_mu1 								1
 			} } }
 		}
 
@@ -4265,22 +4219,15 @@ playlists
 			gamemodes { survival { maps {
 				mp_rr_party_crasher					 			1
 				mp_rr_aqueduct								 	1
-				mp_rr_arena_composite						  	1
+				mp_rr_arena_phase_runner						1
 				mp_rr_canyonlands_64k_x_64k						1
 				mp_rr_canyonlands_mu1						  	1
-				mp_rr_canyonlands_mu2						 	1
 				mp_rr_canyonlands_mu1_night						1
-				mp_rr_desertlands_mu2			 				1
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
-				mp_rr_arena_phase_runner						1
-				mp_rr_aqueduct_night						   	1
-				mp_rr_ashs_redemption						  	1
-				mp_rr_olympus_mu1 								1
-				mp_rr_arena_empty								1
-				mp_rr_construct									1
+				mp_rr_desertlands_mu1				 			1
+				mp_rr_desertlands_mu1_tt				 		1
 			} } }
 		}
 
@@ -4319,8 +4266,6 @@ playlists
 				// survival_wallrun_enabled					   	1
 			}
 			gamemodes { survival { maps {
-				mp_rr_canyonlands_mu2						 	1
-				mp_rr_olympus_mu1 								1
 				mp_rr_arena_empty								1
 				mp_rr_arena_phase_runner						1
 				mp_rr_canyonlands_64k_x_64k						1
@@ -4328,14 +4273,10 @@ playlists
 				mp_rr_desertlands_64k_x_64k						1
 				mp_rr_desertlands_64k_x_64k_nx				 	1
 				mp_rr_desertlands_64k_x_64k_tt				 	1
-				mp_rr_arena_skygarden						  	1
 				mp_rr_party_crasher					 			1
 				mp_rr_canyonlands_mu1_night						1
 				mp_rr_canyonlands_staging					  	1
 				mp_rr_aqueduct								 	1
-				mp_rr_aqueduct_night						   	1
-				mp_rr_ashs_redemption						  	1
-				mp_rr_arena_composite						  	1
 				mp_rr_construct									1
 			} } }
 		}
@@ -4357,92 +4298,6 @@ playlists
 			"Language" "english"
 			"Tokens"
 			{
-				"MP_RR_CONSTRUCT"								"CONSTRUCT"
-				"MP_RR_OLYMPUS"					  				"Olympus"
-				"MP_FLOWSTATE"						  			"Creative"
-
-				"MP_RR_ASHS_REDEMPTION"			   				"Ash's Redemption"
-				"MP_RR_AQUEDUCT"					  			"Overflow"
-				"MP_RR_AQUEDUCT_NIGHT"							"Overflow After Dark"
-				"mp_rr_arena_empty"								"Creative"
-				"MP_RR_ARENA_COMPOSITE"			   				"Drop-Off"
-				"MP_RR_ARENA_SKYGARDEN"			   				"Encore"
-				"MP_RR_PARTY_CRASHER" 		  		  			"Party Crasher"
-				"mp_rr_arena_phase_runner"						"Phase Runner"
-
-				"MP_RR_DESERTLANDS_64K_X_64K_NX"	  			"World's Edge After Dark"
-				"MP_RR_DESERTLANDS_NIGHT"	  					"World's Edge After Dark"
-				"MP_RR_DESERTLANDS_64K_X_64K"		 			"World's Edge Season 3"
-				"MP_RR_DESERTLANDS_64K_X_64K_TT"	  			"World's Edge Season 3 - Mirage Voyage"
-				"MP_RR_DESERTLANDS_MU1"		 					"World's Edge Season 4"
-				"MP_RR_DESERTLANDS_MU1_TT"		 				"World's Edge Season 4 - Trials"
-				"MP_RR_DESERTLANDS_MU2"		 					"World's Edge Season 6"
-				"MP_RR_DESERTLANDS_MU3"		 					"World's Edge Season 10"
-				"MP_RR_DESERTLANDS_HOLIDAY"						"WINTER EXPRESS"
-
-				"MP_RR_CANYONLANDS_64K_X_64K"		 			"Kings Canyon Season 1"
-				"MP_RR_CANYONLANDS_MU1"			   				"Kings Canyon Season 2"
-				"MP_RR_CANYONLANDS_MU2_TT"			   			"Kings Canyon Season 6 - Map Room"
-				"MP_RR_CANYONLANDS_MU2_UFO"			   			"Kings Canyon Season 6 - Olympus Teaser"
-				"MP_RR_CANYONLANDS_MU2_MV"			   			"Kings Canyon Season 7 - Mirage Voyage"
-				"MP_RR_CANYONLANDS_MU1_NIGHT"		 			"Kings Canyon After Dark"
-
-				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
-
-
-				"Playtest"										"Playtest"
-				"Playtest_Only"					   				"Playtest"
-				"PLAYER_KILLSTREAK"				   				"`1%s1`0 is on a `1%s2`0 player killstreak"
-				"PLAYER_ENDED_KILLSTREAK"			 			"`1%s1`0 ended `1%s2`0's killstreak"
-				"PLAYER_ENDED_OWN_KILLSTREAK"		 			"`1%s1`0 ended their own killstreak"
-
-				"VALVE_REJECT_BANNED"				 			"You have been banned from this server."
-				"DISCONNECT_BANNED"				   				"The client's game account has been banned."
-
-				"DISCONNECT_SEND_RELIABLEOVERFLOW"				"Connection to server overflowed (code:river)."
-				"DISCONNECT_SEND_OVERFLOW"						"Connection to server overflowed (code:dam)."
-				"DISCONNECT_NETCHAN_OVERFLOW"		 			"Connection to server overflowed (code:vulkan)."
-				"DISCONNECT_STRINGCMD_OVERFLOW"	   				"Connection to server overflowed (code:skillissue)."
-				"MOTD"								  			""
-				"BETA_BUILD_WATERMARK" 				  			""
-				"FS_PLAYLIST_MOTD"					  			"R5Reloaded" 		//1000 char max
-				"FS_PLAYLIST_MOTD_CONTINUE"			  			"" 								//append to first - 1000 char limit
-
-				"SILO_DOOR_PANEL_HINT"							"Press %use% to activate silo doors"
-				"PRESS_TO_ACTIVATE_GENERIC"						"Press %use% to activate"
-
-				"SILO_DOOR_PANEL_HINT"							"Press %use% to activate silo doors"
-				"PRESS_TO_ACTIVATE_GENERIC"						"Press %use% to activate"
-
-				"BLOOD_TT_PANEL_0_HINT"                      	"%&use% To Begin First Trial"
-				"BLOOD_TT_PANEL_1_HINT"                      	"%&use% To Begin Second Trial"
-				"BLOOD_TT_PANEL_2_HINT"                      	"%&use% To Begin Third Trial"
-				"BLOOD_TT_PANEL_1_DISABLED_HINT"             	"First Trial Incomplete"
-				"BLOOD_TT_PANEL_2_DISABLED_HINT"             	"Second Trial Incomplete"
-				
-				"WPN_ARC_TOOL"									"Arc Tool"
-				"WPN_ARC_TOOL_DESC"								"Beacon Substation Tool"
-				"WPN_ARC_TOOL_RUI_READY"						"RDY"
-				"WPN_ARC_TOOL_RUI_DANGER"						"DNGR"
-				"WPN_ARC_TOOL_RUI_CHARGING"						"CHARGING"
-
-				"SPECIALS" 										"R5RELOADED CONTRIBUTORS"
-				"BUTTON_RETURN_TO_MAIN"                     	"`1%[BACK|R]%`0 Return to Main Menu"
-				"CHARACTER_RANDOM_CHARSELECT_SUBTITLE"          ""
-
-				///////////////////////////////////////CUSTOM LOADSCREEN LOCALIZATION////////////////////////////////////
-				"LOADSCREEN_CUSTOM_SDK_1_NAME"					"Better Play R5Reloaded"
-				"LOADSCREEN_CUSTOM_SDK_1_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
-				"LOADSCREEN_CUSTOM_SDK_2_NAME"					"R FIVE, Re LOADED"
-				"LOADSCREEN_CUSTOM_SDK_2_TEXT" 					"Made by bogass, Thank you for your contribution to R5Reloaded!"
-				"LOADSCREEN_CUSTOM_SDK_3_NAME"					"Look at that nessie!"
-				"LOADSCREEN_CUSTOM_SDK_3_TEXT" 					"Made by uber_panzerhund, Thank you for your contribution to R5Reloaded!"
-				"LOADSCREEN_CUSTOM_SDK_4_NAME"					"Pink is life"
-				"LOADSCREEN_CUSTOM_SDK_4_TEXT" 					"Made by gl2imm, Thank you for your contribution to R5Reloaded!"
-				"LOADSCREEN_CUSTOM_SDK_5_NAME"					"Back to back"
-				"LOADSCREEN_CUSTOM_SDK_5_TEXT" 					"Made by ruefulshifu, Thank you for your contribution to R5Reloaded!"
-				"LOADSCREEN_CUSTOM_SDK_6_NAME"					"I own the sky"
-				"LOADSCREEN_CUSTOM_SDK_6_TEXT" 					"Made by scoop, Thank you for your contribution to R5Reloaded!"
 			}
 		}
 	}

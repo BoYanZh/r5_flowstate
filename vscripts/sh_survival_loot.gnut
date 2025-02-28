@@ -197,6 +197,7 @@ global function IsLootEntAccessibleViaDeathBox
 global function IsValidAndStandardGrabbableLootEnt
 #endif
 
+global function GetFadeDistForLoot
 
 global function GetNameOfTeammateWithVaultKey
 global const string WEAPON_LOCKEDSET_SUFFIX_GOLD = "_gold"
@@ -525,6 +526,7 @@ void function SURVIVAL_Loot_InitShared()
 	
 	if( Gamemode() == eGamemodes.SURVIVAL )
 		AddCallback_OnPlayerRespawned( OnPlayerRespawned )
+		
 #endif // SERVER
 
 #if SERVER
@@ -1931,6 +1933,30 @@ void function SURVIVAL_ClearExcessInventoryItems( entity player, array<Consumabl
 
 
 #if CLIENT || SERVER
+float function GetFadeDistForLoot( LootData lootData )
+{
+	switch ( lootData.lootType )
+	{
+		case eLootType.MAINWEAPON:
+			return 15000.0
+
+		case eLootType.BACKPACK:
+		case eLootType.HELMET:
+		case eLootType.ARMOR:
+			if ( lootData.tier > 1 )
+				return 5000.0
+			else
+				return 2000.0
+
+		case eLootType.HEALTH:
+			if ( lootData.tier > 1 )
+				return 5000.0
+			else
+				return 2000.0
+	}
+
+	return 2000.0
+}
 
 #if SERVER
 void function SetPlayerInventory( entity player, array<ConsumableInventoryItem> playerInventory )
@@ -3707,10 +3733,11 @@ void function Inventory_SetPlayerEquipment_Internal( entity player, string itemR
 			player.SetShieldHealthMax( SURVIVAL_GetArmorShieldCapacity( 0 ) )
 		else
 			player.SetShieldHealthMax( 0 )
+		
 		player.SetShieldHealth( 0 )
 	}
 
-	if (SURVIVAL_Loot_IsRefValid( itemRef ) )
+	if ( SURVIVAL_Loot_IsRefValid( itemRef ) )
 	{
 		LootData data = SURVIVAL_Loot_GetLootDataByRef( itemRef )
 		index = data.index

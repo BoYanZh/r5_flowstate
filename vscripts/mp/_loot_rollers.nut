@@ -70,6 +70,7 @@ entity function SpawnLootRoller_DispatchSpawn( vector origin, vector angles )
 	AddEntityCallback_OnKilled( roller, LootRollers_OnKilled)
 	AddEntityCallback_OnDamaged( roller, SoloRollers_OnDamaged)
     roller.kv.CollisionGroup = TRACE_COLLISION_GROUP_NONE
+
     return roller
 }
 

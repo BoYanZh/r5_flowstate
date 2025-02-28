@@ -246,7 +246,7 @@ void function __UpdateNotificationText( entity player, string token, string subT
 		}
 	)
 	
-	while( true )
+	for( ; ; )
 	{
 		table result = player.WaitSignal( "NotificationChanged" )
 		

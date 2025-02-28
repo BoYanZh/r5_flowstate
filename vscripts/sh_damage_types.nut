@@ -102,6 +102,7 @@ global enum eDamageSourceId
 	mp_weapon_energy_ar
 	mp_weapon_volt_smg
 	mp_weapon_defender
+	mp_ability_mobile_respawn_beacon
 	// End S3 Defaults
 
 	mp_weapon_melee_survival
@@ -131,6 +132,7 @@ global enum eDamageSourceId
 	sp_weapon_arc_tool
 	mp_weapon_pulse_lmg
 	mp_weapon_mounted_turret_weapon
+	mp_titanweapon_flightcore_rockets
 	//
 	melee_pilot_emptyhanded
 	melee_pilot_arena
@@ -215,6 +217,7 @@ global enum eDamageSourceId
 	grunt_melee
 	spectre_melee
 	prowler_melee
+	spider_melee
 	super_spectre_melee
 	titan_execution
 	human_execution
@@ -554,8 +557,9 @@ void function DamageTypes_Init()
 	file.damageSourceIDToImage[eDamageSourceId.sp_weapon_arc_tool]			<- $"r2_ui/menus/loadout_icons/primary_weapon/primary_arc_tool"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_rspn101_og]		<- $"r2_ui/menus/loadout_icons/primary_weapon/primary_arc_tool"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_smart_pistol]		<- $"rui/weapon_icons/r5/weapon_smart_pistol"
-	
+	file.damageSourceIDToImage[eDamageSourceId.mp_titanweapon_flightcore_rockets] <- $"rui/weapon_icons/kral/custom/flamethrower"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_flamethrower] 		<- $"rui/weapon_icons/kral/custom/flamethrower"
+	file.damageSourceIDToImage[eDamageSourceId.mp_ability_mobile_respawn_beacon] 		<- $"rui/weapon_icons/kral/custom/flamethrower"//remove this later
 
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_titan_sword]		<- $"rui/gamemodes/shadow_squad/legend_icon_sdk"
 	file.damageSourceIDToImage[eDamageSourceId.mp_weapon_titan_sword_slam]	<- $"rui/gamemodes/shadow_squad/legend_icon_sdk"
@@ -596,6 +600,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.auto_titan_melee ] 						= "#DEATH_AUTO_TITAN_MELEE",
 
 		[ eDamageSourceId.prowler_melee ] 							= "#DEATH_PROWLER_MELEE",
+		[ eDamageSourceId.spider_melee ] 							= "#DEATH_SPIDER_MELEE",
 		[ eDamageSourceId.super_spectre_melee ] 					= "#DEATH_SUPER_SPECTRE",
 		[ eDamageSourceId.grunt_melee ] 							= "#DEATH_GRUNT_MELEE",
 		[ eDamageSourceId.spectre_melee ] 							= "#DEATH_SPECTRE_MELEE",
@@ -671,6 +676,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.melee_titan_punch_stealth ] 				= "#DEATH_TITAN_MELEE",
 		[ eDamageSourceId.melee_titan_punch_rocket ] 				= "#DEATH_TITAN_MELEE",
 		[ eDamageSourceId.melee_titan_punch_drone ] 				= "#DEATH_TITAN_MELEE",
+		[ eDamageSourceId.mp_titanweapon_flightcore_rockets ] 				= "#flightcore_rocket",
 		[ eDamageSourceId.mp_weapon_volt_smg ] 						= "#WPN_VOLT_SMG",
 		[ eDamageSourceId.mp_weapon_pulse_lmg ] 					= "EM-4 Cold War",
 		[ eDamageSourceId.mp_weapon_flamethrower ] 					= "Flame Thrower",
@@ -688,6 +694,7 @@ void function DamageTypes_Init()
 		[ eDamageSourceId.mp_weapon_lifeline_baton_primary ]		= "#DEATH_MELEE_LIFELINE_BATON",
 		[ eDamageSourceId.melee_shadowsquad_hands ] 				= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
 		[ eDamageSourceId.mp_weapon_shadow_squad_hands_primary ] 	= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
+		[ eDamageSourceId.mp_ability_mobile_respawn_beacon ] 	= "#DEATH_MELEE_SHADOWSQUAD_HANDS",
 		
 		//r5r
 		[ eDamageSourceId.melee_bolo_sword ] 						= "Bolo Sword Melee",

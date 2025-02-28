@@ -137,7 +137,7 @@ global struct ScreenOverrideInfo
 }
 table<string, ScreenOverrideInfo> s_screenOverrides
 
-struct ApexScreenState
+global struct ApexScreenState
 {
 	var    rui
 	int    magicId

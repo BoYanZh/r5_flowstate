@@ -26,9 +26,7 @@ void function CodeCallback_MapInit()
 
 
 	PathTT_Init()
-	if (MapName() == eMaps.mp_rr_olympus_mu1 )
-		MapZones_RegisterDataTable( $"datatable/map_zones/zones_mp_rr_olympus_mu1.rpak" )
-	else if (MapName() == eMaps.mp_rr_olympus_tt )
+	if (MapName() == eMaps.mp_rr_olympus_tt )
 		MapZones_RegisterDataTable( $"datatable/map_zones/zones_mp_rr_olympus_tt.rpak" )
 	else
 		MapZones_RegisterDataTable( $"datatable/map_zones/zones_mp_rr_olympus.rpak" )
@@ -97,8 +95,8 @@ void function Olympus_OnEntitiesDidLoad()
 	if( Gamemode() == eGamemodes.SURVIVAL )
 	{
 		SpawnWeaponsonRacks()
-		if (MapName() == eMaps.mp_rr_olympus_mu1 )
-			SetupKeyForShipVault()
+		//if (MapName() == eMaps.mp_rr_olympus_mu1 )
+			//SetupKeyForShipVault()
 	}
 
 	PrecacheModel( $"mdl/fx/oly_sphere_edges.rmdl" )		

@@ -156,7 +156,10 @@ void function DoPanicButtonHealing( entity player )
 	foreach( target in targets )
 	{
 		int gave = GiveHealthAndShieldToPlayer( target, 200 )
-		printf( "  Gave %d health & shield to: %s", gave, string( target ) )
+		
+		#if DEVELOPER
+			printf( "  Gave %d health & shield to: %s", gave, string( target ) )
+		#endif
 
 		++healCount
 		EmitSoundOnEntityOnlyToPlayer( target, target, "Dummie_Ultimate_Heal_GotHealed_1P" )
@@ -208,7 +211,10 @@ void function DoPanicButtonSkydive( entity player )
                                 
 		thread PlayerSkydiveFromCurrentPosition( target )
 
-		printf( "  Teleported player into skydive: %s", string( target ) )
+		#if DEVELOPER
+			printf( "  Teleported player into skydive: %s", string( target ) )
+		#endif 
+		
 		Remote_CallFunction_Replay( target, FUNCNAME_DoPanicSkydiveFeedback )
 		++skydiveCount
 	}

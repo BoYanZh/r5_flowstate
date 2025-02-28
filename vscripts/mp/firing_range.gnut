@@ -1,6 +1,6 @@
 global function FiringRangeGameMode_Init
 
-global const float FIRINGRANGE_DISSOLVE_TIME = 5.0
+global const float FIRINGRANGE_DISSOLVE_TIME = 1.0 // ITEM NEEDS TO BE DISSOLVE BEFORE SurvivalLoot_OnPhysicsDisabled ON PROP ENTITY
 global const float FIRINGRANGE_RACK_RESPAWN_TIME = 0.5
 global const float FIRINGRANGE_RACK_OFFSET = 32
 
@@ -100,28 +100,12 @@ void function FiringRangeGameMode_Init()
 		firingrange_infinite_ammo = GetCurrentPlaylistVarBool( "survival_infinite_ammo", false ) ? 1 : 2
 	#endif
 
-	#if(false)
-
-
-
-
-
-
-
-
-//
-
-
-	#endif //
-
-	#if(CLIENT)
-		//
-
+	#if CLIENT
 		IntroDisplayThread()
-	#endif //
+	#endif //CLIENT
 }
 
-#if(CLIENT)
+#if CLIENT
 void function SCB_BroadcastFriendlyFireChange( entity playerThatChanged )
 {
 	entity localPlayer = GetLocalClientPlayer()
@@ -139,6 +123,7 @@ void function OnEntitiesDidLoad()
 	#if SERVER
 
 	// Init
+	CreateLegendaryRack()//Create 6th weapon rack to support sniper ammo
 	array<entity> lootbins = GetEntArrayByScriptName("staging_loot_bin")
 	array<entity> movers = GetEntArrayByScriptName("script_mover_lightweight")
 
@@ -186,6 +171,16 @@ void function OnEntitiesDidLoad()
 }
 
 #if SERVER
+entity function CreateLegendaryRack()
+{
+	entity Rack_Index_Six = CreateEntity( "info_target" )
+	Rack_Index_Six.SetOrigin( <30655, -6680, -29164> )
+	Rack_Index_Six.SetAngles( <0,0,0> )
+	Rack_Index_Six.SetScriptName( "weapon_racks" )
+	DispatchSpawn( Rack_Index_Six )
+	return Rack_Index_Six
+}
+
 bool function ClientCommand_ToggleFriendlyFire( entity player, array<string> args )
 {
 	toggledFriendlyFire = !toggledFriendlyFire
@@ -204,8 +199,8 @@ void function SpawnDummy(vector origin, vector angles)
     dummy.SetOrigin( origin )
     dummy.SetAngles( angles )
 	DispatchSpawn( dummy )
-	dummy.SetShieldHealthMax( 125 )
-	dummy.SetShieldHealth( 125 )
+	dummy.SetShieldHealthMax( 100 )
+	dummy.SetShieldHealth( 100 )
 	dummy.SetMaxHealth( 100 )
 	dummy.SetHealth( 100 )
 	dummy.SetTakeDamageType( DAMAGE_YES )
@@ -215,6 +210,7 @@ void function SpawnDummy(vector origin, vector angles)
 	SetObjectCanBeMeleed( dummy, true )
 	dummy.SetSkin(RandomInt(6))
 	dummy.DisableHibernation()
+	dummy.GiveWeapon("mp_weapon_rspn101", WEAPON_INVENTORY_SLOT_ANY)
     SetTeam(dummy, 99)
 
 	thread OnDummyKilled(dummy)
@@ -251,30 +247,30 @@ void function WaitForPlayerSpawn_Thread(entity player)
 	while(IsValid(player) && !IsAlive(player))
 		wait 0.5
 
-	OnPlayerRespawned(player)
+	thread OnPlayerRespawned(player)
 }
 
 void function OnPlayerRespawned(entity player)
 {
 	array<entity> weapons = player.GetMainWeapons()
-	foreach(entity weapon in weapons)
+	/*foreach(entity weapon in weapons)
 	{
 		if(GetSlotForWeapon(player, weapon) == WEAPON_INVENTORY_SLOT_PRIMARY_0 ||
 		GetSlotForWeapon(player, weapon) == WEAPON_INVENTORY_SLOT_PRIMARY_1)
 			return
-	}
+	}*/
 
-	entity primary = player.GiveWeapon("mp_weapon_vinson", WEAPON_INVENTORY_SLOT_PRIMARY_0, ["highcal_mag_l3", "optic_cq_hcog_classic", "stock_tactical_l3"])
-	entity secondary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_1, ["bullets_mag_l3","optic_cq_threat"])
-	player.SetActiveWeaponByName( eActiveInventorySlot.mainHand, "mp_weapon_vinson" )
+	entity primary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_0, [])
+	//entity secondary = player.GiveWeapon("mp_weapon_semipistol", WEAPON_INVENTORY_SLOT_PRIMARY_1, ["bullets_mag_l3","optic_cq_threat"])
+	player.SetActiveWeaponByName( eActiveInventorySlot.mainHand, "mp_weapon_semipistol" )
 
 	FixWeapon(primary)
-	FixWeapon(secondary)
+	//FixWeapon(secondary)
 
-	foreach(string ammo in ["highcal","bullet"])
+	foreach(string ammo in ["bullet"])
 	{
 		entity loot = SpawnGenericLoot( ammo, player.GetOrigin(), player.GetAngles(),
-			60-SURVIVAL_CountItemsInInventory( player, ammo ) )
+			20-SURVIVAL_CountItemsInInventory( player, ammo ) )
 
 		if(!Survival_PickupItem(loot, player))
 			loot.Destroy()
@@ -283,6 +279,9 @@ void function OnPlayerRespawned(entity player)
 	player.SetShieldHealth( player.GetShieldHealthMax() )
 	
 	player.UnfreezeControlsOnServer()
+	wait 0.4
+	entity weapon = player.GetActiveWeapon( eActiveInventorySlot.mainHand )
+	weapon.SetWeaponPrimaryClipCount(weapon.GetWeaponPrimaryClipCountMax())
 }
 
 void function OnTeammateLoadoutSelectionChanged( EHI playerEHI, ItemFlavor unused )
@@ -371,7 +370,7 @@ void function FillItemTable()
 {
 	file.items.extend(SURVIVAL_Loot_GetByType( eLootType.HEALTH ))
 	file.items.extend(SURVIVAL_Loot_GetByType( eLootType.RESOURCE ))
-	file.items.extend(SURVIVAL_Loot_GetByType( eLootType.DATAKNIFE ))
+	//file.items.extend(SURVIVAL_Loot_GetByType( eLootType.SURVIVAL ))
 	file.items.extend(SURVIVAL_Loot_GetByType( eLootType.CUSTOMPICKUP ))
 	file.items.extend(SURVIVAL_Loot_GetByType( eLootType.JUMPKIT ))
 }
@@ -403,6 +402,9 @@ void function SpawnOrdnance()
 	const float itemOffsetZ = 4.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -478,6 +480,9 @@ void function SpawnItems()
 	const float itemOffsetY = 24.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -514,6 +519,9 @@ void function SpawnEquipments()
 	const float itemOffsetY = 24.0
 	foreach(RackGroup rackGroup in file.rackSpawns)
 	{
+		if(rackGroup.ammoType == "")
+			continue
+		
 		entity rack = rackGroup.point
 		vector rght = rack.GetRightVector()
 		vector fwd = rack.GetForwardVector()
@@ -546,7 +554,7 @@ void function SpawnAttachments()
 	{
 		foreach(string ammoType2, array<string> refs in file.attachmentsPerAmmoType)
 		{
-			if( ammoType != ammoType2 || ammoType == "sniper" || ammoType == "explosive")
+			if( ammoType != ammoType2 || ammoType == "" )
 				continue
 
 			entity r = file.rackSpawns[ammoIndex].point
@@ -632,6 +640,7 @@ void function OnPropSurvivalSpawned(entity prop)
 {
 	thread OnPropSurvivalSpawned_Thread(prop)
 }
+
 void function OnPropSurvivalSpawned_Thread(entity prop)
 {
 	wait FIRINGRANGE_DISSOLVE_TIME
@@ -817,53 +826,8 @@ void function SpawnTargets()
 
 void function SpawnMapProps()
 {
-	// TELEPORTERS
-	{
-		entity upper = CreateFRButton(<31016.6934, -8667.74414, -29239.7441>, <0,180,0>, "%&use% GO TO UPPER LEVEL")
-		AddCallback_OnUseEntity( upper, void function(entity panel, entity user, int input)
-		{
-			EmitSoundOnEntityOnlyToPlayer( user, user, FIRINGRANGE_BUTTON_SOUND )
-			TeleportFRPlayer(user,<30437.8281, -9880.22852, -25972.6387>,<0,0,0>)
-		})
-
-		// Racks
-		{
-			/* LIGHT */ SpawnBigTrainingTarget(<29857, -8157, -28837>, <180,0,0>, void function(entity panel, var damageInfo)
-			{
-				printl(DamageInfo_GetCustomDamageType( damageInfo ))
-				TeleportFRPlayer(DamageInfo_GetAttacker(damageInfo), <30806.7363, -8105.33838, -29163.9688>, <0,0,0>)
-			})
-			/* HEAVY */ SpawnBigTrainingTarget(<29769, -7342, -28760+26>, <180,0,0>, void function(entity panel, var damageInfo)
-			{
-				TeleportFRPlayer(DamageInfo_GetAttacker(damageInfo), <30774.2598, -7389.46436, -29163.9688>, <0,0,0>)
-			})
-			/* ENERGY */ SpawnBigTrainingTarget(<29782, -6683, -28758>, <180,0,0>, void function(entity panel, var damageInfo)
-			{
-				TeleportFRPlayer(DamageInfo_GetAttacker(damageInfo), <30760.7676, -6696.86914, -29163.9688>, <0,0,0>)
-			})
-			/* GOLD */ SpawnBigTrainingTarget(<29755, -5972, -28715>, <180,0,0>, void function(entity panel, var damageInfo)
-			{
-				TeleportFRPlayer(DamageInfo_GetAttacker(damageInfo), <30767.2305, -5988.11426, -29163.9688>, <0,0,0>)
-			})
-			/* SHOTGUN */ SpawnBigTrainingTarget(<29840, -5230, -28758>, <180,0,0>, void function(entity panel, var damageInfo)
-			{
-				TeleportFRPlayer(DamageInfo_GetAttacker(damageInfo), <30777.9258, -5282.96387, -29163.9688>, <0,0,0>)
-			})
-		}
-	}
-
 	// BUTTONS
 	{
-		entity charger = CreateFRButton(<30575.1016, -4631.76025, -29112.3125>, <0,0,0>, "%&use% CHARGE ABILITIES")
-		AddCallback_OnUseEntity( charger, void function(entity panel, entity user, int input)
-		{
-			EmitSoundOnEntityOnlyToPlayer( user, user, FIRINGRANGE_BUTTON_SOUND )
-			user.GetOffhandWeapon( OFFHAND_INVENTORY )
-				.SetWeaponPrimaryClipCount( user.GetOffhandWeapon( OFFHAND_INVENTORY ).GetWeaponPrimaryClipCountMax() )
-			user.GetOffhandWeapon( OFFHAND_LEFT )
-				.SetWeaponPrimaryClipCount( user.GetOffhandWeapon( OFFHAND_LEFT ).GetWeaponPrimaryClipCountMax() )
-		})
-
 		entity third = CreateFRButton(<35757.1289, -7238.68506, -28342.2422>, <0,270,0>, "%&use% TOGGLE THIRDPERSON")
 		AddCallback_OnUseEntity( third, void function(entity panel, entity user, int input)
 		{
@@ -930,87 +894,6 @@ void function SpawnMapProps()
 			string prompt = "%&use% Speed: ("+(file.trackingTraining_speedRand ? "RAND" : string(file.trackingTraining_speed))+")"
 			panel.SetUsePrompts(prompt,prompt)
 		})
-	}
-
-	// UPPER LEVEL PLATFORM
-	{
-		int len = 7
-		vector corner = <30795, -10429,-25988>
-		vector o = <240,240,0>
-
-		// Floor
-		for(int i = 0; i<len; i++)for(int j = 0; j<3; j++)
-			CreateFRProp( FIRINGRANGE_256x256_ASSET, corner+o+<i*256,j*256,0>, <0,0,0>)
-
-		// Side Walls
-		for(int i = 0; i<len; i++)for(int j = 0; j<2; j++)
-			CreateFRProp( FIRINGRANGE_256x128_ASSET, corner+o+<i*256,-128,8+j*128>, <0,0,0>, true)
-
-		// Small Walls
-		for(int i = 0; i<4; i++){
-		CreateFRProp( FIRINGRANGE_256x128_ASSET, corner+<1024+i*16,640,16>, <0,90,0>, true, 1000)
-		CreateFRProp( FIRINGRANGE_256x128_ASSET, corner+<512+i*16,640,-32>, <0,90,0>, true, 1000)}
-
-
-	}
-
-	// UPPER DOORS
-	{
-		// Walls
-		entity dbdoorWall =
-		CreateFRProp( FIRINGRANGE_128x128_ASSET, file.doorDouble_pos + <-128,-8,64>, <90,90,0>, true)
-		CreateFRProp( FIRINGRANGE_128x128_ASSET, dbdoorWall.GetOrigin()+<256,0,0>, <90,90,0>, true)
-		dbdoorWall =
-		CreateFRProp( FIRINGRANGE_128x128_ASSET, file.doorSingle_pos + <-124,8,64>, <90,270,0>, true)
-		CreateFRProp( FIRINGRANGE_128x128_ASSET, dbdoorWall.GetOrigin()+<192,0,0>, <90,270,0>, true)
-	}
-
-	// // FIRING RANGE CONNECTORS
-	// {
-		// foreach(entity e in GetEntArrayByScriptName("weapon_racks"))
-		// {
-			// vector pos = e.GetOrigin()
-			// vector rght = e.GetRightVector()
-			// vector fwd = e.GetForwardVector()
-			// vector up = e.GetUpVector()
-			// CreateFRProp( FIRINGRANGE_GRATE_ASSET, pos+rght*-208+fwd*-96+up*-3, <0,0,0>)
-		// }
-	// }
-
-	// DUCT TAPE WALLS
-	{
-		/*BACK FAR AWAY*/
-		{
-			float yO = 200
-			float zO = 90
-			for(int i = 0; i<2; i++)for(int j = 0; j<2; j++)
-				CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32970, -7875+yO*i, -28780+zO*j>, <0,90,0>, true, 8000)
-			for(int i = 0; i<2; i++)for(int j = 0; j<2; j++)
-				CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32970, -6891+yO*i, -28780+zO*j>, <0,90,0>, true, 8000)
-			for(int i = 0; i<2; i++)for(int j = 0; j<2; j++)
-				CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32970, -5812+yO*i, -28780+zO*j>, <0,90,0>, true, 8000)
-			for(int i = 0; i<2; i++)for(int j = 0; j<2; j++)
-				CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32970, -4695+yO*i, -28780+zO*j>, <0,90,0>, true, 8000)
-		}
-
-		{
-			float zO = 90
-			/*SMALL LEFT LEFT*/
-			for(int i = 0; i<2; i++)
-			CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32133.1016, -6134.82861, -29087.6406+i*zO>, <0,270-180*i,180*i>, true, 8000)
-
-			/*SMALL LEFT*/
-			for(int i = 0; i<2; i++)
-			CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32114.5176, -6698.77979, -29095.6406+i*zO>, <0,90+180*i,180*i>, true, 8000)
-
-			/*SMALL MID*/
-			for(int i = 0; i<2; i++)
-			CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32114.5176, -7255.03467, -29087.6406+i*zO>, <180,270-180*i,180*i>, true, 8000)
-
-			/*SMALL RIGHT*/
-			for(int i = 0; i<2; i++)
-			CreateFRProp( FIRINGRANGE_QUARRY_BLOCK_ASSET, <32197.1016, -7878.10596, -29087.6406+i*zO>, <0,270-180*i,180*i>, true, 8000)
-		}
 	}
 }
 

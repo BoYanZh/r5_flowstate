@@ -929,7 +929,7 @@ global const int DOOMED_MIN_HEALTH 			= 1
 
 global const float AREA_SONAR_SCAN_PULSE_DURATION 	= 6.0
 
-global const float SONAR_GRENADE_RADIUS 			= 1250.0
+global const float SONAR_GRENADE_RADIUS 			= 1250.0 //(mk): max in ServerCallback_SonarPulseFromPosition set to 3000.0 with 8 bits.
 global const float SONAR_GRENADE_PULSE_DURATION 	= 6.0
 // these numbers should be kept in sync with bakery assets: inside_sonar, outline_sonar
 global const float SONAR_PULSE_SPACE = 400.0
@@ -1369,6 +1369,9 @@ global enum ePresentationType
 	BATTLE_PASS,
 	BATTLE_PASS_3,
 	COLLECTION_EVENT,
+	STORE_INSPECT,
+	SERVER_BROWSER,
+	CREDITS,
 	MODEL
 	
 	COUNT
@@ -1831,7 +1834,8 @@ global enum eCommsAction
 	PING_AMMO_SHOTGUN,
 	PING_AMMO_HIGHCAL,
 	PING_AMMO_SNIPER,
-	PING_AMMO_EXPLOSIVE
+	PING_AMMO_EXPLOSIVE,
+	
 	//
 	PING_EQUIPMENT_ARMOR_1,
 	PING_EQUIPMENT_ARMOR_2,
@@ -2394,6 +2398,8 @@ global enum eQuality
 	EPIC,
 	LEGENDARY,
 	HEIRLOOM,
+	COLLAB,
+	FANMADE,
 	_COUNT,
 }
 

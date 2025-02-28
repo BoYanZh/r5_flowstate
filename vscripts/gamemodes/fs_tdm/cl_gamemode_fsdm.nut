@@ -411,7 +411,7 @@ void function FS_1v1_StartUpdatingValues( entity newEnt )
 	while( file.show1v1Scoreboard && IsValid( newEnt ) && IsValid( player ) )
 	{
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyKills"), newEnt.GetPlayerNetInt( "kills" ).tostring() ) 
-		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDeaths"), newEnt.GetPlayerNetInt( "deaths" ) .tostring()) 
+		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDeaths"), newEnt.GetPlayerNetInt( "deaths" ).tostring() ) 
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyDamage"), newEnt.GetPlayerNetInt( "damage" ).tostring() ) 
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyLatency"), newEnt.GetPlayerNetInt( "latency" ).tostring() )
 		Hud_SetText( HudElement( "FS_1v1_UI_EnemyPosition"), newEnt.GetPlayerNetInt( "FSDM_1v1_PositionInScoreboard" ).tostring() ) 
@@ -841,7 +841,7 @@ void function CoolCamera()
 		break
 		
 		case eMaps.mp_rr_canyonlands_staging:
-		case eMaps.mp_rr_ashs_redemption:
+		//case eMaps.mp_rr_ashs_redemption:
 		cutsceneSpawns.append(NewCameraPair(<32645.04,-9575.77,-25911.94>, <7.71,91.67,0.00>)) 
 		cutsceneSpawns.append(NewCameraPair(<49180.1055, -6836.14502, -23461.8379>, <0, -55.7723808, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<43552.3203, -1023.86182, -25270.9766>, <0, 20.9528542, 0>))
@@ -864,7 +864,7 @@ void function CoolCamera()
 		break
 		
 		case eMaps.mp_rr_party_crasher:
-		case eMaps.mp_rr_party_crasher_new:
+		// case eMaps.mp_rr_party_crasher_new:
 		cutsceneSpawns.append(NewCameraPair(<-1363.75867, -2183.58081, 1354.65466>, <0, 72.5054092, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<2378.75439, 1177.52783, 1309.69019>, <0, 146.118546, 0>))
 		break
@@ -876,15 +876,15 @@ void function CoolCamera()
 		break
 		
 		case eMaps.mp_rr_aqueduct:
-		case eMaps.mp_rr_aqueduct_night:
+		//case eMaps.mp_rr_aqueduct_night:
 		cutsceneSpawns.append(NewCameraPair(<1593.85205, -3274.99365, 1044.39099>, <0, -126.270805, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<1489.99255, -6570.93262, 741.996887>, <0, 133.833832, 0>))
 		break 
 		
-		case eMaps.mp_rr_arena_skygarden:
+		/*case eMaps.mp_rr_arena_skygarden:
 		cutsceneSpawns.append(NewCameraPair(<-9000, 3274.99365, 4044.39099>, <0, -126.270805, 0>)) 
 		cutsceneSpawns.append(NewCameraPair(<1489.99255, -6570.93262, 4041.996887>, <0, 133.833832, 0>)) 
-		break
+		break*/
 	}
 
 	if( cutsceneSpawns.len() == 0 )

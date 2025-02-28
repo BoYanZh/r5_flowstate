@@ -4,8 +4,8 @@ globalize_all_functions
 
 const bool STORE_STAT = true 
 
-struct {
-
+struct 
+{
 	bool RegisterCoreStats 	= true
 	bool bStatsIs1v1Type 	= false
 
@@ -18,7 +18,7 @@ void function SetRegisterCoreStats( bool b )
 
 void function Tracker_Init()
 {
-	file.bStatsIs1v1Type = g_is1v1GameType()
+	file.bStatsIs1v1Type = g_bIs1v1GameType()
 	
 	bool bRegisterCoreStats = !GetCurrentPlaylistVarBool( "disable_core_stats", false )
 	SetRegisterCoreStats( bRegisterCoreStats )
@@ -53,7 +53,7 @@ void function Script_RegisterAllStats()
 	
 	// null can be used as substitutes if specific in/out is not needed.
 	// Stats don't need an in function to be fetched from server cache with the getter functions:
-	// GetPlayerStat%TYPE%( playerUID, "statname" )  %TYPE% = [Int,Bool,Float,String]
+	// GetPlayerStat%TYPE%( playerUID, "statname" )  %TYPE% = [ Int, Bool, Float, String, Array, ArrayInt, ArrayBool, ArrayFloat, ArrayString ]
 
 	// They can also, all be fetched at once, when stats for a player loads.
 	// see: AddCallback_PlayerDataFullyLoaded below.
@@ -82,18 +82,17 @@ void function Script_RegisterAllStats()
 	// {
 			// Purpose:
 			
-			// if using any stat value that will be garbage cleaned on disconnect etc
-			// ( player net int, player struct var, structs cleared on round end, etc )
-			
-			// WARNING:	Do not set the same var in an inbound stat func, that the outbound stat func returns. 
-			// This will result in player stat data aggregation inflation on next disconnect. 		
-			
-			// If RegisterStat is passed with fourth parameter of true, 
+			// If Tracker_RegisterStat is passed with fourth parameter of true, ( STORE_STAT )
 			// a local copy is maintained of accumulated stats for the round, regardless of disconnects/rejoins.  
 			// This means you can use getters based on player entity 
 			
+			// Should be used: if using any stat value that will be garbage cleaned on disconnect etc
+			// ( player net int, player struct var, etc )
 			
-			// For base stats, the gamemode will have a record associated automatically by uid 
+			// WARNING:	Do not set the same var in an inbound stat func, that the outbound stat func returns. 
+			// This will result in player stat data aggregation inflation on next disconnect. 		
+				
+			// For base stats, the player will have a record associated automatically by uid 
 			// Tracker_ReturnKills
 			// Tracker_ReturnDeaths
 			// Tracker_ReturnDamage    etc... 
@@ -123,6 +122,13 @@ void function Script_RegisterAllStats()
 		
 		AddCallback_PlayerDataFullyLoaded( Callback_CoreStatInit )
 	}
+	
+	#if DEVELOPER 
+		//Tracker_RegisterStat( "test_array", null, TrackerStats_TestStringArray )
+		//Tracker_RegisterStat( "test_bool_array", null, TrackerStats_TestBoolArray )
+		//Tracker_RegisterStat( "test_int_array", null, TrackerStats_TestIntArray, STORE_STAT )
+		//Tracker_RegisterStat( "test_float_array", null, TrackerStats_TestFloatArray )
+	#endif 
 	
 	//Reporting
 	if( Flowstate_EnableReporting() )
@@ -289,6 +295,26 @@ var function TrackerStats_CtfWins( string uid )
 	return ent.p.wonctf ? 1 : 0
 }
 
+// var function TrackerStats_TestStringArray( string uid )
+// {
+	// return ["test", "test2", "test3"]
+// }
+
+// var function TrackerStats_TestBoolArray( string uid )
+// {
+	// return [ true, false, false, true ]
+// }
+
+// var function TrackerStats_TestFloatArray( string uid )
+// {
+	// return [ 1.0, 3.5188494 ]
+// }
+
+// var function TrackerStats_TestIntArray( string uid )
+// {
+	// return MakeVarArrayInt( GetPlayerEntityByUID( uid ).p.testarray ) // must be plain 'array' or made untyped.
+// }
+
 var function TrackerStats_GetPortalPlacements( string uid )
 {
 	entity ent = GetPlayerEntityByUID( uid )
@@ -300,7 +326,6 @@ var function TrackerStats_GetPortalKidnaps( string uid )
 	entity ent = GetPlayerEntityByUID( uid )
 	return ent.p.portalKidnaps
 }
-
 
 var function TrackerStats_CringeReports( string uid )
 {
@@ -345,7 +370,7 @@ void function Script_RegisterAllPlayerDataCallbacks()
 	
 	Chat_RegisterPlayerData()
 	
-	if( file.bStatsIs1v1Type )
+	if( file.bStatsIs1v1Type && Playlist() != ePlaylists.fs_scenarios ) //todo clean up intertwinedness.. 
 		Gamemode1v1_PlayerDataCallbacks()
 		
 	switch( Playlist() )
@@ -357,11 +382,11 @@ void function Script_RegisterAllPlayerDataCallbacks()
 		default:
 			break
 	}
-		
-	//func
 	
 	if( Flowstate_EnableReporting() )
 		AddCallback_PlayerData( "cringe_report_data" )
+		
+	//func
 }
 
 ///////////////////////////// QUERIES ////////////////////////////////////////////
@@ -396,18 +421,18 @@ void function Script_RegisterAllQueries()
 void function Script_RegisterAllShipFunctions()
 {
 	if( Flowstate_EnableReporting() )
-		tracker.RegisterShipFunction( OnStatsShipped_Cringe, true )
+		tracker.RegisterShipFunction( OnStatsShipping_Cringe, true )
 		
 	//more
 }
 
 
-/////////////////////////////////
-/// ON STATS SHIPPED FUNCTIONS //
-/////////////////////////////////
+///////////////////////////////////
+/// ON STATS SHIPPING FUNCTIONS ///
+///////////////////////////////////
 
 
-void function OnStatsShipped_Cringe( string uid )
+void function OnStatsShipping_Cringe( string uid ) //todo deprecate
 {
 	entity ent = GetPlayerEntityByUID( uid )
 	

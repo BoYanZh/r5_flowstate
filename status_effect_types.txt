@@ -59,6 +59,8 @@
 	revenge_view_visuals_enemy
 	mirage_ultimate_cancel_hint
 
+	crypto_tt_scanned_visual
+
 	laser_mesh
 	destroyed_by_emp
 	titan_damage_amp

@@ -3541,14 +3541,6 @@ void function FS_GamemodeHudSetup()
 {
 	Hud_SetVisible(HudElement( "WaitingForPlayers_GamemodeFrame" ), true)
 
-	if( Gamemode() == eGamemodes.SURVIVAL )
-	{
-		Hud_SetVisible(HudElement( "WaitingForPlayers_Credits" ), true)
-		Hud_SetVisible(HudElement( "WaitingForPlayers_Credits2" ), true)
-		Hud_SetVisible(HudElement( "WaitingForPlayers_Credits3" ), true)
-		Hud_SetVisible(HudElement( "WaitingForPlayers_CreditsFrame" ), true)
-	}
-	
 	RuiSetImage( Hud_GetRui( HudElement( "WaitingForPlayers_GamemodeFrame" ) ), "basicImage", $"rui/gamemodes/survival/waitingforplayers/gamemode")
 	RuiSetImage( Hud_GetRui( HudElement( "WaitingForPlayers_MapFrame" ) ), "basicImage", $"rui/gamemodes/survival/waitingforplayers/map")
 	
@@ -3597,10 +3589,6 @@ void function DisableCustomMapAndGamemodeNameFrames()
 	Hud_SetVisible(HudElement( "WaitingForPlayers_GamemodeName" ), false)
 	Hud_SetVisible(HudElement( "WaitingForPlayers_MapFrame" ), false)
 	Hud_SetVisible(HudElement( "WaitingForPlayers_MapName" ), false)
-	Hud_SetVisible(HudElement( "WaitingForPlayers_Credits" ), false)
-	Hud_SetVisible(HudElement( "WaitingForPlayers_Credits2" ), false)
-	Hud_SetVisible(HudElement( "WaitingForPlayers_Credits3" ), false)
-	Hud_SetVisible(HudElement( "WaitingForPlayers_CreditsFrame" ), false)
 	
 }
 
@@ -3671,7 +3659,7 @@ array<WaitingForPlayersCameraLocPair> function GetCamerasForMap( string map )
 			cutsceneSpawns.append(NewCameraPair( <-12433.5381, -9732.68555, 3427.97339>, <0, -48.9345093, 0> ))
 		break
 		
-		case "mp_rr_olympus_mu1":
+		case "mp_rr_olympus":
 			cutsceneSpawns.append(NewCameraPair( <0,0,0>, <0,0,0> ) )
 		break
 		

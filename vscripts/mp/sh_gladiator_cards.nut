@@ -687,7 +687,7 @@ GladCardBadgeDisplayData function GetBadgeData( EHI playerEHI, ItemFlavor ornull
 	{
 		if ( GladiatorCardBadge_HasOwnRUI( badge ) )
 		{
-			badgeData.ruiAsset = tierDataList[tierIndex].ruiAsset
+			badgeData.ruiAsset = tierDataList[tierDataList.len() - 1].ruiAsset
 		}
 		else
 		{
@@ -696,7 +696,7 @@ GladCardBadgeDisplayData function GetBadgeData( EHI playerEHI, ItemFlavor ornull
 			else
 				badgeData.ruiAsset = $"ui/gcard_badge_basic.rpak"
 
-			badgeData.imageAsset = tierDataList[tierIndex].imageAsset
+			badgeData.imageAsset = tierDataList[tierDataList.len() - 1].imageAsset
 		}
 	}
 
@@ -718,7 +718,9 @@ var function CreateNestedGladiatorCardBadge( var parentRui, string argName, EHI 
 
 	var nestedRui = RuiCreateNested( parentRui, argName, gcbdd.ruiAsset )
 
-	RuiSetInt( nestedRui, "tier", gcbdd.dataInteger )
+	array<GladCardBadgeTierData> tierDataList = GladiatorCardBadge_GetTierDataList( badge )
+
+	RuiSetInt( nestedRui, "tier", tierDataList.len() - 1 )
 	if ( gcbdd.imageAsset != $"" )
 		RuiSetImage( nestedRui, "img", gcbdd.imageAsset )
 
@@ -1238,6 +1240,8 @@ void function OnItemFlavorRegistered_Character( ItemFlavor characterClass )
 			entry.defaultItemFlavor = entry.validItemFlavorList[ 0 ]
 		}
 		entry.isItemFlavorUnlocked = (bool function( EHI playerEHI, ItemFlavor badge, bool shouldIgnoreOtherSlots ) : ( characterClass, badgeIndex ) {
+			return true
+			
 			int tierIndex = GetPlayerBadgeDataInteger( playerEHI, badge, badgeIndex, characterClass )
 
 			if ( IsEverythingUnlocked() )

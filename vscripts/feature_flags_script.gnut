@@ -55,7 +55,10 @@ bool function GetFeatureFlagByString( string featureFlagRef )
 
 	Assert( featureFlagRefToUse in FEATURE_FLAGS_TBL, "Unrecognized feature flag (did DFS miss something?): " + featureFlagRef )
 
-	return FEATURE_FLAGS_TBL[featureFlagRefToUse] == comparison
+	if(featureFlagRefToUse in FEATURE_FLAGS_TBL)
+		return FEATURE_FLAGS_TBL[featureFlagRefToUse] == comparison
+
+	return false
 }
 #endif
 

@@ -25,9 +25,9 @@ struct
 void function InitVideoPanelForCode( var panel )
 {
 	#if PC_PROG
-		asset resFile = $"resource/ui/menus/panels/video.res"
+		asset resFile = $"scripts/resource/ui/menus/panels/video.res"
 	#elseif CONSOLE_PROG
-		asset resFile = $"resource/ui/menus/panels/video_console.res"
+		asset resFile = $"scripts/resource/ui/menus/panels/video_console.res"
 	#endif
 	file.videoPanel = CreateVideoOptionsPanel( panel, "ContentPanel", resFile )
 	Hud_SetPos( file.videoPanel, 0, 0 )

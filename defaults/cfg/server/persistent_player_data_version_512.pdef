@@ -137,8 +137,11 @@ $ENUM_START eCharacterFlavor
 	SAID00187386164
 	SAID00080232848
 	SAID00064207844//character_revenant
+	SAID01579967516//character_loba
 	SAID00996325304//character_dummie
 	SAID01897196488//character_random
+	SAID00996325301//character_pilot
+	SAID02105222312//character_rampart
 $ENUM_END
 
 // All the weapon item flavors from Bakery that are registered in the game.
@@ -165,6 +168,8 @@ $ENUM_START eWeaponFlavor
 	SAID01820095990
 	SAID00194888968
 	SAID00107352658
+	SAID00947460272
+	SAID00342631558
 $ENUM_END
 
 // All the weapon stats categories.
@@ -228,6 +233,8 @@ $STRUCT_START sLoadoutsData
 	int weapon_charm_for_SAID00107352658
 	int weapon_skin_for_SAID00947460272
 	int weapon_charm_for_SAID00947460272
+	int weapon_skin_for_SAID00342631558
+	int weapon_charm_for_SAID00342631558
 	int loadscreen_selection
 	int music_pack_selection
 $STRUCT_END
@@ -522,6 +529,12 @@ $STRUCT_START sStatsData
 	int revenant_silenced_target
 	int revenant_silenced_target_knockdowns
 	int revenant_death_totem_activates
+	int loba_passive_loot_pinged_through_walls
+	int loba_ultimate_loot_taken_by_allies
+	float loba_tactical_meters_teleported
+	float rampart_tactical_damage_blocked
+	int rampart_ultimate_bullets_fired
+	int rampart_tactical_bullets_amped
 	int season01_event_placements_top_5
 	int season01_event_elite_placements_top_5
 	int season01_event_placements_win

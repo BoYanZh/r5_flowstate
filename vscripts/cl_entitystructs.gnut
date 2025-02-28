@@ -64,6 +64,7 @@ global struct ClientEntityStruct
 	string functionref( entity ent ) entTextOverrideCallback
 
 	bool functionref( entity player, entity ent ) canUseEntityCallback = null
+	bool functionref( entity player, entity ent, int useFlags ) canUseEntityCallbackNew = null
 
 	array<void functionref( entity ent, entity player, int useInputType )> onUseEntityCallbacks
 	array<void functionref( entity vehicle )> onVehicleLaunchCallbacks

@@ -45,7 +45,6 @@ WeaponData
 	"viewmodel"   									"mdl/weapons/arc_launcher/ptpov_arc_launcher.rmdl"
 	"playermodel" 									"mdl/weapons/arc_launcher/w_arc_launcher.rmdl"
 	"projectilemodel" 								"mdl/dev/empty_model.rmdl"
-	"holstermodel"									"mdl/weapons/arc_launcher/ptpov_arc_launcher.rmdl"
 	"holster_type"									"anti_titan"
 
 	"activitymodifier"								"rocket"

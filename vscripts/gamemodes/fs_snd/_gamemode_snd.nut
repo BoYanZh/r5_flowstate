@@ -99,7 +99,7 @@ void function _GamemodeSND_Init()
 	RegisterSignal("EndWayPointThread")
 	RegisterSignal( "FlagPhysicsEnd" )
 
-	PrecacheModel($"mdl/Weapons/bomb/ptpov_bomb.rmdl")
+	//PrecacheModel($"mdl/Weapons/bomb/ptpov_bomb.rmdl") //MODEL IS MISSING, REMOVE THE COMMENT ONCE ITS FIXED
 	PrecacheModel($"mdl/Weapons/bomb/w_bomb.rmdl")
 	
 	FS_SND.currentLocation = GetCurrentPlaylistVarInt( "SND_force_initial_map", 0 )
@@ -2040,7 +2040,7 @@ void function RingDamage( entity circle, float currentRadius)
 			float playerDist = Distance2D( player.GetOrigin(), circle.GetOrigin() )
 			if ( playerDist > currentRadius )
 			{
-				Remote_CallFunction_NonReplay( player, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+				Remote_CallFunction_NonReplay( player, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 				player.TakeDamage( int( Deathmatch_GetOOBDamagePercent() / 100 * float( player.GetMaxHealth() ) ), null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 			}
 		}

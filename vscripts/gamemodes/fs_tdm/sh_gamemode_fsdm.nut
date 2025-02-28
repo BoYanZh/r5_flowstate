@@ -136,7 +136,7 @@ void function Sh_CustomTDM_Init()
 			)
 		}
 		break
-	case eMaps.mp_rr_olympus_mu1:
+	case eMaps.mp_rr_olympus:
         Shared_RegisterLocation(
             NewLocationSettings(
                "Olympus Test Location",
@@ -172,7 +172,7 @@ void function Sh_CustomTDM_Init()
         )
 	break
    case eMaps.mp_rr_aqueduct:
-   case eMaps.mp_rr_aqueduct_night:
+   //case eMaps.mp_rr_aqueduct_night:
         Shared_RegisterLocation(
             NewLocationSettings(
                "Overflow",
@@ -214,7 +214,7 @@ void function Sh_CustomTDM_Init()
             )
         )
         break
-    case eMaps.mp_rr_ashs_redemption:
+/*     case eMaps.mp_rr_ashs_redemption:
         Shared_RegisterLocation(
             NewLocationSettings(
                 "Ash's Redemption",
@@ -228,7 +228,7 @@ void function Sh_CustomTDM_Init()
             )
         )
 
-        break
+        break */
     case eMaps.mp_rr_arena_composite:
         Shared_RegisterLocation(
             NewLocationSettings(
@@ -281,7 +281,7 @@ void function Sh_CustomTDM_Init()
 		)
 		break
 		
-	case eMaps.mp_rr_arena_skygarden:
+	/*case eMaps.mp_rr_arena_skygarden:
 	//This location sucks, disable until map is fixed.. Cafe
 	if(FlowState_EnableEncore()){
 	Shared_RegisterLocation(
@@ -307,7 +307,7 @@ void function Sh_CustomTDM_Init()
 				<0, 0, 1000>
 			)
 		)
-	}
+	}*/
 	
 	///////////////////////////////////////
 	//////////////DEAFPS Maps//////////////
@@ -1873,11 +1873,7 @@ void function RegisterLocationSURF(LocationSettings locationSettings)
 
 }
 
-#if SERVER   
-string function Playlist_1v1_Primary_Array()						{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_primary", "" ) }
-string function Playlist_1v1_Primary_Array_continue()				{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_primary_continue", "" ) }
-string function Playlist_1v1_Secondary_Array()						{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary", "" ) }
-string function Playlist_1v1_Secondary_Array_continue()				{ return GetCurrentPlaylistVarString( "custom_1v1_weapons_secondary_continue", "" ) }
+#if SERVER
 
 StoredWeapon function Equipment_GetRespawnKit_PrimaryWeapon()
 {

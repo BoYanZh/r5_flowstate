@@ -1563,7 +1563,7 @@ void function FS_Scenarios_Main_Thread()
 
 					if( Distance2D( player.GetOrigin(),Center) > group.currentRingRadius && shouldRingDoDamageThisFrame && !group.IsFinished && group.isReady )
 					{
-						Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, 0, 0, 0, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, null )
+						Remote_CallFunction_Replay( player, "ServerCallback_PlayerTookDamage", 0, <0, 0, 0>, DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, eDamageSourceId.deathField, 0 )
 						player.TakeDamage( settings.fs_scenarios_ring_damage, null, null, { scriptType = DF_BYPASS_SHIELD | DF_DOOMED_HEALTH_LOSS, damageSourceId = eDamageSourceId.deathField } )
 						FS_Scenarios_UpdatePlayerScore( player, FS_ScoreType.PENALTY_RING )
 						// printt( player, " TOOK DAMAGE", Distance2D( player.GetOrigin(),Center ) )

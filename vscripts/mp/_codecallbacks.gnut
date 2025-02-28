@@ -145,6 +145,10 @@ void function CodeCallback_DamagePlayerOrNPC( entity ent, var damageInfo )
 			{
 				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.prowler_melee )
 			}
+			else if ( IsSpider( attacker ) )
+			{
+				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.spider_melee )
+			}
 			else if ( IsSuperSpectre( attacker ) )
 			{
 				DamageInfo_SetDamageSourceIdentifier( damageInfo, eDamageSourceId.super_spectre_melee )
@@ -1003,21 +1007,16 @@ function TellClientPlayerTookDamage( entity player, damageInfo, entity attacker,
 
 	local attackerEHandle = IsValid( attacker ) ? attacker.GetEncodedEHandle() : null
 	local weaponEHandle = IsValid( DamageInfo_GetWeapon( damageInfo ) ) ? DamageInfo_GetWeapon( damageInfo ).GetEncodedEHandle() : null
-	local damageOrigin = GetDamageOrigin( damageInfo, player )
+	vector damageOrigin = GetDamageOrigin( damageInfo, player )
 
-	Remote_CallFunction_Replay(
+	Remote_CallFunction_Replay
+	(
 		player,
 		"ServerCallback_PlayerTookDamage",
-
 		DamageInfo_GetDamage( damageInfo ),
-
-		damageOrigin.x,
-		damageOrigin.y,
-		damageOrigin.z,
-
+		damageOrigin,
 		damageType,
 		damageSourceId,
-
 		attackerEHandle
 	)
 }
@@ -1183,10 +1182,10 @@ void function AddEntityCallback_OnPhysicsDisabled( entity ent, void functionref(
 	ent.e.onPhysicsDisabledCallbacks.append( callbackFunc )
 }
 
-void function __IncrementPlayerNetInt( entity player, string type )
+void function __IncrementPlayerNetInt( entity player, string ref )
 {
-	int playerStat = player.GetPlayerNetInt( type )
+	int playerStat = player.GetPlayerNetInt( ref )
 	
 	if( playerStat < MAX_GAMESTAT_NET_INT )
-		player.SetPlayerNetInt( type, playerStat + 1 )	
+		player.SetPlayerNetInt( ref, playerStat + 1 )	
 }

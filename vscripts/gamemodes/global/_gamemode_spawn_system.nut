@@ -152,7 +152,7 @@ global function SpawnSystem_GetPakInfoForKey
 					["...."] = "",
 					[" ==== SETTINGS ===="] = "",
 					["....."] = "",
-					[" script DEV_SpawnsPlaylist( string playlist = \"\" ) "] = "Sets the playlist this spawn pak should load for. This will also automatically apply the values saved in the playlists_r5_patch.txt for the specified playlisst.",
+					[" script DEV_SpawnsPlaylist( string playlist = \"\" ) "] = "Sets the playlist this spawn pak should load for. This will also automatically apply the values saved in the playlists_r5_patch.txt for the specified playlist.",
 					[" script DEV_SetAutoSave( bool value = true )"] = "Disabled by default. Make sure folder 'output' in r5reloaded/platform exists",
 					[" script DEV_LoadPak( string pak = \"\", string playlist = \"\" )"] = "Loads spawn pak specifying rpak asset and playlist. If none provided, loads current pak. If custom spawns are wrote into the script test function, it loads those instead.",
 					[" script DEV_SpawnType( string setToType = \"\" )"] = "Params: \"csv\" or \"sq\" Sets/Converts the current array of print outs to specified type, and further additions are added as the specified type. Returns the current type if no parameters are provided. ( call with printt() )",
@@ -508,14 +508,14 @@ array<SpawnData> function GenerateCustomSpawns( int eMap, int coreSpawnsLen = -1
 			
 		break ////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////	
-		case eMaps.mp_rr_arena_skygarden:
+		/*case eMaps.mp_rr_arena_skygarden:
 		
 			defaultWaitingRoom = NewLocPair( < -7.8126, -1320.75, 2877.51 >, < 359.849, 270.32, 0 > )
-			g_waitingRoomPanelLocation = SetWaitingRoomAndGeneratePanelLocs( defaultWaitingRoom )
+			g_waitingRoomPanelLocation = SetWaitingRoomAndGeneratePanelLocs( defaultWaitingRoom )*/
 		
 		break ////////////////////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////////////////
-		case eMaps.mp_rr_olympus_mu1:
+		case eMaps.mp_rr_olympus:
 
 			defaultWaitingRoom = NewLocPair( < 318.434906, -19474.4141, -4947.88867 > , < 0, 32.8506927, 0 > )
 			g_waitingRoomPanelLocation = SetWaitingRoomAndGeneratePanelLocs( defaultWaitingRoom )	
@@ -951,8 +951,8 @@ int function SpawnSystem_FindBaseMapForPak( int eMap )
 		case eMaps.mp_rr_canyonlands_mu1_night:
 			return eMaps.mp_rr_canyonlands_64k_x_64k
 			
-		case eMaps.mp_rr_aqueduct_night:
-			return eMaps.mp_rr_aqueduct
+		//case eMaps.mp_rr_aqueduct_night:
+			//return eMaps.mp_rr_aqueduct
 		
 		default:
 			return eMap

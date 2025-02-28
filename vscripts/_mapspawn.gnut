@@ -220,6 +220,26 @@ void function CodeCallback_MapSpawn() // original script entry point
 	RegisterSignal( "GameStateChanged" )
 	RegisterSignal( "CleanupOutsideCircle" )
 
+	////////////////////DELETE THESE PARTICLES WHEN WE GET EFCT!!!!/////////////////////
+
+	PrecacheParticleSystem( $"P_crypto_map_arm_glow" )
+	PrecacheParticleSystem( $"P_crypto_map_center_glow" )
+	PrecacheParticleSystem( $"P_cryp_sat_act_world" )
+	PrecacheParticleSystem( $"P_crypto_map_arm_nrg" )
+	PrecacheParticleSystem( $"P_loba_staff_holo_loop" )
+	PrecacheParticleSystem( $"P_lob_menu_gun_ring" )
+	PrecacheParticleSystem( $"P_loba_staff_menu_dlight" )
+	PrecacheParticleSystem( $"P_lob_menu_gun_grab" )
+	PrecacheParticleSystem( $"P_loba_staff_holo_end_menu" )
+	PrecacheParticleSystem( $"P_lob_menu_hand_glow" )
+	PrecacheParticleSystem( $"P_lob_menu_staff_grab" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear_3" )
+	PrecacheParticleSystem( $"P_warp_brac_loop_gear_2" )
+	PrecacheParticleSystem( $"P_warp_brac_toss_arm" )
+	PrecacheParticleSystem( $"P_warp_brac_ring_hld" )
+	PrecacheParticleSystem( $"P_mrb_destruction" )
+
 	_cc = CreateEntity( "point_clientcommand" )
 	_sc = CreateEntity( "point_servercommand" )
 	PrecacheEntity( "env_entity_dissolver" )
@@ -383,6 +403,8 @@ void function PrecacheSDKWeapons()
 	PrecacheWeapon( $"mp_weapon_droneplasma" )//remove these from here later!!! -kral
 	PrecacheWeapon( $"mp_weapon_dronerocket" )
 
+	PrecacheWeapon( $"mp_ability_mobile_respawn_beacon" )
+
 	PrecacheWeapon( $"mp_weapon_melee_boxing_ring" )
 	PrecacheWeapon( $"melee_boxing_ring" ) // Olympus ring
 	
@@ -407,12 +429,22 @@ void function PrecacheSDKWeapons()
 void function PrecacheSDKEntities()
 {
 	///////////////////////character_revenant///////////////////////
-	PrecacheModel( $"mdl/dev/empty_model_revenant.rmdl" )
-	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem.rmdl" )
+	PrecacheModel( $"mdl/dev/empty_model_revenant.rmdl" ) // called by revenant finisher, remove when rseq dependency support added?
+	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_contemplation_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_gladcards/revenant_gc_patience_static.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/props/revenant_totem/revenant_totem_glad_card.rmdl" ) // revenant gladcard models
 	PrecacheModel( $"mdl/weapons_r5/lmg_devotion/w_lmg_devotion_legendary_03.rmdl") // not a skin! used for revenant gcard
+	PrecacheModel( $"mdl/props/tablet/tablet_mini.rmdl" ) // s4 mirage animset needs this model? game crashes if not precached, remove when rseq dependency support added?
+
+	///////////////////////character_RAMPART///////////////////////
+	PrecacheModel( $"mdl/props/rampart_gum/rampart_gum.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_gum/rampart_bubblegum.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_turret/rampart_turret_lobby.rmdl" )
+	PrecacheModel( $"mdl/props/welder/welder.rmdl" )
+	PrecacheModel( $"mdl/props/rampart_cover_wall/rampart_cover_wall.rmdl" )
+	PrecacheModel( $"mdl/props/wrench/wrench.rmdl" )
+	PrecacheModel( $"mdl/props/bullets/bullets_v02_all.rmdl" )
 
 	///////////////////////character_loba///////////////////////
 	PrecacheModel( $"mdl/fx/loba_staff_holo_stand.rmdl" )
@@ -428,6 +460,7 @@ void function PrecacheSDKEntities()
 	PrecacheModel( $"mdl/props/revenant_jar/revenant_jar.rmdl" )
 	PrecacheModel( $"mdl/props/loot_bin/loot_bin_01_loba_gladcard.rmdl" )
 	PrecacheModel( $"mdl/props/loba_treasure/loba_treasure.rmdl" )
+	PrecacheModel( $"mdl/Humans/class/medium/pilot_medium_loba.rmdl" )// TEMPORARILY PRECACHE LOBA WORLD MODEL
 
 	///////////////////////npcs///////////////////////
 	PrecacheModel( $"mdl/Humans/grunts/imc_grunt_lmg_corpse.rmdl" )

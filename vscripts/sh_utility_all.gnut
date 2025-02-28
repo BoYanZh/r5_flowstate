@@ -434,6 +434,74 @@ vector function FindAnyPerpendicularVector( vector v )
 }
 
 
+float function GetArcLengthDeg( float startDeg, float endDeg )
+{
+	if ( endDeg < startDeg )
+		endDeg += 360
+
+	return fabs( startDeg - endDeg )
+}
+
+bool function CirclesAreIntersecting( vector org1, float rad1, vector org2, float rad2 )
+{
+	float distBetweenCircles = Distance( org1, org2 )
+	float epsilon = 1
+
+	// New circle inside projection radius
+	if ( distBetweenCircles < fabs( rad1 - rad2 ) + epsilon )
+		return false
+	else if ( distBetweenCircles < fabs( rad2 - rad1 ) + epsilon )
+		return false
+
+	// Circles are literally the same
+	else if ( distBetweenCircles == 0 && rad2 == rad1 )
+		return false
+
+	// Circles aren't touching
+	else if ( distBetweenCircles > ( rad1 + rad2 + epsilon ) )
+		return false
+
+	return true
+}
+
+bool function IsCircleAEncompassingCircleB( vector org1, float rad1, vector org2, float rad2 )
+{
+	float epsilon
+	float distBetweenCircles = Distance( org1, org2 )
+	if ( ( distBetweenCircles < fabs( rad1 - rad2 ) + epsilon ) && ( rad1 > rad2 ) )
+		return true
+
+	return false
+}
+array<vector> function GetCircleToCircleIntersectionPoints( vector org1, float rad1, vector org2, float rad2, vector up = < 0, 0, 1 >, bool debugDraw = false )
+{
+	float distBetweenCircles        = Distance( org1, org2 )
+	float distOrg1ToIntersectCenter = ( ( rad1 * rad1 ) - ( rad2 * rad2 ) + ( distBetweenCircles * distBetweenCircles ) ) / ( 2.0 * distBetweenCircles )
+
+	vector intersectDir    = Normalize( org2 - org1 )
+	vector intersectCenter = intersectDir * distOrg1ToIntersectCenter
+
+	float intersectHeight = sqrt( ( rad1 * rad1 ) - ( distOrg1ToIntersectCenter * distOrg1ToIntersectCenter ) )
+	vector heightDir      = CrossProduct( up, intersectDir )
+
+	array<vector> intersectionPoints = [ intersectCenter + ( heightDir * intersectHeight ), intersectCenter - ( heightDir * intersectHeight ) ]
+
+	if ( debugDraw )
+	{
+		#if SERVER || CLIENT
+		// Circle origins
+		//DebugDrawLine( org1, org1 + < 0, 0, 32 >, COLOR_RED, true, 1.0 )
+		//DebugDrawLine( org2, org2 + < 0, 0, 32 >, COLOR_GREEN, true, 1.0 )
+
+		// Lines to intersection points
+		//DebugDrawLine( org2, intersectionPoints[ 0 ] + org1, COLOR_WHITE, true, 1.0 )
+		//DebugDrawLine( org2, intersectionPoints[ 1 ] + org1, COLOR_BLACK, true, 1.0 )
+		#endif
+	}
+
+	return intersectionPoints
+}
+
 bool function IsLobbyMapName( string levelname )
 {
 	if ( levelname == "mp_lobby" || levelname == "mp_npe" )
@@ -1966,6 +2034,13 @@ int function Shuffle_GetCount( ShuffleData sd )
 //////
 
 #if SERVER || CLIENT
+void function DestroyEntities( array<entity> ents )
+{
+	foreach ( entity ent in ents )
+		if ( IsValid( ent ) )
+			ent.Destroy()
+}
+
 vector function LocalPosToWorldPos( vector pos, entity ent )
 {
 	return ent.GetOrigin() + RotateVector( pos, ent.GetAngles() )
@@ -2713,16 +2788,14 @@ bool function VectorInWorldBounds( vector vec )
 // CALLING FUNCTION responsible for error catch //
 //////////////////////////////////////////////////
 
-array<string> function StringToArray( string str, int arrayStringMaxLength = 128 ) 
+array<string> function StringToArray( string str, int arrayStringMaxLength = 128, bool forceCommaFormat = false ) 
 {		
-	string t_str = strip( str )
-	int length_check
-	
+	string t_str = strip( str )	
     if ( t_str == "" )
         throw "Cannot convert empty string to array in " + FUNC_NAME( 1 ) + "()"
 	
 	bool convertBySpaceOrComma = ( t_str.find( " " ) != -1 ) && ( t_str.find( "," ) == -1 ) ? true : false
-	string splitStr = convertBySpaceOrComma ? " " : ","
+	string splitStr = convertBySpaceOrComma && !forceCommaFormat ? " " : ","
 	
     array<string> arr = split( str, splitStr )
 	array<string> valid = []
@@ -2734,7 +2807,8 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
 	}
 	*/
 	
-	int item_index = 0
+	int length_check
+	int item_index
     foreach ( item in arr ) 
 	{	
 		item_index++
@@ -2742,10 +2816,10 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
 		item = strip( item )
 		length_check = item.len()
 	
-        if ( item == "" ) 
-            Warning( "Empty item in the list for item # " + ( item_index ) + " removed. " )			
+        if ( item == "" )
+            printw( "Empty item in the list for item #", item_index, "removed." )			
 		else if ( length_check >= arrayStringMaxLength )
-			Warning( "item # " + ( item_index ) + " is too long and was removed. Length: " + length_check + " ; Max: " + arrayStringMaxLength + " chars" )	
+			printw( "item #", item_index, "is too long and was removed. Length:", length_check, "; Max:", arrayStringMaxLength, "chars" )	
 		else	
 			valid.append( item )		
     }
@@ -2754,6 +2828,32 @@ array<string> function StringToArray( string str, int arrayStringMaxLength = 128
         throw "Array empty after conversion";
 
     return valid
+}
+
+void function StringToArrayAppend( string str, array<string> refArray, int arrayStringMaxLength = 128 ) 
+{		
+	string t_str = strip( str )	
+    if ( t_str == "" )
+        throw "Cannot convert empty string to array in " + FUNC_NAME( 1 ) + "()"
+	
+    array<string> arr = split( str, "," )
+	
+	int length_check
+	int item_index
+    foreach ( item in arr ) 
+	{
+		item_index++
+		
+		item = strip( item )
+		length_check = item.len()
+	
+        if ( item == "" )
+            printw( "Empty item in the list for item #", item_index, "removed." )			
+		else if ( length_check >= arrayStringMaxLength )
+			printw( "item #", item_index, "is too long and was removed. Length:", length_check, "; Max:", arrayStringMaxLength, "chars" )	
+		else	
+			refArray.append( item )		
+    }
 }
 
 string function truncate( string str, int limit ) 

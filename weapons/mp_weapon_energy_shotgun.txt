@@ -16,7 +16,7 @@ WeaponData
 	"hud_icon"										"rui/weapon_icons/r5/weapon_peacekeeper"
 
 	"weapon_type_flags"								"WPT_PRIMARY"
-	"ammo_pool_type"								"shotgun"
+	//"ammo_pool_type"								"shotgun"
 
 	"fire_mode"   									"automatic"
 	"is_semi_auto"									"1"
@@ -133,22 +133,14 @@ WeaponData
 	dof_zoom_focusArea_top							0.070
 	dof_zoom_focusArea_bottom						-0.023
 
-    // Ammo
+    // Ammo                                    
 
-                         
-                                                                                  
-                                  
-                                   
-                                           
-                               
-     
     "ammo_clip_size"   								"5"
-    "ammo_default_total"							"20"
-    "ammo_no_remove_from_stockpile"					"1"
-    "uses_ammo_pool"								"1"
-    "ammo_pool_type"								"shotgun"
+    "ammo_default_total"							"35"
+    "ammo_no_remove_from_stockpile"					"0"
+    "uses_ammo_pool"								"0"
       
-    "ammo_stockpile_max"							"20"
+    "ammo_stockpile_max"							"35"
     "ammo_per_shot"                                 "1"
     "ammo_min_to_fire"								"1"
     "low_ammo_fraction" 							"0.3"
@@ -306,6 +298,10 @@ WeaponData
 
 	Mods
 	{
+		crate
+	    {
+	    }
+
 	    gold
 	    {
 	    }
